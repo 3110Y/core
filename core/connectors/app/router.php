@@ -33,13 +33,14 @@ abstract class router
      */
     public function getSelectedPage(array $structure = Array())
     {
-        $this->url    =   parse_url($_SERVER['REQUEST_URI']);
-        for ($i = 0, $iMax = count($structure); $i < $iMax; $i++) {
-            if ($structure[$i]['url'] === $this->url['path']) {
-                return $structure[$i];
+        $this->url  =   parse_url($_SERVER['REQUEST_URI']);
+        $pageError  =   Array();
+        foreach ($structure as $item) {
+            if ($item['url'] === $this->url['path']) {
+                return $item;
             }
-            if ($structure[$i]['error']) {
-                $pageError = $structure[$i];
+            if ($item['error']) {
+                $pageError = $item;
             }
         }
         return $pageError;

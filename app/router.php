@@ -9,7 +9,7 @@
 namespace app;
 
 use \core\connectors\app    as connectors;
-use \core                   as core;
+use core\core;
 
 
 /**
@@ -22,7 +22,7 @@ final class router extends connectors\router implements connectors\IRouter
     /**
      * @var array структура приложения
      */
-    private $structure =  Array();
+    private $structure;
     /**
      * @var array  текущая страница
      */
@@ -89,7 +89,7 @@ final class router extends connectors\router implements connectors\IRouter
 
         $content    =   Array();
         foreach ($this->content as $key => $value) {
-            $components  =   core\core::getComponents('simpleView');
+            $components  =   core::getComponents('simpleView');
             $components->setTemplate($key);
             $components->setData($value);
             $components->render();

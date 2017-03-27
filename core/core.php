@@ -96,8 +96,8 @@ class core
         $autoload = spl_autoload_functions();
 
         if (spl_autoload_functions() !== false) {
-            for ($i = 0, $iMax = count($autoload); $i < $iMax; $i++) {
-                if (!is_string($autoload[$i]) && isset($autoload[$i][0]->key) && $this->key === $autoload[$i][0]->key) {
+            foreach ($autoload as $function) {
+                if (!is_string($function) && isset($function[0]->key) && $this->key === $function[0]->key) {
                     return false;
                 }
             }
@@ -120,10 +120,7 @@ class core
             $file = str_replace('\\', '/', $this->path . $output[0] . '.php');
             if (file_exists($file)) {
                 include_once $file;
-                return true;
-            } else {
-                return false;
-            }
+            } return true;
         }
         return false;
     }

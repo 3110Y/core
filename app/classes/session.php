@@ -19,7 +19,7 @@ class session
     /**
      * @var mixed|null|session   экземпляр
      */
-    private static $instance = null;
+    private static $instance;
 
     /**
      * singleton

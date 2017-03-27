@@ -9,7 +9,7 @@
 namespace app\controllers;
 
 use \core\connectors\app    as connectors;
-use \app\classes            as classes;
+use \app\classes;
 
 
 /**
@@ -43,7 +43,8 @@ class front extends connectors\controllers implements connectors\IControllers
         $this->url  = $url;
         $template    =  $_SERVER['DOCUMENT_ROOT'] . '/app/theme/' . $this->page['template'];
 
-        $test   =   classes\session::getInstance()->exist('test');
+        $test       =   classes\session::getInstance()->exist('test');
+        $testValue  =   '';
         if (!$test) {
             classes\session::getInstance()->set('test','test');
         } else {

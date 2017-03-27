@@ -49,7 +49,6 @@ class controller
 
     /**
      * Рендерит данные
-     * @return string результат
      */
     public function render()
     {
