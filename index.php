@@ -5,9 +5,14 @@
  * Date: 20.03.2017
  * Time: 11:12
  */
-/**
- * need < PHP 5.6
- */
+
+//TODO: указать версию
+//TODO: несколько приложений
+//TODO: объединить коннекторы и компоненты
+//TODO: относительность добавить
+//TODO: очистить код
+
+
 error_reporting (E_ALL);
 ini_set('display_errors', 1);
 date_default_timezone_set('Europe/Moscow');
