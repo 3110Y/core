@@ -8,7 +8,10 @@
 
 namespace core\components\applicationWeb;
 
-
+/**
+ * Class component
+ * @package core\components\applicationWeb
+ */
 class component
 {
 

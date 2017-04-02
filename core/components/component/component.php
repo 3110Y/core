@@ -8,7 +8,10 @@
 
 namespace core\components\component;
 
-
+/**
+ * Class component
+ * @package core\components\component
+ */
 class component
 {
 
