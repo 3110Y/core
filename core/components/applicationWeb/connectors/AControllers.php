@@ -6,13 +6,13 @@
  * Time: 16:04
  */
 
-namespace core\connectors\app;
+namespace core\components\applicationWeb\connectors;
 
 /**
  * Class controllers
  * @package core\connectors\app
  */
-abstract class controllers
+abstract class AControllers
 {
 
     /**

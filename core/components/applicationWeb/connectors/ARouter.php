@@ -7,13 +7,12 @@
  * Time: 14:40
  */
 
-namespace core\connectors\app;
-
+namespace core\components\applicationWeb\connectors;
 /**
  * Abstract class router
  * @package core\connectors\app
  */
-abstract class router
+abstract class ARouter
 {
     protected $url = Array();
 

@@ -6,7 +6,7 @@
  * Time: 15:06
  */
 
-namespace core\connectors\app;
+namespace core\components\applicationWeb\connectors;
 
 /**
  * Interface IRouter

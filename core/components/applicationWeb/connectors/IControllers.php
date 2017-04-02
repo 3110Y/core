@@ -6,7 +6,7 @@
  * Time: 16:05
  */
 
-namespace core\connectors\app;
+namespace core\components\applicationWeb\connectors;
 
 /**
  * Interface IControllers
