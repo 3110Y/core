@@ -30,14 +30,26 @@ $architecture = Array(
         ),
     ),
     'app'   =>  Array(
-        '(router)',
-        'classes'       => '([\w]+)',
-        'controllers'   => '([\w]+)',
-        'theme'         => false,
+        'client'   =>  Array(
+            '(router)',
+            'classes'       => '([\w]+)',
+            'controllers'   => '([\w]+)',
+            'theme'         => false,
+        ),
     ),
 );
 \Core\Core::init($architecture);
-$router =   new \core\router();
+$structure  =   Array(
+    Array(
+        'name'      => 'Клиент',
+        'url'       => '/',
+        'path'      => 'client',
+        'priority'  => 10,
+        'theme'     => 'basic',
+        'handler'   => \Core\Components\ApplicationsWeb\Component::class,
+    ),
+);
+$router =   new \core\router($structure);
 $router =   $router->getAppRouter()->run();
 $result =   $router->render();
 

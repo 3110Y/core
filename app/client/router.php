@@ -6,7 +6,7 @@
  * Time: 14:39
  */
 
-namespace app;
+namespace app\client;
 
 use \core\connectors\app    as connectors;
 use core\core;

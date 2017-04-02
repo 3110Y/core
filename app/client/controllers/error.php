@@ -6,18 +6,17 @@
  * Time: 15:33
  */
 
-namespace app\controllers;
+namespace app\client\controllers;
 
 use \core\connectors\app    as connectors;
-use \app\classes;
 
 
 /**
- * Class front
- * Контроллер главной страницы
+ * Class error
+ * Контроллер ошибок
  * @package app\controllers
  */
-class front extends connectors\controllers implements connectors\IControllers
+class error extends connectors\controllers implements connectors\IControllers
 {
     /**
      * @var array структура контента
@@ -32,31 +31,26 @@ class front extends connectors\controllers implements connectors\IControllers
      */
     public $url = Array();
 
+
     /**
-     * front constructor.
+     * error constructor.
      * @param array $page страница
      * @param array $url URL
      */
     public function __construct(array $page, array $url)
     {
+
         $this->page = $page;
         $this->url  = $url;
         $template    =  $_SERVER['DOCUMENT_ROOT'] . '/app/theme/' . $this->page['template'];
-
-        $test       =   classes\session::getInstance()->exist('test');
-        $testValue  =   '';
-        if (!$test) {
-            classes\session::getInstance()->set('test','test');
-        } else {
-            $testValue  =   classes\session::getInstance()->get('test');
-        }
         $this->content[$template] = Array(
-            '{NAME}'        =>  'Это Фронтальный контроллер',
-            '{TEXT}'        =>  $test   ?   "Ключ сессии test {$testValue}" :   'сессии test нет. Устанавливаем',
+            '{NAME}'        =>  'Это 404 контроллер',
             '{TITLE}'       =>  $this->page['meta_title'],
             '{KEYWORDS}'    =>  $this->page['meta_keywords'],
             '{DESCRIPTION}' =>  $this->page['meta_description'],
         );
+        header('HTTP/1.0 404 Not Found');
     }
+
 
 }

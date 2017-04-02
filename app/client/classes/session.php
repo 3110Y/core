@@ -6,7 +6,7 @@
  * Time: 17:44
  */
 
-namespace app\classes;
+namespace app\client\classes;
 
 /**
  * Class session
