@@ -14,6 +14,7 @@ namespace core;
  */
 class router
 {
+
     public function getAppRouter()
     {
         return new \app\router();

@@ -33,6 +33,16 @@ class core
     const components = '\core\components\\';
 
     /**
+     * @const float Версия ядра
+     */
+    const VERSION   =   1.0;
+
+    /**
+     * @const
+     */
+    const NAME  =   'core';
+
+    /**
      * Инициализация
      * @param array $architecture архитектура приложения
      */

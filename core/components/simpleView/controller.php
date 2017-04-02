@@ -19,10 +19,12 @@ class controller
      * @var string шаблон
      */
     private $template = '';
+
     /**
      * @var array данные
      */
     private $data   =   Array();
+
     /**
      * @var string результат
      */
