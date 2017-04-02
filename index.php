@@ -26,7 +26,10 @@ $architecture = Array(
             'app'   =>  '([\w]+)',
         ),
         'components'    => Array(
-            'simpleView'  =>   '([\w]+)',
+            'simpleView'        =>   '([\w]+)',
+            'component'         =>   '([\w]+)',
+            'applicationWeb'    =>   '([\w]+)',
+            'application'       =>   '([\w]+)',
         ),
     ),
     'app'   =>  Array(
@@ -46,7 +49,7 @@ $structure  =   Array(
         'path'      => 'client',
         'priority'  => 10,
         'theme'     => 'basic',
-        'handler'   => \Core\Components\ApplicationsWeb\Component::class,
+        'handler'   => \Core\Components\applicationWeb\Component::class,
     ),
 );
 $router =   new \core\router($structure);
