@@ -8,7 +8,7 @@
 
 namespace app\client\controllers;
 
-use \core\components\applicationWeb\connectors    as connectors;
+use core\components\applicationWeb\connectors;
 
 
 /**
