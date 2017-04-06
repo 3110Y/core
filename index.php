@@ -22,14 +22,23 @@ include 'core' . DIRECTORY_SEPARATOR . 'core.php';
 $architecture = Array(
     'core'  =>  Array(
         '(core|router)',
-        'connectors'    => Array(
-            'app'   =>  '([\w]+)',
-        ),
         'components'    => Array(
-            'simpleView'        =>   '([\w]+)',
-            'component'         =>   '([\w]+)',
-            'applicationWeb'    =>   '([\w]+)',
-            'application'       =>   '([\w]+)',
+            'simpleView'        =>  Array(
+                '([\w]+)',
+                'connectors'=> '([\w]+)',
+            ),
+            'component'         =>  Array(
+                '([\w]+)',
+                'connectors'=> '([\w]+)',
+            ),
+            'applicationWeb'    =>  Array(
+                '([\w]+)',
+                'connectors'=> '([\w]+)',
+            ),
+            'application'       =>  Array(
+                '([\w]+)',
+                'connectors'=> '([\w]+)',
+            ),
         ),
     ),
     'app'   =>  Array(
