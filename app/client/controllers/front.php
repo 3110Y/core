@@ -41,7 +41,7 @@ class front extends connectors\AControllers implements connectors\IControllers
     {
         $this->page = $page;
         $this->url  = $url;
-        $template    =  $_SERVER['DOCUMENT_ROOT'] . '/app/theme/' . $this->page['template'];
+        $template    =  $_SERVER['DOCUMENT_ROOT'] . 'app/theme/' . $this->page['template'];
 
         $test       =   classes\session::getInstance()->exist('test');
         $testValue  =   '';
