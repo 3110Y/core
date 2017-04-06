@@ -57,7 +57,7 @@ class core
      * @param string $file файл
      * @return bool
      */
-    public static function getComponents($name, $file = '\controller')
+    public static function getComponents($name, $file = '\component')
     {
         $components   =   self::components . $name . $file;
         $data = array(
