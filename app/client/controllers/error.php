@@ -8,7 +8,7 @@
 
 namespace app\client\controllers;
 
-use \core\connectors\app    as connectors;
+use \core\components\applicationWeb\connectors    as connectors;
 
 
 /**
@@ -16,7 +16,7 @@ use \core\connectors\app    as connectors;
  * Контроллер ошибок
  * @package app\controllers
  */
-class error extends connectors\controllers implements connectors\IControllers
+class error extends connectors\AControllers implements connectors\IControllers
 {
     /**
      * @var array структура контента

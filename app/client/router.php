@@ -8,7 +8,7 @@
 
 namespace app\client;
 
-use \core\connectors\app    as connectors;
+use \core\components\applicationWeb\connectors   as connectors;
 use core\core;
 
 
@@ -17,7 +17,7 @@ use core\core;
  * Роутер приложения
  * @package app
  */
-final class router extends connectors\router implements connectors\IRouter
+final class router extends connectors\ARouter implements connectors\IRouter
 {
     /**
      * @var array структура приложения

@@ -8,7 +8,7 @@
 
 namespace app\client\controllers;
 
-use \core\connectors\app    as connectors;
+use \core\components\applicationWeb\connectors    as connectors;
 use \app\classes;
 
 
@@ -17,7 +17,7 @@ use \app\classes;
  * Контроллер главной страницы
  * @package app\controllers
  */
-class front extends connectors\controllers implements connectors\IControllers
+class front extends connectors\AControllers implements connectors\IControllers
 {
     /**
      * @var array структура контента
