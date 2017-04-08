@@ -15,8 +15,10 @@ namespace core;
 class router
 {
 
-    public function getAppRouter()
+    public function run()
     {
-        return new \app\client\router();
+        $router = new \app\client\router();
+        $router->run();
+        return $router->render();
     }
 }

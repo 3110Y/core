@@ -61,9 +61,7 @@ $structure  =   Array(
         'handler'   => \Core\Components\applicationWeb\Component::class,
     ),
 );
-$router =   new \core\router($structure);
-$router =   $router->getAppRouter()->run();
-$result =   $router->render();
+$result = (new \core\router($structure))->run();
 
 /** @var int Время Конца */
 $timeEnd = microtime(true);
