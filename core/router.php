@@ -40,6 +40,9 @@ class router
         $this->url          =   explode('/', $uri['path']);
         unset($this->url[0]);
         sort($this->url);
+        if (count($this->url) > 1 && $this->url[0] === '') {
+            $this->url[0] = '/';
+        }
         echo '<pre>';
         die(var_dump($this->url));
     }
