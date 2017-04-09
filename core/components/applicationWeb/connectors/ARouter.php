@@ -36,14 +36,22 @@ abstract class ARouter
 
     /**
      * Отдает текущую страницу
+     * @param int $parent_id уровень страницы
      * @return array текущая страница
      */
-    public function getSelectedPage()
+    public function getSelectedPage($parent_id = 0)
     {
         $pageError  =   Array();
+        $countURL  = count($this->url);
         foreach ($this->structure  as $item) {
-            if ($item['url'] === $this->url[1] && $item['parent_id'] === 0) {
-                return $item;
+            if ($countURL === $parent_id + 1) {
+                if ($item['url'] === $this->url[$parent_id + 1] && $item['parent_id'] === $parent_id) {
+                    return $item;
+                }
+            } else {
+                if ($item['url'] === $this->url[$parent_id + 1] && $item['parent_id'] === $parent_id) {
+                    return $this->getSelectedPage(++$parent_id);
+                }
             }
             if ($item['error']) {
                 $pageError = $item;
