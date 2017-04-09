@@ -27,6 +27,10 @@ class router
      * @var array $path путь
      */
     protected $path = Array();
+    /**
+     * @var array $application приложение
+     */
+    protected $application = Array();
 
 
     /**
@@ -43,13 +47,17 @@ class router
         if (count($this->url) === 1 && $this->url[0] === '') {
             $this->url[0] = '/';
         }
-        echo '<pre>';
-        die(var_dump($this->url));
+        foreach ($structure as $item) {
+            if ($item['url'] === $this->url[0]) {
+                $this->application = $item;
+            }
+        }
     }
 
     public function run()
     {
-        $router = new \app\client\router();
+        $application    =   '\app\\' . $this->application['path'] . '\\router';
+        $router = new $application();
         $router->run();
         return $router->render();
     }
