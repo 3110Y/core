@@ -20,10 +20,6 @@ use core\core;
 final class router extends connectors\ARouter implements connectors\IRouter
 {
     /**
-     * @var array структура приложения
-     */
-    private $structure;
-    /**
      * @var array  текущая страница
      */
     private $page = Array();
@@ -76,7 +72,7 @@ final class router extends connectors\ARouter implements connectors\IRouter
      */
     public function run()
     {
-        $this->page         = $this->getSelectedPage($this->structure);
+        $this->page         = $this->getSelectedPage();
         $controller         = new $this->page['controller']($this->page, $this->url);
         $this->content      = $controller->getContent();
         return $this;
