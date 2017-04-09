@@ -47,6 +47,7 @@ class router
         if (count($this->url) === 1 && $this->url[0] === '') {
             $this->url[0] = '/';
         }
+        print_r($this->url);
         foreach ($structure as $item) {
             if ($item['url'] === $this->url[0]) {
                 $this->application = $item;
