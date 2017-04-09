@@ -16,13 +16,17 @@ namespace core;
 class router
 {
     /**
-     * @var array структура
+     * @var array $structure структура
      */
     private $structure;
     /**
-     * @var array URL
+     * @var array $url URL
      */
     protected $url = Array();
+    /**
+     * @var array $path путь
+     */
+    protected $path = Array();
 
 
     /**
@@ -32,7 +36,8 @@ class router
     public function __construct($structure = Array())
     {
         $this->structure    =   $structure;
-        $this->url  =   parse_url($_SERVER['REQUEST_URI']);
+        $uri                =   parse_url($_SERVER['REQUEST_URI']);
+        $this->url          =   explode($uri['path']);
         echo '<pre>';
         die(var_dump($this->url));
     }
