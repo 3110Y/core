@@ -61,12 +61,12 @@ class router
     public function run()
     {
         if (empty($this->application)) {
+            return 'Нет приложения';
+        } else {
             $application = '\app\\' . $this->application['path'] . '\\router';
             $router = new $application($this->url);
             $router->run();
             return $router->render();
-        } else {
-            return 'Нет приложения';
         }
     }
 }
