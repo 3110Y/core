@@ -41,6 +41,7 @@ abstract class ARouter
      */
     public function getSelectedPage($parent_id = 0)
     {
+        echo "<hr>";
         echo "parent_id {$parent_id}<br>";
 
         $pageError  =   Array();
