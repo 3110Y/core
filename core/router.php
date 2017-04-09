@@ -54,11 +54,19 @@ class router
         }
     }
 
+    /**
+     * Запускает роутинг
+     * @return mixed|resource роутер
+     */
     public function run()
     {
-        $application    =   '\app\\' . $this->application['path'] . '\\router';
-        $router = new $application();
-        $router->run();
-        return $router->render();
+        if (empty($this->application)) {
+            $application = '\app\\' . $this->application['path'] . '\\router';
+            $router = new $application($this->url);
+            $router->run();
+            return $router->render();
+        } else {
+            return 'Нет приложения';
+        }
     }
 }
