@@ -16,6 +16,9 @@ namespace core\components\applicationWeb\connectors;
  */
 abstract class ARouter
 {
+    /**
+     * @var array URL
+     */
     protected $url = Array();
 
     /**
