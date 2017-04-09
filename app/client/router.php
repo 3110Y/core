@@ -63,6 +63,32 @@ final class router extends connectors\ARouter implements connectors\IRouter
                 'home'              =>  0,
                 'error'             =>  1,
             ),
+            Array(
+                'id'                =>  3,
+                'parent_id'         =>  0,
+                'name'              =>  '3',
+                'url'               =>  '3',
+                'meta_title'        =>  '3',
+                'meta_keywords'     =>  '3, Тест',
+                'meta_description'  =>  '3',
+                'controller'        =>  controllers\front::class,
+                'template'          =>  'front',
+                'home'              =>  1,
+                'error'             =>  0,
+            ),
+            Array(
+                'id'                =>  4,
+                'parent_id'         =>  3,
+                'name'              =>  '4',
+                'url'               =>  '4',
+                'meta_title'        =>  '4',
+                'meta_keywords'     =>  '4, Тест',
+                'meta_description'  =>  '4',
+                'controller'        =>  controllers\front::class,
+                'template'          =>  'front',
+                'home'              =>  1,
+                'error'             =>  0,
+            ),
         );
     }
 
