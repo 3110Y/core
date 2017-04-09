@@ -60,13 +60,13 @@ class router
      */
     public function run()
     {
-        if (empty($this->application)) {
-            return 'Нет приложения';
-        } else {
+        if (!empty($this->application)) {
             $application = '\app\\' . $this->application['path'] . '\\router';
             $router = new $application($this->url);
             $router->run();
             return $router->render();
         }
+
+        return 'Нет приложения';
     }
 }
