@@ -44,7 +44,7 @@ abstract class ARouter
         $pageError  =   Array();
         $countURL  = count($this->url) - 1;
         foreach ($this->structure  as $item) {
-            if ($countURL === $parent_id + 1 && isset($this->url[$parent_id + 1])) {
+            if ($countURL === $parent_id + 1) {
                 if ($item['url'] === $this->url[$parent_id + 1] && $item['parent_id'] === $parent_id) {
                     return $item;
                 }
