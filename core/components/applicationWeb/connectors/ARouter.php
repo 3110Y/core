@@ -37,10 +37,9 @@ abstract class ARouter
      */
     public function getSelectedPage(array $structure = Array())
     {
-        $this->url  =   parse_url($_SERVER['REQUEST_URI']);
         $pageError  =   Array();
         foreach ($structure as $item) {
-            if ($item['url'] === $this->url['path']) {
+            if ($item['url'] === $this->url[1]) {
                 return $item;
             }
             if ($item['error']) {

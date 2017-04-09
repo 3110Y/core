@@ -35,9 +35,11 @@ final class router extends connectors\ARouter implements connectors\IRouter
 
     /**
      * router constructor.
+     * @param array $url URL
      */
-    public function __construct()
+    public function __construct($url)
     {
+        $this->url      =  $url;
         $this->structure = Array(
             Array(
                 'id'                =>  1,
