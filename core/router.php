@@ -46,6 +46,7 @@ class router
         sort($this->url);
         if (count($this->url) === 1 && $this->url[0] === '') {
             $this->url[0] = '/';
+            $this->url[1] = '/';
         }
         print_r($this->url);
         foreach ($structure as $item) {
