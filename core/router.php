@@ -38,6 +38,8 @@ class router
         $this->structure    =   $structure;
         $uri                =   parse_url($_SERVER['REQUEST_URI']);
         $this->url          =   explode('/', $uri['path']);
+        unset($this->url[0]);
+        sort($this->url);
         echo '<pre>';
         die(var_dump($this->url));
     }
