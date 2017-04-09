@@ -48,7 +48,14 @@ class router
             $this->url[0] = '/';
             $this->url[1] = '/';
         }
-        print_r($this->url);
+        foreach ($structure as $item) {
+            if ($item['url'] === $this->url[0]) {
+                $this->application = $item;
+            }
+        }
+        if (empty($this->application)) {
+            array_unshift($this->url, '/');
+        }
         foreach ($structure as $item) {
             if ($item['url'] === $this->url[0]) {
                 $this->application = $item;
