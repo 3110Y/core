@@ -45,7 +45,7 @@ abstract class ARouter
         echo "parent_id {$parent_id}<br>";
 
         $pageError  =   Array();
-        $countURL  = count($this->url);
+        $countURL  = count($this->url) - 1;
         foreach ($this->structure  as $item) {
 
             $i = $parent_id + 1;
