@@ -42,14 +42,28 @@ abstract class ARouter
     public function getSelectedPage($parent_id = 0)
     {
         $pageError  =   Array();
-        $countURL  = count($this->url) - 1;
+        $countURL  = count($this->url);
         echo '<br>';
         var_dump($parent_id);
         echo '<br>';
         var_dump($countURL);
         echo '<br>';
+        echo '<pre>';
+        var_dump($this->url);
+        echo '</pre>';
+        echo '<br>';
         echo '<hr>';
         echo '<br>';
+
+        foreach ($this->structure  as $item) {
+
+            if ($item['error']) {
+                $pageError = $item;
+            }
+        }
+        return $pageError;
+
+
         foreach ($this->structure  as $item) {
             if ($countURL === $parent_id + 1) {
                 if ($item['url'] === $this->url[$parent_id + 1] && $item['parent_id'] === $parent_id) {
