@@ -54,9 +54,10 @@ abstract class ARouter
         echo '<br>';
         echo '<hr>';
         echo '<br>';
-
-        foreach ($this->structure  as $item) {
-
+        foreach ($this->structure as $item) {
+            if ($item['url'] === $this->url[1] && $item['parent_id'] === $parent_id) {
+                return $item;
+            }
             if ($item['error']) {
                 $pageError = $item;
             }
