@@ -18,32 +18,15 @@ use core\components\applicationWeb\connectors;
  */
 class error extends connectors\AControllers implements connectors\IControllers
 {
-    /**
-     * @var array структура контента
-     */
-    public $content = Array();
-    /**
-     * @var array страница
-     */
-    public $page = Array();
-    /**
-     * @var array URL
-     */
-    public $url = Array();
 
 
     /**
-     * error constructor.
-     * @param array $page страница
-     * @param array $url URL
+     * Инициализация
      */
-    public function __construct(array $page, array $url)
+    public function Init()
     {
-
-        $this->page = $page;
-        $this->url  = $url;
-        $template    =  $_SERVER['DOCUMENT_ROOT'] . 'app/client/theme/' . $this->page['template'];
-        $this->content[$template] = Array(
+        $this->template = $_SERVER['DOCUMENT_ROOT'] . 'app/client/theme/' . $this->page['template'];
+        $this->content  = Array(
             '{NAME}'        =>  'Это 404 контроллер',
             '{TITLE}'       =>  $this->page['meta_title'],
             '{KEYWORDS}'    =>  $this->page['meta_keywords'],

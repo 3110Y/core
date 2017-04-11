@@ -27,6 +27,10 @@ final class router extends connectors\ARouter implements connectors\IRouter
      * @var array структура контента
      */
     private $content = Array();
+    /**
+     * @var string шаблон
+     */
+    private $template = '';
 
 
     /**
@@ -99,8 +103,12 @@ final class router extends connectors\ARouter implements connectors\IRouter
     public function run()
     {
         $this->page         = $this->getSelectedPage();
-        $controller         = new $this->page['controller']($this->page, $this->url);
+        $controller         = new $this->page['controller']();
+        $controller->setPage($this->page);
+        $controller->setURL($this->url);
+        $controller->Init();
         $this->content      = $controller->getContent();
+        $this->template     = $controller->getTemplate();
         return $this;
     }
 
@@ -110,15 +118,10 @@ final class router extends connectors\ARouter implements connectors\IRouter
      */
     public function render()
     {
-
-        $content    =   Array();
-        foreach ($this->content as $key => $value) {
-            $components  =   core::getComponents('simpleView');
-            $components->setTemplate($key);
-            $components->setData($value);
-            $components->render();
-            $content[]    =   $components->get();
-        }
-        return implode('', $content);
+        $components  =   core::getComponents('simpleView');
+        $components->setTemplate($this->template);
+        $components->setData($this->content);
+        $components->render();
+        return $components->get();
     }
 }

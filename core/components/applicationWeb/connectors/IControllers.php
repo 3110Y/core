@@ -14,16 +14,11 @@ namespace core\components\applicationWeb\connectors;
  */
 interface IControllers
 {
-    /**
-     * IControllers constructor.
-     * @param array $page страница
-     * @param array $url URL
-     */
-    public function __construct(array $page,  array $url);
+
 
     /**
-     * Отдает структуру контента
-     * @return array структура контента
+     * Инициализация
      */
-    public function getContent();
+    public function Init();
+
 }

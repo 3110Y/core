@@ -14,6 +14,23 @@ namespace core\components\applicationWeb\connectors;
  */
 abstract class AControllers
 {
+    /**
+     * @var array структура контента
+     */
+    public $content = Array();
+    /**
+     * @var string шаблон
+     */
+    public $template = '';
+    /**
+     * @var array страница
+     */
+    public $page = Array();
+    /**
+     * @var array URL
+     */
+    public $url = Array();
+
 
     /**
      * Отдает структуру контента
@@ -22,5 +39,32 @@ abstract class AControllers
     public function getContent()
     {
         return $this->content;
+    }
+
+    /**
+     * Отдает Шаблон
+     * @return string шаблон
+     */
+    public function getTemplate()
+    {
+        return $this->template;
+    }
+
+    /**
+     * Задает страницу
+     * @param array $page страница
+     */
+    public function setPage(array $page)
+    {
+        $this->page = $page;
+    }
+
+    /**
+     * Задает URL
+     * @param array $url URL
+     */
+    public function setURL(array $url)
+    {
+        $this->url = $url;
     }
 }

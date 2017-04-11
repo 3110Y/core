@@ -19,30 +19,15 @@ use app\client\classes;
  */
 class basic extends connectors\AControllers implements connectors\IControllers
 {
-    /**
-     * @var array структура контента
-     */
-    public $content = Array();
-    /**
-     * @var array страница
-     */
-    public $page = Array();
-    /**
-     * @var array URL
-     */
-    public $url = Array();
+
 
     /**
-     * front constructor.
-     * @param array $page страница
-     * @param array $url URL
+     * Инициализация
      */
-    public function __construct(array $page, array $url)
+    public function Init()
     {
-        $this->page = $page;
-        $this->url  = $url;
-        $template    =  $_SERVER['DOCUMENT_ROOT'] . 'app/client/theme/' . $this->page['template'];
-        $this->content[$template] = Array(
+        $this->template = $_SERVER['DOCUMENT_ROOT'] . 'app/client/theme/' . $this->page['template'];
+        $this->content  = Array(
             '{NAME}'        =>  'Это Basic контроллер',
             '{TEXT}'        =>  'Класс' . __CLASS__,
             '{TITLE}'       =>  $this->page['meta_title'],

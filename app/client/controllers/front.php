@@ -19,30 +19,13 @@ use app\client\classes;
  */
 class front extends connectors\AControllers implements connectors\IControllers
 {
-    /**
-     * @var array структура контента
-     */
-    public $content = Array();
-    /**
-     * @var array страница
-     */
-    public $page = Array();
-    /**
-     * @var array URL
-     */
-    public $url = Array();
+
 
     /**
-     * front constructor.
-     * @param array $page страница
-     * @param array $url URL
+     * Инициализация
      */
-    public function __construct(array $page, array $url)
+    public function Init()
     {
-        $this->page = $page;
-        $this->url  = $url;
-        $template    =  $_SERVER['DOCUMENT_ROOT'] . 'app/client/theme/' . $this->page['template'];
-
         $test       =   classes\session::getInstance()->exist('test');
         $testValue  =   '';
         if (!$test) {
@@ -50,7 +33,9 @@ class front extends connectors\AControllers implements connectors\IControllers
         } else {
             $testValue  =   classes\session::getInstance()->get('test');
         }
-        $this->content[$template] = Array(
+
+        $this->template = $_SERVER['DOCUMENT_ROOT'] . 'app/client/theme/' . $this->page['template'];
+        $this->content  = Array(
             '{NAME}'        =>  'Это Фронтальный контроллер',
             '{TEXT}'        =>  $test   ?   "Ключ сессии test {$testValue}" :   'сессии test нет. Устанавливаем',
             '{TITLE}'       =>  $this->page['meta_title'],
