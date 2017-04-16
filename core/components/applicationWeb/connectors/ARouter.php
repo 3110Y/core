@@ -21,6 +21,14 @@ abstract class ARouter
      */
     protected $url = Array();
     /**
+     * @var array URL Страниц
+     */
+    protected $urlPage = Array();
+    /**
+     * @var array URL приложения
+     */
+    protected $urlApp = '';
+    /**
      * @var array структура приложения
      */
     protected $structure;
@@ -57,19 +65,6 @@ abstract class ARouter
     {
         $this->pageError    = $this->getPageError();
         $this->page         = $this->getPage();
-        var_dump($this->url);
-
-        foreach ($this->structure  as $item) {
-            if ($countURL === $parent_id + 1) {
-                if ($item['url'] === $this->url[$parent_id + 1] && $item['parent_id'] === $parent_id) {
-                    return $item;
-                }
-            } else {
-                if ($item['url'] === $this->url[$parent_id + 1] && $item['parent_id'] === $parent_id) {
-                    return $this->getSelectedPage(++$parent_id);
-                }
-            }
-        }
     }
 
     /**
@@ -89,13 +84,12 @@ abstract class ARouter
     /**
      * Отдает текущую Ошибок
      * @param int $parentID уровень страницы
-     * @param int $urlSectionID ID рвздела URL
      * @return array текущая страница
      */
-    private function getPage($parentID = 0, $urlSectionID = 0)
+    private function getPage($parentID = 0)
     {
         foreach ($this->structure as $item) {
-            if ($item['parent_id'] === $parentID && $item['url'] === $this->url[$urlSectionID]) {
+            if ($item['parent_id'] === $parentID && $item['url'] === $this->urlPage[$parentID]) {
                 return $item;
             }
         }

@@ -22,11 +22,15 @@ final class router extends connectors\ARouter implements connectors\IRouter
 
     /**
      * router constructor.
-     * @param array $url URL
+     * @param string $urlApp URL приложения
+     * @param array $urlPage URL Страниц
      */
-    public function __construct($url)
+    public function __construct($urlApp, $urlPage)
     {
-        $this->url      =  $url;
+        $this->urlApp       =  $urlApp;
+        $this->urlPage      =  $urlPage;
+        $this->url          =  $urlPage;
+        array_unshift($this->url, $this->urlApp);
         $this->structure = Array(
             Array(
                 'id'                =>  1,
