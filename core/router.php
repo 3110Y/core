@@ -42,6 +42,8 @@ class router
         $this->structure    =   $structure;
         $uri                =   parse_url($_SERVER['REQUEST_URI']);
         $this->url          =   explode('/', $uri['path']);
+        var_dump($this->url);
+        die();
         unset($this->url[0]);
         sort($this->url);
         if (count($this->url) === 1 && $this->url[0] === '') {
