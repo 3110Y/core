@@ -40,8 +40,8 @@ class router
     public function __construct($structure = Array())
     {
         $this->structure    =   $structure;
-        $uri                =   trim(parse_url($_SERVER['REQUEST_URI']), '\\');
-        $this->url          =   explode('/', $uri['path']);
+        $uri                =   parse_url($_SERVER['REQUEST_URI']);
+        $this->url          =   explode('/', trim($uri['path'], '\\'));
         echo '<pre>';
         var_dump($this->url);
         die();
