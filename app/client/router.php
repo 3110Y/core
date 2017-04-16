@@ -19,19 +19,6 @@ use core\core;
  */
 final class router extends connectors\ARouter implements connectors\IRouter
 {
-    /**
-     * @var array  текущая страница
-     */
-    private $page = Array();
-    /**
-     * @var array структура контента
-     */
-    private $content = Array();
-    /**
-     * @var string шаблон
-     */
-    private $template = '';
-
 
     /**
      * router constructor.

@@ -31,6 +31,11 @@ abstract class AControllers
      */
     public $url = Array();
 
+    /**
+     * @var mixed|int|false Колличество подуровней
+     */
+    protected static $countSubUrl  =   0;
+
 
     /**
      * Отдает структуру контента

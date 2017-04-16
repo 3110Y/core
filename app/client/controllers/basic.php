@@ -19,7 +19,10 @@ use app\client\classes;
  */
 class basic extends connectors\AControllers implements connectors\IControllers
 {
-
+    /**
+     * @var mixed|int|false Колличество подуровней
+     */
+    protected static $countSubUrl  =   false;
 
     /**
      * Инициализация

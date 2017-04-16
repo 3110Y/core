@@ -18,7 +18,10 @@ use core\components\applicationWeb\connectors;
  */
 class error extends connectors\AControllers implements connectors\IControllers
 {
-
+    /**
+     * @var mixed|int|false Колличество подуровней
+     */
+    protected static $countSubUrl  =   0;
 
     /**
      * Инициализация

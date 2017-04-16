@@ -24,6 +24,22 @@ abstract class ARouter
      * @var array структура приложения
      */
     protected $structure;
+    /**
+     * @var array текущая страница
+     */
+    protected $page = Array();
+    /**
+     * @var array страница для ошибок
+     */
+    protected $pageError = Array();
+    /**
+     * @var array структура контента
+     */
+    protected $content = Array();
+    /**
+     * @var string шаблон
+     */
+    protected $template = '';
 
     /**
      * Отдает Верстку
