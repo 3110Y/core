@@ -89,11 +89,11 @@ final class router extends connectors\ARouter implements connectors\IRouter
      */
     public function run()
     {
-        $this->page         = $this->getSelectedPage();
+        $this->selectPage();
         $controller         = new $this->page['controller']();
         $controller->setPage($this->page);
         $controller->setURL($this->url);
-        $controller->Init();
+        $controller->init();
         $this->content      = $controller->getContent();
         $this->template     = $controller->getTemplate();
         return $this;

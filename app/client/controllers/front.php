@@ -22,12 +22,12 @@ class front extends connectors\AControllers implements connectors\IControllers
     /**
      * @var mixed|int|false Колличество подуровней
      */
-    protected static $countSubUrl  =   0;
+    protected static $countSubURL  =   0;
 
     /**
      * Инициализация
      */
-    public function Init()
+    public function init()
     {
         $test       =   classes\session::getInstance()->exist('test');
         $testValue  =   '';

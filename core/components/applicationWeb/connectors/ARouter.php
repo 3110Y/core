@@ -51,34 +51,12 @@ abstract class ARouter
     }
 
     /**
-     * Отдает текущую страницу
-     * @param int $parent_id уровень страницы
-     * @return array текущая страница
+     * Задает текущую страницу и страницу Ошибок
      */
-    public function getSelectedPage($parent_id = 0)
+    public function selectPage()
     {
-        $pageError  =   Array();
-        $countURL  = count($this->url);
-        echo '<br>';
-        var_dump($parent_id);
-        echo '<br>';
-        var_dump($countURL);
-        echo '<br>';
-        echo '<pre>';
-        var_dump($this->url);
-        echo '</pre>';
-        echo '<br>';
-        echo '<hr>';
-        echo '<br>';
-        foreach ($this->structure as $item) {
-            if ($item['url'] === $this->url[1] && $item['parent_id'] === $parent_id) {
-                return $item;
-            }
-            if ($item['error']) {
-                $pageError = $item;
-            }
-        }
-        return $pageError;
+        $this->pageError    = $this->getPageError();
+        $this->page         = $this->getPage();
 
 
         foreach ($this->structure  as $item) {
@@ -91,11 +69,36 @@ abstract class ARouter
                     return $this->getSelectedPage(++$parent_id);
                 }
             }
+        }
+    }
+
+    /**
+     * Отдает страницу Ошибок
+     * @return array
+     */
+    private function getPageError()
+    {
+        foreach ($this->structure as $item) {
             if ($item['error']) {
-                $pageError = $item;
+                return $item;
             }
         }
-        return $pageError;
+        return $this->structure[0];
+    }
+
+    /**
+     * Отдает текущую Ошибок
+     * @param int $parentID уровень страницы
+     * @param int $urlSectionID ID рвздела URL
+     * @return array текущая страница
+     */
+    private function getPage($parentID = 0, $urlSectionID = 0)
+    {
+        foreach ($this->structure as $item) {
+            if ($item['url'] === $this->url[1] && $item['parent_id'] === $parent_id) {
+                return $item;
+            }
+        }
     }
 
 

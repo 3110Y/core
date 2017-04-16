@@ -34,7 +34,7 @@ abstract class AControllers
     /**
      * @var mixed|int|false Колличество подуровней
      */
-    protected static $countSubUrl  =   0;
+    protected static $countSubURL  =   0;
 
 
     /**
@@ -72,4 +72,15 @@ abstract class AControllers
     {
         $this->url = $url;
     }
+
+    /**
+     * Отдает Колличество подуровней
+     * @return false|int|mixed
+     */
+    public function getCountSubURL()
+    {
+        return self::$countSubURL;
+    }
+
+
 }
