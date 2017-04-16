@@ -16,15 +16,19 @@ namespace core;
 class router
 {
     /**
-     * @var array $structure структура
+     * @var array структура
      */
     private $structure;
     /**
-     * @var array $url URL
+     * @var array URL Страниц
      */
-    protected $url = Array();
+    protected $urlPage = Array();
     /**
-     * @var array $path путь
+     * @var array URL приложения
+     */
+    protected $urlApp = Array();
+    /**
+     * @var array путь
      */
     protected $path = Array();
     /**
@@ -41,16 +45,18 @@ class router
     {
         $this->structure    =   $structure;
         $uri                =   parse_url($_SERVER['REQUEST_URI']);
-        var_dump($uri['path']);
-        $uri                =   trim($uri['path'], '\\');
-        var_dump($uri);
-        $this->url          =   explode('/', $uri);
-        echo '<pre>';
-        var_dump($this->url);
+        $url                =   explode('/', $uri['path']);
+
+        var_dump($url);
         die();
+
+
         unset($this->url[0]);
         sort($this->url);
-
+        if (count($this->url) === 1 && $this->url[0] === '') {
+            $this->url[0] = '/';
+            $this->url[1] = '/';
+        }
         foreach ($structure as $item) {
             if ($item['url'] === $this->url[0]) {
                 $this->application = $item;
@@ -64,6 +70,7 @@ class router
                 $this->application = $item;
             }
         }
+
     }
 
     /**
