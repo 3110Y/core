@@ -26,7 +26,7 @@ class router
     /**
      * @var array URL приложения
      */
-    protected $urlApp = Array();
+    protected $urlApp = '';
     /**
      * @var array путь
      */
@@ -46,31 +46,30 @@ class router
         $this->structure    =   $structure;
         $uri                =   parse_url($_SERVER['REQUEST_URI']);
         $url                =   explode('/', trim($uri['path'], '/'));
-        var_dump($url);
-        die();
-
-
-
-        unset($this->url[0]);
-        sort($this->url);
-        if (count($this->url) === 1 && $this->url[0] === '') {
-            $this->url[0] = '/';
-            $this->url[1] = '/';
+        if ($url[0] === '') {
+            $url[0] = '/';
         }
-        foreach ($structure as $item) {
-            if ($item['url'] === $this->url[0]) {
-                $this->application = $item;
-            }
-        }
+        $this->setURL($url);
         if (empty($this->application)) {
-            array_unshift($this->url, '/');
+            array_unshift($url, '/');
+            $this->setURL($url);
         }
-        foreach ($structure as $item) {
-            if ($item['url'] === $this->url[0]) {
+    }
+
+    /**
+     * Устанавливает URL Страниц, URL приложения, структуру
+     * @param array $url URL
+     */
+    private function setURL($url)
+    {
+        foreach ($this->structure as $item) {
+            if ($item['url'] === $url[0]) {
                 $this->application = $item;
+                $this->urlApp = array_shift($url);
+                $this->urlPage = $url;
+                return;
             }
         }
-
     }
 
     /**
@@ -81,7 +80,7 @@ class router
     {
         if (!empty($this->application)) {
             $application = '\app\\' . $this->application['path'] . '\\router';
-            $router = new $application($this->url);
+            $router = new $application($this->urlApp, $this->urlPage);
             $router->run();
             return $router->render();
         }
