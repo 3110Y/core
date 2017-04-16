@@ -57,7 +57,7 @@ abstract class ARouter
     {
         $this->pageError    = $this->getPageError();
         $this->page         = $this->getPage();
-
+        var_dump($this->url);
 
         foreach ($this->structure  as $item) {
             if ($countURL === $parent_id + 1) {
@@ -95,7 +95,7 @@ abstract class ARouter
     private function getPage($parentID = 0, $urlSectionID = 0)
     {
         foreach ($this->structure as $item) {
-            if ($item['url'] === $this->url[1] && $item['parent_id'] === $parent_id) {
+            if ($item['parent_id'] === $parentID && $item['url'] === $this->url[$urlSectionID]) {
                 return $item;
             }
         }
