@@ -42,12 +42,12 @@ class router
         $this->structure    =   $structure;
         $uri                =   parse_url($_SERVER['REQUEST_URI']);
         $this->url          =   explode('/', $uri['path']);
+        echo '<pre>';
+        var_dump($this->url);
+        die();
         unset($this->url[0]);
         sort($this->url);
-        if (count($this->url) === 1 && $this->url[0] === '') {
-            $this->url[0] = '/';
-            $this->url[1] = '/';
-        }
+
         foreach ($structure as $item) {
             if ($item['url'] === $this->url[0]) {
                 $this->application = $item;
