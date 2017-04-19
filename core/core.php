@@ -74,7 +74,7 @@ class core
     /**
      * Устанавливет архитектуру приложения
      * @param array $architecture архитектура приложения
-     * @param array $path путь
+     * @param array $path путь до ядра
      */
     private static function prepareArchitecture(array $architecture = Array(),array $path = Array())
     {
