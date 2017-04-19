@@ -8,7 +8,11 @@
 
 namespace core\components\view\connectors;
 
-
+/**
+ * Interface IView
+ * Базовый Коннектор шаблонизатора
+ * @package core\components\view\connectors
+ */
 interface IView
 {
 

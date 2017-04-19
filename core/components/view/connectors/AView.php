@@ -9,6 +9,11 @@
 namespace core\components\view\connectors;
 use core\components\component\connectors as componentConnectors;
 
+/**
+ * Class AView
+ * Базовый Коннектор шаблонизатора
+ * @package core\components\view\connectors
+ */
 abstract class AView extends componentConnectors\AComponent
 {
 

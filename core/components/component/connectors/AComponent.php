@@ -8,7 +8,11 @@
 
 namespace core\components\component\connectors;
 
-
+/**
+ * Class AComponent
+ * Базовый Коннектор
+ * @package core\components\component\connectors
+ */
 abstract class AComponent
 {
 

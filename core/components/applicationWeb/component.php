@@ -12,6 +12,7 @@ use core\components\component\connectors as componentsConnectors;
 
 /**
  * Class component
+ * Компонент Web приложения
  * @package core\components\applicationWeb
  */
 class component extends applicationConnectors\AApplication implements applicationConnectors\IApplication, componentsConnectors\IComponent

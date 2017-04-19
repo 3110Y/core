@@ -9,6 +9,7 @@
 namespace core\components\component;
 /**
  * Class component
+ * Базовый компонент
  * @package core\components\component
  */
 class component

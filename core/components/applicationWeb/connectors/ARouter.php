@@ -12,6 +12,7 @@ namespace core\components\applicationWeb\connectors;
 
 /**
  * Abstract class router
+ * Коннектор Роутера Web приложения
  * @package core\connectors\app
  */
 abstract class ARouter

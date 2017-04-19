@@ -9,6 +9,11 @@
 namespace core\components\application\connectors;
 use core\components\component\connectors as componentConnectors;
 
+/**
+ * Class AApplication
+ * Коннектор приложения
+ * @package core\components\application\connectors
+ */
 abstract class AApplication extends componentConnectors\AComponent
 {
 

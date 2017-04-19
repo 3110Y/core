@@ -8,7 +8,11 @@
 
 namespace core\components\application\connectors;
 
-
+/**
+ * Interface IApplication
+ * Коннектор приложения
+ * @package core\components\application\connectors
+ */
 interface IApplication
 {
 

@@ -8,7 +8,11 @@
 
 namespace core\components\component\connectors;
 
-
+/**
+ * Interface IComponent
+ * Базовый Коннектор
+ * @package core\components\component\connectors
+ */
 interface IComponent
 {
 

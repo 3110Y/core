@@ -10,6 +10,7 @@ namespace core\components\applicationWeb\connectors;
 
 /**
  * Interface IRouter
+ * Коннектор Роутера Web приложения
  * @package core\connectors\app
  */
 interface IRouter

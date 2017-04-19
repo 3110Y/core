@@ -10,6 +10,7 @@ namespace core\components\applicationWeb\connectors;
 
 /**
  * Interface IControllers
+ * Коннектор контроллера Web приложения
  * @package core\connectors\app
  */
 interface IControllers

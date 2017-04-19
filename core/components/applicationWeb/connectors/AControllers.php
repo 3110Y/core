@@ -10,6 +10,7 @@ namespace core\components\applicationWeb\connectors;
 
 /**
  * Class controllers
+ * Коннектор контроллера Web приложения
  * @package core\connectors\app
  */
 abstract class AControllers

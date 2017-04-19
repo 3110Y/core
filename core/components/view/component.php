@@ -8,7 +8,11 @@
 
 namespace core\components\view;
 
-
+/**
+ * Class component
+ * Базовый Компонент шаблонизатора
+ * @package core\components\view
+ */
 class component
 {
 
