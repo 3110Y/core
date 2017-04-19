@@ -7,12 +7,14 @@
  */
 
 namespace core\components\applicationWeb;
+use core\components\application\connectors as applicationConnectors;
+use core\components\component\connectors as componentsConnectors;
 
 /**
  * Class component
  * @package core\components\applicationWeb
  */
-class component
+class component extends applicationConnectors\AApplication implements applicationConnectors\IApplication, componentsConnectors\IComponent
 {
 
 }

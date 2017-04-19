@@ -7,12 +7,13 @@
  */
 
 namespace core\components\application;
+use core\components\component\connectors as componentsConnectors;
 
 /**
  * Class component
  * @package core\components\application
  */
-class component
+class component extends componentsConnectors\AComponent implements componentsConnectors\IComponent
 {
 
 }

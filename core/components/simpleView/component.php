@@ -7,13 +7,15 @@
  */
 
 namespace core\components\simpleView;
+use core\components\component\connectors as componentsConnectors;
+use core\components\view\connectors as viewConnectors;
 
 /**
  * Class component
  * компонент шаблонизатора
  * @package core\components\simpleView
  */
-class component
+class component extends viewConnectors\AView implements viewConnectors\IView, componentsConnectors\IComponent
 {
     /**
      * @const float Версия ядра

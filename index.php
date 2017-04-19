@@ -23,6 +23,10 @@ $architecture = Array(
     'core'  =>  Array(
         '(core|router)',
         'components'    => Array(
+            'view'        =>  Array(
+                '([\w]+)',
+                'connectors'=> '([\w]+)',
+            ),
             'simpleView'        =>  Array(
                 '([\w]+)',
                 'connectors'=> '([\w]+)',
