@@ -22,15 +22,11 @@ final class router extends connectors\ARouter implements connectors\IRouter
 
     /**
      * router constructor.
-     * @param string $urlApp URL приложения
-     * @param array $urlPage URL Страниц
+     * @param string $URL URL приложения
      */
-    public function __construct($urlApp, $urlPage)
+    public function __construct($URL)
     {
-        $this->urlApp       =  $urlApp;
-        $this->urlPage      =  $urlPage;
-        $this->url          =  $urlPage;
-        array_unshift($this->url, $this->urlApp);
+        $this->URL          =  $URL;
         $this->structure = Array(
             Array(
                 'id'                =>  1,
@@ -66,7 +62,7 @@ final class router extends connectors\ARouter implements connectors\IRouter
                 'meta_title'        =>  '3',
                 'meta_keywords'     =>  '3, Тест',
                 'meta_description'  =>  '3',
-                'controller'        =>  controllers\front::class,
+                'controller'        =>  controllers\basic::class,
                 'template'          =>  'basic',
                 'home'              =>  1,
                 'error'             =>  0,
@@ -79,7 +75,7 @@ final class router extends connectors\ARouter implements connectors\IRouter
                 'meta_title'        =>  '4',
                 'meta_keywords'     =>  '4, Тест',
                 'meta_description'  =>  '4',
-                'controller'        =>  controllers\front::class,
+                'controller'        =>  controllers\basic::class,
                 'template'          =>  'basic',
                 'home'              =>  1,
                 'error'             =>  0,
@@ -96,7 +92,7 @@ final class router extends connectors\ARouter implements connectors\IRouter
         $this->selectPage();
         $controller         = new $this->page['controller']();
         $controller->setPage($this->page);
-        $controller->setURL($this->url);
+        $controller->setURL($this->URL);
         $controller->init();
         $this->content      = $controller->getContent();
         $this->template     = $controller->getTemplate();

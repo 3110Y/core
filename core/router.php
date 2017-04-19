@@ -20,9 +20,9 @@ class router
      */
     private $structure;
     /**
-     * @var array URL Страниц
+     * @var array URL
      */
-    protected $urlPage = Array();
+    protected $URL = Array();
     /**
      * @var array URL приложения
      */
@@ -44,32 +44,40 @@ class router
     public function __construct($structure = Array())
     {
         $this->structure    =   $structure;
-        $uri                =   parse_url($_SERVER['REQUEST_URI']);
-        $url                =   explode('/', trim($uri['path'], '/'));
-        if ($url[0] === '') {
-            $url[0] = '/';
+        $URL                =   explode('/', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
+        $URL[0] = '/';
+        $urlFirst   =    $URL;
+        $urlSecond  =    $URL;
+        array_shift($urlFirst);
+        if(count($urlFirst) === 1) {
+            $urlFirst[] = '';
         }
-        $this->setURL($url);
+        $this->application  =   $this->setURL($urlFirst);
         if (empty($this->application)) {
-            array_unshift($url, '/');
-            $this->setURL($url);
+            $this->application  =   $this->setURL($urlSecond);
+        } else {
+            $this->URL[0]   =   '/' . $this->URL[0];
+        }
+        if (empty($this->application)) {
+            //TODO: нет приложения
+            die('нет приложения');
         }
     }
 
     /**
-     * Устанавливает URL Страниц, URL приложения, структуру
+     * Устанавливает URL структуы
      * @param array $url URL
+     * @return array приложение
      */
     private function setURL($url)
     {
         foreach ($this->structure as $item) {
             if ($item['url'] === $url[0]) {
-                $this->application = $item;
-                $this->urlApp = array_shift($url);
-                $this->urlPage = $url;
-                return;
+                $this->URL = $url;
+                return $item;
             }
         }
+        return Array();
     }
 
     /**
@@ -80,7 +88,7 @@ class router
     {
         if (!empty($this->application)) {
             $application = '\app\\' . $this->application['path'] . '\\router';
-            $router = new $application($this->urlApp, $this->urlPage);
+            $router = new $application($this->URL);
             $router->run();
             return $router->render();
         }

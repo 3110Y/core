@@ -29,7 +29,7 @@ abstract class AControllers
     /**
      * @var array URL
      */
-    public $url = Array();
+    public $URL = Array();
 
     /**
      * @var mixed|int|false Колличество подуровней
@@ -66,11 +66,11 @@ abstract class AControllers
 
     /**
      * Задает URL
-     * @param array $url URL
+     * @param array $URL URL
      */
-    public function setURL(array $url)
+    public function setURL(array $URL)
     {
-        $this->url = $url;
+        $this->URL = $URL;
     }
 
     /**

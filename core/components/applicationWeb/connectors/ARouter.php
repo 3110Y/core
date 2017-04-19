@@ -19,15 +19,7 @@ abstract class ARouter
     /**
      * @var array URL
      */
-    protected $url = Array();
-    /**
-     * @var array URL Страниц
-     */
-    protected $urlPage = Array();
-    /**
-     * @var array URL приложения
-     */
-    protected $urlApp = '';
+    protected $URL = Array();
     /**
      * @var array структура приложения
      */
@@ -89,10 +81,20 @@ abstract class ARouter
     private function getPage($parentID = 0)
     {
         foreach ($this->structure as $item) {
-            if ($item['parent_id'] === $parentID && $item['url'] === $this->urlPage[$parentID]) {
+            if (
+                $item['parent_id'] === $parentID
+                && (
+                    $item['url'] === $this->URL[$parentID + 1]
+                    || (
+                        $item['url'] == '/'
+                        && $this->URL[$parentID + 1] === ""
+                    )
+                )
+            ) {
                 return $item;
             }
         }
+        return $this->pageError;
     }
 
 

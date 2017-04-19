@@ -21,14 +21,14 @@ class error extends connectors\AControllers implements connectors\IControllers
     /**
      * @var mixed|int|false Колличество подуровней
      */
-    protected static $countSubURL  =   0;
+    protected static $countSubURL  =   false;
 
     /**
      * Инициализация
      */
     public function init()
     {
-        $this->template = $_SERVER['DOCUMENT_ROOT'] . 'app/client/theme/' . $this->page['template'];
+        $this->template = $_SERVER['DOCUMENT_ROOT'] . '/app/client/theme/' . $this->page['template'];
         $this->content  = Array(
             '{NAME}'        =>  'Это 404 контроллер',
             '{TITLE}'       =>  $this->page['meta_title'],

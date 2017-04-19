@@ -37,7 +37,7 @@ class front extends connectors\AControllers implements connectors\IControllers
             $testValue  =   classes\session::getInstance()->get('test');
         }
 
-        $this->template = $_SERVER['DOCUMENT_ROOT'] . 'app/client/theme/' . $this->page['template'];
+        $this->template = $_SERVER['DOCUMENT_ROOT'] . '/app/client/theme/' . $this->page['template'];
         $this->content  = Array(
             '{NAME}'        =>  'Это Фронтальный контроллер',
             '{TEXT}'        =>  $test   ?   "Ключ сессии test {$testValue}" :   'сессии test нет. Устанавливаем',
