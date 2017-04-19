@@ -24,9 +24,13 @@ class core
      */
     private $regular = '';
     /**
-     * @var string Путь до пространства
+     * @var string пространство
      */
-    private $path = '';
+    private $namespace = '';
+    /**
+     * @var string префикс пространства
+     */
+    private $prefix = '';
     /**
      * @const string Путь до компонентов
      */
@@ -44,12 +48,57 @@ class core
 
     /**
      * Инициализация
-     * @param array $architecture архитектура приложения
+     * @param string $prefix расположение
      */
-    public static function init(array $architecture = Array())
+    public static function init($prefix = '')
     {
-        self::prepareArchitecture($architecture);
+        $core = new self();
+        $core->register('core', $prefix);
     }
+
+    /**
+     * Устанавливает автозагрузку
+     * @param string $namespace директория пространства
+     * @param string $prefix префикс директории пространства
+     * @return bool
+     */
+    public function register($namespace, $prefix = '')
+    {
+        $this->namespace    = $namespace;
+        $this->prefix         = $prefix;
+        $this->key          = md5($this->prefix . $this->namespace);
+        $this->regular      = '/^' . $this->namespace . '\\\\[a-z\\\\]+$/i';
+        $autoload = spl_autoload_functions();
+        if (spl_autoload_functions() !== false) {
+            foreach ($autoload as $function) {
+                if (!is_string($function) && isset($function[0]->key) && $this->key === $function[0]->key) {
+                    return false;
+                }
+            }
+        }
+        return spl_autoload_register(array($this, 'loader'));
+    }
+
+    /**
+     * Загружает класс
+     * @param string $className загружаемый класс
+     * @return bool
+     */
+    private function loader($className)
+    {
+
+        $classSearch    =   ltrim($className, '\\');
+        preg_match($this->regular, $classSearch, $output);
+        if (isset($output[0])) {
+            $file = $_SERVER['DOCUMENT_ROOT'] . str_replace('\\', '/', $this->prefix . $output[0] . '.php');
+            if (file_exists($file)) {
+                include_once $file;
+            } return true;
+        }
+        return false;
+    }
+
+
 
     /**
      * Отдает компонент
@@ -67,70 +116,6 @@ class core
         $file   =   $_SERVER['DOCUMENT_ROOT'] . strtr($components, $data) . '.php';
         if (file_exists($file)) {
             return new $components();
-        }
-        return false;
-    }
-
-    /**
-     * Устанавливет архитектуру приложения
-     * @param array $architecture архитектура приложения
-     * @param array $path путь до ядра
-     */
-    private static function prepareArchitecture(array $architecture = Array(),array $path = Array())
-    {
-        foreach ($architecture as $key => $value) {
-            $newPath = $path;
-            if (!is_int($key)) {
-                $newPath[]     = $key;
-            }
-            if(is_string($value)) {
-                $namespace  = implode('\\\\',$newPath) . '\\\\';
-                $core = new self();
-                $core->register($namespace . $value);
-            } elseif (is_array($value)) {
-                self::prepareArchitecture($value, $newPath);
-            }
-        }
-    }
-
-    /**
-     * Устанавливает автозагрузку
-     * @param string $regular регулярное выражение
-     * @return bool
-     */
-    public function register($regular)
-    {
-        $this->regular      = $regular;
-        $this->path         = $_SERVER['DOCUMENT_ROOT'] . '/';
-        $this->key          = md5($this->path . $this->regular);
-        $autoload = spl_autoload_functions();
-
-        if (spl_autoload_functions() !== false) {
-            foreach ($autoload as $function) {
-                if (!is_string($function) && isset($function[0]->key) && $this->key === $function[0]->key) {
-                    return false;
-                }
-            }
-        }
-        return spl_autoload_register(array($this, 'loader'));
-    }
-
-    /**
-     * Загружает класс
-     * @see $regularAutoload
-     * @see $pathAutoload
-     * @param string $className загружаемый класс
-     * @return bool
-     */
-    private function loader($className)
-    {
-        $classSearch    =   ltrim($className, '\\');
-        preg_match('/^' . $this->regular . '$/i', $classSearch, $output);
-        if (isset($output[0])) {
-            $file = str_replace('\\', '/', $this->path . $output[0] . '.php');
-            if (file_exists($file)) {
-                include_once $file;
-            } return true;
         }
         return false;
     }

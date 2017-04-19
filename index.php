@@ -54,7 +54,7 @@ $architecture = Array(
         ),
     ),
 );
-\Core\Core::init($architecture);
+\Core\Core::init('/', '/');
 $structure  =   Array(
     Array(
         'name'      => 'Клиент',
