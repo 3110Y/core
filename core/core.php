@@ -58,11 +58,23 @@ class core
 
     /**
      * Устанавливает автозагрузку
+     * @see registerAutoload()
+     * @param string $namespace директория пространства
+     * @param string $prefix префикс директории пространства
+     * @return bool результат
+     */
+    public static function register($namespace, $prefix = '')
+    {
+        return (new self())->registerAutoload($namespace, $prefix);
+    }
+
+    /**
+     * Устанавливает автозагрузку
      * @param string $namespace директория пространства
      * @param string $prefix префикс директории пространства
      * @return bool
      */
-    public function register($namespace, $prefix = '')
+    public function registerAutoload($namespace, $prefix = '')
     {
         $this->namespace    = $namespace;
         $this->prefix         = $prefix;
