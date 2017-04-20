@@ -16,101 +16,177 @@ namespace core;
 class core
 {
     /**
-     * @var string ключ Автозагрузчика
-     */
-    private $key = '';
-    /**
-     * @var string регулярное выражение
-     */
-    private $regular = '';
-    /**
-     * @var string пространство
-     */
-    private $namespace = '';
-    /**
-     * @var string префикс пространства
-     */
-    private $prefix = '';
-    /**
-     * @const string Путь до компонентов
-     */
-    const components = '\core\components\\';
-
-    /**
      * @const float Версия ядра
      */
     const VERSION   =   1.0;
-
     /**
      * @const
      */
     const NAME  =   'core';
+    /**
+     * @const string Путь до компонентов
+     */
+    const components = '\core\components\\';
+    /**
+     * Ассоциативный массив. Ключи содержат префикс пространства имён,
+     * значение — массив базовых директорий для классов в этом пространстве имён.
+     *
+     * @var array
+     */
+    protected $prefixes = array();
+    /**
+     * экземпляр
+     * @var null
+     */
+    private static $instance = null;
+
 
     /**
-     * Инициализация
-     * @param string $prefix расположение
+     * @return core|null
      */
-    public static function init($prefix = '')
+    public static function getInstance()
     {
-        $core = new self();
-        $core->register('core', $prefix);
+        if (self::$instance === null) {
+            self::$instance = new self();
+        }
+        return  self::$instance;
+    }
+
+
+    /**
+     * core constructor.
+     */
+    final public function __construct() {}
+
+    /**
+     * Регистрирует загрузчик в стеке загрузчиков SPL.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        spl_autoload_register(array($this, 'loadClass'));
+    }
+
+
+
+
+    /**
+     * Добавляет базовую директорию к префиксу пространства имён.
+     *
+     * @param string $prefix Префикс пространства имён.
+     * @param string $base_dir Базовая директория для файлов классов из пространства имён.
+     * @param bool $prepend Если true, добавить базовую директорию в начало стека.
+     * В этом случае она будет проверяться первой.
+     * @return void
+     */
+    public function addNamespace($prefix, $base_dir, $prepend = false)
+    {
+        // нормализуем префикс пространства имён
+        $prefix = trim($prefix, '\\') . '\\';
+
+        // нормализуем базовую директорию так, чтобы всегда присутствовал разделитель в конце
+        $base_dir = rtrim($base_dir, DIRECTORY_SEPARATOR) . '/';
+
+        // инициализируем массив префиксов пространства имён
+        if (isset($this->prefixes[$prefix]) === false) {
+            $this->prefixes[$prefix] = array();
+        }
+
+        // сохраняем базовую директорию для префикса пространства имён
+        if ($prepend) {
+            array_unshift($this->prefixes[$prefix], $base_dir);
+        } else {
+            array_push($this->prefixes[$prefix], $base_dir);
+        }
     }
 
     /**
-     * Устанавливает автозагрузку
-     * @see registerAutoload()
-     * @param string $namespace директория пространства
-     * @param string $prefix префикс директории пространства
-     * @return bool результат
+     * Загружает файл для заданного имени класса.
+     *
+     * @param string $class Абсолютное имя класса.
+     * @return mixed Если получилось, полное имя файла. Иначе — false.
      */
-    public static function register($namespace, $prefix = '')
+    public function loadClass($class)
     {
-        return (new self())->registerAutoload($namespace, $prefix);
-    }
+        // текущий префикс пространства имён
+        $prefix = $class;
 
-    /**
-     * Устанавливает автозагрузку
-     * @param string $namespace директория пространства
-     * @param string $prefix префикс директории пространства
-     * @return bool
-     */
-    public function registerAutoload($namespace, $prefix = '')
-    {
-        $this->namespace    = $namespace;
-        $this->prefix         = $prefix;
-        $this->key          = md5($this->prefix . $this->namespace);
-        $this->regular      = '/^' . $this->namespace . '\\\\[a-z\\\\]+$/i';
-        $autoload = spl_autoload_functions();
-        if (spl_autoload_functions() !== false) {
-            foreach ($autoload as $function) {
-                if (!is_string($function) && isset($function[0]->key) && $this->key === $function[0]->key) {
-                    return false;
-                }
+        // для определения имени файла обходим пространства имён из абсолютного
+        // имени класса в обратном порядке
+        while (false !== $pos = strrpos($prefix, '\\')) {
+
+            // сохраняем завершающий разделитель пространства имён в префиксе
+            $prefix = substr($class, 0, $pos + 1);
+
+            // всё оставшееся — относительное имя класса
+            $relative_class = substr($class, $pos + 1);
+
+            // пробуем загрузить соответсвующий префиксу и относительному имени класса файл
+            $mapped_file = $this->loadMappedFile($prefix, $relative_class);
+            if ($mapped_file) {
+                return $mapped_file;
             }
-        }
-        return spl_autoload_register(array($this, 'loader'));
-    }
 
-    /**
-     * Загружает класс
-     * @param string $className загружаемый класс
-     * @return bool
-     */
-    private function loader($className)
-    {
-
-        $classSearch    =   ltrim($className, '\\');
-        preg_match($this->regular, $classSearch, $output);
-        if (isset($output[0])) {
-            $file = $_SERVER['DOCUMENT_ROOT'] . str_replace('\\', '/', $this->prefix . $output[0] . '.php');
-            if (file_exists($file)) {
-                include_once $file;
-            } return true;
+            // убираем завершающий разделитель пространства имён для следующей итерации strrpos()
+            $prefix = rtrim($prefix, '\\');
         }
+
+        // файл так и не был найден
         return false;
     }
 
+    /**
+     * Загружает файл, соответствующий префиксу пространства имён и относительному имени класса.
+     *
+     * @param string $prefix Префикс пространства имён.
+     * @param string $relative_class Относительное имя класса.
+     * @return mixed false если файл не был загружен. Иначе имя загруженного файла.
+     */
+    protected function loadMappedFile($prefix, $relative_class)
+    {
+        // есть ли у этого префикса пространства имён какие-либо базовые директории?
+        if (isset($this->prefixes[$prefix]) === false) {
+            return false;
+        }
 
+        // ищем префикс в базовых директориях
+        foreach ($this->prefixes[$prefix] as $base_dir) {
+
+            // заменяем префикс базовой директорией,
+            // заменяем разделители пространства имён на разделители директорий,
+            // к относительному имени класса добавляем .php
+            $file = $base_dir
+                . str_replace('\\', '/', $relative_class)
+                . '.php';
+            // если файл существует, загружаем его
+            if ($this->requireFile($file)) {
+                // ура, получилось
+                return $file;
+            }
+        }
+
+        // файл так и не был найден
+        return false;
+    }
+
+    /**
+     * Если файл существует, загружеаем его.
+     *
+     * @param string $file файл для загрузки.
+     * @return bool true, если файл существует, false — если нет.
+     */
+    protected function requireFile($file)
+    {
+        if (file_exists($file)) {
+            require $file;
+            return true;
+        } elseif ($_SERVER['DOCUMENT_ROOT'] . $file) {
+            require $file;
+            return true;
+        }
+        return false;
+    }
 
     /**
      * Отдает компонент

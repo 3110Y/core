@@ -6,12 +6,6 @@
  * Time: 11:12
  */
 
-//TODO: относительность добавить
-//TODO: гибкость добавить
-//TODO: обработка ошибок
-//TODO: очистить код
-
-
 error_reporting (E_ALL);
 ini_set('display_errors', 1);
 date_default_timezone_set('Europe/Moscow');
@@ -19,42 +13,9 @@ date_default_timezone_set('Europe/Moscow');
 $timeStart  = microtime(true);
 
 include 'core' . DIRECTORY_SEPARATOR . 'core.php';
-$architecture = Array(
-    'core'  =>  Array(
-        '(core|router)',
-        'components'    => Array(
-            'view'        =>  Array(
-                '([\w]+)',
-                'connectors'=> '([\w]+)',
-            ),
-            'simpleView'        =>  Array(
-                '([\w]+)',
-                'connectors'=> '([\w]+)',
-            ),
-            'component'         =>  Array(
-                '([\w]+)',
-                'connectors'=> '([\w]+)',
-            ),
-            'applicationWeb'    =>  Array(
-                '([\w]+)',
-                'connectors'=> '([\w]+)',
-            ),
-            'application'       =>  Array(
-                '([\w]+)',
-                'connectors'=> '([\w]+)',
-            ),
-        ),
-    ),
-    'app'   =>  Array(
-        'client'   =>  Array(
-            '(router)',
-            'classes'       => '([\w]+)',
-            'controllers'   => '([\w]+)',
-            'theme'         => false,
-        ),
-    ),
-);
-\Core\Core::init('/', '/');
+\Core\Core::getInstance()->register();
+\Core\Core::getInstance()->addNamespace('core', 'core');
+
 $structure  =   Array(
     Array(
         'name'      => 'Клиент',
