@@ -49,6 +49,21 @@ abstract class ARouter
      * @var mixed|null|object рендер
      */
     protected $render = null;
+    /**
+     * @var array  приложение
+     */
+    protected $application = Array();
+
+
+    /**
+     * отдает тему
+     * @param string $template шаблон
+     * @return string шаблон
+     */
+    public function getTemplate($template = '')
+    {
+        return "/app/{$this->application['path']}/theme/{$this->application['theme']}/{$template}";
+    }
 
     /**
      * Отдает рендер
@@ -60,7 +75,6 @@ abstract class ARouter
             $this->render = $this->handlerRender->getRender();
         }
         return $this->render;
-
     }
 
     /**

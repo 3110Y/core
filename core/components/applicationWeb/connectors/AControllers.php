@@ -31,12 +31,15 @@ abstract class AControllers
      * @var array URL
      */
     public $URL = Array();
-
     /**
      * @var mixed|int|false Колличество подуровней
      */
     protected static $countSubURL  =   0;
 
+    /**
+     * @var mixed|null|object роутер
+     */
+    protected $router = null;
 
     /**
      * Отдает структуру контента
@@ -66,12 +69,21 @@ abstract class AControllers
     }
 
     /**
-     * Задает URL
+     * Задает роутер
      * @param array $URL URL
      */
     public function setURL(array $URL)
     {
         $this->URL = $URL;
+    }
+
+    /**
+     * Задает Роутер
+     * @param object $router роутер
+     */
+    public function setRouter($router)
+    {
+        $this->router = $router;
     }
 
     /**

@@ -47,8 +47,15 @@ class component extends viewConnectors\AView implements viewConnectors\IView, co
     public static function replace($template = false, array $data = Array(), $html = '')
     {
         if ($template !== false) {
-            //TODO: Проверка наличия сайта
-            $content    =   file_get_contents($template);
+
+            if (file_exists($template)) {
+                $content = file_get_contents($template);
+            } elseif ($_SERVER['DOCUMENT_ROOT'] . $template) {
+                $content = file_get_contents($_SERVER['DOCUMENT_ROOT'] . $template);
+            } else {
+                //TODO: Проверка наличия шаблона
+                die('Нет шаблона');
+            }
         } else {
             $content    =   $html;
         }

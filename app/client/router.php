@@ -23,11 +23,13 @@ final class router extends connectors\ARouter implements connectors\IRouter
     /**
      * router constructor.
      * @param string $URL URL приложения
+     * @param array $application данные приложения
      */
-    public function __construct($URL)
+    public function __construct($URL, $application)
     {
-        $this->URL          =  $URL;
-        $this->handlerRender  =   core::getComponents('view');
+        $this->URL              =  $URL;
+        $this->application      =  $application;
+        $this->handlerRender    =  core::getComponents('view');
         $this->handlerRender->setRender('simpleView');
         $this->handlerRender->setExtension('tpl');
         $this->structure = Array(
@@ -84,6 +86,7 @@ final class router extends connectors\ARouter implements connectors\IRouter
                 'error'             =>  0
             ),
         );
+
     }
 
     /**
@@ -96,6 +99,7 @@ final class router extends connectors\ARouter implements connectors\IRouter
         $controller         = new $this->page['controller']();
         $controller->setPage($this->page);
         $controller->setURL($this->URL);
+        $controller->setRouter($this);
         $controller->init();
         $this->content      = $controller->getContent();
         $this->template     = $controller->getTemplate();

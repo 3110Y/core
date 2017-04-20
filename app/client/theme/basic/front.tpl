@@ -12,7 +12,7 @@
     <p>{TEXT}</p>
     <ul>
         {FOR}
-        <li><a href="{URL}">{NAME}</a></li>
+        <li><a href="../../../../index.php">{NAME}</a></li>
         {/FOR}
     </ul>
     <!--{time_DIFF}-->

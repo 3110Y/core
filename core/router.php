@@ -90,7 +90,7 @@ class router
             $namespace  =   'app\\' . $this->application['path'];
             Core::getInstance()->addNamespace($namespace, "/app/{$this->application['path']}");
             $application = $namespace . '\router';
-            $router = new $application($this->URL);
+            $router = new $application($this->URL, $this->application);
             $router->run();
             return $router->render();
         }
