@@ -33,6 +33,11 @@ class component extends viewConnectors\AView implements viewConnectors\IView, co
     private $template = '';
 
     /**
+     * @var string расширение шаблона
+     */
+    private $extension = '';
+
+    /**
      * @var array данные
      */
     private $data   =   Array();
@@ -53,6 +58,15 @@ class component extends viewConnectors\AView implements viewConnectors\IView, co
     }
 
     /**
+     * Устанавливает расширение шаблона
+     * @param string $extension
+     */
+    public function setExtension($extension = 'tpl')
+    {
+        $this->extension    =   $extension;
+    }
+
+    /**
      * Устанавливает Данные
      * @param array $data Данные
      */
@@ -66,7 +80,7 @@ class component extends viewConnectors\AView implements viewConnectors\IView, co
      */
     public function render()
     {
-        $this->result   =   render::run($this->template, $this->data);
+        $this->result   =   render::run($this->template . '.' . $this->extension, $this->data);
     }
 
     /**
@@ -76,6 +90,12 @@ class component extends viewConnectors\AView implements viewConnectors\IView, co
     public function get()
     {
         return $this->result;
+    }
+
+
+    public function getRender()
+    {
+        return render::class;
     }
 
 }

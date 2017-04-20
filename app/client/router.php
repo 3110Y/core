@@ -107,6 +107,7 @@ final class router extends connectors\ARouter implements connectors\IRouter
     {
         $components  =   core::getComponents('simpleView');
         $components->setTemplate($this->template);
+        $components->setExtension('tpl');
         $components->setData($this->content);
         $components->render();
         return $components->get();

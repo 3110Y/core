@@ -35,7 +35,12 @@ class render
      */
     public static function replace($template = false, array $data = Array(), $html = '')
     {
-        $content = file_get_contents($template . '.tpl');
+        if ($template !== false) {
+            //TODO: Проверка наличия сайта
+            $content    =   file_get_contents($template);
+        } else {
+            $content    =   $html;
+        }
         $array  =   Array();
         foreach ($data as $key => $value) {
             if (is_array($value)) {
