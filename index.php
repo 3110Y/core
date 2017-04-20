@@ -14,7 +14,7 @@ $timeStart  = microtime(true);
 
 include 'core' . DIRECTORY_SEPARATOR . 'core.php';
 \Core\Core::getInstance()->register();
-\Core\Core::getInstance()->addNamespace('core', 'core');
+\Core\Core::getInstance()->addNamespace('core', '/core');
 
 $structure  =   Array(
     Array(
