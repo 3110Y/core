@@ -179,7 +179,7 @@ class core
             require $file;
             return true;
         } elseif ($_SERVER['DOCUMENT_ROOT'] . $file) {
-            require $file;
+            require $_SERVER['DOCUMENT_ROOT'] . $file;
             return true;
         }
         return false;
