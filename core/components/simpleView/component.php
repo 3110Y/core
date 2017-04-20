@@ -21,81 +21,82 @@ class component extends viewConnectors\AView implements viewConnectors\IView, co
      * @const float Версия ядра
      */
     const VERSION   =   1.0;
-
     /**
      * @const
      */
     const NAME  =   'simpleView';
 
     /**
-     * @var string шаблон
-     */
-    private $template = '';
-
-    /**
-     * @var string расширение шаблона
-     */
-    private $extension = '';
-
-    /**
-     * @var array данные
-     */
-    private $data   =   Array();
-
-    /**
-     * @var string результат
-     */
-    private $result   =   '';
-
-
-    /**
-     * Устанавливает шаблон
+     * Рендерит данные
      * @param string $template шаблон
-     */
-    public function setTemplate($template)
-    {
-        $this->template =   $template;
-    }
-
-    /**
-     * Устанавливает расширение шаблона
-     * @param string $extension
-     */
-    public function setExtension($extension = 'tpl')
-    {
-        $this->extension    =   $extension;
-    }
-
-    /**
-     * Устанавливает Данные
      * @param array $data Данные
+     * @return string результат
      */
-    public function setData(array $data = Array())
+    public static function run($template, array $data = Array())
     {
-        $this->data =   $data;
+        return self::replace($template, $data);
     }
 
     /**
      * Рендерит данные
+     * @param mixed|bool|string $template шаблон
+     * @param array $data Данные
+     * @param string $html HTML
+     * @return string результат
      */
-    public function render()
+    public static function replace($template = false, array $data = Array(), $html = '')
     {
-        $this->result   =   render::run($this->template . '.' . $this->extension, $this->data);
+        if ($template !== false) {
+            //TODO: Проверка наличия сайта
+            $content    =   file_get_contents($template);
+        } else {
+            $content    =   $html;
+        }
+        $array  =   Array();
+        foreach ($data as $key => $value) {
+            if (is_array($value)) {
+                $content = self::loop("{$key}", $value, $content);
+            } else {
+                $array["{{$key}}"] =  $value;
+            }
+        }
+        return strtr($content, $array);
     }
 
     /**
-     * Отдает результат
-     * @return string результат
+     * Переберает шаблоны
+     * @param string $tagEach тег
+     * @param array $array массив значений
+     * @param string $html хтмл
+     * @return string хтмл
      */
-    public function get()
+    public static function loop($tagEach, array $array, $html = '')
     {
-        return $this->result;
+        $cuteFragment = self::cut($tagEach, $html);
+
+        $cuteResult = array();
+        if (count($array) > 0) {
+            foreach ($array as $key => $value) {
+                if (is_array($value)) {
+                    $cuteResult[] = self::replace(false, $value, $cuteFragment);
+                }
+            }
+        }
+        $cuteResult =   implode(PHP_EOL, $cuteResult);
+        $reTemplate = preg_replace("/{{$tagEach}}.*?{\\/{$tagEach}}/is", $cuteResult, $html);
+        return $reTemplate;
     }
 
-
-    public function getRender()
+    /**
+     * Отдает фрагмент
+     * @param string $section раздел
+     * @param string $html хтмл
+     * @return mixed|string|bool результат
+     */
+    public static function cut($section, $html)
     {
-        return render::class;
+        $pattern    =   "/{{$section}}(.*?){\\/{$section}}/is";
+        preg_match($pattern , $html , $result);
+        return isset($result[1]) ? $result[1] : false;
     }
-
 }

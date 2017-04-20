@@ -43,6 +43,11 @@ abstract class ARouter
     protected $template = '';
 
     /**
+     * @var mixed|null|object рендер
+     */
+    protected $render = null;
+
+    /**
      * Отдает Верстку
      * @return string
      */

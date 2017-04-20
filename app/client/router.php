@@ -27,6 +27,9 @@ final class router extends connectors\ARouter implements connectors\IRouter
     public function __construct($URL)
     {
         $this->URL          =  $URL;
+        $this->render  =   core::getComponents('view');
+        $this->render->setRender('simpleView');
+        $this->render->setExtension('tpl');
         $this->structure = Array(
             Array(
                 'id'                =>  1,
@@ -105,11 +108,10 @@ final class router extends connectors\ARouter implements connectors\IRouter
      */
     public function render()
     {
-        $components  =   core::getComponents('simpleView');
-        $components->setTemplate($this->template);
-        $components->setExtension('tpl');
-        $components->setData($this->content);
-        $components->render();
-        return $components->get();
+
+        $this->render->setTemplate($this->template);
+        $this->render->setData($this->content);
+        $this->render->render();
+        return $this->render->get();
     }
 }
