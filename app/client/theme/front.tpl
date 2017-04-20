@@ -10,6 +10,11 @@
     <h1>{NAME}</h1>
     <p>Привет Мир!</p>
     <p>{TEXT}</p>
+    <ul>
+        {FOR}
+        <li><a href="{URL}">{NAME}</a></li>
+        {/FOR}
+    </ul>
     <!--{time_DIFF}-->
 </body>
 </html>

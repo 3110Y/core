@@ -39,11 +39,21 @@ class front extends connectors\AControllers implements connectors\IControllers
 
         $this->template = $_SERVER['DOCUMENT_ROOT'] . '/app/client/theme/' . $this->page['template'];
         $this->content  = Array(
-            '{NAME}'        =>  'Это Фронтальный контроллер',
-            '{TEXT}'        =>  $test   ?   "Ключ сессии test {$testValue}" :   'сессии test нет. Устанавливаем',
-            '{TITLE}'       =>  $this->page['meta_title'],
-            '{KEYWORDS}'    =>  $this->page['meta_keywords'],
-            '{DESCRIPTION}' =>  $this->page['meta_description'],
+            'NAME'        =>  'Это Фронтальный контроллер',
+            'FOR'         =>  Array(
+                Array(
+                    'URL'     => 'TEST_1',
+                    'NAME'    => 'TEST_1'
+                ),
+                Array(
+                    'URL'     => 'TEST_2',
+                    'NAME'    => 'TEST_2'
+                ),
+            ),
+            'TEXT'        =>  $test   ?   "Ключ сессии test {$testValue}" :   'сессии test нет. Устанавливаем',
+            'TITLE'       =>  $this->page['meta_title'],
+            'KEYWORDS'    =>  $this->page['meta_keywords'],
+            'DESCRIPTION' =>  $this->page['meta_description'],
         );
     }
 

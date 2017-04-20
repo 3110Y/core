@@ -31,11 +31,11 @@ class basic extends connectors\AControllers implements connectors\IControllers
     {
         $this->template = $_SERVER['DOCUMENT_ROOT'] . '/app/client/theme/' . $this->page['template'];
         $this->content  = Array(
-            '{NAME}'        =>  'Это Basic контроллер',
-            '{TEXT}'        =>  'Класс' . __CLASS__,
-            '{TITLE}'       =>  $this->page['meta_title'],
-            '{KEYWORDS}'    =>  $this->page['meta_keywords'],
-            '{DESCRIPTION}' =>  $this->page['meta_description'],
+            'NAME'        =>  'Это Basic контроллер',
+            'TEXT'        =>  'Класс' . __CLASS__,
+            'TITLE'       =>  $this->page['meta_title'],
+            'KEYWORDS'    =>  $this->page['meta_keywords'],
+            'DESCRIPTION' =>  $this->page['meta_description'],
         );
     }
 }
