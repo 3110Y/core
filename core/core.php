@@ -68,9 +68,6 @@ class core
         spl_autoload_register(array($this, 'loadClass'));
     }
 
-
-
-
     /**
      * Добавляет базовую директорию к префиксу пространства имён.
      *

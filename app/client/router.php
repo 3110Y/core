@@ -39,7 +39,7 @@ final class router extends connectors\ARouter implements connectors\IRouter
                 'controller'        =>  controllers\front::class,
                 'template'          =>  'front',
                 'home'              =>  1,
-                'error'             =>  0,
+                'error'             =>  0
             ),
             Array(
                 'id'                =>  2,
@@ -52,7 +52,7 @@ final class router extends connectors\ARouter implements connectors\IRouter
                 'controller'        =>  controllers\error::class,
                 'template'          =>  '404',
                 'home'              =>  0,
-                'error'             =>  1,
+                'error'             =>  1
             ),
             Array(
                 'id'                =>  3,
@@ -65,7 +65,7 @@ final class router extends connectors\ARouter implements connectors\IRouter
                 'controller'        =>  controllers\basic::class,
                 'template'          =>  'basic',
                 'home'              =>  1,
-                'error'             =>  0,
+                'error'             =>  0
             ),
             Array(
                 'id'                =>  4,
@@ -78,7 +78,7 @@ final class router extends connectors\ARouter implements connectors\IRouter
                 'controller'        =>  controllers\basic::class,
                 'template'          =>  'basic',
                 'home'              =>  1,
-                'error'             =>  0,
+                'error'             =>  0
             ),
         );
     }
