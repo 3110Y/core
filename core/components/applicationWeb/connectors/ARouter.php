@@ -41,11 +41,27 @@ abstract class ARouter
      * @var string шаблон
      */
     protected $template = '';
-
+    /**
+     * @var mixed|null|object обработчик рендера
+     */
+    protected $handlerRender = null;
     /**
      * @var mixed|null|object рендер
      */
     protected $render = null;
+
+    /**
+     * Отдает рендер
+     * @return mixed|null|object рендер
+     */
+    public function getRender()
+    {
+        if ($this->render === null) {
+            $this->render = $this->handlerRender->getRender();
+        }
+        return $this->render;
+
+    }
 
     /**
      * Отдает Верстку
@@ -55,7 +71,6 @@ abstract class ARouter
     {
         return $this->content;
     }
-
     /**
      * Задает текущую страницу и страницу Ошибок
      */
@@ -64,7 +79,6 @@ abstract class ARouter
         $this->pageError    = $this->getPageError();
         $this->page         = $this->getPage();
     }
-
     /**
      * Отдает страницу Ошибок
      * @return array
@@ -78,7 +92,6 @@ abstract class ARouter
         }
         return $this->structure[0];
     }
-
     /**
      * Отдает текущую Ошибок
      * @param int $parentID уровень страницы
