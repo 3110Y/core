@@ -21,7 +21,7 @@ class ADatabase
      * @param mixed $field
      * @return string
      */
-    protected function field($field)
+    protected static function field($field)
     {
         if ($field === null) {
             $field = '*';
@@ -83,7 +83,7 @@ class ADatabase
      * @use Array( 'users', Array('table_role', 'role'), Array('table_role', 'role', 'LEFT JOIN', 'ON'=>'id = user_id')
      * @return string
      */
-    protected function table($table)
+    protected static function table($table)
     {
         if (is_array($table)) {
             $table  =   array_change_key_case($table, CASE_LOWER );
@@ -115,7 +115,7 @@ class ADatabase
                         $o =   $value['on'];
                     }
                     if (is_array($o)) {
-                        $o  =   $this->where($o);
+                        $o  =   self::where($o);
                         $t['o'] =  $o['where'];
                     } elseif (is_string($o)) {
                         $t['o'] =   $o;
@@ -156,8 +156,9 @@ class ADatabase
      * @param mixed $where
      * @return array
      */
-    protected function where($where)
+    protected static function where($where)
     {
+        //TODO: переделать
         $execute   =   Array();
         $result = Array(
             'where'     =>  $where,
@@ -171,7 +172,7 @@ class ADatabase
                     $i++;
                 }
                 if(is_int($key) && is_array($value)) {
-                    $tmp_where = $this->where($value);
+                    $tmp_where = self::where($value);
                     $result['execute']   =       array_merge($result['execute'], $tmp_where['execute']);
                     $result['where']     .=      "({$tmp_where['sql']})";
                 } elseif(is_int($key) && !is_array($value)) {
@@ -212,7 +213,7 @@ class ADatabase
                 $i++;
             }
         }
-
+        $result['where']  = ($result['where'] != null && $result['where'] != '')    ?   " WHERE {$result['where']} "  : '';
         return $result;
     }
 
@@ -221,7 +222,7 @@ class ADatabase
      * @param mixed $order
      * @return string
      */
-    protected function order($order)
+    protected static function order($order)
     {
         if ($order === null) {
             $order = null;
@@ -284,7 +285,7 @@ class ADatabase
      * @param mixed $limit
      * @return string
      */
-    protected function limit($limit)
+    protected static function limit($limit)
     {
         if ($limit === null) {
             $limit = null;
@@ -318,7 +319,7 @@ class ADatabase
      * @param mixed $group
      * @return string
      */
-    protected function group($group)
+    protected static function group($group)
     {
         if ($group === null) {
             $group = null;
@@ -363,5 +364,249 @@ class ADatabase
         }
         return $group;
     }
+
+    /**
+     * подготавливает значения для вставки
+     * @param array $value значения
+     * @param bool $forInsert длz инсерта
+     * @return array
+     */
+    protected static function value(array $value, $forInsert = true)
+    {
+        $result = Array(
+            'value'     => '',
+            'execute'   => Array()
+        );
+        foreach ($value as $key => $val) {
+            $v = Array(
+                'a'     => null,
+                'f'     => null,
+                'k'     => null,
+                'v '    => null,
+            );
+            if (isset($value['a'])) {
+                $v['a'] = "`{$value['a']}` . ";
+            } elseif (isset($value['as'])) {
+                $v['a'] = "`{$value['as']}` . ";
+            } elseif (isset($value['associate'])) {
+                $v['a'] = "`{$value['associate']}` . ";
+            } elseif (isset($value['alias'])) {
+                $v['a'] = "`{$value['alias']}` . ";
+            }
+            if (isset($value['f'])) {
+                $v['f'] = "`{$value['f']}`";
+            } elseif (isset($value['field'])) {
+                $v['f'] = "`{$value['f']}`";
+            } elseif (is_string($key)) {
+                $v['f'] = "`{$key}`";
+            }
+
+            if (isset($value['k'])) {
+                $v['k'] = ":{$value['k']}";
+            } elseif (isset($value['key'])) {
+                $v['k'] = ":{$value['key']}";
+            } elseif (isset($f['f'])) {
+                $v['k'] = $f['f'] . uniqid();
+                $v['k'] = ":{$f['k']}";
+            }
+
+            if (isset($value['v'])) {
+                $v['v'] = $value['v'];
+            } elseif (isset($value['value'])) {
+                $v['v'] = $value['value'];
+            } elseif (isset($value['val'])) {
+                $v['v'] = $value['val'];
+            } elseif (is_string($val)) {
+                $v['v'] = $val;
+            }
+            $v['f'] = $v['a'] . $v['f'];
+            $result['field'][$v['f']] =  $v['k'];
+            $result['execute'][$v['k']] = $v['v'];
+        }
+
+        if ($forInsert == true) {
+            foreach ($result['field'] as $key => $value) {
+                $result['value'][] = "{$key} = {$value}";
+            }
+            $result['value'] = implode(',', $result['value']);
+        } else {
+            $f = Array();
+            $v = Array();
+            foreach ($result['field'] as $key => $value) {
+                $f[]    =   $key;
+                $v[]    =   $value;
+            }
+            $f = implode(',', $f);
+            $v = implode(',', $v);
+            $result['value'] = "({$f})VALUE({$v})";
+        }
+        return $result;
+    }
+
+
+    /**
+     * Создает
+     * @param mixed $table таблица
+     * @param mixed $fields поля
+     * @return array
+     */
+    public function createGenerator($table = null, $fields = null)
+    {
+
+        $execute    =   Array();
+
+        $sql        =   '';
+        $result = Array(
+            'sql'       => $sql,
+            'execute'   => $execute,
+        );
+        return $result;
+    }
+
+    /**
+     * Вставляет
+     * @param mixed $table таблица
+     * @param array $value поля значения
+     * @return array
+     */
+    public function insetGenerator($table = null, $value = null)
+    {
+        $table      =   self::table($table);
+        $value      =   self::value($value);
+        $sql        =   "INSERT INTO {$table} {$value}";
+        $execute    =   $value['execute'];
+        $result = Array(
+            'sql'       => $sql,
+            'execute'   => $execute,
+        );
+        return $result;
+    }
+
+
+    /**
+     * генерирует для выборки
+     * @param mixed $table таблица
+     * @param mixed $fields поля
+     * @param mixed $where условия
+     * @param mixed $order порядок
+     * @param mixed $limit лимит
+     * @param mixed $group группировка
+     * @return array
+     */
+    public function selectGenerator($table = null, $fields = null, $where = null, $order = null, $limit = null, $group = null)
+    {
+        $execute = Array();
+        $table      =   self::table($table);
+        $fields     =   self::field($fields);
+        $where      =   self::where($where);
+        $order      =   self::order($order);
+        $limit      =   self::limit($limit);
+        $group      =   self::group($group);
+        $sql        =   "SELECT {$fields} {$table} {$where}";
+        $execute    =   array_merge($execute, $where['execute']);
+        $result = Array(
+            'sql'       => $sql,
+            'execute'   => $execute,
+        );
+        return $result;
+    }
+
+
+    /**
+     * генерирует для обновления
+     * @param mixed $table таблица
+     * @param array $value поля значения
+     * @return array
+     */
+    public function updateGenerator($table = null, $value = null)
+    {
+        $sql        =   '';
+        $execute    =   Array();
+
+
+        $result = Array(
+            'sql'       => $sql,
+            'execute'   => $execute,
+        );
+        return $result;
+    }
+
+
+    /**
+     * генерирует для удаления
+     * @param mixed $table таблица
+     * @param mixed $where условия
+     * @return array
+     */
+    public function dellGenerator($table = null, $where = null)
+    {
+        $sql        =   '';
+        $execute    =   Array();
+
+
+        $result = Array(
+            'sql'       => $sql,
+            'execute'   => $execute,
+        );
+        return $result;
+    }
+
+
+    /**
+     * генерирует для показа колонок
+     * @param mixed $table таблица
+     * @return array
+     */
+    public function columnGenerator($table = null)
+    {
+        $sql        =   '';
+        $execute    =   Array();
+
+
+        $result = Array(
+            'sql'       => $sql,
+            'execute'   => $execute,
+        );
+        return $result;
+    }
+
+
+    /**
+     * генерирует для зачистки
+     * @param mixed $table таблица
+     * @return array
+     */
+    public function truncateGenerator($table = null)
+    {
+        $sql        =   '';
+        $execute    =   Array();
+
+
+        $result = Array(
+            'sql'       => $sql,
+            'execute'   => $execute,
+        );
+        return $result;
+    }
+
+
+    /**
+     * генерирует для удаления таблиц
+     * @param mixed $table таблица
+     * @return array
+     */
+    public function dropGenerator($table = null)
+    {
+        $sql        =   '';
+        $execute    =   Array();
+
+
+        $result = Array(
+            'sql'       => $sql,
+            'execute'   => $execute,
+        );
+        return $result;
+    }
+
 
 }
