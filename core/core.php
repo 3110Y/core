@@ -188,10 +188,11 @@ class core
     /**
      * Отдает компонент
      * @param string $name имя компонента
+     * @param boolean $needStatic нужен статический
      * @param string $file файл
      * @return bool
      */
-    public static function getComponents($name, $file = '\component')
+    public static function getComponents($name, $needStatic = false, $file = '\component')
     {
         $components   =   self::components . $name . $file;
         $data = array(
@@ -200,7 +201,11 @@ class core
         );
         $file   =   $_SERVER['DOCUMENT_ROOT'] . strtr($components, $data) . '.php';
         if (file_exists($file)) {
-            return new $components();
+            if ($needStatic) {
+                return $components;
+            } else {
+                return new $components();
+            }
         }
         return false;
     }

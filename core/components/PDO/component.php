@@ -24,32 +24,65 @@ class component extends databaseConnectors\ADatabase implements databaseConnecto
      */
     const NAME  =   'PDO';
 
-    private   $connect    =   null;
+    private   $connect   =   null;
+    private   $config    =   Array(
+        'driver'            =>  'mysql',
+        'host'              =>  '127.0.0.1',
+        'port'              =>  '3306',
+        'schema'            =>  '',
+        'name'              =>  '',
+        'pass'              =>  '',
+        'character'         =>  'UTF8',
+    );
+    /**
+     * @var mixed|null|object экземпляр
+     */
+    private static $instance = null;
 
+    /**
+     * Одиночка
+     * @param array $config конфиг
+     * @return component|mixed|null|object
+     */
+    public static function getInstance($config = array()) {
+        if (self::$instance === null) {
+            self::$instance = new self($config);
+        }
+        return self::$instance;
+    }
 
-    public function __construct()
+    /**
+     * component constructor.
+     * @param array $config конфиг
+     */
+    private function __construct($config = Array())
     {
         if(!extension_loaded('pdo')) {
             //TODO: обработка ошибок
             die('Нет Соединения  с PDO');
         }
         try {
-            $params = array(\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION);
-            if ($this->DBSubDriver == 'mysql')
+            $params = array(
+                \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION
+            );
+            if ($this->config['driver'] == 'mysql')
             {
-                $params[\PDO::MYSQL_ATTR_INIT_COMMAND] = "SET NAMES '".$this->CharacterShort."'";
+                $params[\PDO::MYSQL_ATTR_INIT_COMMAND] = "SET NAMES '{$this->config['character']}'";
             }
             $params[\PDO::ATTR_PERSISTENT] = true;
-            $this->connect = new \PDO($this->DBSubDriver.':host='.$this->DBHost.';dbname='.$this->DBName.';charset='.$this->CharacterShort, $this->DBUser, $this->DBPass, $params);
-            $this->connect->exec('SET NAMES '.$this->CharacterShort );
+            $dns = $this->config['driver'] . ':host=' . $this->config['host'] .
+                ((!empty($this->config['port'])) ? (';port=' . $this->config['port']) : '') .
+                ';dbname=' . $this->config['schema'];
+            $this->connect = new \PDO($dns, $this->config['name'], $this->config['pass'], $params);
+            $this->connect->exec('SET NAMES '.$this->config['character'] );
             $this->connect->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_SILENT);
             $this->connect->setAttribute(\PDO::ATTR_DEFAULT_FETCH_MODE, \PDO::FETCH_ASSOC);
             $this->connect->setAttribute(\PDO::ATTR_EMULATE_PREPARES,false);
-            $this->connect->query('SET character_setconnection = '.$this->CharacterShort.';' );
-            $this->connect->query('SET character_set_client = ' . $this->CharacterShort . ';' );
-            $this->connect->query('SET character_set_results = ' . $this->CharacterShort . ';' );
-            $this->connect->query('SET NAMES '.$this->CharacterShort);;
-        } catch (PDOException $e) {
+            $this->connect->query('SET character_setconnection = '.$this->config['character'].';' );
+            $this->connect->query('SET character_set_client = ' . $this->config['character'] . ';' );
+            $this->connect->query('SET character_set_results = ' . $this->config['character']. ';' );
+            $this->connect->query('SET NAMES '.$this->config['character']);;
+        } catch (\PDOException $e) {
             //TODO: обработка ошибок
             die("Mysql error ".$e->getMessage());
         }

@@ -20,6 +20,10 @@ use core\core;
 final class router extends connectors\ARouter implements connectors\IRouter
 {
 
+    private static $config = Array(
+
+    );
+
     /**
      * router constructor.
      * @param string $URL URL приложения
@@ -29,11 +33,10 @@ final class router extends connectors\ARouter implements connectors\IRouter
     {
         $this->URL                  =  $URL;
         $this->application          =  $application;
-
         $this->handler['render']    =  core::getComponents('view');
         $this->handler['render']->setRender('simpleView');
         $this->handler['render']->setExtension('tpl');
-      //  $this->handler['render']    =  $this->handler['render']->getRender();
+        $this->handler['db']    =   core::getComponents('database',true)::getDriver('PDO')::getInstance(self::$config);
         $this->structure = Array(
             Array(
                 'id'                =>  1,

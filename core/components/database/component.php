@@ -8,6 +8,8 @@
 
 namespace core\components\database;
 
+use core\core;
+
 /**
  * Class component
  * Базовый компонент Базы данных
@@ -24,5 +26,20 @@ class component
      */
     const NAME  =   'database';
 
+    /**
+     * @var array драйвера
+     */
+    private static $drivers =  array();
+
+    /**
+     * @param string $driver Драйвер
+     * @param array $config конфиг
+     * @return mixed|object драйвер
+     */
+    public static function getDriver($driver)
+    {
+        //TODO: проверка на наличие
+        return core::getComponents($driver,true);
+    }
 
 }
