@@ -380,45 +380,47 @@ class ADatabase
             'value'     => '',
             'execute'   => Array()
         );
+        $value  =   array_change_key_case($value, CASE_LOWER );
         foreach ($value as $key => $val) {
+            $val  =   array_change_key_case($val, CASE_LOWER );
             $v = Array(
                 'a'     => null,
                 'f'     => null,
                 'k'     => null,
                 'v '    => null,
             );
-            if (isset($value['a'])) {
-                $v['a'] = "`{$value['a']}` . ";
-            } elseif (isset($value['as'])) {
-                $v['a'] = "`{$value['as']}` . ";
-            } elseif (isset($value['associate'])) {
-                $v['a'] = "`{$value['associate']}` . ";
-            } elseif (isset($value['alias'])) {
-                $v['a'] = "`{$value['alias']}` . ";
+            if (isset($val['a'])) {
+                $v['a'] = "`{$val['a']}` . ";
+            } elseif (isset($val['as'])) {
+                $v['a'] = "`{$val['as']}` . ";
+            } elseif (isset($val['associate'])) {
+                $v['a'] = "`{$val['associate']}` . ";
+            } elseif (isset($val['alias'])) {
+                $v['a'] = "`{$val['alias']}` . ";
             }
-            if (isset($value['f'])) {
-                $v['f'] = "`{$value['f']}`";
-            } elseif (isset($value['field'])) {
-                $v['f'] = "`{$value['f']}`";
+            if (isset($val['f'])) {
+                $v['f'] = "`{$val['f']}`";
+            } elseif (isset($val['field'])) {
+                $v['f'] = "`{$val['f']}`";
             } elseif (is_string($key)) {
                 $v['f'] = "`{$key}`";
             }
 
-            if (isset($value['k'])) {
-                $v['k'] = ":{$value['k']}";
-            } elseif (isset($value['key'])) {
-                $v['k'] = ":{$value['key']}";
+            if (isset($val['k'])) {
+                $v['k'] = ":{$val['k']}";
+            } elseif (isset($val['key'])) {
+                $v['k'] = ":{$val['key']}";
             } elseif (isset($f['f'])) {
                 $v['k'] = $f['f'] . uniqid();
                 $v['k'] = ":{$f['k']}";
             }
 
-            if (isset($value['v'])) {
-                $v['v'] = $value['v'];
-            } elseif (isset($value['value'])) {
-                $v['v'] = $value['value'];
-            } elseif (isset($value['val'])) {
-                $v['v'] = $value['val'];
+            if (isset($val['v'])) {
+                $v['v'] = $val['v'];
+            } elseif (isset($val['value'])) {
+                $v['v'] = $val['value'];
+            } elseif (isset($val['val'])) {
+                $v['v'] = $val['val'];
             } elseif (is_string($val)) {
                 $v['v'] = $val;
             }
@@ -446,19 +448,117 @@ class ADatabase
         return $result;
     }
 
+    /**
+     * подготавливает поля для создания
+     * @param array $field значения
+     * @return string
+     */
+    protected static function fieldCreate(array $field)
+    {
+        $result = Array(
+            'value'     => '',
+            'execute'   => Array()
+        );
+        $field  =   array_change_key_case($field, CASE_LOWER );
+        $array = array();
+        $primary = Array();
+        foreach ($field as $key => $val) {
+            $val  =   array_change_key_case($val, CASE_LOWER );
+            $v = Array(
+                'f'     => null,
+                't'     => null,
+                'l'     => null,
+                'd '    => null,
+                'a'     => null,
+                'i'     => null,
+                'ai'    => null,
+                'c'     => null,
+            );
+            if (isset($val['f'])) {
+                $v['f'] =   $val['f'];
+            } elseif (isset($val['fields'])) {
+                $v['f'] =   $val['fields'];
+            } elseif (is_string($key)) {
+                $v['f'] =   $key;
+            } elseif (isset($val[0])) {
+                $v['f'] =   $key;
+            }
+            if (isset($val['t'])) {
+                $v['t'] =   $val['t'];
+            } elseif (isset($val['type'])) {
+                $v['t'] =   $val['type'];
+            } elseif (isset($val[1])) {
+                $v['t'] =   $val[1];
+            }
+            if (isset($val['l'])) {
+                $v['l'] =   $val['l'];
+            } elseif (isset($val['length'])) {
+                $v['l'] =   $val['length'];
+            } elseif (isset($val[2])) {
+                $v['l'] =   $val[2];
+            }
+            if (isset($val['d'])) {
+                $v['d'] =   $val['d'];
+            } elseif (isset($val['default'])) {
+                $v['d'] =   $val['default'];
+            } else {
+                $v['d'] =   'NULL';
+            }
+            if (isset($val['a'])) {
+                $v['a'] =   $val['a'];
+            } elseif (isset($val['attributes'])) {
+                $v['a'] =   $val['attributes'];
+            } elseif (isset($val['attr'])) {
+                $v['a'] =   $val['attr'];
+            } elseif (isset($val['extra'])) {
+                $v['a'] =   $val['extra'];
+            }
+            if (isset($val['i'])) {
+                $v['i'] =   $val['i'];
+            } elseif (isset($val['index'])) {
+                $v['i'] =   $val['index'];
+            }
+            if (isset($val['ai'])) {
+                $v['ai'] =   $val['ai'];
+            } elseif (isset($val['AUTO_INCREMENT'])) {
+                $v['ai'] =   $val['AUTO_INCREMENT'];
+            }
+            if(isset($v['ai']) && $v['ai']) {
+                $v['ai'] = 'AUTO_INCREMENT';
+                $primary[]  =   $v['f'];
+            }
+            if (isset($val['c'])) {
+                $v['c'] =   $val['c'];
+            } elseif (isset($val['comments'])) {
+                $v['c'] =   $val['comments'];
+            }
+            if (isset($v['l'])) {
+                $v['t'] = "{$v['t']}({$v['l']})";
+            }
+            $v['d'] =   "DEFAULT {$v['d']}";
+            $array[]  =   "{$v['f']} {$v['t']} {$v['d']} {$v['a']} {$v['i']} {$v['ai']}";
+        }
+        if (!empty($primary)) {
+            $key    =   implode(',', $primary);
+            $array[] = "PRIMARY KEY({$key})";
+        }
+        $value  =   implode(',', $array);
+        return $value;
+    }
 
     /**
      * Создает
      * @param mixed $table таблица
-     * @param mixed $value поля
+     * @param array $fields поля
      * @return array
      */
-    public function createGenerator($table = null, $value = null)
+    public function createGenerator($table = null, $fields = null)
     {
         //todo: запрос
         $execute    =   Array();
-
-        $sql        =   '';
+        $table      =   self::table($table);
+        $fields     =   self::fieldCreate($fields);
+        $sql        =   "CREATE TABLE IF NOT EXISTS {$table} ({$fields})";
         $result = Array(
             'sql'       => $sql,
             'execute'   => $execute,
