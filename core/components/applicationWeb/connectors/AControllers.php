@@ -56,6 +56,9 @@ abstract class AControllers
      */
     public function getTemplate()
     {
+        if ($this->template === '') {
+            $this->template =  $this->router->getTemplate($this->page['template']);
+        }
         return $this->template;
     }
 

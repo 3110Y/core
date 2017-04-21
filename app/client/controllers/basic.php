@@ -29,7 +29,6 @@ class basic extends connectors\AControllers implements connectors\IControllers
      */
     public function init()
     {
-        $this->template =  $this->router->getTemplate($this->page['template']);
         $this->content  = Array(
             'NAME'        =>  'Это Basic контроллер',
             'TEXT'        =>  'Класс' . __CLASS__,

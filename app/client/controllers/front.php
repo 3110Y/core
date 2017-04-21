@@ -36,7 +36,6 @@ class front extends connectors\AControllers implements connectors\IControllers
         } else {
             $testValue  =   classes\session::getInstance()->get('test');
         }
-        $this->template =  $this->router->getTemplate($this->page['template']);
         $this->content  = Array(
             'NAME'        =>  'Это Фронтальный контроллер',
             'FOR'         =>  Array(
