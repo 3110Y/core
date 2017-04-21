@@ -21,7 +21,13 @@ final class router extends connectors\ARouter implements connectors\IRouter
 {
 
     private static $config = Array(
-
+        'driver'            =>  'mysql',
+        'host'              =>  '127.0.0.1',
+        'port'              =>  '3306',
+        'db'                =>  'core',
+        'name'              =>  'root',
+        'pass'              =>  '',
+        'character'         =>  'UTF8',
     );
 
     /**
