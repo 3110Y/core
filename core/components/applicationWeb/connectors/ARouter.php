@@ -42,13 +42,9 @@ abstract class ARouter
      */
     protected $template = '';
     /**
-     * @var mixed|null|object обработчик рендера
+     * @var mixed|null|object обработчики
      */
-    protected $handlerRender = null;
-    /**
-     * @var mixed|null|object рендер
-     */
-    protected $render = null;
+    protected $handler = array();
     /**
      * @var array  приложение
      */
@@ -66,15 +62,15 @@ abstract class ARouter
     }
 
     /**
-     * Отдает рендер
+     * Отдает хендлер
+     * @param string $key ключ
      * @return mixed|null|object рендер
      */
-    public function getRender()
+    public function getHandler($key)
     {
-        if ($this->render === null) {
-            $this->render = $this->handlerRender->getRender();
+        if (isset($this->handler[$key])) {
+            return $this->handler;
         }
-        return $this->render;
     }
 
     /**
