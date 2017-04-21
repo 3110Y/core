@@ -40,9 +40,10 @@ interface IDatabase
      * @param mixed $order порядок
      * @param mixed $limit лимит
      * @param mixed $group группировка
+     * @param mixed $having указание условий в результах агрегатных функций
      * @return resource
      */
-    public function select($table = null, $fields = null, $where = null, $order = null, $limit = null, $group = null);
+    public function select($table = null, $fields = null, $where = null, $order = null, $limit = null, $group = null, $having = null);
 
     /**
      * Выбирает 1 запись
@@ -52,9 +53,10 @@ interface IDatabase
      * @param mixed $order порядок
      * @param mixed $limit лимит
      * @param mixed $group группировка
+     * @param mixed $having указание условий в результах агрегатных функций
      * @return resource
      */
-    public function selectRow($table = null, $fields = null, $where = null, $order = null, $limit = null, $group = null);
+    public function selectRow($table = null, $fields = null, $where = null, $order = null, $limit = null, $group = null, $having = null);
 
     /**
      * Выбирает записи
@@ -64,9 +66,10 @@ interface IDatabase
      * @param mixed $order порядок
      * @param mixed $limit лимит
      * @param mixed $group группировка
+     * @param mixed $having указание условий в результах агрегатных функций
      * @return resource
      */
-    public function selectRows($table = null, $fields = null, $where = null, $order = null, $limit = null, $group = null);
+    public function selectRows($table = null, $fields = null, $where = null, $order = null, $limit = null, $group = null, $having = null);
 
     /**
      * Выбирает количество
@@ -76,25 +79,29 @@ interface IDatabase
      * @param mixed $order порядок
      * @param mixed $limit лимит
      * @param mixed $group группировка
+     * @param mixed $having указание условий в результах агрегатных функций
      * @return resource
      */
-    public function selectCount($table = null, $fields = null, $where = null, $order = null, $limit = null, $group = null);
+    public function selectCount($table = null, $fields = null, $where = null, $order = null, $limit = null, $group = null, $having = null);
 
     /**
      * Обновляет
      * @param mixed $table таблица
      * @param array $value поля значения
+     * @param mixed $where условия
      * @return resource
      */
-    public function update($table = null, $value = null);
+    public function update($table = null, $value = null, $where = null);
 
     /**
      * Удаляет запись
      * @param mixed $table таблица
      * @param mixed $where условия
+     * @param mixed $order порядок
+     * @param mixed $limit лимит
      * @return resource
      */
-    public function dell($table = null, $where = null);
+    public function dell($table = null, $where = null, $order = null, $limit = null);
 
     /**
      * колонки
@@ -102,6 +109,8 @@ interface IDatabase
      * @return resource
      */
     public function column($table = null);
+
+    //TODO: show tables
 
     /**
      * Зачищяет

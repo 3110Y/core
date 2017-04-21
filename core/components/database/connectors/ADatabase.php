@@ -277,6 +277,7 @@ class ADatabase
             }
             $order = implode(',', $array);
         }
+        $order  =   ($order !== null && $order !== '')  ?   " ORDER BY  {$order} " :   '';
         return $order;
     }
 
@@ -311,6 +312,7 @@ class ADatabase
             }
             $limit = implode(',', $l);
         }
+        $limit  =   ($limit !== null && $limit !== '')  ?   " LIMIT {$limit} " :   '';
         return $limit;
     }
 
@@ -362,6 +364,7 @@ class ADatabase
             }
             $group = implode(',', $array);
         }
+        $group  =   ($group !== null && $group !== '')  ?   " GROUP BY {$group} " :   '';
         return $group;
     }
 
@@ -447,12 +450,12 @@ class ADatabase
     /**
      * Создает
      * @param mixed $table таблица
-     * @param mixed $fields поля
+     * @param mixed $value поля
      * @return array
      */
-    public function createGenerator($table = null, $fields = null)
+    public function createGenerator($table = null, $value = null)
     {
-
+        //todo: запрос
         $execute    =   Array();
 
         $sql        =   '';
@@ -473,7 +476,7 @@ class ADatabase
     {
         $table      =   self::table($table);
         $value      =   self::value($value);
-        $sql        =   "INSERT INTO {$table} {$value}";
+        $sql        =   "INSERT INTO {$table} {$value['value']}";
         $execute    =   $value['execute'];
         $result = Array(
             'sql'       => $sql,
@@ -491,9 +494,10 @@ class ADatabase
      * @param mixed $order порядок
      * @param mixed $limit лимит
      * @param mixed $group группировка
+     * @param mixed $having указание условий в результах агрегатных функций
      * @return array
      */
-    public function selectGenerator($table = null, $fields = null, $where = null, $order = null, $limit = null, $group = null)
+    public function selectGenerator($table = null, $fields = null, $where = null, $order = null, $limit = null, $group = null, $having = null)
     {
         $execute = Array();
         $table      =   self::table($table);
@@ -502,8 +506,10 @@ class ADatabase
         $order      =   self::order($order);
         $limit      =   self::limit($limit);
         $group      =   self::group($group);
-        $sql        =   "SELECT {$fields} {$table} {$where}";
+        $having     =   self::where($having);
+        $sql        =   "SELECT {$fields} {$table} {$where['where']} {$group} {$having['where']} {$order} {$limit}";
         $execute    =   array_merge($execute, $where['execute']);
+        $execute    =   array_merge($execute, $having['execute']);
         $result = Array(
             'sql'       => $sql,
             'execute'   => $execute,
@@ -516,14 +522,18 @@ class ADatabase
      * генерирует для обновления
      * @param mixed $table таблица
      * @param array $value поля значения
+     * @param mixed $where условия
      * @return array
      */
-    public function updateGenerator($table = null, $value = null)
+    public function updateGenerator($table = null, $value = null, $where = null)
     {
-        $sql        =   '';
-        $execute    =   Array();
-
-
+        $execute = Array();
+        $table      =   self::table($table);
+        $value      =   self::value($value);
+        $where      =   self::where($where);
+        $sql        =   "UPDATE {$table} SET {$value['value']} {$where['where']} ";
+        $execute    =   array_merge($execute, $value['execute']);
+        $execute    =   array_merge($execute, $where['execute']);
         $result = Array(
             'sql'       => $sql,
             'execute'   => $execute,
@@ -536,14 +546,18 @@ class ADatabase
      * генерирует для удаления
      * @param mixed $table таблица
      * @param mixed $where условия
+     * @param mixed $order порядок
+     * @param mixed $limit лимит
      * @return array
      */
-    public function dellGenerator($table = null, $where = null)
+    public function dellGenerator($table = null, $where = null, $order = null, $limit = null)
     {
-        $sql        =   '';
-        $execute    =   Array();
-
-
+        $table      =   self::table($table);
+        $where      =   self::where($where);
+        $order      =   self::order($order);
+        $limit      =   self::limit($limit);
+        $sql        =   "DELETE FROM {$table} {$where['where']} {$order} {$limit}";
+        $execute    =   $where['execute'];
         $result = Array(
             'sql'       => $sql,
             'execute'   => $execute,
@@ -559,13 +573,11 @@ class ADatabase
      */
     public function columnGenerator($table = null)
     {
-        $sql        =   '';
-        $execute    =   Array();
-
-
+        $table      =   self::table($table);
+        $sql        =   "SHOW COLUMNS {$table} ";
         $result = Array(
             'sql'       => $sql,
-            'execute'   => $execute,
+            'execute'   => Array(),
         );
         return $result;
     }
@@ -578,13 +590,11 @@ class ADatabase
      */
     public function truncateGenerator($table = null)
     {
-        $sql        =   '';
-        $execute    =   Array();
-
-
+        $table      =   self::table($table);
+        $sql        =   "TRUNCATE TABLE {$table}";
         $result = Array(
             'sql'       => $sql,
-            'execute'   => $execute,
+            'execute'   => Array(),
         );
         return $result;
     }
@@ -597,13 +607,11 @@ class ADatabase
      */
     public function dropGenerator($table = null)
     {
-        $sql        =   '';
-        $execute    =   Array();
-
-
+        $table      =   self::table($table);
+        $sql        =   "DROP TABLE {$table}";
         $result = Array(
             'sql'       => $sql,
-            'execute'   => $execute,
+            'execute'   => Array(),
         );
         return $result;
     }
