@@ -159,5 +159,11 @@ interface IDatabase
      */
     public function ping();
 
+    /**
+     * отдает коннект
+     * @return resource;
+     */
+    public function getConnect();
+
 
 }

@@ -15,6 +15,46 @@ use core\components\database\connectors as databaseConnectors;
  */
 class component extends databaseConnectors\ADatabase implements databaseConnectors\IDatabase
 {
+    /**
+     * @const float Версия ядра
+     */
+    const VERSION   =   1.0;
+    /**
+     * @const
+     */
+    const NAME  =   'PDO';
+
+    private   $connect    =   null;
+
+
+    public function __construct()
+    {
+        if(!extension_loaded('pdo')) {
+            //TODO: обработка ошибок
+            die('Нет Соединения  с PDO');
+        }
+        try {
+            $params = array(\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION);
+            if ($this->DBSubDriver == 'mysql')
+            {
+                $params[\PDO::MYSQL_ATTR_INIT_COMMAND] = "SET NAMES '".$this->CharacterShort."'";
+            }
+            $params[\PDO::ATTR_PERSISTENT] = true;
+            $this->connect = new \PDO($this->DBSubDriver.':host='.$this->DBHost.';dbname='.$this->DBName.';charset='.$this->CharacterShort, $this->DBUser, $this->DBPass, $params);
+            $this->connect->exec('SET NAMES '.$this->CharacterShort );
+            $this->connect->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_SILENT);
+            $this->connect->setAttribute(\PDO::ATTR_DEFAULT_FETCH_MODE, \PDO::FETCH_ASSOC);
+            $this->connect->setAttribute(\PDO::ATTR_EMULATE_PREPARES,false);
+            $this->connect->query('SET character_setconnection = '.$this->CharacterShort.';' );
+            $this->connect->query('SET character_set_client = ' . $this->CharacterShort . ';' );
+            $this->connect->query('SET character_set_results = ' . $this->CharacterShort . ';' );
+            $this->connect->query('SET NAMES '.$this->CharacterShort);;
+        } catch (PDOException $e) {
+            //TODO: обработка ошибок
+            die("Mysql error ".$e->getMessage());
+        }
+        return $this;
+    }
 
     /**
      * Создает
@@ -203,6 +243,15 @@ class component extends databaseConnectors\ADatabase implements databaseConnecto
      * @return void;
      */
     public function ping()
+    {
+
+    }
+
+    /**
+     * отдает коннект
+     * @return resource;
+     */
+    public function getConnect()
     {
 
     }

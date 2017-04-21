@@ -15,5 +15,14 @@ namespace core\components\database;
  */
 class component
 {
+    /**
+     * @const float Версия ядра
+     */
+    const VERSION   =   1.0;
+    /**
+     * @const
+     */
+    const NAME  =   'database';
+
 
 }
