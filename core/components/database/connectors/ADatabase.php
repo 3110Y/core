@@ -455,10 +455,6 @@ class ADatabase
      */
     protected static function fieldCreate(array $field)
     {
-        $result = Array(
-            'value'     => '',
-            'execute'   => Array()
-        );
         $field  =   array_change_key_case($field, CASE_LOWER );
         $array = array();
         $primary = Array();
