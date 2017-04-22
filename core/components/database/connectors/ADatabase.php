@@ -7,13 +7,13 @@
  */
 
 namespace core\components\database\connectors;
-
+use core\components\component\connectors as componentConnectors;
 /**
  * Class ADatabase
  * Коннектор Базы данных
  * @package core\components\database\connectors
  */
-class ADatabase
+abstract class ADatabase extends componentConnectors\AComponent
 {
     /**
      * @var mixed|null|object экземпляр
