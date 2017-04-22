@@ -91,22 +91,24 @@ class component extends databaseConnectors\ADatabase implements databaseConnecto
      * Создает
      * @param mixed $table таблица
      * @param mixed $fields поля
-     * @return resource
+     * @return \PDOStatement
      */
     public function create($table = null, $fields = null)
     {
-
+        $sql = $this->createGenerator($table, $fields);
+        return $this->query($sql);
     }
 
     /**
      * Вставляет
      * @param mixed $table таблица
      * @param array $value поля значения
-     * @return resource
+     * @return \PDOStatement
      */
     public function inset($table = null, $value = null)
     {
-
+        $sql = $this->insetGenerator($table, $value);
+        return $this->query($sql);
     }
 
     /**
@@ -118,11 +120,14 @@ class component extends databaseConnectors\ADatabase implements databaseConnecto
      * @param mixed $limit лимит
      * @param mixed $group группировка
      * @param mixed $having указание условий в результах агрегатных функций
-     * @return resource
+     * @return \PDOStatement
      */
     public function select($table = null, $fields = null, $where = null, $order = null, $limit = null, $group = null, $having = null)
     {
-
+        $result = self::selectGenerator($table, $fields, $where, $order, $limit, $group, $having);
+        $query  =   $this->prepare($result['sql']);
+        $query->execute($result['execute']);
+        return $query;
     }
 
     /**
@@ -134,11 +139,12 @@ class component extends databaseConnectors\ADatabase implements databaseConnecto
      * @param mixed $limit лимит
      * @param mixed $group группировка
      * @param mixed $having указание условий в результах агрегатных функций
-     * @return resource
+     * @return array
      */
     public function selectRow($table = null, $fields = null, $where = null, $order = null, $limit = null, $group = null, $having = null)
     {
-
+        $query  =   $this->select($table, $fields, $where, $order, $limit, $group, $having);
+        return $query->fetch();
     }
 
     /**
@@ -150,11 +156,12 @@ class component extends databaseConnectors\ADatabase implements databaseConnecto
      * @param mixed $limit лимит
      * @param mixed $group группировка
      * @param mixed $having указание условий в результах агрегатных функций
-     * @return resource
+     * @return array
      */
     public function selectRows($table = null, $fields = null, $where = null, $order = null, $limit = null, $group = null, $having = null)
     {
-
+        $query  =   $this->select($table, $fields, $where, $order, $limit, $group, $having);
+        return $query->fetchAll();
     }
 
     /**
@@ -166,11 +173,12 @@ class component extends databaseConnectors\ADatabase implements databaseConnecto
      * @param mixed $limit лимит
      * @param mixed $group группировка
      * @param mixed $having указание условий в результах агрегатных функций
-     * @return resource
+     * @return int
      */
     public function selectCount($table = null, $fields = null, $where = null, $order = null, $limit = null, $group = null, $having = null)
     {
-
+        $query  =   $this->select($table, $fields, $where, $order, $limit, $group, $having);
+        return $query->rowCount();
     }
 
     /**
@@ -178,11 +186,12 @@ class component extends databaseConnectors\ADatabase implements databaseConnecto
      * @param mixed $table таблица
      * @param array $value поля значения
      * @param mixed $where условия
-     * @return resource
+     * @return \PDOStatement
      */
     public function update($table = null, $value = null, $where = null)
     {
-
+        $sql = $this->updateGenerator($table, $value , $where);
+        return $this->query($sql);
     }
 
     /**
@@ -191,21 +200,23 @@ class component extends databaseConnectors\ADatabase implements databaseConnecto
      * @param mixed $where условия
      * @param mixed $order порядок
      * @param mixed $limit лимит
-     * @return resource
+     * @return \PDOStatement
      */
     public function dell($table = null, $where = null, $order = null, $limit = null)
     {
-
+        $sql = $this->dellGenerator($table, $where, $order, $limit);
+        return $this->query($sql);
     }
 
     /**
      * колонки
      * @param mixed $table таблица
-     * @return resource
+     * @return \PDOStatement
      */
     public function column($table = null)
     {
-
+        $sql = $this->columnGenerator($table);
+        return $this->query($sql);
     }
 
     //TODO: show tables
@@ -213,21 +224,23 @@ class component extends databaseConnectors\ADatabase implements databaseConnecto
     /**
      * Зачищяет
      * @param mixed $table таблица
-     * @return resource
+     * @return \PDOStatement
      */
     public function truncate($table = null)
     {
-
+        $sql = $this->truncateGenerator($table);
+        return $this->query($sql);
     }
 
     /**
      * Удаляет таблицу
      * @param mixed $table таблица
-     * @return resource
+     * @return \PDOStatement
      */
     public function drop($table = null)
     {
-
+        $sql = $this->dropGenerator($table, $where, $order, $limit);
+        return $this->query($sql);
     }
 
     /**

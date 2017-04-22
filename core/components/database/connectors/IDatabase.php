@@ -54,7 +54,7 @@ interface IDatabase
      * @param mixed $limit лимит
      * @param mixed $group группировка
      * @param mixed $having указание условий в результах агрегатных функций
-     * @return resource
+     * @return array
      */
     public function selectRow($table = null, $fields = null, $where = null, $order = null, $limit = null, $group = null, $having = null);
 
@@ -67,7 +67,7 @@ interface IDatabase
      * @param mixed $limit лимит
      * @param mixed $group группировка
      * @param mixed $having указание условий в результах агрегатных функций
-     * @return resource
+     * @return array
      */
     public function selectRows($table = null, $fields = null, $where = null, $order = null, $limit = null, $group = null, $having = null);
 
@@ -80,7 +80,7 @@ interface IDatabase
      * @param mixed $limit лимит
      * @param mixed $group группировка
      * @param mixed $having указание условий в результах агрегатных функций
-     * @return resource
+     * @return int
      */
     public function selectCount($table = null, $fields = null, $where = null, $order = null, $limit = null, $group = null, $having = null);
 
