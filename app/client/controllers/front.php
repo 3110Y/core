@@ -44,49 +44,53 @@ class front extends connectors\AControllers implements connectors\IControllers
 
         $scheme = Array(
             Array(
-                'gf-name'   => 'div',
+                'tag'       => 'div',
                 'id'        =>  'test',
                 'class'     =>  'test_class1 test_class2',
-                'gf-value' => Array(
+                'children' => Array(
                      Array(
-                         'gf-name'      => 'p',
-                         'id'           =>  'test',
+                         'tag'      => 'p',
+                         'id'           =>  'test_id',
                          'class'        =>  Array(
                              'test_class1',
                              'test_class2'
                          ),
-                         'gf-value'     => 'Привет'
+                         'children'     => 'Привет'
                      ),
                     Array(
-                         'gf-name'      => 'hr',
-                         'id'           =>  'test',
+                         'tag'      => 'hr',
+                         'id'           =>  'test_id2',
                          'class'        =>  Array(
-                             'test_class1',
-                             'test_class2'
+                             'test_class3',
+                             'test_class4'
                          ),
                      ),
                     Array(
-                        'gf-name'   =>  'form',
+                        'tag'       =>  'form',
                         'id'        =>  'test',
                         'method'    =>  'post',
                         'action'    =>  '',
                         'class'     =>  'test_class1 test_class2',
-                        'gf-value' => Array(
+                        'children' => Array(
                             Array(
-                                'gf-name'      => 'input',
-                              //  'gf-handler'    =>  'input',
-                                'gf-field'      =>  'input',
+                                'tag'      => 'input',
+                                'system'                        =>  Array(
+                                   // 'handler'                    =>  'input',
+                                    'field'                      =>  'input2',
+                                ),
                                 'name'          =>  'field1',
                                 'id'            =>  'test',
                                 'class'         =>  'test_class1 test_class2',
                             ),
                             Array(
-                                'gf-name'      => 'input',
-                                // 'gf-handler'                    =>  'input',
-                                'gf-field'                      =>  'input',
-                                'gf-function-before-insert'     =>  function() {
-                                    phpinfo();
-                                },
+                                'tag'                           => 'input',
+                                'system'                        =>  Array(
+                                  //  'handler'                    =>  'input',
+                                    'field'                      =>  'input',
+                                    'function-before-insert'     =>  function() {
+                                        phpinfo();
+                                    },
+                                ),
                                 'name'                          =>  'field1',
                                 'id'                            =>  'test',
                                 'class'                         =>  'test_class1 test_class2',
@@ -110,7 +114,8 @@ class front extends connectors\AControllers implements connectors\IControllers
                     'NAME'    => 'TEST_2'
                 ),
             ),
-            'TEXT'        =>  $HTML . ($test   ?   "Ключ сессии test {$testValue}" :   'сессии test нет. Устанавливаем'),
+            'TEXT'        =>  ($test   ?   "Ключ сессии test {$testValue}" :   'сессии test нет. Устанавливаем'),
+            'FORM'        =>  $HTML,
             'TITLE'       =>  self::$page['meta_title'],
             'KEYWORDS'    =>  self::$page['meta_keywords'],
             'DESCRIPTION' =>  self::$page['meta_description'],

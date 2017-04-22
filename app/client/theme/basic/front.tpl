@@ -10,6 +10,7 @@
     <h1>{NAME}</h1>
     <p>Привет Мир!</p>
     <p>{TEXT}</p>
+    {FORM}
     <ul>
         {FOR}
         <li><a href="../../../../index.php">{NAME}</a></li>

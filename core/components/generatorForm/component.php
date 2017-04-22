@@ -35,36 +35,42 @@ class component extends generatorConnectors\AGenerator implements
      */
     public static function construct($scheme)
     {
+        $html   =   '';
         for ($i = 0, $iMax = count($scheme); $i < $iMax; $i++) {
             $item = $scheme[$i];
-            $name       =   (isset($scheme[$i]['gf-name']))     ?   $scheme[$i]['gf-name']      :   null;
-            $value      =   (isset($scheme[$i]['gf-value']))    ?   $scheme[$i]['gf-value']     :   null;
-            $handler    =   (isset($scheme[$i]['gf-handler']))  ?   $scheme[$i]['gf-handler']   :   null;
-            unset($item[$scheme[$i]['gf-name']]);
-            unset($item[$scheme[$i]['gf-value']]);
-            unset($item[$scheme[$i]['gf-handler']]);
-            if ($handler !== null) {
-                self::$html .=  self::factory($handler, $item);
-                continue;
+            $system =   isset($scheme[$i]['system'])        ?   $scheme[$i]['system']       :   null;
+            $tag    =   isset($scheme[$i]['tag'])           ?   $scheme[$i]['tag']           :   null;
+            if($system !== null) {
+                unset($item['system']);
             }
-            if($name === null) {
-                continue;
-            }
-            if($value !== null) {
-                $value  =   self::construct(Array($scheme[$i]['gf-value']));
+            if($tag !== null) {
+                unset($item['tag']);
             }
 
-            $param  =   Array();
-            foreach ($item as $key => $value) {
-                if(is_array($value)) {
-                    $value = implode(' ', $value);
-                }
-                $param[] = "{$key}='{$value}'";
+            if (isset($system['handler'])) {
+                self::$html .=  self::factory($system['handler'], $item);
+                continue;
             }
-            self::$html .= "<{$name} {$param}>{$value}</{$name}>";
+            if($tag === null) {
+                continue;
+            }
+            if(isset($item['children']) && is_array($item['children'])) {
+                $children  =   self::construct($item['children']);
+                unset($item['children']);
+            } else {
+                $children   =   '';
+            }
+            $param  =   Array();
+            foreach ($item as $key => $val) {
+                if(is_array($val)) {
+                    $val = implode(' ', $val);
+                }
+                $param[] = "{$key}='{$val}'";
+            }
+            $param = implode(' ', $param);
+            $html .= "<{$tag} {$param}>{$children}</{$tag}>";
         }
-        self::$html = implode(PHP_EOL, $scheme);
-        return self::$html;
+        return $html;
     }
 
 
