@@ -28,12 +28,11 @@ class component extends viewConnectors\AView implements viewConnectors\IView, co
 
     /**
      * Рендерит данные
-     * @return string результат
      */
     public function run()
     {
         //TODO: проверка
-        return self::replace($this->template . '.' .$this->extension, $this->data);
+        $this->result   =   self::replace($this->template . '.' .$this->extension, $this->data);
     }
 
     /**
@@ -46,7 +45,6 @@ class component extends viewConnectors\AView implements viewConnectors\IView, co
     public static function replace($template = false, array $data = Array(), $html = '')
     {
         if ($template !== false) {
-
             if (file_exists($template)) {
                 $content = file_get_contents($template);
             } elseif ($_SERVER['DOCUMENT_ROOT'] . $template) {
