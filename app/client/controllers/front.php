@@ -62,10 +62,18 @@ var_dump(($i % 2) == false);
                 ),
             ),
         );
+        $table = 'test1';
         $where = Array(
-            'id1'   => 1,
-            'id2'   => 2,
-            'AND',
+            'u1'   => Array(
+                'c' => '><',
+                'v' => '1q'
+            ),
+            Array(
+                'f' => 'u2',
+                'c' => '><',
+                'v' => '2q'
+            ),
+           'AND',
             Array(
                 'id3'   => 3,
                 'OR',
@@ -73,7 +81,7 @@ var_dump(($i % 2) == false);
                 'OR',
                 'id5'   => Array(
                     'c' => '><',
-                    'v' => 6
+                    'v' => 5
                 ),
                 Array(
                     'f' => 'id6',
@@ -82,7 +90,7 @@ var_dump(($i % 2) == false);
                 ),
             ),
             'id7' => 'NULL',
-            'id8' => '!NULL',
+            'id8' => 'NOT IS NULL',
             'AND',
             'id9' => '`id0`'
         );

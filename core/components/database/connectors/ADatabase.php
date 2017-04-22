@@ -138,7 +138,7 @@ abstract class ADatabase extends componentConnectors\AComponent
                     }
                     if (is_array($o)) {
                         $o  =   self::where($o);
-                        $t['o'] =  $o['where'];
+                        $t['o'] =  $o['condition'];
                     } elseif (is_string($o)) {
                         $t['o'] =   $o;
                     }
@@ -186,28 +186,47 @@ abstract class ADatabase extends componentConnectors\AComponent
         //TODO: переделать
         $execute   =   Array();
         if (is_array($where)) {
-            if (empty($result['where'] )) {
+            if (empty($where)) {
                 $where = '';
             } else {
                 $i = 0;
                 $whereArray =  $where;
                 $where = '';
                 foreach ($whereArray as $key => $value) {
-                    if (!($i % 2) && ($value === 'AND')) {
+                    //
+                    if (($i % 2) && ($value !== 'AND' && $value !== 'OR' && $value != 'NOT')) {
                         $where .= ' AND ';
-                    } elseif (!($i % 2) && ($value === 'OR')) {
-                        $where .= ' OR ';
-                    } elseif (!($i % 2) && ($value === 'NOT')) {
-                        $where .= ' NOT ';
+                    } else {
+                        $i++;
                     }
-                    if (is_string($key) && ($value === 'CURDATE()' || $value === 'CURTIME()' || $value === 'NOW()')) {
-                        $where .= " `{$key}` = {$value} ";
+                    if (
+                        is_string($key)
+                        && (
+                            $value === 'CURDATE()'
+                            || $value === 'CURTIME()'
+                            || $value === 'NOW()'
+                            || $value === '!NULL'
+                            || $value === 'NULL'
+                            || $value === 'IS NULL'
+                            || $value === 'NOT IS NULL'
+                        )
+                    ) {
+                        if ($value == '!NULL') {
+                            $value = 'NOT IS NULL';
+                        } elseif ($value == 'NULL') {
+                            $value = 'IS NULL';
+                        }
+                        if ($value == 'IS NULL' || $value == 'NOT IS NULL') {
+                            $where .= " `{$key}`  {$value} ";
+                        } else {
+                            $where .= " `{$key}` = {$value} ";
+                        }
                     } elseif (is_string($key) && is_string($value)) {
                         preg_match("/`[a-z0-9_]+`/i", $value, $output);
                         if (isset($output[0])) {
                             $where .= " `{$key}` = {$value} ";
                         } else {
-                            $k =  ":{$key}". uniqid();
+                            $k =  ":{$key}_". uniqid();
                             $where .= " `{$key}` = {$k} ";
                             $execute[$k] = $value;
                         }
@@ -216,8 +235,8 @@ abstract class ADatabase extends componentConnectors\AComponent
                     } elseif (is_array($value)) {
                         if(isset($value[0]) && !isset($value['f']) && !isset($value['field']) && !is_string($key)) {
                             $tmp_where = self::where($value);
-                            $execute = array_merge($result['execute'], $tmp_where['execute']);
-                            $where .= " ({$tmp_where['where']}) ";
+                            $execute = array_merge($execute, $tmp_where['execute']);
+                            $where .= " ({$tmp_where['condition']}) ";
                         } else {
                             $w = Array(
                                 't' => null,
@@ -236,20 +255,23 @@ abstract class ADatabase extends componentConnectors\AComponent
                             }
 
                             if (isset($value['f'])) {
-                                $w['f'] =  " `{$value['t']}` ";
+                                $w['f'] =  $value['f'];
                             } elseif (isset($value['field'])) {
-                                $w['f'] =  " `{$value['field']}` ";
+                                $w['f'] =  $value['field'];
                             } elseif (is_string($key)) {
-                                $w['f'] =  " `{$key}` ";
+                                $w['f'] =  $key;
                             }
 
                             if (isset($value['c'])) {
-                                $w['c'] =  " `{$value['c']}` ";
+                                $w['c'] =  " {$value['c']} ";
                             } elseif (isset($value['condition'])) {
-                                $w['c'] =  " `{$value['condition']}` ";
+                                $w['c'] =  " {$value['condition']} ";
                             } elseif (isset($value['cond'])) {
-                                $w['c'] =  " `{$value['cond']}` ";
+                                $w['c'] =  " {$value['cond']} ";
+                            } else {
+                                $w['c'] =  ' = ';
                             }
+
                             if (isset($value['v'])) {
                                 $w['v'] =  $value['v'];
                             } elseif (isset($value['val'])) {
@@ -258,29 +280,45 @@ abstract class ADatabase extends componentConnectors\AComponent
                                 $w['v'] =  $value['value'];
                             }
                             preg_match("/`[a-z0-9_]+`/i", $w['v'], $output);
-                            if (!isset($output[0])) {
-                                $where .= " {$w['t']}{$w['f']} = {$w['v']} ";
+
+                            if (
+                                $w['v'] === 'CURDATE()'
+                                || $w['v'] === 'CURTIME()'
+                                || $w['v'] === 'NOW()'
+                                || $w['v'] === '!NULL'
+                                || $w['v'] === 'NULL'
+                                || $w['v'] === 'IS NULL'
+                                || $w['v'] === 'NOT IS NULL') {
+                                if ($w['v'] == '!NULL') {
+                                    $w['v'] = 'NOT IS NULL';
+                                } elseif ($w['v'] == 'NULL') {
+                                    $w['v'] = 'IS NULL';
+                                }
+                                if ($w['v'] == 'IS NULL' || $w['v'] == 'NOT IS NULL') {
+                                    $w['c'] = '';
+                                }
+                                $where .= " {$w['t']}`{$w['f']}` {$w['c']} {$w['v']} ";
+                            } elseif (isset($output[0])) {
+                                $where .= " {$w['t']}`{$w['f']}` {$w['c']} {$w['v']} ";
                             } else {
-                                $k =  ":{$w['f']}". uniqid();
-                                $where .= " {$w['t']}{$w['f']} = {$k} ";
+                                $k =  ":{$w['f']}_". uniqid();
+                                $where .= " {$w['t']}`{$w['f']}` {$w['c']} {$k} ";
                                 $execute[$k] = $w['v'];
                             }
 
 
                         }
                     } else {
-                        $k =  ":{$key}". uniqid();
+                        $k =  ":{$key}_". uniqid();
                         $where .= " `{$key}` = {$k} ";
                         $execute[$k] = $value;
                     }
-                    $i++;
                 }
             }
         }
-
-        $where  = ($where != null && $where != '')    ?   " WHERE {$where} "  : '';
         $result = Array(
-            'where'     =>  $where,
+            'condition'  =>  $where,
+            'where'     =>  ($where != null && $where != '')    ?   " WHERE {$where} "  : '',
             'execute'   =>  $execute
         );
 
@@ -481,7 +519,7 @@ abstract class ADatabase extends componentConnectors\AComponent
             } elseif (isset($val['key'])) {
                 $v['k'] = ":{$val['key']}";
             } elseif (isset($f['f'])) {
-                $v['k'] = $f['f'] . uniqid();
+                $v['k'] = $f['f'] . '_' . uniqid();
                 $v['k'] = ":{$f['k']}";
             }
 
