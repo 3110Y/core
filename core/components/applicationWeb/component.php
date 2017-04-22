@@ -17,5 +17,12 @@ use core\components\component\connectors as componentsConnectors;
  */
 class component extends applicationConnectors\AApplication implements applicationConnectors\IApplication, componentsConnectors\IComponent
 {
-
+    /**
+     * @const float Версия ядра
+     */
+    const VERSION   =   1.0;
+    /**
+     * @const
+     */
+    const NAME  =   'PDO';
 }

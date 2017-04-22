@@ -15,6 +15,14 @@ class component extends generatorConnectors\AGenerator implements
     componentConnectors\IComponent
 {
     /**
+     * @const float Версия ядра
+     */
+    const VERSION   =   1.0;
+    /**
+     * @const
+     */
+    const NAME  =   'PDO';
+    /**
      * @var string HTML
      */
     private static $html = '';
