@@ -126,7 +126,9 @@ abstract class ADatabase extends componentConnectors\AComponent
                     if (isset($value['j'])) {
                         $t['j'] =   $value['j'];
                     } elseif (isset($value['join'])) {
-                        $t['j'] =   $value['join'];
+                        $t['j'] =   " {$value['join']} JOIN ";
+                    } else {
+                        $t['j'] = '';
                     }
                     $o  =  null;
                     if (isset($value['o'])) {
@@ -151,6 +153,8 @@ abstract class ADatabase extends componentConnectors\AComponent
                     }
                     if (isset($value['a'])) {
                         $t['a'] =   $value['a'];
+                    } elseif (isset($value['as'])) {
+                        $t['a'] =   $value['as'];
                     } elseif (isset($value['associate'])) {
                         $t['a'] =   $value['associate'];
                     } elseif (isset($value['alias'])) {
@@ -158,9 +162,10 @@ abstract class ADatabase extends componentConnectors\AComponent
                     } elseif (isset($value[1])) {
                         $t['t'] =   $value[1];
                     }
-                    $string   =     ($t['t'] != null)   ?   "`{$t['t']}` "   :   '';
-                    $string   .=    ($t['a'] != null)   ?   " `{$t['a']}`"   :   '';
-                    $string   .=    ($t['o'] != null)   ?   " {$t['o']} "    :   '';
+                    $string   =     ($t['j'] != null)       ?   "{$t['j']} "   :   '';
+                    $string   .=    ($t['t'] != null)      ?   "`{$t['t']}` "   :   '';
+                    $string   .=    ($t['a'] != null)       ?   " `{$t['a']}`"   :   '';
+                    $string   .=    ($t['o'] != null)       ?   " {$t['o']} "    :   '';
                     $array[]  =     $string;
                 }
             }
@@ -186,48 +191,85 @@ abstract class ADatabase extends componentConnectors\AComponent
             } else {
                 $i = 0;
                 foreach ($where as $key => $value) {
-                    if ($i % 2 && (!is_int($key) || is_array($value))) {
+                    if (!($i % 2) && ($value === 'AND')) {
                         $result['where'] .= ' AND ';
-                        $i++;
+                    } elseif (!($i % 2) && ($value === 'OR')) {
+                        $result['where'] .= ' OR ';
+                    } elseif (!($i % 2) && ($value === 'NOT')) {
+                        $result['where'] .= ' NOT ';
                     }
-                    if (is_int($key) && is_array($value)) {
-                        $tmp_where = self::where($value);
-                        $result['execute'] = array_merge($result['execute'], $tmp_where['execute']);
-                        $result['where'] .= "({$tmp_where['sql']})";
-                    } elseif (is_int($key) && !is_array($value)) {
-                        $where['where'] .= " {$value } ";
+                    if (is_string($key) && ($value === 'CURDATE()' || $value === 'CURTIME()' || $value === 'NOW()')) {
+                        $result['where'] .= " `{$key}` = {$value} ";
+                    } elseif (is_string($key) && is_string($value)) {
+                        preg_match("/`[a-z0-9_]+`/i", $value, $output);
+                        if (isset($output[0])) {
+                            $result['where'] .= " `{$key}` = {$value} ";
+                        } else {
+                            $k =  ":{$key}". uniqid();
+                            $result['where'] .= " `{$key}` = {$k} ";
+                            $result['execute'][$k] = $value;
+                        }
+                    } elseif (is_string($value)) {
+                        $result['where'] .= " {$value} ";
                     } elseif (is_array($value)) {
-                        if (!isset($value['condition']) && isset($value['c'])) {
-                            $value['condition'] = $value['c'];
-                        }
-                        if (!isset($value['value']) && isset($value['v'])) {
-                            $value['value'] = $value['v'];
-                        }
-                        if (!isset($value['prefix']) && isset($value['p'])) {
-                            $value['prefix'] = $value['p'];
-                        }
-                        if (isset($value['f'])) {
-                            $key = $value['f'];
-                        }
-                        if (isset($value['field'])) {
-                            $key = $value['field'];
-                        }
-                        $value['condition'] = (isset($value['condition'])) ? $value['condition'] : '=';
-                        $prefix = (isset($value['prefix'])) ? " `{$value['prefix']}`." : '';
-                        if (!is_array($value['value'])) {
-                            $result['where'] .= $prefix . '`' . $key . '` ' . (($value['condition'] == 'IN') ? $value['condition'] . ' (:' . $key . ')' : $value['condition'] . ' :' . $key);
-                            $result['execute'][':' . $key] = $value['value'];
-                        } elseif (is_array($value['value']) && $value['condition'] == 'IN') {
-                            $keyArray = Array();
-                            for ($i = 0; $i < count($value['value']); $i++) {
-                                $result['execute'][':' . $key . $i] = $value['value'][$i];
-                                $keyArray[] = ':' . $key . $i;
+                        if(isset($value[0]) && !isset($value['f']) && !isset($value['field']) && !is_string($key)) {
+                            $tmp_where = self::where($value);
+                            $result['execute'] = array_merge($result['execute'], $tmp_where['execute']);
+                            $result['where'] .= " ({$tmp_where['where']}) ";
+                        } else {
+                            $w = Array(
+                                't' => null,
+                                'f' => null,
+                                'c' => null,
+                                'v' => null,
+                            );
+                            if (isset($value['t'])) {
+                                $w['t'] =  "{$value['t']} . ";
+                            } elseif (isset($value['table'])) {
+                                $w['t'] =  "{$value['table']} . ";
+                            } elseif (isset($value['prefix'])) {
+                                $w['t'] =  "{$value['prefix']} . ";
+                            } elseif (isset($value['p'])) {
+                                $w['t'] =  "{$value['p']} . ";
                             }
-                            $result['where'] .= $prefix . '`' . $key . '` ' . $value['condition'] . ' (' . implode(",", $keyArray) . ')';
+
+                            if (isset($value['f'])) {
+                                $w['f'] =  " `{$value['t']}` ";
+                            } elseif (isset($value['field'])) {
+                                $w['f'] =  " `{$value['field']}` ";
+                            } elseif (is_string($key)) {
+                                $w['f'] =  " `{$key}` ";
+                            }
+
+                            if (isset($value['c'])) {
+                                $w['c'] =  " `{$value['c']}` ";
+                            } elseif (isset($value['condition'])) {
+                                $w['c'] =  " `{$value['condition']}` ";
+                            } elseif (isset($value['cond'])) {
+                                $w['c'] =  " `{$value['cond']}` ";
+                            }
+                            if (isset($value['v'])) {
+                                $w['v'] =  $value['v'];
+                            } elseif (isset($value['val'])) {
+                                $w['v'] =  $value['val'];
+                            } elseif (isset($value['value'])) {
+                                $w['v'] =  $value['value'];
+                            }
+                            preg_match("/`[a-z0-9_]+`/i", $w['v'], $output);
+                            if (!isset($output[0])) {
+                                $result['where'] .= " {$w['t']}{$w['f']} = {$w['v']} ";
+                            } else {
+                                $k =  ":{$w['f']}". uniqid();
+                                $result['where'] .= " {$w['t']}{$w['f']} = {$k} ";
+                                $result['execute'][$k] = $w['v'];
+                            }
+
+
                         }
                     } else {
-                        $result['where'] .= '`' . $key . '` = :' . $key;
-                        $result['execute'][':' . $key] = $value;
+                        $k =  ":{$key}". uniqid();
+                        $result['where'] .= " `{$key}` = {$k} ";
+                        $result['execute'][$k] = $value;
                     }
                     $i++;
                 }

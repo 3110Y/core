@@ -38,7 +38,8 @@ class front extends connectors\AControllers implements connectors\IControllers
         } else {
             $testValue  =   classes\session::getInstance()->get('test');
         }
-
+        $i =0;
+var_dump(($i % 2) == false);
         /** @var  $db \core\components\PDO\component */
         $db =   self::getRouter()->get('db');
         $table = Array(
@@ -56,8 +57,8 @@ class front extends connectors\AControllers implements connectors\IControllers
                 'as'    =>  'T5',
                 'JOIN'  =>  'LEFT',
                 'ON'    =>  array(
-                    '`USER_ID`',
-                    '`id`'
+                    'USER_ID'=>'`id`'
+
                 ),
             ),
         );
@@ -65,20 +66,27 @@ class front extends connectors\AControllers implements connectors\IControllers
             'id1'   => 1,
             'id2'   => 2,
             'AND',
-            'id3'   => 3,
-            'OR',
-            'id4'   => 4,
-            'OR',
-            'id5'   => Array(
-                'c' => '><',
-                'v' => 6
-            ),
             Array(
-                'f' => 'id6',
-                'c' => '><',
-                'v' => 6
+                'id3'   => 3,
+                'OR',
+                'id4'   => 4,
+                'OR',
+                'id5'   => Array(
+                    'c' => '><',
+                    'v' => 6
+                ),
+                Array(
+                    'f' => 'id6',
+                    'c' => '><',
+                    'v' => 6
+                ),
             ),
+            'id7' => 'NULL',
+            'id8' => '!NULL',
+            'AND',
+            'id9' => '`id0`'
         );
+        /** @var \core\components\PDO\component $db */
         $sql =  $db->selectGenerator($table, '*', $where);
 
         $this->content  = Array(
