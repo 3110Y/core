@@ -27,7 +27,6 @@ class component extends databaseConnectors\ADatabase implements databaseConnecto
      * @var null|\PDO соединение
      */
     private   $connect   =   null;
-
     /**
      * @var array настройки по умолчанию
      */
