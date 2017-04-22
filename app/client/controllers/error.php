@@ -30,9 +30,9 @@ class error extends connectors\AControllers implements connectors\IControllers
     {
         $this->content  = Array(
             'NAME'        =>  'Это 404 контроллер',
-            'TITLE'       =>  $this->page['meta_title'],
-            'KEYWORDS'    =>  $this->page['meta_keywords'],
-            'DESCRIPTION' =>  $this->page['meta_description'],
+            'TITLE'       =>  self::$page['meta_title'],
+            'KEYWORDS'    =>  self::$page['meta_keywords'],
+            'DESCRIPTION' =>  self::$page['meta_description'],
         );
         header('HTTP/1.0 404 Not Found');
     }

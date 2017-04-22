@@ -40,10 +40,10 @@ final class router extends applicationWebConnectors\ARouter implements applicati
         $this->URL                  =  $URL;
         $this->application          =  $application;
         /** @var \core\components\simpleView\component */
-        $this->handler['view']      =  core::getComponents('simpleView');
-        $this->handler['view']->setExtension('tpl');
+        $this->set('view', core::getComponents('simpleView'));
+        $this->get('view')->setExtension('tpl');
         /** @var \core\components\PDO\component */
-        $this->handler['db']    =   core::getComponents('PDO',true)::getInstance(self::$config);
+        $this->set('db', core::getComponents('PDO',true)::getInstance(self::$config));
         $this->structure = Array(
             Array(
                 'id'                =>  1,
@@ -109,9 +109,9 @@ final class router extends applicationWebConnectors\ARouter implements applicati
     {
         $this->selectPage();
         $controller         = new $this->page['controller']();
-        $controller->setPage($this->page);
-        $controller->setURL($this->URL);
-        $controller->setRouter($this);
+        $this->page['controller']::setPage($this->page);
+        $this->page['controller']::setURL($this->URL);
+        $this->page['controller']::setRouter($this);
         $controller->init();
         $this->content      = $controller->getContent();
         $this->template     = $controller->getTemplate();
@@ -125,9 +125,9 @@ final class router extends applicationWebConnectors\ARouter implements applicati
     public function render()
     {
 
-        $this->handler['view']->setTemplate($this->template);
-        $this->handler['view']->setData($this->content);
-        $this->handler['view']->run();
-        return $this->handler['view']->get();
+        $this->get('view')->setTemplate($this->template);
+        $this->get('view')->setData($this->content);
+        $this->get('view')->run();
+        return  $this->get('view')->get();
     }
 }

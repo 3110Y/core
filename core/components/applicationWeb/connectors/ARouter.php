@@ -42,9 +42,9 @@ abstract class ARouter
      */
     protected $template = '';
     /**
-     * @var mixed|null|object обработчики
+     * @var mixed|null|object реестр
      */
-    protected $handler = array();
+    protected $registry = array();
     /**
      * @var array  приложение
      */
@@ -62,15 +62,31 @@ abstract class ARouter
     }
 
     /**
-     * Отдает хендлер
+     * задает ключь b значение реестра
+     * @param string $key ключ
+     * @param mixed|string|object $class класс
+     * @return boolean
+     */
+    public function set($key, $class)
+    {
+        if (isset($this->registry[$key])) {
+            return false;
+        }
+        return $this->registry[$key] = $class;
+    }
+
+    /**
+     * Отдает значение ключа реестра
      * @param string $key ключ
      * @return mixed|null|object рендер
      */
-    public function getHandler($key)
+    public function get($key)
     {
-        if (isset($this->handler[$key])) {
-            return $this->handler;
+        //TODO: обработка ошибок
+        if (isset($this->registry[$key])) {
+            return $this->registry[$key];
         }
+        return false;
     }
 
     /**

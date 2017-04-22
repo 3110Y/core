@@ -49,9 +49,9 @@ class front extends connectors\AControllers implements connectors\IControllers
                 ),
             ),
             'TEXT'        =>  $test   ?   "Ключ сессии test {$testValue}" :   'сессии test нет. Устанавливаем',
-            'TITLE'       =>  $this->page['meta_title'],
-            'KEYWORDS'    =>  $this->page['meta_keywords'],
-            'DESCRIPTION' =>  $this->page['meta_description'],
+            'TITLE'       =>  self::$page['meta_title'],
+            'KEYWORDS'    =>  self::$page['meta_keywords'],
+            'DESCRIPTION' =>  self::$page['meta_description'],
         );
     }
 

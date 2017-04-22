@@ -23,8 +23,14 @@ class component extends databaseConnectors\ADatabase implements databaseConnecto
      * @const
      */
     const NAME  =   'PDO';
-
+    /**
+     * @var null|\PDO соединение
+     */
     private   $connect   =   null;
+
+    /**
+     * @var array настройки по умолчанию
+     */
     private   $config    =   Array(
         'driver'            =>  'mysql',
         'host'              =>  '127.0.0.1',
@@ -40,7 +46,7 @@ class component extends databaseConnectors\ADatabase implements databaseConnecto
      * component constructor.
      * @param array $config конфиг
      */
-    private function __construct($config = Array())
+    protected function __construct($config = Array())
     {
         if(!extension_loaded('pdo')) {
             //TODO: обработка ошибок

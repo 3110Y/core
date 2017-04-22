@@ -22,15 +22,15 @@ abstract class AControllers
     /**
      * @var string шаблон
      */
-    public $template = '';
+    public static $template = '';
     /**
      * @var array страница
      */
-    public $page = Array();
+    public static $page = Array();
     /**
      * @var array URL
      */
-    public $URL = Array();
+    public static $URL = Array();
     /**
      * @var mixed|int|false Колличество подуровней
      */
@@ -39,7 +39,7 @@ abstract class AControllers
     /**
      * @var mixed|null|object роутер
      */
-    protected $router = null;
+    protected static $router = null;
 
     /**
      * Отдает структуру контента
@@ -54,46 +54,56 @@ abstract class AControllers
      * Отдает Шаблон
      * @return string шаблон
      */
-    public function getTemplate()
+    public static function getTemplate()
     {
-        if ($this->template === '') {
-            $this->template =  $this->router->getTemplate($this->page['template']);
+        if (self::$template === '') {
+            self::$template =  self::$router->getTemplate(self::$page['template']);
         }
-        return $this->template;
+        return self::$template;
     }
 
     /**
      * Задает страницу
      * @param array $page страница
      */
-    public function setPage(array $page)
+    public static function setPage(array $page)
     {
-        $this->page = $page;
+        self::$page = $page;
     }
 
     /**
      * Задает роутер
      * @param array $URL URL
      */
-    public function setURL(array $URL)
+    public static function setURL(array $URL)
     {
-        $this->URL = $URL;
+        self::$URL = $URL;
     }
 
     /**
      * Задает Роутер
      * @param object $router роутер
      */
-    public function setRouter($router)
+    public static function setRouter($router)
     {
-        $this->router = $router;
+        self::$router = $router;
+    }
+
+    /**
+     * Отдает Роутер
+     * @return object $router роутер
+     */
+    public static function getRouter($router)
+    {
+        //TODO: проверка
+        return self::$router;
     }
 
     /**
      * Отдает Колличество подуровней
      * @return false|int|mixed
      */
-    public function getCountSubURL()
+    public static function getCountSubURL()
     {
         return self::$countSubURL;
     }

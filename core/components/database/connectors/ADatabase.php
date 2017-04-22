@@ -16,9 +16,9 @@ use core\components\component\connectors as componentConnectors;
 abstract class ADatabase extends componentConnectors\AComponent
 {
     /**
-     * @var mixed|null|object экземпляр
+     * @var array экземпляр
      */
-    private static $instance = null;
+    private static $instance = array();
 
     /**
      * Одиночка
@@ -26,10 +26,12 @@ abstract class ADatabase extends componentConnectors\AComponent
      * @return object|mixed|null|object
      */
     public static function getInstance($config = array()) {
-        if (self::$instance === null) {
-            self::$instance = new self($config);
+        $class  =   get_called_class();
+        $key    =   md5($class. '_' . md5(serialize($config)));
+        if (!isset(self::$instance[$key]) || self::$instance[$key] === null) {
+            self::$instance[$key] = new $class($config);
         }
-        return self::$instance;
+        return self::$instance[$key];
     }
 
     /**
