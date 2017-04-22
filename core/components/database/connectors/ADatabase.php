@@ -8,6 +8,8 @@
 
 namespace core\components\database\connectors;
 use core\components\component\connectors as componentConnectors;
+
+
 /**
  * Class ADatabase
  * Коннектор Базы данных
@@ -599,7 +601,6 @@ abstract class ADatabase extends componentConnectors\AComponent
         return $result;
     }
 
-
     /**
      * генерирует для выборки
      * @param mixed $table таблица
@@ -631,7 +632,6 @@ abstract class ADatabase extends componentConnectors\AComponent
         return $result;
     }
 
-
     /**
      * генерирует для обновления
      * @param mixed $table таблица
@@ -654,7 +654,6 @@ abstract class ADatabase extends componentConnectors\AComponent
         );
         return $result;
     }
-
 
     /**
      * генерирует для удаления
@@ -679,7 +678,6 @@ abstract class ADatabase extends componentConnectors\AComponent
         return $result;
     }
 
-
     /**
      * генерирует для показа колонок
      * @param mixed $table таблица
@@ -696,7 +694,6 @@ abstract class ADatabase extends componentConnectors\AComponent
         return $result;
     }
 
-
     /**
      * генерирует для зачистки
      * @param mixed $table таблица
@@ -712,7 +709,6 @@ abstract class ADatabase extends componentConnectors\AComponent
         );
         return $result;
     }
-
 
     /**
      * генерирует для удаления таблиц

@@ -8,6 +8,8 @@
 
 namespace core\components\PDO;
 use core\components\database\connectors as databaseConnectors;
+
+
 /**
  * Class component
  * компонент PDO
