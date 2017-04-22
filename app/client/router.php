@@ -9,7 +9,6 @@
 namespace app\client;
 
 use core\components\applicationWeb\connectors as applicationWebConnectors;
-use core\components\simpleView as simpleView;
 use core\core;
 
 
@@ -40,10 +39,11 @@ final class router extends applicationWebConnectors\ARouter implements applicati
     {
         $this->URL                  =  $URL;
         $this->application          =  $application;
-        /** @var simpleView\component */
+        /** @var \core\components\simpleView\component */
         $this->handler['view']      =  core::getComponents('simpleView');
         $this->handler['view']->setExtension('tpl');
-        //$this->handler['db']    =   core::getComponents('database',true)::getDriver('PDO')::getInstance(self::$config);
+        /** @var \core\components\PDO\component */
+        $this->handler['db']    =   core::getComponents('PDO',true)::getInstance(self::$config);
         $this->structure = Array(
             Array(
                 'id'                =>  1,

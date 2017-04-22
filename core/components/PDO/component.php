@@ -34,22 +34,7 @@ class component extends databaseConnectors\ADatabase implements databaseConnecto
         'pass'              =>  '',
         'character'         =>  'UTF8',
     );
-    /**
-     * @var mixed|null|object экземпляр
-     */
-    private static $instance = null;
 
-    /**
-     * Одиночка
-     * @param array $config конфиг
-     * @return component|mixed|null|object
-     */
-    public static function getInstance($config = array()) {
-        if (self::$instance === null) {
-            self::$instance = new self($config);
-        }
-        return self::$instance;
-    }
 
     /**
      * component constructor.

@@ -15,6 +15,22 @@ namespace core\components\database\connectors;
  */
 class ADatabase
 {
+    /**
+     * @var mixed|null|object экземпляр
+     */
+    private static $instance = null;
+
+    /**
+     * Одиночка
+     * @param array $config конфиг
+     * @return object|mixed|null|object
+     */
+    public static function getInstance($config = array()) {
+        if (self::$instance === null) {
+            self::$instance = new self($config);
+        }
+        return self::$instance;
+    }
 
     /**
      * подготавливает поля
