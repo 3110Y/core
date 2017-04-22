@@ -190,32 +190,34 @@ abstract class ADatabase extends componentConnectors\AComponent
                 $where = '';
             } else {
                 $i = 0;
-                foreach ($where as $key => $value) {
+                $whereArray =  $where;
+                $where = '';
+                foreach ($whereArray as $key => $value) {
                     if (!($i % 2) && ($value === 'AND')) {
-                        $result['where'] .= ' AND ';
+                        $where .= ' AND ';
                     } elseif (!($i % 2) && ($value === 'OR')) {
-                        $result['where'] .= ' OR ';
+                        $where .= ' OR ';
                     } elseif (!($i % 2) && ($value === 'NOT')) {
-                        $result['where'] .= ' NOT ';
+                        $where .= ' NOT ';
                     }
                     if (is_string($key) && ($value === 'CURDATE()' || $value === 'CURTIME()' || $value === 'NOW()')) {
-                        $result['where'] .= " `{$key}` = {$value} ";
+                        $where .= " `{$key}` = {$value} ";
                     } elseif (is_string($key) && is_string($value)) {
                         preg_match("/`[a-z0-9_]+`/i", $value, $output);
                         if (isset($output[0])) {
-                            $result['where'] .= " `{$key}` = {$value} ";
+                            $where .= " `{$key}` = {$value} ";
                         } else {
                             $k =  ":{$key}". uniqid();
-                            $result['where'] .= " `{$key}` = {$k} ";
-                            $result['execute'][$k] = $value;
+                            $where .= " `{$key}` = {$k} ";
+                            $execute[$k] = $value;
                         }
                     } elseif (is_string($value)) {
-                        $result['where'] .= " {$value} ";
+                        $where .= " {$value} ";
                     } elseif (is_array($value)) {
                         if(isset($value[0]) && !isset($value['f']) && !isset($value['field']) && !is_string($key)) {
                             $tmp_where = self::where($value);
-                            $result['execute'] = array_merge($result['execute'], $tmp_where['execute']);
-                            $result['where'] .= " ({$tmp_where['where']}) ";
+                            $execute = array_merge($result['execute'], $tmp_where['execute']);
+                            $where .= " ({$tmp_where['where']}) ";
                         } else {
                             $w = Array(
                                 't' => null,
@@ -257,29 +259,31 @@ abstract class ADatabase extends componentConnectors\AComponent
                             }
                             preg_match("/`[a-z0-9_]+`/i", $w['v'], $output);
                             if (!isset($output[0])) {
-                                $result['where'] .= " {$w['t']}{$w['f']} = {$w['v']} ";
+                                $where .= " {$w['t']}{$w['f']} = {$w['v']} ";
                             } else {
                                 $k =  ":{$w['f']}". uniqid();
-                                $result['where'] .= " {$w['t']}{$w['f']} = {$k} ";
-                                $result['execute'][$k] = $w['v'];
+                                $where .= " {$w['t']}{$w['f']} = {$k} ";
+                                $execute[$k] = $w['v'];
                             }
 
 
                         }
                     } else {
                         $k =  ":{$key}". uniqid();
-                        $result['where'] .= " `{$key}` = {$k} ";
-                        $result['execute'][$k] = $value;
+                        $where .= " `{$key}` = {$k} ";
+                        $execute[$k] = $value;
                     }
                     $i++;
                 }
             }
         }
+
+        $where  = ($where != null && $where != '')    ?   " WHERE {$where} "  : '';
         $result = Array(
             'where'     =>  $where,
             'execute'   =>  $execute
         );
-        $result['where']  = ($result['where'] != null && $result['where'] != '')    ?   " WHERE {$result['where']} "  : '';
+
         return $result;
     }
 
