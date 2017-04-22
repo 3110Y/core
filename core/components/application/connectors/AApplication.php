@@ -14,7 +14,7 @@ use core\components\component\connectors as componentConnectors;
  * Коннектор приложения
  * @package core\components\application\connectors
  */
-abstract class AApplication extends componentConnectors\AComponent
+abstract class AApplication extends componentConnectors\AComponent implements componentConnectors\IComponent
 {
 
 }
