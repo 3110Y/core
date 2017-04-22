@@ -39,63 +39,10 @@ class front extends connectors\AControllers implements connectors\IControllers
             $testValue  =   classes\session::getInstance()->get('test');
         }
         $i =0;
-var_dump(($i % 2) == false);
+        var_dump(($i % 2) == false);
         /** @var  $db \core\components\PDO\component */
         $db =   self::getRouter()->get('db');
-        $table = Array(
-            'test1',
-            'test2',
-            'test3'=>'t3',
-            Array(
-                'table' =>  'test4',
-                'as'    =>  'T4',
-                'JOIN'  =>  'LEFT',
-                'ON'    =>  '`USER_ID` = `id`'
-            ),
-            Array(
-                'table' =>  'test5',
-                'as'    =>  'T5',
-                'JOIN'  =>  'LEFT',
-                'ON'    =>  array(
-                    'USER_ID'=>'`id`'
-
-                ),
-            ),
-        );
-        $table = 'test1';
-        $where = Array(
-            'u1'   => Array(
-                'c' => '><',
-                'v' => '1q'
-            ),
-            Array(
-                'f' => 'u2',
-                'c' => '><',
-                'v' => '2q'
-            ),
-           'AND',
-            Array(
-                'id3'   => 3,
-                'OR',
-                'id4'   => 4,
-                'OR',
-                'id5'   => Array(
-                    'c' => '><',
-                    'v' => 5
-                ),
-                Array(
-                    'f' => 'id6',
-                    'c' => '><',
-                    'v' => 6
-                ),
-            ),
-            'id7' => 'NULL',
-            'id8' => 'NOT IS NULL',
-            'AND',
-            'id9' => '`id0`'
-        );
-        /** @var \core\components\PDO\component $db */
-        $sql =  $db->selectGenerator($table, '*', $where);
+        $sql =  $db->select();
 
         $this->content  = Array(
             'NAME'        =>  'Это Фронтальный контроллер',

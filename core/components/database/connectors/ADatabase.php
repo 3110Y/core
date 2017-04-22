@@ -138,9 +138,9 @@ abstract class ADatabase extends componentConnectors\AComponent
                     }
                     if (is_array($o)) {
                         $o  =   self::where($o);
-                        $t['o'] =  $o['condition'];
+                        $t['o'] =  ' ON ' . $o['condition'];
                     } elseif (is_string($o)) {
-                        $t['o'] =   $o;
+                        $t['o'] =  ' ON ' . $o;
                     }
                     if (isset($value['t'])) {
                         $t['t'] =   $value['t'];
