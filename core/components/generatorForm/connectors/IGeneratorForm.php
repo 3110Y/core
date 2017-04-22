@@ -14,7 +14,7 @@ namespace core\components\generatorForm\connectors;
  * Коннектор генератора
  * @package core\components\generator\connectors
  */
-interface IGenerator
+interface IGeneratorForm
 {
     /**
      * Конструирует
@@ -23,9 +23,5 @@ interface IGenerator
      */
     public static function construct($scheme);
 
-    /**
-     * Сохренение
-     * @return mixed|string|array результат
-     */
-    public static function save($scheme);
+
 }

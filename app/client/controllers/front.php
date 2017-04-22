@@ -74,9 +74,8 @@ class front extends connectors\AControllers implements connectors\IControllers
                         'children' => Array(
                             'Привет',
                             Array(
-                                'tag'      => 'input',
                                 'system'                        =>  Array(
-                                   // 'handler'                    =>  'input',
+                                    'handler'                    =>  'input',
                                     'field'                      =>  'input2',
                                 ),
                                 'name'          =>  'field1',
@@ -84,9 +83,8 @@ class front extends connectors\AControllers implements connectors\IControllers
                                 'class'         =>  'test_class1 test_class2',
                             ),
                             Array(
-                                'tag'                           => 'input',
                                 'system'                        =>  Array(
-                                  //  'handler'                    =>  'input',
+                                    'handler'                    =>  'input',
                                     'field'                      =>  'input',
                                     'function-before-insert'     =>  function() {
                                         phpinfo();

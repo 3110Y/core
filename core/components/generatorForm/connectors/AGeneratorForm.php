@@ -15,7 +15,7 @@ use core\components\component\connectors as componentConnectors;
  * Коннектор генератора
  * @package core\components\generator\connectors
  */
-abstract class AGenerator extends componentConnectors\AComponent implements componentConnectors\IComponent
+abstract class AGeneratorForm extends componentConnectors\AComponent implements componentConnectors\IComponent
 {
 
 }

@@ -45,7 +45,7 @@ class component extends componentConnectors\AComponent implements componentConne
                 unset($item['tag']);
             }
             if (isset($system['handler'])) {
-                $html .=  self::factory($system['handler'])::construct($item);;
+                $html .=  self::factory($system['handler'])::construct($item);
                 continue;
             } elseif (is_string($item)) {
                 $html .= $item;
