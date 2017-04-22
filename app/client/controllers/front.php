@@ -72,6 +72,7 @@ class front extends connectors\AControllers implements connectors\IControllers
                         'action'    =>  '',
                         'class'     =>  'test_class1 test_class2',
                         'children' => Array(
+                            'Привет',
                             Array(
                                 'tag'      => 'input',
                                 'system'                        =>  Array(

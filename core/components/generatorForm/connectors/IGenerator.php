@@ -24,7 +24,7 @@ interface IGenerator
     public static function construct($scheme);
 
     /**
-     * Конструирует
+     * Сохренение
      * @return mixed|string|array результат
      */
     public static function save($scheme);

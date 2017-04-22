@@ -17,16 +17,5 @@ use core\components\component\connectors as componentConnectors;
  */
 abstract class AGenerator extends componentConnectors\AComponent implements componentConnectors\IComponent
 {
-    /**
-     * фабрика
-     * @param string $name имя
-     * @param string $item схема
-     * @return string результат
-     */
-    protected static function factory($name, $item)
-    {
-        //TODO: проверка
-        return "\\core\\components\\{$name}\\component";
-    }
 
 }

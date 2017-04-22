@@ -7,12 +7,14 @@
  */
 
 namespace core\components\generatorForm;
-use core\components\generatorForm\connectors as connectors;
 use core\components\component\connectors as componentConnectors;
 
-class component extends connectors\AGenerator implements
-    connectors\IGenerator,
-    componentConnectors\IComponent
+/**
+ * Генератор форм
+ * Class component
+ * @package core\components\generatorForm
+ */
+class component extends componentConnectors\AComponent implements componentConnectors\IComponent
 {
     /**
      * @const float Версия ядра
@@ -21,7 +23,7 @@ class component extends connectors\AGenerator implements
     /**
      * @const
      */
-    const NAME  =   'PDO';
+    const NAME  =   'generatorForm';
 
 
     /**
@@ -34,52 +36,71 @@ class component extends connectors\AGenerator implements
         $html   =   '';
         for ($i = 0, $iMax = count($scheme); $i < $iMax; $i++) {
             $item   = $scheme[$i];
-            $system =   isset($scheme[$i]['system'])        ?   $scheme[$i]['system']       :   null;
-            $tag    =   isset($scheme[$i]['tag'])           ?   $scheme[$i]['tag']           :   null;
-            if($system !== null) {
+            $system =   isset($scheme[$i]['system'])        ?   $scheme[$i]['system']           :   Array();
+            $tag    =   isset($scheme[$i]['tag'])           ?   $scheme[$i]['tag']              :   null;
+            if(!empty($system)) {
                 unset($item['system']);
             }
             if($tag !== null) {
                 unset($item['tag']);
             }
-
             if (isset($system['handler'])) {
-                $html .=  self::factory($system['handler'], $item);
+                $html .=  self::factory($system['handler'])::construct($item);;
                 continue;
-            }
-            if($tag === null) {
+            } elseif (is_string($item)) {
+                $html .= $item;
+            } elseif ($tag === null) {
                 continue;
-            }
-            if(isset($item['children']) && is_array($item['children'])) {
-                $children  =   self::construct($item['children']);
-                unset($item['children']);
-            } elseif(isset($item['children'])){
-                $children   =   $item['children'];
-                unset($item['children']);
             } else {
-                $children   =   null;
+                $html .= self::constructHTML($item, $tag);
             }
-            $param  =   Array();
-            foreach ($item as $key => $val) {
-                if(is_array($val)) {
-                    $val = implode(' ', $val);
-                }
-                $param[] = "{$key}='{$val}'";
-            }
-            $param = implode(' ', $param);
-            if ($children === null) {
-                $html .= "<{$tag} {$param}>";
-            } else {
-                $html .= "<{$tag} {$param} > {$children} </{$tag}>";
-            }
-            return $html;
         }
         return $html;
     }
 
-    public static function save($scheme)
+    /**
+     * фабрика
+     * @param string $handler имя
+     * @return string результат
+     */
+    private static function factory($handler)
     {
+        //TODO: проверка
+        return "\\core\\components\\generatorForm{$handler}\\component";
+    }
 
+    /**
+     * Конструирует HTML
+     * @param array $item схемв
+     * @param null $tag тег
+     * @return string HTML
+     */
+    private static function constructHTML($item, $tag = null)
+    {
+        $html   =   '';
+        if(isset($item['children']) && is_array($item['children'])) {
+            $children  =   self::construct($item['children']);
+            unset($item['children']);
+        } elseif(isset($item['children'])){
+            $children   =   $item['children'];
+            unset($item['children']);
+        } else {
+            $children   =   null;
+        }
+        $param  =   Array();
+        foreach ($item as $key => $val) {
+            if(is_array($val)) {
+                $val = implode(' ', $val);
+            }
+            $param[] = "{$key}='{$val}'";
+        }
+        $param = implode(' ', $param);
+        if ($children === null) {
+            $html .= "<{$tag} {$param}>";
+        } else {
+            $html .= "<{$tag} {$param} > {$children} </{$tag}>";
+        }
+        return $html;
     }
 
 }
