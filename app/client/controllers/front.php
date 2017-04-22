@@ -56,7 +56,7 @@ class front extends connectors\AControllers implements connectors\IControllers
                     'NAME'    => 'TEST_2'
                 ),
             ),
-            'TEXT'        =>  $test   ?   "Ключ сессии test {$testValue}" . "<pre>" . print_r($sql,true) . "</pre>" :   'сессии test нет. Устанавливаем<br>',
+            'TEXT'        =>  $test   ?   "Ключ сессии test {$testValue}" :   'сессии test нет. Устанавливаем<br>',
             'TITLE'       =>  self::$page['meta_title'],
             'KEYWORDS'    =>  self::$page['meta_keywords'],
             'DESCRIPTION' =>  self::$page['meta_description'],
