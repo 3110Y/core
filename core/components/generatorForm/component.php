@@ -7,11 +7,11 @@
  */
 
 namespace core\components\generatorForm;
-use core\components\generator\connectors as generatorConnectors;
+use core\components\generatorForm\connectors as connectors;
 use core\components\component\connectors as componentConnectors;
 
-class component extends generatorConnectors\AGenerator implements
-    generatorConnectors\IGenerator,
+class component extends connectors\AGenerator implements
+    connectors\IGenerator,
     componentConnectors\IComponent
 {
     /**
@@ -22,10 +22,6 @@ class component extends generatorConnectors\AGenerator implements
      * @const
      */
     const NAME  =   'PDO';
-    /**
-     * @var string HTML
-     */
-    private static $html = '';
 
 
     /**
@@ -37,7 +33,7 @@ class component extends generatorConnectors\AGenerator implements
     {
         $html   =   '';
         for ($i = 0, $iMax = count($scheme); $i < $iMax; $i++) {
-            $item = $scheme[$i];
+            $item   = $scheme[$i];
             $system =   isset($scheme[$i]['system'])        ?   $scheme[$i]['system']       :   null;
             $tag    =   isset($scheme[$i]['tag'])           ?   $scheme[$i]['tag']           :   null;
             if($system !== null) {
@@ -48,7 +44,7 @@ class component extends generatorConnectors\AGenerator implements
             }
 
             if (isset($system['handler'])) {
-                self::$html .=  self::factory($system['handler'], $item);
+                $html .=  self::factory($system['handler'], $item);
                 continue;
             }
             if($tag === null) {
@@ -57,8 +53,11 @@ class component extends generatorConnectors\AGenerator implements
             if(isset($item['children']) && is_array($item['children'])) {
                 $children  =   self::construct($item['children']);
                 unset($item['children']);
+            } elseif(isset($item['children'])){
+                $children   =   $item['children'];
+                unset($item['children']);
             } else {
-                $children   =   '';
+                $children   =   null;
             }
             $param  =   Array();
             foreach ($item as $key => $val) {
@@ -68,11 +67,19 @@ class component extends generatorConnectors\AGenerator implements
                 $param[] = "{$key}='{$val}'";
             }
             $param = implode(' ', $param);
-            $html .= "<{$tag} {$param}>{$children}</{$tag}>";
+            if ($children === null) {
+                $html .= "<{$tag} {$param}>";
+            } else {
+                $html .= "<{$tag} {$param} > {$children} </{$tag}>";
+            }
+            return $html;
         }
         return $html;
     }
 
+    public static function save($scheme)
+    {
 
+    }
 
 }

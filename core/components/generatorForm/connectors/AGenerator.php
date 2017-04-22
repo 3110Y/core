@@ -20,10 +20,13 @@ abstract class AGenerator extends componentConnectors\AComponent implements comp
     /**
      * фабрика
      * @param string $name имя
+     * @param string $item схема
      * @return string результат
      */
-    protected static function factory($name)
+    protected static function factory($name, $item)
     {
-
+        //TODO: проверка
+        return "\\core\\components\\{$name}\\component";
     }
+
 }
