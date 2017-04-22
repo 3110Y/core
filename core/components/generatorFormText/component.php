@@ -6,7 +6,7 @@
  * Time: 20:24
  */
 
-namespace core\components\generatorFormInput;
+namespace core\components\generatorFormText;
 use core\components\generatorForm\connectors as generatorFormConnectors;
 use core\components\component\connectors as componentConnectors;
 
@@ -26,7 +26,7 @@ class component extends generatorFormConnectors\AGeneratorForm implements
     /**
      * @const
      */
-    const NAME  =   'generatorFormInput';
+    const NAME  =   'generatorFormText';
 
 
     /**
@@ -49,7 +49,7 @@ class component extends generatorFormConnectors\AGeneratorForm implements
         }
         $param = implode(' ', $param);
         $system['value']    =   isset($system['value']) ?   $system['value']    :   '';
-        return "<input type='{text}' name='{$system['field']}' value='{$system['value']}' {$param}>";
+        return "<textarea name='{$system['field']}' {$param}>{$system['value']}</textarea>";
     }
 
 

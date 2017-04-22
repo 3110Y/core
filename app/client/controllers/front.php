@@ -78,7 +78,6 @@ class front extends connectors\AControllers implements connectors\IControllers
                                     'handler'                    =>  'input',
                                     'field'                      =>  'input2',
                                 ),
-                                'name'          =>  'field1',
                                 'id'            =>  'test',
                                 'class'         =>  'test_class1 test_class2',
                             ),
@@ -90,7 +89,6 @@ class front extends connectors\AControllers implements connectors\IControllers
                                         phpinfo();
                                     },
                                 ),
-                                'name'                          =>  'field1',
                                 'id'                            =>  'test',
                                 'class'                         =>  'test_class1 test_class2',
                             ),

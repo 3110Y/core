@@ -36,23 +36,16 @@ class component extends componentConnectors\AComponent implements componentConne
         $html   =   '';
         for ($i = 0, $iMax = count($scheme); $i < $iMax; $i++) {
             $item   = $scheme[$i];
-            $system =   isset($scheme[$i]['system'])        ?   $scheme[$i]['system']           :   Array();
-            $tag    =   isset($scheme[$i]['tag'])           ?   $scheme[$i]['tag']              :   null;
-            if(!empty($system)) {
-                unset($item['system']);
-            }
-            if($tag !== null) {
-                unset($item['tag']);
-            }
-            if (isset($system['handler'])) {
-                $html .=  self::factory($system['handler'])::construct($item);
+            if (isset($item['system']['handler'])) {
+                $html .=  self::factory($item['system']['handler'])::construct($scheme[$i]);
                 continue;
             } elseif (is_string($item)) {
                 $html .= $item;
-            } elseif ($tag === null) {
+            } elseif (!isset($scheme[$i]['tag'])) {
                 continue;
             } else {
-                $html .= self::constructHTML($item, $tag);
+
+                $html .= self::constructHTML($item);
             }
         }
         return $html;
@@ -72,12 +65,19 @@ class component extends componentConnectors\AComponent implements componentConne
     /**
      * Конструирует HTML
      * @param array $item схемв
-     * @param null $tag тег
      * @return string HTML
      */
-    private static function constructHTML($item, $tag = null)
+    private static function constructHTML($item)
     {
         $html   =   '';
+        $system =   isset($item['system'])        ?   $item['system']           :   Array();
+        $tag    =   isset($item['tag'])           ?   $item['tag']              :   null;
+        if(!empty($system)) {
+            unset($item['system']);
+        }
+        if($tag !== null) {
+            unset($item['tag']);
+        }
         if(isset($item['children']) && is_array($item['children'])) {
             $children  =   self::construct($item['children']);
             unset($item['children']);

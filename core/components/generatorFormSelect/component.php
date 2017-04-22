@@ -6,7 +6,7 @@
  * Time: 20:24
  */
 
-namespace core\components\generatorFormInput;
+namespace core\components\generatorFormSelect;
 use core\components\generatorForm\connectors as generatorFormConnectors;
 use core\components\component\connectors as componentConnectors;
 
@@ -26,7 +26,7 @@ class component extends generatorFormConnectors\AGeneratorForm implements
     /**
      * @const
      */
-    const NAME  =   'generatorFormInput';
+    const NAME  =   'generatorFormText';
 
 
     /**
@@ -49,7 +49,33 @@ class component extends generatorFormConnectors\AGeneratorForm implements
         }
         $param = implode(' ', $param);
         $system['value']    =   isset($system['value']) ?   $system['value']    :   '';
-        return "<input type='{text}' name='{$system['field']}' value='{$system['value']}' {$param}>";
+        $system['list']     =   isset($system['list'])  ?   $system['list']     :   Array();
+        $list   =   '';
+        foreach($system['list'] as $k => $v) {
+            if (isset($val['v'])) {
+                $key    =    $v['v'];
+            } elseif (isset($val['val'])) {
+                $key    =    $v['val'];
+            } elseif(isset($val['value'])) {
+                $key    =    $v['value'];
+            } elseif(isset($val[0])) {
+                $key    =    $v['value'];
+            } else {
+                $key    =   $k;
+            }
+            if (isset($val['n'])) {
+                $name    =    $v['n'];
+            } elseif(isset($val['name'])) {
+                $name    =    $v['name'];
+            } elseif(is_string($v)) {
+                $name    =   $v;
+            } elseif(isset($val[1])) {
+                $name    =    $v['value'];
+            }
+            $selected   =   $system['value'] == $key    ?   'selected'  :   '';
+            $list   .= "<option value='{$key}' {$selected}>{$name}</option>";
+        }
+        return "<select name='{$system['field']}' {$param}>{$system['value']}</select>";
     }
 
 
