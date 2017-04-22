@@ -114,7 +114,7 @@ abstract class ADatabase extends componentConnectors\AComponent
                 } elseif (is_int($key)    &&  is_string($value)) {
                     $array[]    =   "`{$value}`";
                 } elseif (is_string($key)    &&  is_string($value)) {
-                    $array[]    =   "`$key` `{$value}`";
+                    $array[]    =   "`{$key}` `{$value}`";
                 } elseif (is_array($value)) {
                     $value  =   array_change_key_case($value, CASE_LOWER );
                     $t = Array(
@@ -180,59 +180,63 @@ abstract class ADatabase extends componentConnectors\AComponent
     {
         //TODO: переделать
         $execute   =   Array();
+        if (is_array($where)) {
+            if (empty($result['where'] )) {
+                $where = '';
+            } else {
+                $i = 0;
+                foreach ($where as $key => $value) {
+                    if ($i % 2 && (!is_int($key) || is_array($value))) {
+                        $result['where'] .= ' AND ';
+                        $i++;
+                    }
+                    if (is_int($key) && is_array($value)) {
+                        $tmp_where = self::where($value);
+                        $result['execute'] = array_merge($result['execute'], $tmp_where['execute']);
+                        $result['where'] .= "({$tmp_where['sql']})";
+                    } elseif (is_int($key) && !is_array($value)) {
+                        $where['where'] .= " {$value } ";
+                    } elseif (is_array($value)) {
+                        if (!isset($value['condition']) && isset($value['c'])) {
+                            $value['condition'] = $value['c'];
+                        }
+                        if (!isset($value['value']) && isset($value['v'])) {
+                            $value['value'] = $value['v'];
+                        }
+                        if (!isset($value['prefix']) && isset($value['p'])) {
+                            $value['prefix'] = $value['p'];
+                        }
+                        if (isset($value['f'])) {
+                            $key = $value['f'];
+                        }
+                        if (isset($value['field'])) {
+                            $key = $value['field'];
+                        }
+                        $value['condition'] = (isset($value['condition'])) ? $value['condition'] : '=';
+                        $prefix = (isset($value['prefix'])) ? " `{$value['prefix']}`." : '';
+                        if (!is_array($value['value'])) {
+                            $result['where'] .= $prefix . '`' . $key . '` ' . (($value['condition'] == 'IN') ? $value['condition'] . ' (:' . $key . ')' : $value['condition'] . ' :' . $key);
+                            $result['execute'][':' . $key] = $value['value'];
+                        } elseif (is_array($value['value']) && $value['condition'] == 'IN') {
+                            $keyArray = Array();
+                            for ($i = 0; $i < count($value['value']); $i++) {
+                                $result['execute'][':' . $key . $i] = $value['value'][$i];
+                                $keyArray[] = ':' . $key . $i;
+                            }
+                            $result['where'] .= $prefix . '`' . $key . '` ' . $value['condition'] . ' (' . implode(",", $keyArray) . ')';
+                        }
+                    } else {
+                        $result['where'] .= '`' . $key . '` = :' . $key;
+                        $result['execute'][':' . $key] = $value;
+                    }
+                    $i++;
+                }
+            }
+        }
         $result = Array(
             'where'     =>  $where,
             'execute'   =>  $execute
         );
-        if (is_array($where)) {
-            $i=0;
-            foreach ($where as $key => $value) {
-                if($i%2 && (!is_int($key) || is_array($value))) {
-                    $result['where'] .= ' AND ';
-                    $i++;
-                }
-                if(is_int($key) && is_array($value)) {
-                    $tmp_where = self::where($value);
-                    $result['execute']   =       array_merge($result['execute'], $tmp_where['execute']);
-                    $result['where']     .=      "({$tmp_where['sql']})";
-                } elseif(is_int($key) && !is_array($value)) {
-                    $where['where'] .= " {$value } ";
-                } elseif(is_array($value)) {
-                    if (!isset($value['condition']) && isset($value['c'])) {
-                        $value['condition'] =   $value['c'];
-                    }
-                    if (!isset($value['value']) && isset($value['v'])) {
-                        $value['value'] =   $value['v'];
-                    }
-                    if (!isset($value['prefix']) && isset($value['p'])) {
-                        $value['prefix'] =   $value['p'];
-                    }
-                    if (isset($value['f'])) {
-                            $key =   $value['f'];
-                    }
-                    if (isset($value['field'])) {
-                            $key =   $value['field'];
-                    }
-                    $value['condition']             =   (isset($value['condition']))    ?   $value['condition']        :   '=';
-                    $prefix                         =   (isset($value['prefix']))       ?   " `{$value['prefix']}`."  :   '';
-                    if (!is_array($value['value'])) {
-                        $result['where']                .=  $prefix . '`'.$key.'` '.(($value['condition'] == 'IN') ?   $value['condition'].' (:'.$key.')'  :   $value['condition'].' :'.$key);
-                        $result['execute'][':'.$key]     =   $value['value'];
-                    } elseif(is_array($value['value']) && $value['condition']  == 'IN' ) {
-                        $keyArray = Array();
-                        for ($i=0;$i<count($value['value']);$i++) {
-                            $result['execute'][':'.$key.$i]     =   $value['value'][$i];
-                            $keyArray[]   = ':'.$key.$i;
-                        }
-                        $result['where']                   .= $prefix.'`'.$key.'` '.$value['condition'].' ('.implode(",",$keyArray).')';
-                    }
-                } else {
-                    $result['where']                   .=  '`'.$key.'` = :'.$key;
-                    $result['execute'][':'.$key]     =   $value;
-                }
-                $i++;
-            }
-        }
         $result['where']  = ($result['where'] != null && $result['where'] != '')    ?   " WHERE {$result['where']} "  : '';
         return $result;
     }
@@ -326,9 +330,9 @@ abstract class ADatabase extends componentConnectors\AComponent
             if (isset($limit['t'])) {
                 $l['t'] =   $limit['t'];
             } elseif (isset($limit['to'])) {
-                $l['f'] =   $limit['to'];
+                $l['t'] =   $limit['to'];
             } elseif (isset($limit[1])) {
-                $l['f'] =   $limit[1];
+                $l['t'] =   $limit[1];
             }
             $limit = implode(',', $l);
         }
@@ -622,7 +626,7 @@ abstract class ADatabase extends componentConnectors\AComponent
         $limit      =   self::limit($limit);
         $group      =   self::group($group);
         $having     =   self::where($having);
-        $sql        =   "SELECT {$fields} {$table} {$where['where']} {$group} {$having['where']} {$order} {$limit}";
+        $sql        =   "SELECT {$fields} FROM {$table} {$where['where']} {$group} {$having['where']} {$order} {$limit}";
         $execute    =   array_merge($execute, $where['execute']);
         $execute    =   array_merge($execute, $having['execute']);
         $result = Array(

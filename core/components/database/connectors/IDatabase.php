@@ -8,6 +8,7 @@
 
 namespace core\components\database\connectors;
 
+
 /**
  * Interface IDatabase
  * Коннектор Базы данных

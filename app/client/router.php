@@ -39,10 +39,8 @@ final class router extends applicationWebConnectors\ARouter implements applicati
     {
         $this->URL                  =  $URL;
         $this->application          =  $application;
-        /** @var \core\components\simpleView\component */
         $this->set('view', core::getComponents('simpleView'));
         $this->get('view')->setExtension('tpl');
-        /** @var \core\components\PDO\component */
         $this->set('db', core::getComponents('PDO',true)::getInstance(self::$config));
         $this->structure = Array(
             Array(
@@ -108,6 +106,7 @@ final class router extends applicationWebConnectors\ARouter implements applicati
     public function run()
     {
         $this->selectPage();
+        /** @property  \app\client\controllers\front $controller */
         $controller         = new $this->page['controller']();
         $this->page['controller']::setPage($this->page);
         $this->page['controller']::setURL($this->URL);

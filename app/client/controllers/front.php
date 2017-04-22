@@ -10,6 +10,7 @@ namespace app\client\controllers;
 
 use core\components\applicationWeb\connectors;
 use app\client\classes;
+use core\components\database\connectors\ADatabase;
 
 
 /**
@@ -38,10 +39,47 @@ class front extends connectors\AControllers implements connectors\IControllers
             $testValue  =   classes\session::getInstance()->get('test');
         }
 
+        /** @var  $db \core\components\PDO\component */
         $db =   self::getRouter()->get('db');
-        var_dump($db);
-
-
+        $table = Array(
+            'test1',
+            'test2',
+            'test3'=>'t3',
+            Array(
+                'table' =>  'test4',
+                'as'    =>  'T4',
+                'JOIN'  =>  'LEFT',
+                'ON'    =>  '`USER_ID` = `id`'
+            ),
+            Array(
+                'table' =>  'test5',
+                'as'    =>  'T5',
+                'JOIN'  =>  'LEFT',
+                'ON'    =>  array(
+                    '`USER_ID`',
+                    '`id`'
+                ),
+            ),
+        );
+        $where = Array(
+            'id1'   => 1,
+            'id2'   => 2,
+            'AND',
+            'id3'   => 3,
+            'OR',
+            'id4'   => 4,
+            'OR',
+            'id5'   => Array(
+                'c' => '><',
+                'v' => 6
+            ),
+            Array(
+                'f' => 'id6',
+                'c' => '><',
+                'v' => 6
+            ),
+        );
+        $sql =  $db->selectGenerator($table, '*', $where);
 
         $this->content  = Array(
             'NAME'        =>  'Это Фронтальный контроллер',
@@ -55,7 +93,7 @@ class front extends connectors\AControllers implements connectors\IControllers
                     'NAME'    => 'TEST_2'
                 ),
             ),
-            'TEXT'        =>  $test   ?   "Ключ сессии test {$testValue}" :   'сессии test нет. Устанавливаем',
+            'TEXT'        =>  $test   ?   "Ключ сессии test {$testValue}" . "<pre>" . print_r($sql,true) . "</pre>" :   'сессии test нет. Устанавливаем<br>',
             'TITLE'       =>  self::$page['meta_title'],
             'KEYWORDS'    =>  self::$page['meta_keywords'],
             'DESCRIPTION' =>  self::$page['meta_description'],
