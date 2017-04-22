@@ -38,11 +38,65 @@ class front extends connectors\AControllers implements connectors\IControllers
         } else {
             $testValue  =   classes\session::getInstance()->get('test');
         }
-        $i =0;
-        var_dump(($i % 2) == false);
+
         /** @var  $db \core\components\PDO\component */
         $db =   self::getRouter()->get('db');
-        $sql =  $db->select();
+
+        $scheme = Array(
+            Array(
+                'gf-name'   => 'div',
+                'id'        =>  'test',
+                'class'     =>  'test_class1 test_class2',
+                'gf-value' => Array(
+                     Array(
+                         'gf-name'      => 'p',
+                         'id'           =>  'test',
+                         'class'        =>  Array(
+                             'test_class1',
+                             'test_class2'
+                         ),
+                         'gf-value'     => 'Привет'
+                     ),
+                    Array(
+                         'gf-name'      => 'hr',
+                         'id'           =>  'test',
+                         'class'        =>  Array(
+                             'test_class1',
+                             'test_class2'
+                         ),
+                     ),
+                    Array(
+                        'gf-name'   =>  'form',
+                        'id'        =>  'test',
+                        'method'    =>  'post',
+                        'action'    =>  '',
+                        'class'     =>  'test_class1 test_class2',
+                        'gf-value' => Array(
+                            Array(
+                                'gf-name'      => 'input',
+                              //  'gf-handler'    =>  'input',
+                                'gf-field'      =>  'input',
+                                'name'          =>  'field1',
+                                'id'            =>  'test',
+                                'class'         =>  'test_class1 test_class2',
+                            ),
+                            Array(
+                                'gf-name'      => 'input',
+                                // 'gf-handler'                    =>  'input',
+                                'gf-field'                      =>  'input',
+                                'gf-function-before-insert'     =>  function() {
+                                    phpinfo();
+                                },
+                                'name'                          =>  'field1',
+                                'id'                            =>  'test',
+                                'class'                         =>  'test_class1 test_class2',
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+        );
+        $HTML =   self::getRouter()->get('GF')::construct($scheme);
 
         $this->content  = Array(
             'NAME'        =>  'Это Фронтальный контроллер',
@@ -56,7 +110,7 @@ class front extends connectors\AControllers implements connectors\IControllers
                     'NAME'    => 'TEST_2'
                 ),
             ),
-            'TEXT'        =>  $test   ?   "Ключ сессии test {$testValue}" :   'сессии test нет. Устанавливаем<br>',
+            'TEXT'        =>  $HTML . ($test   ?   "Ключ сессии test {$testValue}" :   'сессии test нет. Устанавливаем'),
             'TITLE'       =>  self::$page['meta_title'],
             'KEYWORDS'    =>  self::$page['meta_keywords'],
             'DESCRIPTION' =>  self::$page['meta_description'],

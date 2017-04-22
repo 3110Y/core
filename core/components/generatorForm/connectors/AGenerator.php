@@ -6,7 +6,7 @@
  * Time: 20:22
  */
 
-namespace core\components\generator\connectors;
+namespace core\components\generatorForm\connectors;
 use core\components\component\connectors as componentConnectors;
 
 

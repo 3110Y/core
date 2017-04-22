@@ -42,6 +42,7 @@ final class router extends applicationWebConnectors\ARouter implements applicati
         $this->set('view', core::getComponents('simpleView'));
         $this->get('view')->setExtension('tpl');
         $this->set('db', core::getComponents('PDO',true)::getInstance(self::$config));
+        $this->set('GF', core::getComponents('generatorForm',true));
         $this->structure = Array(
             Array(
                 'id'                =>  1,

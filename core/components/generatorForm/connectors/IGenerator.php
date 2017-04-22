@@ -6,7 +6,7 @@
  * Time: 20:23
  */
 
-namespace core\components\generator\connectors;
+namespace core\components\generatorForm\connectors;
 
 
 /**
@@ -22,4 +22,10 @@ interface IGenerator
      * @return mixed|string|array результат
      */
     public static function construct($scheme);
+
+    /**
+     * Конструирует
+     * @return mixed|string|array результат
+     */
+    public static function save($scheme);
 }
