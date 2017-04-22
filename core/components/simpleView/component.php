@@ -28,13 +28,12 @@ class component extends viewConnectors\AView implements viewConnectors\IView, co
 
     /**
      * Рендерит данные
-     * @param string $template шаблон
-     * @param array $data Данные
      * @return string результат
      */
-    public static function run($template, array $data = Array())
+    public function run()
     {
-        return self::replace($template, $data);
+        //TODO: проверка
+        return self::replace($this->template . '.' .$this->extension, $this->data);
     }
 
     /**

@@ -17,9 +17,7 @@ interface IView
 {
     /**
      * Рендерит данные
-     * @param string $template шаблон
-     * @param array $data Данные
      * @return string результат
      */
-    public static function run($template, array $data = Array());
+    public function run();
 }

@@ -8,7 +8,8 @@
 
 namespace app\client;
 
-use core\components\applicationWeb\connectors;
+use core\components\applicationWeb\connectors as applicationWebConnectors;
+use core\components\simpleView as simpleView;
 use core\core;
 
 
@@ -17,7 +18,7 @@ use core\core;
  * Роутер приложения
  * @package app
  */
-final class router extends connectors\ARouter implements connectors\IRouter
+final class router extends applicationWebConnectors\ARouter implements applicationWebConnectors\IRouter
 {
 
     private static $config = Array(
@@ -39,10 +40,10 @@ final class router extends connectors\ARouter implements connectors\IRouter
     {
         $this->URL                  =  $URL;
         $this->application          =  $application;
-        $this->handler['render']    =  core::getComponents('view');
-        $this->handler['render']->setRender('simpleView');
-        $this->handler['render']->setExtension('tpl');
-        $this->handler['db']    =   core::getComponents('database',true)::getDriver('PDO')::getInstance(self::$config);
+        /** @var simpleView\component */
+        $this->handler['view']      =  core::getComponents('simpleView');
+        $this->handler['view']->setExtension('tpl');
+        //$this->handler['db']    =   core::getComponents('database',true)::getDriver('PDO')::getInstance(self::$config);
         $this->structure = Array(
             Array(
                 'id'                =>  1,
@@ -124,9 +125,9 @@ final class router extends connectors\ARouter implements connectors\IRouter
     public function render()
     {
 
-        $this->handler['render']->setTemplate($this->template);
-        $this->handler['render']->setData($this->content);
-        $this->handler['render']->render();
-        return $this->handler['render']->get();
+        $this->handler['view']->setTemplate($this->template);
+        $this->handler['view']->setData($this->content);
+        $this->handler['view']->run();
+        return $this->handler['view']->get();
     }
 }
