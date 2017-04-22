@@ -29,6 +29,7 @@ class front extends connectors\AControllers implements connectors\IControllers
      */
     public function init()
     {
+
         $test       =   classes\session::getInstance()->exist('test');
         $testValue  =   '';
         if (!$test) {
@@ -36,6 +37,12 @@ class front extends connectors\AControllers implements connectors\IControllers
         } else {
             $testValue  =   classes\session::getInstance()->get('test');
         }
+
+        $db =   self::getRouter()->get('db');
+        var_dump($db);
+
+
+
         $this->content  = Array(
             'NAME'        =>  'Это Фронтальный контроллер',
             'FOR'         =>  Array(

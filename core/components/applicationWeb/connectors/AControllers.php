@@ -93,7 +93,7 @@ abstract class AControllers
      * Отдает Роутер
      * @return object $router роутер
      */
-    public static function getRouter($router)
+    public static function getRouter()
     {
         //TODO: проверка
         return self::$router;

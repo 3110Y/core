@@ -233,31 +233,35 @@ class component extends databaseConnectors\ADatabase implements databaseConnecto
     /**
      * заключает строку в кавычки (если требуется) и экранирует специальные символы внутри строки подходящим для драйвера способом.
      * @param string $string Экранируемая строка.
+     * @param mixed $param Представляет подсказку о типе данных первого параметра для драйверов, которые имеют альтернативные способы экранирования.
      * @return string
      */
-    public function quote($string)
+    public function quote($string, $param = false)
     {
-
+        if($param !== false) {
+            return $this->connect->quote($string, $param);
+        }
+        return $this->connect->quote($string);
     }
 
     /**
-     * Подготавливает SQL запрос к базе данных к запуску
+     * Подготавливает запрос к выполнению и возвращает ассоциированный с этим запросом объект
      * @param string $sql SQL - запрос
-     * @return resource
+     * @return \PDOStatement
      */
     public function prepare($sql)
     {
-
+        return $this->connect->prepare($sql);
     }
 
     /**
      * Выполняет запрос
      * @param string $sql SQL - запрос
-     * @return bool
+     * @return \PDOStatement
      */
     public function query($sql)
     {
-
+        return $this->connect->query($sql);
     }
 
     /**
@@ -266,7 +270,7 @@ class component extends databaseConnectors\ADatabase implements databaseConnecto
      */
     public function getLastID()
     {
-
+        return $this->connect->lastInsertId();
     }
 
     /**
@@ -275,15 +279,15 @@ class component extends databaseConnectors\ADatabase implements databaseConnecto
      */
     public function ping()
     {
-
+        $this->connect->query("SELECT 1");
     }
 
     /**
      * отдает коннект
-     * @return resource;
+     * @return null|\PDO
      */
     public function getConnect()
     {
-
+        return  $this->connect;
     }
 }

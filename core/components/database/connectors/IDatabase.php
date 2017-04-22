@@ -129,9 +129,10 @@ interface IDatabase
     /**
      * заключает строку в кавычки (если требуется) и экранирует специальные символы внутри строки подходящим для драйвера способом.
      * @param string $string Экранируемая строка.
+     * @param mixed $param Представляет подсказку о типе данных первого параметра для драйверов, которые имеют альтернативные способы экранирования.
      * @return string
      */
-    public function quote($string);
+    public function quote($string, $param = false);
 
     /**
      * Подготавливает SQL запрос к базе данных к запуску
@@ -143,7 +144,7 @@ interface IDatabase
     /**
      * Выполняет запрос
      * @param string $sql SQL - запрос
-     * @return bool
+     * @return resource
      */
     public function query($sql);
 
