@@ -8,6 +8,7 @@
 
 namespace core\components\generatorForm;
 use core\components\component\connectors as componentConnectors;
+use core\components\generatorForm\connectors as generatorFormConnectors;
 
 /**
  * Генератор форм
@@ -48,6 +49,10 @@ class component extends componentConnectors\AComponent implements componentConne
      * @var array CSS
      */
     private $css =   Array();
+    /**
+     * @var array поля
+     */
+    private $fields = array();
 
     public function __construct()
     {
@@ -116,9 +121,17 @@ class component extends componentConnectors\AComponent implements componentConne
     }
 
     /**
-     * сохраняет в BD
+     * сохраняет в db
      */
     public function save()
+    {
+
+    }
+
+    /**
+     * получает из db
+     */
+    private function load()
     {
 
     }
@@ -134,7 +147,7 @@ class component extends componentConnectors\AComponent implements componentConne
         for ($i = 0, $iMax = count($scheme); $i < $iMax; $i++) {
             $item   = $scheme[$i];
             if (isset($item['system']['handler'])) {
-                $this->html .=  self::factory($item['system']['handler'])->construct($scheme[$i]);
+                $this->html .=  $this->factory($item['system']['handler'], $scheme[$i]);
                 continue;
             } elseif (is_string($item)) {
                 $this->html .= $item;
@@ -149,13 +162,31 @@ class component extends componentConnectors\AComponent implements componentConne
     /**
      * фабрика
      * @param string $handler имя
+     * @param array $scheme схема
      * @return string результат
      */
-    private static function factory($handler)
+    private function factory($handler, $scheme)
     {
         //TODO: проверка
         $handler    =   "\\core\\components\\generatorForm{$handler}\\component";
-        return new $handler();
+        $handler    =   new $handler();
+        $handler->setScheme($scheme);
+        return $this->setFields($handler);
+    }
+
+    /**
+     * Устанавливает обьект поля
+     * @param object $object обьект
+     * @return bool|string ключ
+     */
+    private function setFields($object)
+    {
+        if ($object  instanceof generatorFormConnectors\IGeneratorForm) {
+            $key    =   '{' . md5(spl_object_hash($object)) . '}';
+            $this->fields[$key]    =   $object;
+            return $key;
+        }
+        return false;
     }
 
     /**

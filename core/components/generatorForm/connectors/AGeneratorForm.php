@@ -17,5 +17,17 @@ use core\components\component\connectors as componentConnectors;
  */
 abstract class AGeneratorForm extends componentConnectors\AComponent implements componentConnectors\IComponent
 {
+    /**
+     * @var array Схема
+     */
+    private $scheme = array();
 
+    /**
+     * Устанавливает Схему
+     * @param array $scheme Схема
+     */
+    public function setScheme($scheme)
+    {
+        $this->scheme = $scheme;
+    }
 }
