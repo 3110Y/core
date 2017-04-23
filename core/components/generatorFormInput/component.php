@@ -34,7 +34,7 @@ class component extends generatorFormConnectors\AGeneratorForm implements
      * @param array $scheme схема
      * @return mixed|string|array результат
      */
-    public static function construct($scheme)
+    public function construct($scheme)
     {
         $system =   isset($scheme['system'])        ?   $scheme['system']           :   Array();
         if(!empty($system)) {

@@ -134,7 +134,7 @@ class component extends componentConnectors\AComponent implements componentConne
         for ($i = 0, $iMax = count($scheme); $i < $iMax; $i++) {
             $item   = $scheme[$i];
             if (isset($item['system']['handler'])) {
-              //  $this->html .=  self::factory($item['system']['handler'])::construct($this->scheme[$i]);
+                $this->html .=  self::factory($item['system']['handler'])->construct($scheme[$i]);
                 continue;
             } elseif (is_string($item)) {
                 $this->html .= $item;
@@ -154,7 +154,8 @@ class component extends componentConnectors\AComponent implements componentConne
     private static function factory($handler)
     {
         //TODO: проверка
-        return "\\core\\components\\generatorForm{$handler}\\component";
+        $handler    =   "\\core\\components\\generatorForm{$handler}\\component";
+        return new $handler();
     }
 
     /**
