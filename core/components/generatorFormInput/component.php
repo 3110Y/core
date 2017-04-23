@@ -31,17 +31,16 @@ class component extends generatorFormConnectors\AGeneratorForm implements
 
     /**
      * Конструирует
-     * @param array $scheme схема
      * @return mixed|string|array результат
      */
-    public function construct($scheme)
+    public function construct()
     {
-        $system =   isset($scheme['system'])        ?   $scheme['system']           :   Array();
+        $system =   isset($this->scheme['system'])        ?   $this->scheme['system']           :   Array();
         if(!empty($system)) {
-            unset($scheme['system']);
+            unset($this->scheme['system']);
         }
         $param  =   Array();
-        foreach ($scheme as $key => $val) {
+        foreach ($this->scheme as $key => $val) {
             if(is_array($val)) {
                 $val = implode(' ', $val);
             }

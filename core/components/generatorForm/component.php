@@ -91,6 +91,11 @@ class component extends componentConnectors\AComponent implements componentConne
     public function run()
     {
         $this->construct($this->scheme);
+        $array = Array();
+        foreach ($this->fields as $key => $value) {
+            $array[$key]    =  $value->construct();
+        }
+        $this->html =   strtr($this->html, $array);
     }
 
     /**
@@ -142,7 +147,7 @@ class component extends componentConnectors\AComponent implements componentConne
      * Конструирует
      * @param array $scheme схема
      */
-    public function construct($scheme)
+    private function construct($scheme)
     {
         for ($i = 0, $iMax = count($scheme); $i < $iMax; $i++) {
             $item   = $scheme[$i];

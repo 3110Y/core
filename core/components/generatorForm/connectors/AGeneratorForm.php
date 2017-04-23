@@ -20,7 +20,7 @@ abstract class AGeneratorForm extends componentConnectors\AComponent implements 
     /**
      * @var array Схема
      */
-    private $scheme = array();
+    protected $scheme = array();
 
     /**
      * Устанавливает Схему

@@ -18,10 +18,9 @@ interface IGeneratorForm
 {
     /**
      * Конструирует
-     * @param array $scheme схема
      * @return mixed|string|array результат
      */
-    public function construct($scheme);
+    public function construct();
 
 
 
