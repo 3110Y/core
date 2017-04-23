@@ -97,7 +97,13 @@ class front extends connectors\AControllers implements connectors\IControllers
                 ),
             ),
         );
-        $HTML =   self::getRouter()->get('GF')::construct($scheme);
+        $data   = $_POST;
+        $config =   Array(
+            'table' => 'table',
+            'id'    =>  isset($_GET['id'])  ?   $_GET['id'] :   0,
+            'field' =>  'id'
+        );
+        $HTML   =   self::getRouter()->get('GF')::construct($scheme, $data, $config);
 
         $this->content  = Array(
             'NAME'        =>  'Это Фронтальный контроллер',
