@@ -127,6 +127,7 @@ class component extends componentConnectors\AComponent implements componentConne
 
     /**
      * Конструирует
+     * @param array $scheme схема
      */
     public function construct($scheme)
     {
