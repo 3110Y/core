@@ -38,10 +38,6 @@ class front extends connectors\AControllers implements connectors\IControllers
         } else {
             $testValue  =   classes\session::getInstance()->get('test');
         }
-
-        /** @var  $db \core\components\PDO\component */
-        $db =   self::getRouter()->get('db');
-
         $scheme = Array(
             Array(
                 'tag'       => 'div',
@@ -99,11 +95,23 @@ class front extends connectors\AControllers implements connectors\IControllers
         );
         $data   = $_POST;
         $config =   Array(
-            'table' => 'table',
-            'id'    =>  isset($_GET['id'])  ?   $_GET['id'] :   0,
-            'field' =>  'id'
+            'connect'       => self::getRouter()->get('db'),
+            'table'         => 'table',
+            'id'            =>  isset($_GET['id'])  ?   $_GET['id'] :   0,
+            'field'         =>  'id'
         );
-        $HTML   =   self::getRouter()->get('GF')::construct($scheme, $data, $config);
+        $GF     =   self::getRouter()->get('GF');
+        /** @var \core\components\generatorForm\component $GF */
+        $GF     =   new $GF();
+        $GF->setScheme($scheme);
+        $GF->setData($data);
+        $GF->setConfig($config);
+        $GF->run();
+        $GF->save();
+        $HTML   =   $GF->getHTML();
+        $JS     =   $GF->getJS();
+        $CSS    =   $GF->getCSS();
+
 
         $this->content  = Array(
             'NAME'        =>  'Это Фронтальный контроллер',

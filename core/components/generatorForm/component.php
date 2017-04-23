@@ -24,31 +24,125 @@ class component extends componentConnectors\AComponent implements componentConne
      * @const
      */
     const NAME  =   'generatorForm';
+    /**
+     * @var array Схема
+     */
+    private $scheme = array();
+    /**
+     * @var array Данные
+     */
+    private $data = array();
+    /**
+     * @var array Конфигурация
+     */
+    private $config = array();
+    /**
+     * @var string html
+     */
+    private $html = '';
+    /**
+     * @var array JS
+     */
+    private $js =   Array();
+    /**
+     * @var array CSS
+     */
+    private $css =   Array();
+
+    public function __construct()
+    {
+    }
+
+    /**
+     * Устанавливает Схему
+     * @param array $scheme Схема
+     */
+    public function setScheme($scheme)
+    {
+        $this->scheme   =   $scheme;
+    }
+
+    /**
+     * Устанавливает Данные
+     * @param array $data Данные
+     */
+    public function setData($data)
+    {
+        $this->data   =   $data;
+    }
+
+    /**
+     * Устанавливает Конфигурацию
+     * @param array $config Конфигурация
+     */
+    public function setConfig($config)
+    {
+        $this->config   =   $config;
+    }
+
+    /**
+     * Запуск
+     */
+    public function run()
+    {
+        $this->construct($this->scheme);
+    }
+
+    /**
+     * Отдает HTML
+     * @return string HTML
+     */
+    public function getHTML()
+    {
+        return $this->html;
+    }
+
+    /**
+     * Отдает JS
+     * @return array JS
+     */
+    public function getJS()
+    {
+        return $this->js;
+    }
+
+    /**
+     * Отдает CSS
+     * @return array CSS
+     */
+    public function getCSS()
+    {
+        return $this->css;
+    }
+
+    /**
+     * сохраняет в BD
+     */
+    public function save()
+    {
+
+    }
+
 
 
     /**
      * Конструирует
-     * @param array $scheme схема
-     * @return mixed|string|array результат
      */
-    public static function construct($scheme)
+    public function construct($scheme)
     {
-        $html   =   '';
         for ($i = 0, $iMax = count($scheme); $i < $iMax; $i++) {
             $item   = $scheme[$i];
             if (isset($item['system']['handler'])) {
-                $html .=  self::factory($item['system']['handler'])::construct($scheme[$i]);
+              //  $this->html .=  self::factory($item['system']['handler'])::construct($this->scheme[$i]);
                 continue;
             } elseif (is_string($item)) {
-                $html .= $item;
+                $this->html .= $item;
             } elseif (!isset($scheme[$i]['tag'])) {
                 continue;
             } else {
-
-                $html .= self::constructHTML($item);
+                $this->html .= $this->constructHTML($item);
             }
         }
-        return $html;
     }
 
     /**
@@ -65,11 +159,9 @@ class component extends componentConnectors\AComponent implements componentConne
     /**
      * Конструирует HTML
      * @param array $item схемв
-     * @return string HTML
      */
-    private static function constructHTML($item)
+    private function constructHTML($item)
     {
-        $html   =   '';
         $system =   isset($item['system'])        ?   $item['system']           :   Array();
         $tag    =   isset($item['tag'])           ?   $item['tag']              :   null;
         if(!empty($system)) {
@@ -79,7 +171,7 @@ class component extends componentConnectors\AComponent implements componentConne
             unset($item['tag']);
         }
         if(isset($item['children']) && is_array($item['children'])) {
-            $children  =   self::construct($item['children']);
+            $children  =   $this->construct($item['children']);
             unset($item['children']);
         } elseif(isset($item['children'])){
             $children   =   $item['children'];
@@ -96,11 +188,10 @@ class component extends componentConnectors\AComponent implements componentConne
         }
         $param = implode(' ', $param);
         if ($children === null) {
-            $html .= "<{$tag} {$param}>";
+            $this->html .= "<{$tag} {$param}>";
         } else {
-            $html .= "<{$tag} {$param} > {$children} </{$tag}>";
+            $this->html .= "<{$tag} {$param} > {$children} </{$tag}>";
         }
-        return $html;
     }
 
 }
