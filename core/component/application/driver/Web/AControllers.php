@@ -6,12 +6,11 @@
  * Time: 16:04
  */
 
-namespace core\components\applicationWeb\connectors;
+namespace core\components\application\driver\Web;
 
 /**
- * Class controllers
- * Коннектор контроллера Web приложения
- * @package core\connectors\app
+ * Class AControllers
+ * @package core\components\application\driver\Web
  */
 abstract class AControllers
 {

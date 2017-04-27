@@ -6,25 +6,20 @@
  * Time: 15:42
  */
 
-namespace core\components\PDO;
-use core\components\database\connectors as databaseConnectors;
+namespace core\components\database\driver\PDO;
+use core\component\database\connector as databaseConnector;
 
 
 /**
  * Class component
- * компонент PDO
- * @package core\components\PDO
+ * @package core\components\database\driver\PDO
  */
-class component extends databaseConnectors\ADatabase implements databaseConnectors\IDatabase
+class component extends databaseConnector\AConnector implements databaseConnector\IConnector
 {
     /**
      * @const float Версия ядра
      */
     const VERSION   =   1.0;
-    /**
-     * @const
-     */
-    const NAME  =   'PDO';
     /**
      * @var null|\PDO соединение
      */

@@ -6,12 +6,11 @@
  * Time: 16:05
  */
 
-namespace core\components\applicationWeb\connectors;
+namespace core\components\application\driver\Web;
 
 /**
  * Interface IControllers
- * Коннектор контроллера Web приложения
- * @package core\connectors\app
+ * @package core\components\application\driver\Web
  */
 interface IControllers
 {

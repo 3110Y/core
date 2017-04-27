@@ -7,13 +7,12 @@
  * Time: 14:40
  */
 
-namespace core\components\applicationWeb\connectors;
+namespace core\components\application\driver\Web;
 
 
 /**
- * Abstract class router
- * Коннектор Роутера Web приложения
- * @package core\connectors\app
+ * Class ARouter
+ * @package core\components\application\driver\Web
  */
 abstract class ARouter
 {

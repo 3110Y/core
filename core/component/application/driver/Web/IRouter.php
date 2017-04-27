@@ -6,12 +6,11 @@
  * Time: 15:06
  */
 
-namespace core\components\applicationWeb\connectors;
+namespace core\components\application\driver\Web;
 
 /**
  * Interface IRouter
- * Коннектор Роутера Web приложения
- * @package core\connectors\app
+ * @package core\components\application\driver\Web
  */
 interface IRouter
 {

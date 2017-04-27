@@ -6,14 +6,13 @@
  * Time: 16:06
  */
 
-namespace core\components\view\connectors;
+namespace core\component\templateEngine\connector;
 
 /**
- * Interface IView
- * Базовый Коннектор шаблонизатора
+ * Interface IConnector
  * @package core\components\view\connectors
  */
-interface IView
+interface IConnector
 {
     /**
      * Рендерит данные

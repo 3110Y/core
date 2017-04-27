@@ -6,15 +6,14 @@
  * Time: 15:51
  */
 
-namespace core\components\database\connectors;
+namespace core\component\database\connector;
 
 
 /**
- * Interface IDatabase
- * Коннектор Базы данных
- * @package core\components\database\connectors
+ * Interface IConnector
+ * @package core\component\database\connector
  */
-interface IDatabase
+interface IConnector
 {
 
     /**

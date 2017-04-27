@@ -6,25 +6,20 @@
  * Time: 15:39
  */
 
-namespace core\components\simpleView;
-use core\components\component\connectors as componentsConnectors;
-use core\components\view\connectors as viewConnectors;
+namespace core\components\templateEngine\driver\simpleView;
+use core\component\templateEngine\connector as templateEngineConnector;
 
 /**
  * Class component
- * компонент шаблонизатора
- * @package core\components\simpleView
+ * @package core\components\templateEngine\driver\simpleView
  */
-class component extends viewConnectors\AView implements viewConnectors\IView, componentsConnectors\IComponent
+class component extends templateEngineConnector\AConnector implements templateEngineConnector\IConnector
 {
     /**
      * @const float Версия ядра
      */
     const VERSION   =   1.0;
-    /**
-     * @const
-     */
-    const NAME  =   'simpleView';
+
 
     /**
      * Рендерит данные

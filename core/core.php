@@ -20,10 +20,6 @@ class core
      */
     const VERSION   =   1.0;
     /**
-     * @const
-     */
-    const NAME  =   'core';
-    /**
      * @const string Путь до компонентов
      */
     const components = '\core\components\\';
@@ -181,31 +177,6 @@ class core
         } elseif ($_SERVER['DOCUMENT_ROOT'] . $file) {
             require $_SERVER['DOCUMENT_ROOT'] . $file;
             return true;
-        }
-        return false;
-    }
-
-    /**
-     * Отдает компонент
-     * @param string $name имя компонента
-     * @param boolean $needStatic нужен статический
-     * @param string $file файл
-     * @return bool
-     */
-    public static function getComponents($name, $needStatic = false, $file = '\component')
-    {
-        $components   =   self::components . $name . $file;
-        $data = array(
-            '_' => DIRECTORY_SEPARATOR,
-            '\\' => DIRECTORY_SEPARATOR,
-        );
-        $file   =   $_SERVER['DOCUMENT_ROOT'] . strtr($components, $data) . '.php';
-        if (file_exists($file)) {
-            if ($needStatic) {
-                return $components;
-            } else {
-                return new $components();
-            }
         }
         return false;
     }

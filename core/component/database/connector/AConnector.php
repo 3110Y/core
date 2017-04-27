@@ -6,16 +6,14 @@
  * Time: 15:51
  */
 
-namespace core\components\database\connectors;
-use core\components\component\connectors as componentConnectors;
+namespace core\component\database\connector;
 
 
 /**
- * Class ADatabase
- * Коннектор Базы данных
- * @package core\components\database\connectors
+ * Class AConnector
+ * @package core\component\database\connector
  */
-abstract class ADatabase extends componentConnectors\AComponent
+abstract class AConnector
 {
     /**
      * @var array экземпляр

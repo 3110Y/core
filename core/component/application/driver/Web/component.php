@@ -6,23 +6,17 @@
  * Time: 23:24
  */
 
-namespace core\components\applicationWeb;
-use core\components\application\connectors as applicationConnectors;
-use core\components\component\connectors as componentsConnectors;
+namespace core\component\application\driver\Web;
+use core\component\application\connector as applicationConnector;
 
 /**
  * Class component
- * Компонент Web приложения
- * @package core\components\applicationWeb
+ * @package core\component\application\driver\Web
  */
-class component extends applicationConnectors\AApplication implements applicationConnectors\IApplication, componentsConnectors\IComponent
+class component extends applicationConnector\AConnector implements applicationConnector\IConnector
 {
     /**
-     * @const float Версия ядра
+     * @const float Версия
      */
     const VERSION   =   1.0;
-    /**
-     * @const
-     */
-    const NAME  =   'PDO';
 }

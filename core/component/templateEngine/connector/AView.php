@@ -6,15 +6,13 @@
  * Time: 16:06
  */
 
-namespace core\components\view\connectors;
-use core\components\component\connectors as componentConnectors;
+namespace core\component\templateEngine\connector;
 
 /**
- * Class AView
- * Базовый Коннектор шаблонизатора
+ * Class AConnector
  * @package core\components\view\connectors
  */
-abstract class AView extends componentConnectors\AComponent
+abstract class AConnector
 {
     /**
      * @var string шаблон
