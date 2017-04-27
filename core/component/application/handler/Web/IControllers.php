@@ -6,11 +6,11 @@
  * Time: 16:05
  */
 
-namespace core\components\application\driver\Web;
+namespace core\components\application\handler\Web;
 
 /**
  * Interface IControllers
- * @package core\components\application\driver\Web
+ * @package core\components\application\handler\Web
  */
 interface IControllers
 {

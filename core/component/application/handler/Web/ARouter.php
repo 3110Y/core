@@ -7,12 +7,12 @@
  * Time: 14:40
  */
 
-namespace core\components\application\driver\Web;
+namespace core\components\application\handler\Web;
 
 
 /**
  * Class ARouter
- * @package core\components\application\driver\Web
+ * @package core\components\application\handler\Web
  */
 abstract class ARouter
 {

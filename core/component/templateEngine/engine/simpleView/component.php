@@ -6,12 +6,12 @@
  * Time: 15:39
  */
 
-namespace core\components\templateEngine\driver\simpleView;
+namespace core\components\templateEngine\engine\simpleView;
 use core\component\templateEngine\connector as templateEngineConnector;
 
 /**
  * Class component
- * @package core\components\templateEngine\driver\simpleView
+ * @package core\components\templateEngine\engine\simpleView
  */
 class component extends templateEngineConnector\AConnector implements templateEngineConnector\IConnector
 {
@@ -27,7 +27,7 @@ class component extends templateEngineConnector\AConnector implements templateEn
     public function run()
     {
         //TODO: проверка
-        $this->result   =   $this->replace($this->template . '.' .$this->extension, $this->data);
+        $this->result   =   self::replace($this->template . '.' .$this->extension, $this->data);
     }
 
     /**
@@ -37,7 +37,7 @@ class component extends templateEngineConnector\AConnector implements templateEn
      * @param string $html HTML
      * @return string результат
      */
-    public function replace($template = false, array $data = Array(), $html = '')
+    public static function replace($template = false, array $data = Array(), $html = '')
     {
         if ($template !== false) {
             if (file_exists($template)) {
@@ -58,14 +58,14 @@ class component extends templateEngineConnector\AConnector implements templateEn
             $array  =   Array();
             for ($i = 0, $iMax = count($output[1]); $i < $iMax; $i++) {
                 $file   =   $path . $output[1][$i];
-                $array[$output[0][$i]]  =   $this->replace($file);
+                $array[$output[0][$i]]  =   self::replace($file);
             }
             $content    =   strtr($content, $array);
         }
         $array  =   Array();
         foreach ($data as $key => $value) {
             if (is_array($value)) {
-                $content = $this->loop("{$key}", $value, $content);
+                $content = self::loop("{$key}", $value, $content);
             } else {
                 $array["{{$key}}"] =  $value;
             }
@@ -81,10 +81,10 @@ class component extends templateEngineConnector\AConnector implements templateEn
      * @param mixed|string $template шаблон
      * @return string хтмл
      */
-    public function loop($tagEach, array $array, $html = '', $template = false)
+    public static function loop($tagEach, array $array, $html = '', $template = false)
     {
         if ($html == '' && $template != false) {
-            $html   =   $this->replace($template);
+            $html   =   self::replace($template);
         }
         $cuteFragment = self::cut($tagEach, $html);
 
@@ -92,7 +92,7 @@ class component extends templateEngineConnector\AConnector implements templateEn
         if (count($array) > 0) {
             foreach ($array as $key => $value) {
                 if (is_array($value)) {
-                    $cuteResult[] = $this->replace(false, $value, $cuteFragment);
+                    $cuteResult[] = self::replace(false, $value, $cuteFragment);
                 }
             }
         }
@@ -107,7 +107,7 @@ class component extends templateEngineConnector\AConnector implements templateEn
      * @param string $html хтмл
      * @return mixed|string|bool результат
      */
-    public function cut($section, $html)
+    public static function cut($section, $html)
     {
         $pattern    =   "/{{$section}}(.*?){\\/{$section}}/is";
         preg_match($pattern , $html , $result);

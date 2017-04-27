@@ -6,12 +6,12 @@
  * Time: 23:24
  */
 
-namespace core\component\application\driver\Web;
+namespace core\component\application\handler\Web;
 use core\component\application\connector as applicationConnector;
 
 /**
  * Class component
- * @package core\component\application\driver\Web
+ * @package core\component\application\handler\Web
  */
 class component extends applicationConnector\AConnector implements applicationConnector\IConnector
 {

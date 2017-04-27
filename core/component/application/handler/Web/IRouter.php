@@ -6,11 +6,11 @@
  * Time: 15:06
  */
 
-namespace core\components\application\driver\Web;
+namespace core\components\application\handler\Web;
 
 /**
  * Interface IRouter
- * @package core\components\application\driver\Web
+ * @package core\components\application\handler\Web
  */
 interface IRouter
 {
