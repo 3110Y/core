@@ -108,8 +108,10 @@ class component extends databaseConnectors\ADatabase implements databaseConnecto
      */
     public function inset($table = null, $value = null)
     {
-        $sql = $this->insetGenerator($table, $value);
-        return $this->query($sql);
+        $result = $this->insetGenerator($table, $value);
+        $query  =   $this->getConnect()->prepare($result['sql']);
+        $query->execute($result['execute']);
+        return $query;
     }
 
     /**
@@ -126,7 +128,7 @@ class component extends databaseConnectors\ADatabase implements databaseConnecto
     public function select($table = null, $fields = null, $where = null, $order = null, $limit = null, $group = null, $having = null)
     {
         $result = self::selectGenerator($table, $fields, $where, $order, $limit, $group, $having);
-        $query  =   $this->prepare($result['sql']);
+        $query  =   $this->getConnect()->prepare($result['sql']);
         $query->execute($result['execute']);
         return $query;
     }
@@ -191,8 +193,10 @@ class component extends databaseConnectors\ADatabase implements databaseConnecto
      */
     public function update($table = null, $value = null, $where = null)
     {
-        $sql = $this->updateGenerator($table, $value , $where);
-        return $this->query($sql);
+        $result = $this->updateGenerator($table, $value , $where);
+        $query  =   $this->getConnect()->prepare($result['sql']);
+        $query->execute($result['execute']);
+        return $query;
     }
 
     /**
@@ -205,8 +209,10 @@ class component extends databaseConnectors\ADatabase implements databaseConnecto
      */
     public function dell($table = null, $where = null, $order = null, $limit = null)
     {
-        $sql = $this->dellGenerator($table, $where, $order, $limit);
-        return $this->query($sql);
+        $result = $this->dellGenerator($table, $where, $order, $limit);
+        $query  =   $this->getConnect()->prepare($result['sql']);
+        $query->execute($result['execute']);
+        return $query;
     }
 
     /**
@@ -216,8 +222,10 @@ class component extends databaseConnectors\ADatabase implements databaseConnecto
      */
     public function column($table = null)
     {
-        $sql = $this->columnGenerator($table);
-        return $this->query($sql);
+        $result = $this->columnGenerator($table);
+        $query  =   $this->getConnect()->prepare($result['sql']);
+        $query->execute($result['execute']);
+        return $query;
     }
 
     //TODO: show tables
@@ -240,7 +248,7 @@ class component extends databaseConnectors\ADatabase implements databaseConnecto
      */
     public function drop($table = null)
     {
-        $sql = $this->dropGenerator($table, $where, $order, $limit);
+        $sql = $this->dropGenerator($table);
         return $this->query($sql);
     }
 

@@ -490,7 +490,9 @@ abstract class ADatabase extends componentConnectors\AComponent
         );
         $value  =   array_change_key_case($value, CASE_LOWER );
         foreach ($value as $key => $val) {
-            $val  =   array_change_key_case($val, CASE_LOWER );
+            if (is_array($val)) {
+                $val = array_change_key_case($val, CASE_LOWER);
+            }
             $v = Array(
                 'a'     => null,
                 'f'     => null,
@@ -507,20 +509,20 @@ abstract class ADatabase extends componentConnectors\AComponent
                 $v['a'] = "`{$val['alias']}` . ";
             }
             if (isset($val['f'])) {
-                $v['f'] = "`{$val['f']}`";
+                $v['f'] = $val['f'];
             } elseif (isset($val['field'])) {
-                $v['f'] = "`{$val['f']}`";
+                $v['f'] = $val['f'];
             } elseif (is_string($key)) {
-                $v['f'] = "`{$key}`";
+                $v['f'] = $key;
             }
 
             if (isset($val['k'])) {
                 $v['k'] = ":{$val['k']}";
             } elseif (isset($val['key'])) {
                 $v['k'] = ":{$val['key']}";
-            } elseif (isset($f['f'])) {
-                $v['k'] = $f['f'] . '_' . uniqid();
-                $v['k'] = ":{$f['k']}";
+            } elseif ($v['f'] != null) {
+                $v['k'] = $v['f'] . '_' . uniqid();
+                $v['k'] = ":{$v['k']}";
             }
 
             if (isset($val['v'])) {
@@ -532,12 +534,15 @@ abstract class ADatabase extends componentConnectors\AComponent
             } elseif (is_string($val)) {
                 $v['v'] = $val;
             }
+            if ($v['f'] != null) {
+                $v['f'] =   " `{$v['f']}` ";
+            }
             $v['f'] = $v['a'] . $v['f'];
             $result['field'][$v['f']] =  $v['k'];
             $result['execute'][$v['k']] = $v['v'];
         }
 
-        if ($forInsert == true) {
+        if ($forInsert == false) {
             foreach ($result['field'] as $key => $value) {
                 $result['value'][] = "{$key} = {$value}";
             }
@@ -731,7 +736,7 @@ abstract class ADatabase extends componentConnectors\AComponent
     {
         $execute = Array();
         $table      =   self::table($table);
-        $value      =   self::value($value);
+        $value      =   self::value($value, false);
         $where      =   self::where($where);
         $sql        =   "UPDATE {$table} SET {$value['value']} {$where['where']} ";
         $execute    =   array_merge($execute, $value['execute']);
