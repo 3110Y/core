@@ -6,13 +6,13 @@
  * Time: 16:06
  */
 
-namespace core\component\templateEngine\connector;
+namespace core\component\templateEngine;
 
 /**
- * Class AConnector
- * @package core\components\view\connectors
+ * Class AEngine
+ * @package core\components\templateEngine
  */
-abstract class AConnector
+abstract class AEngine
 {
     /**
      * @var string шаблон

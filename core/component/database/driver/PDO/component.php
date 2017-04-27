@@ -7,14 +7,14 @@
  */
 
 namespace core\components\database\driver\PDO;
-use core\component\database\connector as databaseConnector;
+use core\component\database as database;
 
 
 /**
  * Class component
  * @package core\components\database\driver\PDO
  */
-class component extends databaseConnector\AConnector implements databaseConnector\IConnector
+class component extends database\ADriver implements database\IDriver
 {
     /**
      * @const float Версия ядра

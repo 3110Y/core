@@ -6,14 +6,14 @@
  * Time: 15:51
  */
 
-namespace core\component\database\connector;
+namespace core\component\database;
 
 
 /**
- * Interface IConnector
- * @package core\component\database\connector
+ * Interface IDriver
+ * @package core\component\database
  */
-interface IConnector
+interface IDriver
 {
 
     /**

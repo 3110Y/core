@@ -6,14 +6,14 @@
  * Time: 15:51
  */
 
-namespace core\component\database\connector;
+namespace core\component\database;
 
 
 /**
- * Class AConnector
- * @package core\component\database\connector
+ * Class ADriver
+ * @package core\component\database
  */
-abstract class AConnector
+abstract class ADriver
 {
     /**
      * @var array экземпляр

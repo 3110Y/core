@@ -7,13 +7,13 @@
  */
 
 namespace core\components\templateEngine\engine\simpleView;
-use core\component\templateEngine\connector as templateEngineConnector;
+use core\component\templateEngine as templateEngine;
 
 /**
  * Class component
  * @package core\components\templateEngine\engine\simpleView
  */
-class component extends templateEngineConnector\AConnector implements templateEngineConnector\IConnector
+class component extends templateEngine\AEngine implements templateEngine\IEngine
 {
     /**
      * @const float Версия ядра

@@ -6,13 +6,13 @@
  * Time: 16:06
  */
 
-namespace core\component\templateEngine\connector;
+namespace core\component\templateEngine;
 
 /**
- * Interface IConnector
- * @package core\components\view\connectors
+ * Interface IEngine
+ * @package core\components\templateEngine
  */
-interface IConnector
+interface IEngine
 {
     /**
      * Рендерит данные
