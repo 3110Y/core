@@ -87,8 +87,8 @@ class router
     public function run()
     {
         if (!empty($this->application)) {
-            $namespace  =   'app\\' . $this->application['path'];
-            Core::getInstance()->addNamespace($namespace, "/app/{$this->application['path']}");
+            $namespace  =   'application\\' . $this->application['path'];
+            core::getInstance()->addNamespace($namespace, $namespace);
             $application = $namespace . '\router';
             $router = new $application($this->URL, $this->application);
             $router->run();

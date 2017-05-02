@@ -19,11 +19,11 @@ include 'core' . DIRECTORY_SEPARATOR . 'core.php';
 $structure  =   Array(
     Array(
         'name'      => 'Клиент',
-        'url'       => '/',
-        'path'      => 'client',
+        'url'       => '/admin',
+        'path'      => 'admin',
         'priority'  => 10,
         'theme'     => 'basic',
-        'handler'   => \Core\Components\applicationWeb\Component::class,
+        'handler'   => 'Web',
     ),
 );
 $result = (new \core\router($structure))->run();
