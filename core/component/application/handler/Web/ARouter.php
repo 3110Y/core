@@ -7,14 +7,14 @@
  * Time: 14:40
  */
 
-namespace core\components\application\handler\Web;
+namespace core\component\application\handler\Web;
 
 
 /**
  * Class ARouter
  * @package core\components\application\handler\Web
  */
-abstract class ARouter
+abstract class ARouter extends AApplication
 {
     /**
      * @var array URL

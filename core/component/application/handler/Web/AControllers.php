@@ -6,13 +6,13 @@
  * Time: 16:04
  */
 
-namespace core\components\application\handler\Web;
+namespace core\component\application\handler\Web;
 
 /**
  * Class AControllers
  * @package core\components\application\handler\Web
  */
-abstract class AControllers
+abstract class AControllers extends AApplication
 {
     /**
      * @var array структура контента

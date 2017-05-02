@@ -6,7 +6,7 @@
  * Time: 15:06
  */
 
-namespace core\components\application\handler\Web;
+namespace core\component\application\handler\Web;
 
 /**
  * Interface IRouter
@@ -16,13 +16,13 @@ interface IRouter
 {
     /**
      * Запускает роутинг
-     * @return router
+     * @return object
      */
     public function run();
 
     /**
-     * Запускает роутинг
-     * @return router
+     * Отдает данные
+     * @return string
      */
     public function render();
 }

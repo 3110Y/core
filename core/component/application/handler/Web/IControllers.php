@@ -6,7 +6,7 @@
  * Time: 16:05
  */
 
-namespace core\components\application\handler\Web;
+namespace core\component\application\handler\Web;
 
 /**
  * Interface IControllers
