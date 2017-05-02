@@ -13,7 +13,7 @@ namespace core;
  * Class core
  * @package core
  */
-class core
+final class core
 {
     /**
      * @const float Версия ядра
@@ -24,10 +24,8 @@ class core
      */
     const components = '\core\components\\';
     /**
-     * Ассоциативный массив. Ключи содержат префикс пространства имён,
+     * @var array Ассоциативный массив. Ключи содержат префикс пространства имён,
      * значение — массив базовых директорий для классов в этом пространстве имён.
-     *
-     * @var array
      */
     protected $prefixes = array();
     /**
@@ -35,7 +33,10 @@ class core
      * @var null
      */
     private static $instance = null;
-
+    /**
+     * @var string CORE ROOT
+     */
+    private static $DR = '';
 
     /**
      * @return core|null
@@ -52,7 +53,32 @@ class core
     /**
      * core constructor.
      */
-    final public function __construct() {}
+    final public function __construct(){}
+
+    /**
+     * Устанавливает CORE ROOT;
+     * @param string $DR DOCUMENT ROOT
+     */
+    public static function setDR(string $DR = __DIR__)
+    {   if (self::$DR === '') {
+            self::$DR  =   str_replace('\\', '/', $DR);
+        }
+    }
+
+    /**
+     * Отдает CORE ROOT
+     * @return string CORE ROOT;
+     */
+    public static function getDR()
+    {
+        if (self::$DR !== '') {
+            return self::$DR;
+        } elseif (isset($_SERVER['DOCUMENT_ROOT'])) {
+            return $_SERVER['DOCUMENT_ROOT'];
+        } else {
+            return str_replace('\\', '/', str_replace('\core', '', __DIR__));
+        }
+    }
 
     /**
      * Регистрирует загрузчик в стеке загрузчиков SPL.
@@ -73,8 +99,11 @@ class core
      * В этом случае она будет проверяться первой.
      * @return void
      */
-    public function addNamespace($prefix, $base_dir, $prepend = false)
+    public function addNamespace($prefix, $base_dir = '', $prepend = false)
     {
+        if($base_dir == '') {
+            $base_dir = $prefix;
+        }
         // нормализуем префикс пространства имён
         $prefix = trim($prefix, '\\') . '\\';
 
@@ -174,8 +203,8 @@ class core
         if (file_exists($file)) {
             require $file;
             return true;
-        } elseif ($_SERVER['DOCUMENT_ROOT'] . $file) {
-            require $_SERVER['DOCUMENT_ROOT'] . $file;
+        } elseif (self::getDR() . $file) {
+            require self::getDR() . $file;
             return true;
         }
         return false;

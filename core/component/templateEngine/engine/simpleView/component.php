@@ -8,6 +8,7 @@
 
 namespace core\components\templateEngine\engine\simpleView;
 use core\component\templateEngine as templateEngine;
+use core\core;
 
 /**
  * Class component
@@ -42,8 +43,8 @@ class component extends templateEngine\AEngine implements templateEngine\IEngine
         if ($template !== false) {
             if (file_exists($template)) {
                 $content = file_get_contents($template);
-            } elseif ($_SERVER['DOCUMENT_ROOT'] . $template) {
-                $template   =   $_SERVER['DOCUMENT_ROOT'] . $template;
+            } elseif (core::getDR() . $template) {
+                $template   =   core::getDR() . $template;
                 $content = file_get_contents($template);
             } else {
                 //TODO: Проверка наличия шаблона

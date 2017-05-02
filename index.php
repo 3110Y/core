@@ -11,11 +11,10 @@ ini_set('display_errors', 1);
 date_default_timezone_set('Europe/Moscow');
 /** @var int Время Старта */
 $timeStart  = microtime(true);
-
 include 'core' . DIRECTORY_SEPARATOR . 'core.php';
-\Core\Core::getInstance()->register();
-\Core\Core::getInstance()->addNamespace('core', '/core');
-
+\core\core::setDR(__DIR__);
+\core\core::getInstance()->register();
+\core\core::getInstance()->addNamespace('core', '/core');
 $structure  =   Array(
     Array(
         'name'      => 'Клиент',
@@ -27,7 +26,6 @@ $structure  =   Array(
     ),
 );
 $result = (new \core\router($structure))->run();
-
 /** @var int Время Конца */
 $timeEnd = microtime(true);
 /** @var int Время Разница*/
