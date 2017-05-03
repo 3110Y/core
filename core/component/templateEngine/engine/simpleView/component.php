@@ -43,12 +43,12 @@ class component extends templateEngine\AEngine implements templateEngine\IEngine
         if ($template !== false) {
             if (file_exists($template)) {
                 $content = file_get_contents($template);
-            } elseif (core::getDR() . $template) {
+            } elseif (file_exists(core::getDR() . $template)) {
                 $template   =   core::getDR() . $template;
                 $content = file_get_contents($template);
             } else {
                 //TODO: Проверка наличия шаблона
-                die('Нет шаблона');
+                die('Нет шаблона: ' . $template);
             }
         } else {
             $content    =   $html;

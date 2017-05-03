@@ -23,16 +23,16 @@ class component extends application\AHandler implements application\IHandler
 
     /**
      * Отдает экземпляр роутера приложения
-     * @param array $URL URL
      * @param array $application настройки приложения
+     * @param array $URL URL
      * @return mixed|string результат работы приложения
      */
-    public static function factory(array $URL, array $application)
+    public static function factory(array $application, array $URL)
     {
         $namespace  =   'application\\' . $application['path'];
         core::getInstance()->addNamespace($namespace, $namespace);
-        $application = $namespace . '\router';
-        $router = new $application($URL, $application);
+        $router = $namespace . '\router';
+        $router = new $router($URL, $application);
         $router->run();
         return $router->render();
 

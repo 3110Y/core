@@ -57,6 +57,10 @@ abstract class AApplication
      * @var array страница для ошибок
      */
     protected static $pageError = Array();
+    /**
+     * @var string шаблон
+     */
+    protected static $template = '';
 
 
     /**
@@ -68,7 +72,7 @@ abstract class AApplication
     {
         $path   =   self::$application['path'];
         $theme   =   self::$application['theme'];
-        return "/app/{$path}/theme/{$theme}/{$template}";
+        return "/application/{$path}/theme/{$theme}/{$template}";
     }
 
     /**

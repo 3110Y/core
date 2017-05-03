@@ -40,7 +40,7 @@ final class router extends applicationWeb\ARouter implements applicationWeb\IRou
      */
     public function __construct($URL, $application)
     {
-        $this->URL                  =  $URL;
+        self::$URL                  =  $URL;
         self::$application          =  $application;
         self::set('db', PDO\component::getInstance(self::$config));
         self::set('view', new simpleView\component());
@@ -87,21 +87,20 @@ final class router extends applicationWeb\ARouter implements applicationWeb\IRou
     public function run()
     {
         $this->selectPage();
-        die($this->page);
         $controllerBasic    =   new controllers\basic();
-        $controllerBasic->preInit();
-
-        $controller         = new $this->page['controller']();
-        $this->page['controller']::setPage($this->page);
-        $this->page['controller']::setURL($this->URL);
-        $this->page['controller']::setRouter($this);
-        $controller->init();
-
-
-
-        $this->template         =   $controller->getTemplate();
-
-        $controllerBasic->postInit();
+        if ($controllerBasic instanceof applicationWeb\IControllerBasic) {
+            $controllerBasic->preInit();
+        }
+        $path               =   self::$application['path'];
+        $controller         =   self::$page['controller'];
+        $controller         = "application\\{$path}\\controllers\\{$controller}";
+        $controller         = new $controller();
+        if ($controller instanceof applicationWeb\IControllers) {
+            $controller->init();
+        }
+        if ($controllerBasic instanceof applicationWeb\IControllerBasic) {
+            $controllerBasic->postInit();
+        }
         return $this;
     }
 
@@ -111,10 +110,17 @@ final class router extends applicationWeb\ARouter implements applicationWeb\IRou
      */
     public function render()
     {
-
-        $this->get('view')->setTemplate($this->template);
-        $this->get('view')->setData($this->content);
-        $this->get('view')->run();
-        return  $this->get('view')->get();
+        if (isset($_SERVER['HTTP_REFERER']) &&
+            $_SERVER['HTTP_REFERER'] !== '' &&
+            isset($_SERVER['HTTP_X_REQUESTED_WITH']) &&
+            !empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&
+            strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+            return json_encode(self::$content);
+        } else {
+            $this->get('view')->setTemplate(self::$template);
+            $this->get('view')->setData(self::$content);
+            $this->get('view')->run();
+            return $this->get('view')->get();
+        }
     }
 }

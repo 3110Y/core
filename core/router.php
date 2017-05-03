@@ -7,6 +7,7 @@
  */
 
 namespace core;
+use core\component\application as application;
 
 
 /**
@@ -78,10 +79,10 @@ class router
      */
     private function setURL($url)
     {
-        if (!isset($item['url'])) {
-            $item['url']    =   $item['path'];
-        }
         foreach ($this->structure as $item) {
+            if (!isset($item['url'])) {
+                $item['url']    =   $item['path'];
+            }
             if ($item['url'] === $url[0] || ($item['url'] == '/' && $url[0] == '')) {
                 $this->URL = $url;
                 return $item;
@@ -98,7 +99,10 @@ class router
     {
         if (!empty($this->application)) {
             $handler    =   $this->application['handler'];
-            return $handler::factoty($this->application, $this->URL);
+            $handler    =   "\\core\\component\\application\\handler\\{$handler}\\component";
+            if (new $handler() instanceof application\IHandler) {
+                return $handler::factory($this->application, $this->URL);
+            }
         }
         return 'Нет приложения';
     }

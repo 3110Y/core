@@ -25,6 +25,7 @@ class basic extends handlerWeb\AControllers implements handlerWeb\IControllers, 
     {
         $path                           =   self::$application['path'];
         $theme                          =   self::$application['theme'];
+        self::$template                 =   self::getTemplate(self::$page['template']);;
         self::$content['THEME']         =   "/app/{$path}/theme/{$theme}/";
         self::$content['URL']           =   self::$pageURL;
         self::$content['TITLE']         =   self::$page['meta_title'];
