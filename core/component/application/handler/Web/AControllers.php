@@ -10,20 +10,10 @@ namespace core\component\application\handler\Web;
 
 /**
  * Class AControllers
- * @package core\components\application\handler\Web
+ * @package core\component\application\handler\Web
  */
 abstract class AControllers extends AApplication
 {
-
-
-    /**
-     * @var array страница
-     */
-    public static $page = Array();
-    /**
-     * @var array URL
-     */
-    protected static $URL = Array();
     /**
      * @var array URL путь
      */
@@ -37,15 +27,6 @@ abstract class AControllers extends AApplication
      */
     protected static $subURL  =   Array();
 
-    /**
-     * Отдает структуру контента
-     * @return array структура контента
-     */
-    public function getContent()
-    {
-        return $this->content;
-    }
-
 
 
     /**
@@ -58,15 +39,6 @@ abstract class AControllers extends AApplication
     }
 
     /**
-     * Задает страницу
-     * @param array $page страница
-     */
-    public static function setPage(array $page)
-    {
-        self::$page = $page;
-    }
-
-    /**
      * Задает URL страницы
      * @param string $URL URL
      */
@@ -76,36 +48,17 @@ abstract class AControllers extends AApplication
     }
 
     /**
-     * Задает URL
-     * @param array $URL URL
-     */
-    public static function setURL(array $URL)
-    {
-        self::$URL = $URL;
-    }
-
-    /**
      * Отдает URL
      * @param mixed|int|boolean $level уровень URL
      * @return mixed|string|boolean URL
      */
-    public static function getURL($level = false)
+    protected static function getURL($level = false)
     {
         if ($level === false) {
             return self::$URL;
         }
         return isset(self::$URL[$level])  ?   self::$URL[$level]  :   false;
     }
-
-    /**
-     * Задает Роутер
-     * @param object $router роутер
-     */
-    public static function setRouter($router)
-    {
-        self::$router = $router;
-    }
-
 
     /**
      * Отдает Колличество подуровней

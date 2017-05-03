@@ -19,6 +19,6 @@ interface IControllers
     /**
      * Инициализация
      */
-    public function Init();
+    public function init();
 
 }

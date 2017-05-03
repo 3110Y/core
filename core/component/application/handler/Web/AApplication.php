@@ -18,7 +18,7 @@ abstract class AApplication
     /**
      * @var array  приложение
      */
-    protected $application = Array();
+    protected static $application = Array();
     /**
      * @var array js файлы
      */
@@ -36,11 +36,28 @@ abstract class AApplication
     /**
      * @var mixed|null|object реестр
      */
-    protected $registry = array();
+    protected static $registry = array();
     /**
-     * @var string структура контента
+     * @var array структура контента
      */
-    protected $content = Array();
+    protected static $content = Array();
+    /**
+     * @var array URL
+     */
+    protected static $URL = Array();
+    /**
+     * @var array структура приложения
+     */
+    protected static $structure = array();
+    /**
+     * @var array текущая страница
+     */
+    protected static $page = Array();
+    /**
+     * @var array страница для ошибок
+     */
+    protected static $pageError = Array();
+
 
     /**
      * отдает шаблон из темы
@@ -49,7 +66,9 @@ abstract class AApplication
      */
     protected function getTemplate(string $template)
     {
-        return "/app/{$this->application['path']}/theme/{$this->application['theme']}/{$template}";
+        $path   =   self::$application['path'];
+        $theme   =   self::$application['theme'];
+        return "/app/{$path}/theme/{$theme}/{$template}";
     }
 
     /**
@@ -95,7 +114,7 @@ abstract class AApplication
      * @param bool $isTopPosition позиция top|bottom
      * @return string CSS
      */
-    protected function getCSS($isTopPosition = true)
+    protected static function getCSS($isTopPosition = true)
     {
         $position   =   $isTopPosition   ?   'top'   :   'bottom';
         $css   =   array_diff(array_unique(self::$css[$position]), array());
@@ -112,17 +131,17 @@ abstract class AApplication
                 $location   =   core::getDR() . $includeFile;
             } elseif (file_exists(core::getDR() . $includeFile . '.css'))  {
                 $includeFile .= '.css';
-            } elseif (file_exists($this->getTemplate($includeFile)))  {
-                $includeFile   = $this->getTemplate($includeFile);
+            } elseif (file_exists(self::getTemplate($includeFile)))  {
+                $includeFile   = self::getTemplate($includeFile);
                 $location   = $includeFile;
-            }  elseif (file_exists($this->getTemplate($includeFile . '.css')))  {
-                $includeFile   = $this->getTemplate($includeFile . '.css');
+            }  elseif (file_exists(self::getTemplate($includeFile . '.css')))  {
+                $includeFile   = self::getTemplate($includeFile . '.css');
                 $location   = $includeFile;
-            } elseif (file_exists(core::getDR() . $this->getTemplate($includeFile)))  {
-                $includeFile   = $this->getTemplate($includeFile);
+            } elseif (file_exists(core::getDR() . self::getTemplate($includeFile)))  {
+                $includeFile   = self::getTemplate($includeFile);
                 $location   = core::getDR() . $includeFile;
-            } elseif (file_exists(core::getDR() . $this->getTemplate($includeFile . '.css'))) {
-                $includeFile   = $this->getTemplate($includeFile . '.css');
+            } elseif (file_exists(core::getDR() . self::getTemplate($includeFile . '.css'))) {
+                $includeFile   = self::getTemplate($includeFile . '.css');
                 $location   = core::getDR() . $includeFile;
             }
             if ($location !== false) {
@@ -141,7 +160,7 @@ abstract class AApplication
      * @param bool $isTopPosition позиция top|bottom
      * @return string JS
      */
-    protected function getJS($isTopPosition = true)
+    protected static function getJS($isTopPosition = true)
     {
         $position   =   $isTopPosition   ?   'top'   :   'bottom';
         $js   =   array_diff(array_unique(self::$js[$position]), array());
@@ -158,17 +177,17 @@ abstract class AApplication
                 $location   =   core::getDR() . $includeFile;
             } elseif (file_exists(core::getDR() . $includeFile . '.js'))  {
                 $includeFile .= '.js';
-            } elseif (file_exists($this->getTemplate($includeFile)))  {
-                $includeFile   = $this->getTemplate($includeFile);
+            } elseif (file_exists(self::getTemplate($includeFile)))  {
+                $includeFile   = self::getTemplate($includeFile);
                 $location   = $includeFile;
-            }  elseif (file_exists($this->getTemplate($includeFile . '.js')))  {
-                $includeFile   = $this->getTemplate($includeFile . '.js');
+            }  elseif (file_exists(self::getTemplate($includeFile . '.js')))  {
+                $includeFile   = self::getTemplate($includeFile . '.js');
                 $location   = $includeFile;
-            } elseif (file_exists(core::getDR() . $this->getTemplate($includeFile)))  {
-                $includeFile   = $this->getTemplate($includeFile);
+            } elseif (file_exists(core::getDR() . self::getTemplate($includeFile)))  {
+                $includeFile   = self::getTemplate($includeFile);
                 $location   = core::getDR() . $includeFile;
-            } elseif (file_exists(core::getDR() . $this->getTemplate($includeFile . '.js'))) {
-                $includeFile   = $this->getTemplate($includeFile . '.js');
+            } elseif (file_exists(core::getDR() . self::getTemplate($includeFile . '.js'))) {
+                $includeFile   = self::getTemplate($includeFile . '.js');
                 $location   = core::getDR() . $includeFile;
             }
             if ($location !== false) {
@@ -203,12 +222,12 @@ abstract class AApplication
      * @param mixed|string|object $class класс
      * @return boolean
      */
-    protected function set($key, $class)
+    protected static function set($key, $class)
     {
-        if (isset($this->registry[$key])) {
+        if (isset(self::$registry[$key])) {
             return false;
         }
-        return $this->registry[$key] = $class;
+        return self::$registry[$key] = $class;
     }
 
     /**
@@ -216,11 +235,11 @@ abstract class AApplication
      * @param string $key ключ
      * @return mixed|null|object рендер
      */
-    protected function get($key)
+    protected static function get($key)
     {
         //TODO: обработка ошибок
-        if (isset($this->registry[$key])) {
-            return $this->registry[$key];
+        if (isset(self::$registry[$key])) {
+            return self::$registry[$key];
         }
         return false;
     }

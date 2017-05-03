@@ -12,108 +12,84 @@ namespace core\component\application\handler\Web;
 
 /**
  * Class ARouter
- * @package core\components\application\handler\Web
+ * @package core\component\application\handler\Web
  */
 abstract class ARouter extends AApplication
 {
-    /**
-     * @var array URL
-     */
-    protected $URL = Array();
-    /**
-     * @var array структура приложения
-     */
-    protected $structure;
-    /**
-     * @var array текущая страница
-     */
-    protected $page = Array();
-    /**
-     * @var array страница для ошибок
-     */
-    protected $pageError = Array();
 
 
-
-
-
-
-
-
-    /**
-     * Отдает Верстку
-     * @return string
-     */
-    public function render()
-    {
-        return $this->content;
-    }
     /**
      * Задает текущую страницу и страницу Ошибок
      */
-    public function selectPage()
+    protected static function selectPage()
     {
-        $this->pageError    = $this->getPageError();
-        $this->page         = $this->getPage();
+        self::$pageError    = self::getPageError();
+        self::$page         = self::getPage();
     }
+
     /**
      * Отдает страницу Ошибок
      * @return array
      */
-    private function getPageError()
+    private static function getPageError()
     {
-        foreach ($this->structure as $item) {
+        foreach (self::$structure as $item) {
             if ($item['error']) {
                 return $item;
             }
         }
-        return $this->structure[0];
+        return self::$structure[0];
     }
+
     /**
      * Отдает текущую Ошибок
      * @param int $parentID уровень страницы
      * @return array текущая страница
      */
-    private function getPage($parentID = 0)
+    private static function getPage($parentID = 0)
     {
-        foreach ($this->structure as $item) {
+        foreach (self::$structure as $item) {
             if (
-                $item['parent_id'] === $parentID
+                $item['parent_id'] == $parentID
                 && (
-                    $item['url'] === $this->URL[$parentID + 1]
+                    $item['url'] === self::$URL[$parentID + 1]
                     || (
                         $item['url'] == '/'
-                        && $this->URL[$parentID + 1] === ""
+                        && self::$URL[$parentID + 1] === ""
                     )
                 )
             ) {
+                $path           =   self::$application['path'];
                 $controller     =   $item['controller'];
-                $countSubURL    =   $controller::$countSubURL;
+                /** @var \application\admin\controllers\basic $controller */
+                $controller     =   "application\\{$path}\\controllers\\{$controller}";
+                $countSubURL    =   $controller::getCountSubURL();
                 if (
-                    $parentID + 1 == (count($this->URL) - 1)
+                    $parentID + 1 == (count(self::$URL) - 1)
                     || (
                         $countSubURL === false
-                        || $countSubURL >= (count($this->URL) + ($parentID + 1))
+                        || $countSubURL >= (count(self::$URL) + ($parentID + 1))
                     )
                 ) {
                     $url    =   '';
                     for ($i = 0, $iMax = ($parentID + 2); $i < $iMax; $i++) {
-                        $url[]    =  $this->URL[$i];
+                        $url[]    =  self::$URL[$i];
                     }
                     $subURL   =   Array();
-                    for ($i = ($parentID + 2), $iMax = count($this->URL); $i < $iMax; $i++) {
-                        $subURL[] = $this->URL[$i];
+                    for ($i = ($parentID + 2), $iMax = count(self::$URL); $i < $iMax; $i++) {
+                        $subURL[] =self::$URL[$i];
                     }
+
                     $controller::setPageURL(implode('/', $url));
                     $controller::setSubURL($subURL);
                     return $item;
                 } else {
-                    return self::getPage(($parentID + 1));
+                    return self::getPage(++$parentID);
                 }
             }
 
         }
-        return $this->pageError;
+        return self::$pageError;
     }
 
 

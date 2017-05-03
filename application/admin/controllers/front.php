@@ -6,17 +6,17 @@
  * Time: 15:33
  */
 
-namespace app\admin\controllers;
+namespace application\admin\controllers;
 
-use core\components\applicationWeb\connectors;
+
+use core\component\application\handler\Web as handlerWeb;
 
 
 /**
  * Class front
- * Контроллер главной страницы
- * @package app\admin\controllers
+ * @package application\admin\controllers
  */
-class front extends connectors\AControllers implements connectors\IControllers
+class front extends handlerWeb\AControllers implements handlerWeb\IControllers
 {
     /**
      * @var mixed|int|false Колличество подуровней
@@ -28,12 +28,7 @@ class front extends connectors\AControllers implements connectors\IControllers
      */
     public function init()
     {
-        $this->content  = Array(
-            'CONTENT'     =>  'Делать',
-            'TITLE'       =>  self::$page['meta_title'],
-            'KEYWORDS'    =>  self::$page['meta_keywords'],
-            'DESCRIPTION' =>  self::$page['meta_description'],
-        );
+        self::$content['CONTENT']  =    'Привет';
     }
 
 }
