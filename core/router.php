@@ -44,8 +44,12 @@ class router
     public function __construct($structure = Array())
     {
         $this->structure    =   $structure;
-        $URL                =   explode('/', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
-        $URL[0] = '/';
+        if (isset($_SERVER['SHELL']) && isset($argv)) {
+            $URL    =   $argv;
+            $URL[0] = '/';
+        } else {
+            $URL    =   explode('/', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
+        }
         $urlFirst   =    $URL;
         $urlSecond  =    $URL;
         array_shift($urlFirst);
@@ -71,8 +75,11 @@ class router
      */
     private function setURL($url)
     {
+        if (!isset($item['url'])) {
+            $item['url']    =   $item['path'];
+        }
         foreach ($this->structure as $item) {
-            if ($item['url'] === $url[0]) {
+            if ($item['url'] === $url[0] || ($item['url'] == '/' && $url[0] == '')) {
                 $this->URL = $url;
                 return $item;
             }
@@ -87,14 +94,9 @@ class router
     public function run()
     {
         if (!empty($this->application)) {
-            $namespace  =   'application\\' . $this->application['path'];
-            core::getInstance()->addNamespace($namespace, $namespace);
-            $application = $namespace . '\router';
-            $router = new $application($this->URL, $this->application);
-            $router->run();
-            return $router->render();
+            $handler    =   $this->application['handler'];
+            return $handler::factoty($this->application, $this->URL);
         }
-
         return 'Нет приложения';
     }
 }

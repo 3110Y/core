@@ -14,5 +14,11 @@ namespace core\component\application;
  */
 interface IHandler
 {
-
+    /**
+     * Отдает экземпляр роутера приложения
+     * @param array $url URL
+     * @param array $application настройки приложения
+     * @return mixed|string результат работы приложения
+     */
+    public static function factory(array $url, array $application);
 }

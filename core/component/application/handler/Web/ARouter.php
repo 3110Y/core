@@ -33,60 +33,16 @@ abstract class ARouter extends AApplication
      */
     protected $pageError = Array();
     /**
-     * @var array структура контента
-     */
-    protected $content = Array();
-    /**
      * @var string шаблон
      */
     protected $template = '';
-    /**
-     * @var mixed|null|object реестр
-     */
-    protected $registry = array();
-    /**
-     * @var array  приложение
-     */
-    protected $application = Array();
 
 
-    /**
-     * отдает тему
-     * @param string $template шаблон
-     * @return string шаблон
-     */
-    public function getTemplate($template = '')
-    {
-        return "/app/{$this->application['path']}/theme/{$this->application['theme']}/{$template}";
-    }
 
-    /**
-     * задает ключь b значение реестра
-     * @param string $key ключ
-     * @param mixed|string|object $class класс
-     * @return boolean
-     */
-    public function set($key, $class)
-    {
-        if (isset($this->registry[$key])) {
-            return false;
-        }
-        return $this->registry[$key] = $class;
-    }
 
-    /**
-     * Отдает значение ключа реестра
-     * @param string $key ключ
-     * @return mixed|null|object рендер
-     */
-    public function get($key)
-    {
-        //TODO: обработка ошибок
-        if (isset($this->registry[$key])) {
-            return $this->registry[$key];
-        }
-        return false;
-    }
+
+
+
 
     /**
      * Отдает Верстку

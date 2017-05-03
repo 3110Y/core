@@ -18,7 +18,7 @@ include 'core' . DIRECTORY_SEPARATOR . 'core.php';
 $structure  =   Array(
     Array(
         'name'      => 'Клиент',
-        'url'       => '/admin',
+        'url'       => 'admin',
         'path'      => 'admin',
         'priority'  => 10,
         'theme'     => 'basic',
