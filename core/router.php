@@ -35,7 +35,10 @@ class router
      * @var array $application приложение
      */
     protected $application = Array();
-
+    /**
+     * @var string шаблон
+     */
+    protected static $template = '';
 
     /**
      * router constructor.

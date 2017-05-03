@@ -15,10 +15,7 @@ namespace core\component\application\handler\Web;
 abstract class AControllers extends AApplication
 {
 
-    /**
-     * @var string шаблон
-     */
-    public static $template = '';
+
     /**
      * @var array страница
      */

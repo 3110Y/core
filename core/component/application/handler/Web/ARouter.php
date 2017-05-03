@@ -32,10 +32,6 @@ abstract class ARouter extends AApplication
      * @var array страница для ошибок
      */
     protected $pageError = Array();
-    /**
-     * @var string шаблон
-     */
-    protected $template = '';
 
 
 

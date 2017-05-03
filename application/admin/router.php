@@ -8,16 +8,20 @@
 
 namespace app\admin;
 
-use core\components\applicationWeb\connectors as applicationWebConnectors;
-use core\core;
+
+use core\component\{
+    application\handler\Web as applicationWeb,
+    database\driver\PDO as PDO,
+    templateEngine\engine\simpleView as simpleView
+};
+use \core\core;
 
 
 /**
  * Class router
- * Роутер приложения
- * @package app
+ * @package app\admin
  */
-final class router extends applicationWebConnectors\ARouter implements applicationWebConnectors\IRouter
+final class router extends applicationWeb\ARouter implements applicationWeb\IRouter
 {
 
     private static $config = Array(
@@ -39,10 +43,9 @@ final class router extends applicationWebConnectors\ARouter implements applicati
     {
         $this->URL                  =  $URL;
         $this->application          =  $application;
-        $this->set('view', core::getComponents('simpleView'));
-        $this->get('view')->setExtension('tpl');
-        $this->set('db', core::getComponents('PDO',true)::getInstance(self::$config));
-        $this->set('GF', core::getComponents('generatorForm',true));
+        self::set('db', PDO\component::getInstance(self::$config));
+        self::set('view', new simpleView\component());
+        self::get('view')->setExtension('tpl');
         $this->structure = Array(
             Array(
                 'id'                =>  1,
@@ -197,26 +200,7 @@ final class router extends applicationWebConnectors\ARouter implements applicati
         );
     }
 
-    public function generationMenu()
-    {
-        $structure  =   Array();
-        foreach ($this->structure as $item) {
-            if($item['view']) {
-                //TODO: Костыль
-                if($item['url'] == '/') {
-                    $item['url'] = '';
-                }
-                $structure[] = Array(
-                    'ACTIVE' => ($item['url'] == $this->page['url']) ? 'active' : '',
-                    'URL' => $this->URL[0] . '/' . $item['url'],
-                    'ICON' => $item['icon'],
-                    'NAME' => $item['name'],
-                );
-            }
-        }
-        $tpl    =   "/app/{$this->application['path']}/theme/{$this->application['theme']}/menu.tpl";
-        return $this->get('view')->loop('FOR', $structure, '' , $tpl);
-    }
+
 
     /**
      * Запускает роутинг
@@ -225,14 +209,13 @@ final class router extends applicationWebConnectors\ARouter implements applicati
     public function run()
     {
         $this->selectPage();
-        /** @property  \app\admin\controllers\front $controller */
+
         $controller         = new $this->page['controller']();
         $this->page['controller']::setPage($this->page);
         $this->page['controller']::setURL($this->URL);
         $this->page['controller']::setRouter($this);
         $controller->init();
         $this->content          =   $controller->getContent();
-        $this->content['MENU']  =   $this->generationMenu();
         $this->content['JS']    =   $controller->getJS();
         $this->content['CSS']   =   $controller->getCSS();
         $this->content['THEME'] =   "/app/{$this->application['path']}/theme/{$this->application['theme']}/";

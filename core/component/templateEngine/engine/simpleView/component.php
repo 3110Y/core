@@ -6,13 +6,13 @@
  * Time: 15:39
  */
 
-namespace core\components\templateEngine\engine\simpleView;
+namespace core\component\templateEngine\engine\simpleView;
 use core\component\templateEngine as templateEngine;
 use core\core;
 
 /**
  * Class component
- * @package core\components\templateEngine\engine\simpleView
+ * @package core\component\templateEngine\engine\simpleView
  */
 class component extends templateEngine\AEngine implements templateEngine\IEngine
 {

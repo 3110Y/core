@@ -6,13 +6,13 @@
  * Time: 15:42
  */
 
-namespace core\components\database\driver\PDO;
+namespace core\component\database\driver\PDO;
 use core\component\database as database;
 
 
 /**
  * Class component
- * @package core\components\database\driver\PDO
+ * @package core\component\database\driver\PDO
  */
 class component extends database\ADriver implements database\IDriver
 {
