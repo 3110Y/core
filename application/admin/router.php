@@ -29,7 +29,7 @@ final class router extends applicationWeb\ARouter implements applicationWeb\IRou
         'port'              =>  '3306',
         'db'                =>  'core',
         'name'              =>  'core',
-        'pass'              =>  'core',
+        'pass'              =>  'corecore',
         'character'         =>  'UTF8',
     );
 
@@ -42,40 +42,15 @@ final class router extends applicationWeb\ARouter implements applicationWeb\IRou
     {
         self::$URL                  =  $URL;
         self::$application          =  $application;
-        self::set('db', PDO\component::getInstance(self::$config));
+        /** @var PDO\component $db */
+        $db =   PDO\component::getInstance(self::$config);
+        self::set('db', $db);
         self::set('view', new simpleView\component());
         self::get('view')->setExtension('tpl');
-        self::$structure = Array(
-            Array(
-                'id'                =>  1,
-                'parent_id'         =>  0,
-                'name'              =>  'Главная',
-                'url'               =>  '/',
-                'meta_title'        =>  'Главная',
-                'meta_keywords'     =>  'Тест, Тест',
-                'meta_description'  =>  'Главная Тест',
-                'controller'        =>  'front',
-                'template'          =>  'default',
-                'error'             =>  0,
-                'icon'              =>  'zmdi zmdi-home',
-                'view'              =>  1
-            ),
-            Array(
-                'id'                =>  13,
-                'parent_id'         =>  0,
-                'name'              =>  '404',
-                'url'               =>  '404',
-                'meta_title'        =>  '404',
-                'meta_keywords'     =>  'Тест, Тест',
-                'meta_description'  =>  '404 Тест',
-                'controller'        =>  'error',
-                'template'          =>  'default',
-                'home'              =>  0,
-                'error'             =>  1,
-                'icon'              =>  'zmdi zmdi-home',
-                'view'              =>  0,
-            ),
-        );
+        self::$structure = $db->selectRows('admin_page','*', Array( 'status' => '0'), '`order_in_menu` ASC');
+        if (empty(self::$structure)) {
+            die('Нет страниц');
+        }
     }
 
 
@@ -84,9 +59,9 @@ final class router extends applicationWeb\ARouter implements applicationWeb\IRou
      * Запускает роутинг
      * @return router
      */
-    public function run()
+    public function run(): router
     {
-        $this->selectPage();
+        self::selectPage();
         $controllerBasic    =   new controllers\basic();
         if ($controllerBasic instanceof applicationWeb\IControllerBasic) {
             $controllerBasic->preInit();
@@ -110,11 +85,9 @@ final class router extends applicationWeb\ARouter implements applicationWeb\IRou
      */
     public function render()
     {
-        if (isset($_SERVER['HTTP_REFERER']) &&
+        if (isset($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_X_REQUESTED_WITH']) &&
             $_SERVER['HTTP_REFERER'] !== '' &&
-            isset($_SERVER['HTTP_X_REQUESTED_WITH']) &&
-            !empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&
-            strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+            strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
             return json_encode(self::$content);
         } else {
             $this->get('view')->setTemplate(self::$template);

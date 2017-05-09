@@ -27,7 +27,7 @@ $config = Array(
 
 /** @var \core\component\database\driver\PDO\component $db */
 $db =   \core\component\database\driver\PDO\component::getInstance($config);
-$structure  =   $db->selectRows('core_application','*', null, '`priority` ASC');
+$structure  =   $db->selectRows('core_application','*', Array( 'status' => '0'), '`priority` ASC');
 $result = (new \core\router($structure))->run();
 /** @var int Время Конца */
 $timeEnd = microtime(true);

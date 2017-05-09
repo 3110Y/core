@@ -68,7 +68,7 @@ abstract class AApplication
      * @param string $template шаблон
      * @return string шаблон
      */
-    protected function getTemplate(string $template)
+    protected static function getTemplate(string $template): string
     {
         $path   =   self::$application['path'];
         $theme   =   self::$application['theme'];
@@ -118,7 +118,7 @@ abstract class AApplication
      * @param bool $isTopPosition позиция top|bottom
      * @return string CSS
      */
-    protected static function getCSS($isTopPosition = true)
+    protected static function getCSS($isTopPosition = true): string
     {
         $position   =   $isTopPosition   ?   'top'   :   'bottom';
         $css   =   array_diff(array_unique(self::$css[$position]), array());
@@ -129,24 +129,25 @@ abstract class AApplication
             if (file_exists($includeFile)) {
                 $location   =   $includeFile;
             } elseif (file_exists($includeFile . '.css')) {
-                $includeFile   = $includeFile . '.css';
-                $location   =   $includeFile . '.css';
+                $includeFile    .=  '.css';
+                $location       =  $includeFile . '.css';
             } elseif (file_exists(core::getDR() . $includeFile)) {
-                $location   =   core::getDR() . $includeFile;
+                $location       =   core::getDR() . $includeFile;
             } elseif (file_exists(core::getDR() . $includeFile . '.css'))  {
-                $includeFile .= '.css';
+                $includeFile    .= '.css';
+                $location       = core::getDR() . $includeFile . '.css';
             } elseif (file_exists(self::getTemplate($includeFile)))  {
-                $includeFile   = self::getTemplate($includeFile);
-                $location   = $includeFile;
+                $includeFile    = self::getTemplate($includeFile);
+                $location       = $includeFile;
             }  elseif (file_exists(self::getTemplate($includeFile . '.css')))  {
                 $includeFile   = self::getTemplate($includeFile . '.css');
-                $location   = $includeFile;
+                $location       = $includeFile;
             } elseif (file_exists(core::getDR() . self::getTemplate($includeFile)))  {
                 $includeFile   = self::getTemplate($includeFile);
-                $location   = core::getDR() . $includeFile;
+                $location       = core::getDR() . $includeFile;
             } elseif (file_exists(core::getDR() . self::getTemplate($includeFile . '.css'))) {
-                $includeFile   = self::getTemplate($includeFile . '.css');
-                $location   = core::getDR() . $includeFile;
+                $includeFile    = self::getTemplate($includeFile . '.css');
+                $location       = core::getDR() . $includeFile;
             }
             if ($location !== false) {
                 $includeFile .= '?' . date ("YmdHis.", filemtime($location));

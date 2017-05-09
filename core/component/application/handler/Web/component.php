@@ -33,11 +33,11 @@ class component extends application\AHandler implements application\IHandler
         $path       =   'application/' . $application['path'];
         core::getInstance()->addNamespace($namespace, $path);
         $router = $namespace . '\router';
-        try {
+        if (file_exists(\core\core::getDR() . $path . '/router.php')) {
             $router = new $router($URL, $application);
             $router->run();
             return $router->render();
-        } catch (\Exception $e) {
+        } else {
             die('Нет приложения');
         }
 

@@ -38,7 +38,7 @@ class component extends templateEngine\AEngine implements templateEngine\IEngine
      * @param string $html HTML
      * @return string результат
      */
-    public static function replace($template = false, array $data = Array(), $html = '')
+    public static function replace($template = false, array $data = Array(), $html = ''): string
     {
         if ($template !== false) {
             if (file_exists($template)) {
@@ -53,17 +53,16 @@ class component extends templateEngine\AEngine implements templateEngine\IEngine
         } else {
             $content    =   $html;
         }
-        preg_match_all("/{include ([a-z0-9\\/.]+)}/i", $content, $output);
+        $array  =   Array();
+        preg_match_all("/{include ['\"]?([a-z0-9\\/.]+)['\"]?}/i", $content, $output);
         if (!empty($output[1])) {
-            $path   = substr($template,0, strripos($template, '/') + 1);
-            $array  =   Array();
+            $path   = substr($template,0, strrpos($template, '/') + 1);
             for ($i = 0, $iMax = count($output[1]); $i < $iMax; $i++) {
                 $file   =   $path . $output[1][$i];
                 $array[$output[0][$i]]  =   self::replace($file);
             }
             $content    =   strtr($content, $array);
         }
-        $array  =   Array();
         foreach ($data as $key => $value) {
             if (is_array($value)) {
                 $content = self::loop("{$key}", $value, $content);
@@ -82,9 +81,9 @@ class component extends templateEngine\AEngine implements templateEngine\IEngine
      * @param mixed|string $template шаблон
      * @return string хтмл
      */
-    public static function loop($tagEach, array $array, $html = '', $template = false)
+    public static function loop($tagEach, array $array, $html = '', $template = false): string
     {
-        if ($html == '' && $template != false) {
+        if ($html === '' && $template !== false) {
             $html   =   self::replace($template);
         }
         $cuteFragment = self::cut($tagEach, $html);
