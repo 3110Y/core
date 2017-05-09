@@ -53,16 +53,15 @@ final class core
     /**
      * core constructor.
      */
-    final public function __construct(){}
+    private function __construct(){}
 
     /**
      * Устанавливает CORE ROOT;
      * @param string $DR DOCUMENT ROOT
      */
     public static function setDR(string $DR = __DIR__)
-    {   if (self::$DR === '') {
-            self::$DR  =   str_replace('\\', '/', $DR);
-        }
+    {
+        self::$DR  =   str_replace('\\', '/', $DR) . '/';
     }
 
     /**
@@ -73,7 +72,8 @@ final class core
     {
         if (self::$DR !== '') {
             return self::$DR;
-        } elseif (isset($_SERVER['DOCUMENT_ROOT'])) {
+        }
+        if (isset($_SERVER['DOCUMENT_ROOT'])) {
             return $_SERVER['DOCUMENT_ROOT'];
         } else {
             return str_replace('\\', '/', str_replace('\core', '', __DIR__));
@@ -101,7 +101,7 @@ final class core
      */
     public function addNamespace($prefix, $base_dir = '', $prepend = false)
     {
-        if($base_dir == '') {
+        if($base_dir === '') {
             $base_dir = $prefix;
         }
         // нормализуем префикс пространства имён
@@ -173,18 +173,20 @@ final class core
         }
 
         // ищем префикс в базовых директориях
-        foreach ($this->prefixes[$prefix] as $base_dir) {
+        if (!empty($this->prefixes[$prefix])) {
+            foreach ($this->prefixes[$prefix] as $base_dir) {
 
-            // заменяем префикс базовой директорией,
-            // заменяем разделители пространства имён на разделители директорий,
-            // к относительному имени класса добавляем .php
-            $file = $base_dir
-                . str_replace('\\', '/', $relative_class)
-                . '.php';
-            // если файл существует, загружаем его
-            if ($this->requireFile($file)) {
-                // ура, получилось
-                return $file;
+                // заменяем префикс базовой директорией,
+                // заменяем разделители пространства имён на разделители директорий,
+                // к относительному имени класса добавляем .php
+                $file = $base_dir
+                    . str_replace('\\', '/', $relative_class)
+                    . '.php';
+                // если файл существует, загружаем его
+                if ($this->requireFile($file)) {
+                    // ура, получилось
+                    return $file;
+                }
             }
         }
 
@@ -198,12 +200,13 @@ final class core
      * @param string $file файл для загрузки.
      * @return bool true, если файл существует, false — если нет.
      */
-    protected function requireFile($file)
+    protected function requireFile($file): bool
     {
         if (file_exists($file)) {
             require $file;
             return true;
-        } elseif (self::getDR() . $file) {
+        }
+        if (self::getDR() . $file) {
             require self::getDR() . $file;
             return true;
         }

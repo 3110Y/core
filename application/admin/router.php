@@ -28,8 +28,8 @@ final class router extends applicationWeb\ARouter implements applicationWeb\IRou
         'host'              =>  '127.0.0.1',
         'port'              =>  '3306',
         'db'                =>  'core',
-        'name'              =>  'root',
-        'pass'              =>  '',
+        'name'              =>  'core',
+        'pass'              =>  'core',
         'character'         =>  'UTF8',
     );
 

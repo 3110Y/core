@@ -30,11 +30,16 @@ class component extends application\AHandler implements application\IHandler
     public static function factory(array $application, array $URL)
     {
         $namespace  =   'application\\' . $application['path'];
-        core::getInstance()->addNamespace($namespace, $namespace);
+        $path       =   'application/' . $application['path'];
+        core::getInstance()->addNamespace($namespace, $path);
         $router = $namespace . '\router';
-        $router = new $router($URL, $application);
-        $router->run();
-        return $router->render();
+        try {
+            $router = new $router($URL, $application);
+            $router->run();
+            return $router->render();
+        } catch (\Exception $e) {
+            die('Нет приложения');
+        }
 
     }
 }
