@@ -23,8 +23,9 @@
                         </li>
                     </ul>
                 </div>
-                <div class="bg"></div>
+
             </header>
+            <div class="header-bg"></div>
             <div id="wrapper">
                 <div class="wrapper-left">
                     {include 'block/menu.tpl'}
