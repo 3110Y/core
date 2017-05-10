@@ -1,11 +1,51 @@
-#wrapper {
+html {
   width: 100%;
-  max-width: 1500px; }
+  height: 100%;
+  padding: 0;
+  margin: 0; }
+  html body {
+    background-color: #edecec;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0; }
+    html body header {
+      background-color: #2a4362; }
+      html body header > div > a.uk-logo {
+        color: #ffffff; }
+        html body header > div > a.uk-logo:hover {
+          color: #ffffff; }
+      html body header > div > ul.uk-navbar-nav > li > a {
+        color: #b3b3b3; }
+        html body header > div > ul.uk-navbar-nav > li > a:hover {
+          color: #ffffff; }
+      html body header .bg {
+        display: block;
+        position: absolute;
+        width: 100%;
+        height: 160px;
+        background-color: #2a4362;
+        z-index: -1; }
+
+#wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: stretch;
+  z-index: 1; }
+  #wrapper div {
+    box-shadow: 0 14px 25px rgba(0, 0, 0, 0.16); }
   #wrapper .wrapper-left {
     width: 25%;
-    max-width: 400px; }
-  #wrapper .wrapper-left {
+    max-width: 400px;
+    background-color: #ffffff; }
+  #wrapper .wrapper-right {
     width: 75%;
-    max-width: 75%; }
+    max-width: 1500px;
+    margin: 0 10px;
+    padding: 0 10px;
+    background-color: #ffffff; }
 
 /*# sourceMappingURL=style.css.map */

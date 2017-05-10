@@ -5,7 +5,7 @@
     </head>
     <body>
         <div class="uk-offcanvas-content">
-            <header  class="uk-navbar-container" uk-navbar uk-sticky>
+            <header uk-navbar uk-sticky>
                 <div class="uk-navbar-left">
                     <a class="uk-navbar-item uk-logo" href="/">Административная панель</a>
                     <ul class="uk-navbar-nav">
@@ -23,6 +23,7 @@
                         </li>
                     </ul>
                 </div>
+                <div class="bg"></div>
             </header>
             <div id="wrapper">
                 <div class="wrapper-left">
