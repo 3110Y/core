@@ -11,9 +11,14 @@ html {
     margin: 0; }
     html body header {
       background-color: #2a4362; }
-      html body header > div > a.uk-logo {
+      html body header > div > ul.uk-navbar-nav > li.only-mobile > a {
+        display: none; }
+        @media (max-width: 1230px) {
+          html body header > div > ul.uk-navbar-nav > li.only-mobile > a {
+            display: flex; } }
+      html body header > a.uk-logo {
         color: #ffffff; }
-        html body header > div > a.uk-logo:hover {
+        html body header > a.uk-logo:hover {
           color: #ffffff; }
       html body header > div > ul.uk-navbar-nav > li > a {
         color: #b3b3b3; }
@@ -39,11 +44,18 @@ html {
     width: 25%;
     max-width: 400px;
     background-color: #ffffff; }
+    @media (max-width: 1230px) {
+      #wrapper .wrapper-left {
+        width: 0;
+        display: none; } }
   #wrapper .wrapper-right {
     width: 75%;
     max-width: 1500px;
     margin: 0 10px;
     padding: 0 10px;
     background-color: #ffffff; }
+    @media (max-width: 1230px) {
+      #wrapper .wrapper-right {
+        width: 100%; } }
 
 /*# sourceMappingURL=style.css.map */

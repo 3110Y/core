@@ -6,11 +6,11 @@
     <body>
         <div class="uk-offcanvas-content">
             <header uk-navbar uk-sticky>
+                <a class="uk-navbar-item uk-logo" href="/">Панель</a>
                 <div class="uk-navbar-left">
-                    <a class="uk-navbar-item uk-logo" href="/">Административная панель</a>
                     <ul class="uk-navbar-nav">
-                        <li>
-                            <a href="#"  uk-toggle="target: #menu-general">
+                        <li class="only-mobile">
+                            <a href="#" uk-toggle="target: #menu-general">
                                 <span class="uk-icon uk-margin-small-right" uk-icon="icon: menu"></span> Меню
                             </a>
                         </li>
