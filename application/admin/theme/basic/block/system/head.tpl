@@ -9,7 +9,9 @@
 {CSS_TOP}
 
 <script  type="text/javascript" src="{THEME}vendor/jquery/jquery.min.js"></script>
+<script  type="text/javascript" src="{THEME}vendor/swipe/jquery.event.swipe.js"></script>
 <script  type="text/javascript" src="{THEME}vendor/uikit/js/uikit.min.js"></script>
 <script  type="text/javascript" src="{THEME}vendor/uikit/js/uikit-icons.min.js"></script>
+<script  type="text/javascript" src="{THEME}js/menu.js"></script>
 
 {JS_TOP}

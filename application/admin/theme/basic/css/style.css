@@ -85,17 +85,22 @@ html {
             html body #wrapper .column.column-left #general-menu ul {
               list-style-type: none;
               padding-left: 0; }
-              html body #wrapper .column.column-left #general-menu ul li a {
-                padding: 10px;
-                display: block;
-                width: 100%;
-                color: #4c4c4c;
-                box-sizing: border-box; }
-                html body #wrapper .column.column-left #general-menu ul li a:hover, html body #wrapper .column.column-left #general-menu ul li a.active {
+              html body #wrapper .column.column-left #general-menu ul li {
+                margin: 1px; }
+                html body #wrapper .column.column-left #general-menu ul li a {
+                  padding: 10px;
+                  display: block;
+                  width: 100%;
+                  color: #4c4c4c;
+                  box-sizing: border-box; }
+                html body #wrapper .column.column-left #general-menu ul li ul {
+                  display: none;
+                  padding-left: 25px; }
+                html body #wrapper .column.column-left #general-menu ul li.active ul, html body #wrapper .column.column-left #general-menu ul li.open > ul {
+                  display: block; }
+                html body #wrapper .column.column-left #general-menu ul li > a:hover, html body #wrapper .column.column-left #general-menu ul li.active > a {
                   text-decoration: none;
                   background-color: #F3F3F3; }
-              html body #wrapper .column.column-left #general-menu ul li ul {
-                padding-left: 25px; }
           @media (max-width: 1230px) {
             html body #wrapper .column.column-left {
               min-height: 100%;

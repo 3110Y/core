@@ -89,17 +89,22 @@ html
             ul
               list-style-type: none
               padding-left: 0
-              li a
-                padding: 10px
-                display: block
-                width: 100%
-                color: #4c4c4c
-                box-sizing: border-box
-                &:hover, &.active
+              li
+                margin: 1px
+                a
+                  padding: 10px
+                  display: block
+                  width: 100%
+                  color: #4c4c4c
+                  box-sizing: border-box
+                ul
+                  display: none
+                  padding-left: 25px
+                &.active ul, &.open>ul
+                  display: block
+                > a:hover, &.active > a
                   text-decoration: none
                   background-color: #F3F3F3
-              li ul
-                padding-left: 25px
           @media (max-width: $width)
             min-height: 100%
             width: 300px

@@ -1,20 +1,33 @@
-    <div id="menu-general" uk-offcanvas="mode: push; overlay: true">
-        <div class="uk-offcanvas-bar">
-            <ul class="uk-nav uk-nav-default">
-                <li class="uk-active"><a href="#">Active</a></li>
-                <li class="uk-parent">
-                    <a href="#">Parent</a>
-                    <ul class="uk-nav-sub">
-                        <li><a href="#">Sub item</a></li>
-                        <li><a href="#">Sub item</a></li>
+<div id="general-menu">
+    <ul>
+        <li>
+            <a href="#"><span uk-icon="icon: check"></span> Item 1</a>
+            <ul>
+                <li><a href="#"><span uk-icon="icon: check"></span> Sub item 1.1</a></li>
+                <li>
+                <a href="#"><span uk-icon="icon: check"></span> Sub item 1.2</a>
+                    <ul>
+                        <li><a href="#"><span uk-icon="icon: check"></span> Sub item 1.2.1</a></li>
+                        <li><a href="#"><span uk-icon="icon: check"></span> Sub item 1.2.2</a></li>
                     </ul>
                 </li>
-                <li class="uk-nav-header">Header</li>
-                <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: table"></span> Item</a></li>
-                <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: thumbnails"></span> Item</a></li>
-                <li class="uk-nav-divider"></li>
-                <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: trash"></span> Item</a></li>
+                <li><a href="#"><span uk-icon="icon: check"></span> Sub item 1.3</a></li>
+                </ul>
+        </li>
+        <li><a href="#"><span uk-icon="icon: check"></span> Item 2</a></li>
+        <li><a href="#"><span uk-icon="icon: check"></span> Item 3</a></li>
+        <li class="open">
+            <a href="#"><span uk-icon="icon: check"></span> Item 4</a>
+            <ul>
+                <li><a href="#"><span uk-icon="icon: check"></span> Sub item 4.1</a></li>
+                <li class="open">
+                    <a href="#" class="active"><span uk-icon="icon: check"></span> Sub item 4.2</a>
+                    <ul>
+                        <li class="active"><a href="#"><span uk-icon="icon: check"></span> Sub item 4.2.1</a></li>
+                        <li><a href="#"><span uk-icon="icon: check"></span> Sub item 4.2.2</a></li>
+                    </ul>
+                </li>
             </ul>
-        </div>
-    </div>
-
+        </li>
+    </ul>
+</div>
