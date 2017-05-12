@@ -28,7 +28,7 @@
                 <div class="header-bg"></div>
                 <div id="column-left-substrate"> </div>
                 <div class="column column-left">
-                    {include 'block/menu.tpl'}
+                    {MENU}
                 </div>
                 <div class="column column-right">
                     {CONTENT}

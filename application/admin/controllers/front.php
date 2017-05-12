@@ -9,14 +9,14 @@
 namespace application\admin\controllers;
 
 
-use core\component\application\handler\Web as handlerWeb;
+use core\component\application\handler\Web as applicationWeb;
 
 
 /**
  * Class front
  * @package application\admin\controllers
  */
-class front extends handlerWeb\AControllers implements handlerWeb\IControllers
+class front extends applicationWeb\AControllers implements applicationWeb\IControllers
 {
     /**
      * @var mixed|int|false Колличество подуровней

@@ -87,6 +87,21 @@ html {
               padding-left: 0; }
               html body #wrapper .column.column-left #general-menu ul li {
                 margin: 1px; }
+                html body #wrapper .column.column-left #general-menu ul li.parent > a {
+                  display: inline-block;
+                  width: 90%; }
+                html body #wrapper .column.column-left #general-menu ul li.parent > a + a {
+                  color: transparent;
+                  float: right;
+                  display: inline-block;
+                  width: 10%;
+                  background: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2214%22%20height%3D%2214%22%20viewBox%3D%220%200%2014%2014%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%20%20%20%20%3Cpolyline%20fill%3D%22none%22%20stroke%3D%22%23666%22%20stroke-width%3D%221.1%22%20points%3D%2210%201%204%207%2010%2013%22%3E%3C%2Fpolyline%3E%0A%3C%2Fsvg%3E") no-repeat 50% 50%;
+                  -webkit-transition: 0.3s ease-in-out;
+                  -moz-transition: 0.3s ease-in-out;
+                  -o-transition: 0.3s ease-in-out;
+                  transition: 0.3s ease-in-out; }
+                  html body #wrapper .column.column-left #general-menu ul li.parent > a + a:hover {
+                    background: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2214%22%20height%3D%2214%22%20viewBox%3D%220%200%2014%2014%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%20%20%20%20%3Cpolyline%20fill%3D%22none%22%20stroke%3D%22%23ff0000%22%20stroke-width%3D%221.1%22%20points%3D%2210%201%204%207%2010%2013%22%3E%3C%2Fpolyline%3E%0A%3C%2Fsvg%3E") no-repeat 50% 50%; }
                 html body #wrapper .column.column-left #general-menu ul li a {
                   padding: 10px;
                   display: block;
@@ -101,6 +116,8 @@ html {
                 html body #wrapper .column.column-left #general-menu ul li > a:hover, html body #wrapper .column.column-left #general-menu ul li.active > a {
                   text-decoration: none;
                   background-color: #F3F3F3; }
+                html body #wrapper .column.column-left #general-menu ul li.open > a + a {
+                  transform: rotate(-90deg); }
           @media (max-width: 1230px) {
             html body #wrapper .column.column-left {
               min-height: 100%;
