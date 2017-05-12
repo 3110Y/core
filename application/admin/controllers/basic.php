@@ -66,7 +66,7 @@ class basic extends applicationWeb\AControllers implements applicationWeb\IContr
         if ($query->rowCount() > 0) {
             while ($row =  $query->fetch()) {
                 $class  =   '';
-                $URL    =   $parentURL . $row['url'];
+                $URL    =   $row['url'] == '/'    ?   $row['url'] :   $parentURL . $row['url'];
                 if ($row['url'] == self::$page['url'] && $row['parent_id'] == self::$page['parent_id']) {
                     $class          .=  'active';
                     $parentClass    =   'open';
