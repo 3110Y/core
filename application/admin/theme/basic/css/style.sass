@@ -79,11 +79,14 @@ html
       .column
         box-shadow: 0 14px 25px rgba(0,0,0,.16)
         z-index: 100
+        background-color: $color3
+        &.no-bg
+          background-color: transparent
+          box-shadow: none
         &.column-left
           box-sizing: border-box
           width: 350px
           max-width: 20%
-          background-color: $color3
           #general-menu
             padding: 10px 0 12px 0
             ul
@@ -135,7 +138,6 @@ html
           margin: 0 auto
           padding: 0 10px
           box-sizing: border-box
-          background-color: $color3
           @media (max-width: $width)
             width: 100%
             max-width: 96%
