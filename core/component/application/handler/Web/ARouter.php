@@ -46,7 +46,7 @@ abstract class ARouter extends AApplication
      * @param int $parentID уровень страницы
      * @return array текущая страница
      */
-    private static function getPage($parentID = 0)
+    private static function getPage($parentID = 0, $parentURL ='/')
     {
         foreach (self::$structure as $item) {
             if (
@@ -63,8 +63,9 @@ abstract class ARouter extends AApplication
                 $controller     =   $item['controller'];
                 /** @var \application\admin\controllers\basic $controller */
                 $controller     =   "application\\{$path}\\controllers\\{$controller}";
-                $countSubURL    =   $controller::getCountSubURL();
-                if (
+                $countSubURL    =   $controller::$countSubURL;
+	            $item['url'] = ($item['url'] == '/' && $parentID == 0) ?   $item['url'] :  $parentURL . $item['url'];
+	            if (
                     $parentID + 1 == (count(self::$URL) - 1)
                     || (
                         $countSubURL === false
@@ -77,14 +78,14 @@ abstract class ARouter extends AApplication
                     }
                     $subURL   =   Array();
                     for ($i = ($parentID + 2), $iMax = count(self::$URL); $i < $iMax; $i++) {
-                        $subURL[] =self::$URL[$i];
+                        $subURL[] = self::$URL[$i];
                     }
 
                     $controller::setPageURL(implode('/', $url));
                     $controller::setSubURL($subURL);
                     return $item;
                 } else {
-                    return self::getPage(++$parentID);
+	            	return self::getPage(++$parentID, $item['url']);
                 }
             }
 

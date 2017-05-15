@@ -23,22 +23,36 @@ class user extends applicationWeb\AControllers implements applicationWeb\IContro
     /**
      * @var mixed|int|false Колличество подуровней
      */
-    public static $countSubURL  =   0;
+	public static $countSubURL  =   false;
 
     /**
      * Инициализация
      */
     public function init()
     {
-        $config =   Array(
-
+        $config     =   Array(
+        	'url'   =>  self::$page['url'],
+			'sub'   =>  self::$subURL,
+	        'db'    =>  self::get('db'),
         );
-        $schema =   Array(
-
+        $schema     =   Array(
+	        Array(
+		        'type'              =>  'input',
+		        'field'             =>  'title',
+		        'collNameBig'       =>  true,
+		        'collNameLittle'    =>  false,
+		        'placeholder'       =>  'Заголовок страницы',
+		        'label'             =>  'Заголовок'
+	        ),
         );
+	    $template   =   Array(
+			'list'  =>  self::getTemplate('block/form/list.tpl'),
+		    'form'  =>  self::getTemplate('block/form/form.tpl'),
+	    );
         $CForm  =   new CForm\component(self::$content, 'CONTENT');
         $CForm->setConfig($config);
         $CForm->setSchema($schema);
+        $CForm->setTemplate($template);
         $CForm->run();
         self::$content  =    $CForm->getIncomingArray();
     }

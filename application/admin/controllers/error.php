@@ -6,7 +6,7 @@
  * Time: 15:33
  */
 
-namespace app\admin\controllers;
+namespace application\admin\controllers;
 
 
 use core\component\application\handler\Web as applicationWeb;
@@ -29,8 +29,7 @@ class error extends applicationWeb\AControllers implements applicationWeb\IContr
     public function init()
     {
         header('HTTP/1.0 404 Not Found');
-        self::$content['CONTENT']  =    '404';
-
+        self::$content['CONTENT']  =    'Ошибка';
     }
 
 }

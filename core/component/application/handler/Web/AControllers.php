@@ -21,7 +21,7 @@ abstract class AControllers extends AApplication
     /**
      * @var mixed|int|false Колличество подуровней
      */
-    protected static $countSubURL  =   0;
+	public static $countSubURL  =   0;
     /**
      * @var array подуровни
      */
@@ -36,6 +36,15 @@ abstract class AControllers extends AApplication
     public static function setSubURL(array $subURL)
     {
         self::$subURL = $subURL;
+    }
+
+	/**
+	 * Отдает подстраницы
+	 * @return array подстраницы
+	 */
+    public static function getSubURL()
+    {
+        return self::$subURL;
     }
 
     /**
@@ -58,15 +67,6 @@ abstract class AControllers extends AApplication
             return self::$URL;
         }
         return isset(self::$URL[$level])  ?   self::$URL[$level]  :   false;
-    }
-
-    /**
-     * Отдает Колличество подуровней
-     * @return false|int|mixed
-     */
-    public static function getCountSubURL()
-    {
-        return self::$countSubURL;
     }
 
 
