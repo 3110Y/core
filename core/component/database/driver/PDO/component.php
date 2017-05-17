@@ -145,17 +145,7 @@ class component extends database\ADriver implements database\IDriver
         return $query->fetch();
     }
 
-    /**
-     * Выбирает записи
-     * @param mixed $table таблица
-     * @param mixed $fields поля
-     * @param mixed $where условия
-     * @param mixed $order порядок
-     * @param mixed $limit лимит
-     * @param mixed $group группировка
-     * @param mixed $having указание условий в результах агрегатных функций
-     * @return array
-     */
+
     public function selectRows($table = null, $fields = null, $where = null, $order = null, $limit = null, $group = null, $having = null)
     {
         $query  =   $this->select($table, $fields, $where, $order, $limit, $group, $having);

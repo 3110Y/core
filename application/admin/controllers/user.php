@@ -31,18 +31,35 @@ class user extends applicationWeb\AControllers implements applicationWeb\IContro
     public function init()
     {
         $config     =   Array(
-        	'url'   =>  self::$page['url'],
-			'sub'   =>  self::$subURL,
-	        'db'    =>  self::get('db'),
+        	'url'       =>  self::$page['url'],
+			'sub'       =>  self::$subURL,
+	        'db'        =>  self::get('db'),
+	        'table'     =>  'core_user',
         );
         $schema     =   Array(
 	        Array(
 		        'type'              =>  'input',
-		        'field'             =>  'title',
+		        'field'             =>  'name',
 		        'collNameBig'       =>  true,
 		        'collNameLittle'    =>  false,
-		        'placeholder'       =>  'Заголовок страницы',
-		        'label'             =>  'Заголовок'
+		        'placeholder'       =>  'Имя',
+		        'label'             =>  'Имя',
+	        ),
+	        Array(
+		        'type'              =>  'input',
+		        'field'             =>  'surname',
+		        'collNameBig'       =>  true,
+		        'collNameLittle'    =>  false,
+		        'placeholder'       =>  'Фамилия',
+		        'label'             =>  'Фамилия',
+	        ),
+	        Array(
+		        'type'              =>  'input',
+		        'field'             =>  'surname',
+		        'collNameBig'       =>  true,
+		        'collNameLittle'    =>  false,
+		        'placeholder'       =>  'Отчество',
+		        'label'             =>  'Отчество'
 	        ),
         );
 	    $template   =   Array(

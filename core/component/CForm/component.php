@@ -36,6 +36,14 @@ class component
 	 * @var array шаблоны
 	 */
     private $templates      =   Array();
+	/**
+	 * @var array поля для запроса
+	 */
+    private $field  =   Array();
+	/**
+	 * @var array данные
+	 */
+    private $data   =   Array();
 
    /**
     * Устанавливает массив для ответа и его ключ
@@ -58,8 +66,10 @@ class component
 	 *                            need
 	 *                            <ul>
 	 *                                  <li>url: string</li>
+	 *                                  <li>table: string</li>
 	 *                                  <li>subURL: array</li>
 	 *                                  <li>db: object</li>
+	 *                                  <li>where: mixed</li>
 	 *                            </ul>
 	 *                         </li>
 	 *                      <li>
@@ -106,9 +116,29 @@ class component
 	public function run()
 	{
 		$this->checkConfig();
+		usort($this->schema,Array($this, 'schemaSort'));
+		var_dump($this->schema);
 
+		foreach ($this->schema as $key => $field) {
+			if (
+				(
+					isset($field["view"])
+					&& $field["view"] === false
+				)
+				|| (
+					isset($field[$this->config['mode']]["view"])
+				&& $field[$this->config['mode']]["view"] === false
+				)
+			) {
+				unset($this->schema[$key]);
+				continue;
+			}
+			$this->field[] = $field['field'];
+		}
+		$this->data =   $this->fillData();
 
 	}
+
 
 	/**
 	 * Проверяет конфиг
@@ -125,14 +155,14 @@ class component
 			if (
 				count($this->config['sub']) >= 1
 				&& (
-					$this->config['sub'][count($this->config) - 1] == 'list'
-					||  $this->config['sub'][count($this->config) - 1] == 'edit'
+					$this->config['sub'][count($this->config['sub']) - 1] == 'list'
+					||  $this->config['sub'][count($this->config['sub']) - 1] == 'edit'
 					|| (
 						$json
 						&& (
-							$this->config['sub'][count($this->config) - 1] == 'editData'
-							||  $this->config['sub'][count($this->config) - 1] == 'listData'
-							||  $this->config['sub'][count($this->config) - 1] == 'data'
+							$this->config['sub'][count($this->config['sub']) - 1] == 'editData'
+							||  $this->config['sub'][count($this->config['sub']) - 1] == 'listData'
+							||  $this->config['sub'][count($this->config['sub']) - 1] == 'data'
 						)
 					)
 				)
@@ -143,6 +173,7 @@ class component
 			} else {
 				$this->config['sub'][count($this->config) - 1]  = 'list';
 			}
+
 			$this->config['mode'] = htmlentities(trim(strip_tags($this->config['sub'][count($this->config['sub']) - 1])));
 		}
 		switch ($this->config['mode']) {
@@ -188,11 +219,88 @@ class component
 		} elseif (!isset($this->config['onPage'])) {
 			$this->config['onPage'] = 30;
 		}
+
 		if (!isset($this->config['db'])) {
 			die('Нет подключения к БД');
 		}
+		if (!isset($this->config['table'])) {
+			die('Не указана таблица');
+		}
 	}
 
+
+	private function fillData()
+	{
+		$field  =   implode(', ', $this->field);
+		$table  =   $this->config['table'];
+		$where  =   Array();
+		if (isset($this->config[$this->config['mode']]['where'])) {
+			$where    = array_merge($where, $this->config[$this->config['mode']]['where']);
+		} elseif (isset($this->config['where'])) {
+			$where    = array_merge($where, $this->config['where']);
+		}
+		if (
+			(
+				!isset($this->config['noWhere'])
+				|| $this->config['noWhere'] === false
+			)
+			&& $this->config['mode'] == 'edit'
+		) {
+			$where    = array_merge(
+				$where,
+				Array(
+					'id'    =>  $this->config['id'],
+				)
+			);
+		}
+		if (
+			(
+				!isset($this->config['noWhere'])
+				|| $this->config['noWhere'] === false
+			)
+			&& isset($this->config['parent'])
+			&& $this->config['parent'] !== false
+			&& isset($this->config['parent_field'])
+		) {
+			$where    = array_merge(
+				$where,
+				Array(
+					$this->config['parent_field']    =>  $this->config['parent'],
+				)
+			);
+		}
+		if ($this->config['mode'] == 'list') {
+			$order = '';
+			$limit = Array(
+				$this->config['page'],
+				$this->config['onPage']
+			);
+			/** @var \core\component\database\driver\PDO\component $db */
+			$db =   $this->config['db'];
+			return $db->selectRows($table, $field, $where, $order, $limit);
+		}
+	}
+
+	/**
+	 * Умная сортировка
+	 * @param array $v1 элемент массива
+	 * @param array $v2 элемент массива
+	 *
+	 * @return int порядок
+	 */
+	private function schemaSort($v1, $v2)
+	{
+		if (!isset($v1[$this->config['mode']]["order"])) {
+			$v1[$this->config['mode']]["order"] = 0;
+		}
+		if (!isset($v2[$this->config['mode']]["order"])) {
+			$v2[$this->config['mode']]["order"] = 0;
+		}
+		if ($v1[$this->config['mode']]["order"] == $v2[$this->config['mode']]["order"]) {
+			return 0;
+		}
+		return ($v1[$this->config['mode']]["order"] < $v2[$this->config['mode']]["order"])? -1: 1;
+	}
 
 	/**
      * Возвращяет массив для ответа
