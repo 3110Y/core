@@ -1,0 +1,33 @@
+.cform {
+  display: block;
+  position: relative;
+  background-color: #FFFFFF; }
+  .cform:after {
+    clear: both; }
+  .cform.w-hundred {
+    width: 100%; }
+    .cform.w-hundred .cf-table {
+      width: 100%; }
+  .cform .cf-table {
+    display: table; }
+    .cform .cf-table .cf-table-row-caption {
+      display: table-caption; }
+    .cform .cf-table .cf-table-row {
+      display: table-row; }
+      .cform .cf-table .cf-table-row:hover {
+        background: #ffd; }
+      .cform .cf-table .cf-table-row .cf-table-row-th {
+        display: table-column;
+        padding: 16px 12px;
+        box-sizing: border-box; }
+        .cform .cf-table .cf-table-row .cf-table-row-th > * {
+          font-weight: bold; }
+      .cform .cf-table .cf-table-row .cf-table-row-td {
+        border-top: 1px solid #e5e5e5;
+        display: table-cell;
+        padding: 16px 12px;
+        box-sizing: border-box; }
+        .cform .cf-table .cf-table-row .cf-table-row-td.overflow {
+          overflow: hidden; }
+
+/*# sourceMappingURL=list.css.map */

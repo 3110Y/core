@@ -91,6 +91,7 @@ class component extends database\ADriver implements database\IDriver
      */
     public function create($table = null, $fields = null)
     {
+    	//TODO: ошибка
         $sql = $this->createGenerator($table, $fields);
         return $this->query($sql);
     }
@@ -103,7 +104,7 @@ class component extends database\ADriver implements database\IDriver
      */
     public function inset($table = null, $value = null)
     {
-        $result = $this->insetGenerator($table, $value);
+        $result =   $this->insetGenerator($table, $value);
         $query  =   $this->getConnect()->prepare($result['sql']);
         $query->execute($result['execute']);
         return $query;
@@ -124,6 +125,9 @@ class component extends database\ADriver implements database\IDriver
     {
         $result = self::selectGenerator($table, $fields, $where, $order, $limit, $group, $having);
         $query  =   $this->getConnect()->prepare($result['sql']);
+        if ($query === false) {
+        	die("Ошибка SQL: {$result['sql']}, данные:" . print_r($result['execute'], true));
+        }
         $query->execute($result['execute']);
         return $query;
     }

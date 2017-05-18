@@ -47,7 +47,7 @@ abstract class ADriver
             $array  =   array();
             foreach ($field as $key => $value) {
                 if (is_int($key) && !is_array($value)) {
-                    $array[]    =   $value;
+                    $array[]    =   "`{$value}`";
                 } elseif (is_string($key) && !is_array($value)) {
                     $array[]    =   "`{$key}` . `{$value}`";
                 } elseif (is_array($value)) {
@@ -337,6 +337,8 @@ abstract class ADriver
             foreach ($order as $key => $value) {
                 if (is_int($key) && !is_array($value)) {
                     $array[]    =   $value;
+                } elseif (is_string($key) && !is_array($value) && ( $value == 'ASC' || $value == 'DESC' )) {
+	                $array[]    =   "`{$key}` {$value}";
                 } elseif (is_string($key) && !is_array($value)) {
                     $array[]    =   "`{$key}` `{$value}`";
                 } elseif (is_array($value)) {

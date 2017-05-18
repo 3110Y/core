@@ -1,0 +1,34 @@
+$color1: #FFFFFF
+$color2: #e5e5e5
+$color3: #ffd
+.cform
+  display: block
+  position: relative
+  background-color: $color1
+  &:after
+    clear: both
+  &.w-hundred
+    width: 100%
+    .cf-table
+      width: 100%
+  .cf-table
+    display: table
+    .cf-table-row-caption
+      display: table-caption
+    .cf-table-row
+      display: table-row
+      &:hover
+        background: $color3
+      .cf-table-row-th
+        display: table-column
+        padding: 16px 12px
+        box-sizing: border-box
+        &>*
+          font-weight: bold
+      .cf-table-row-td
+        border-top: 1px solid $color2
+        display: table-cell
+        padding: 16px 12px
+        box-sizing: border-box
+        &.overflow
+          overflow: hidden

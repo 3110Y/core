@@ -27,6 +27,7 @@ class basic extends applicationWeb\AControllers implements applicationWeb\IContr
      */
     public function preInit()
     {
+    	//TODO: проверить title
         $path                           =   self::$application['path'];
         $theme                          =   self::$application['theme'];
         self::$template                 =   self::getTemplate(self::$page['template']);
@@ -106,10 +107,10 @@ class basic extends applicationWeb\AControllers implements applicationWeb\IContr
      */
     public function postInit()
     {
-        self::$content['JS_TOP']    =   self::getJS();
-        self::$content['CSS_TOP']   =   self::getCSS();
-        self::$content['JS_BOTTOM']    =   self::getJS(false);
-        self::$content['CSS_BOTTOM']   =   self::getCSS(false);
+        self::$content['JS_TOP']        =   self::getJS();
+        self::$content['CSS_TOP']       =   self::getCSS();
+        self::$content['JS_BOTTOM']     =   self::getJS(false);
+        self::$content['CSS_BOTTOM']    =   self::getCSS(false);
     }
 
     /**

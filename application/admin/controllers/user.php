@@ -40,31 +40,55 @@ class user extends applicationWeb\AControllers implements applicationWeb\IContro
 	        Array(
 		        'type'              =>  'input',
 		        'field'             =>  'name',
-		        'collNameBig'       =>  true,
-		        'collNameLittle'    =>  false,
 		        'placeholder'       =>  'Имя',
 		        'label'             =>  'Имя',
+		        'listing'           =>  Array(
+		        	'align' =>  'center'
+		        )
 	        ),
 	        Array(
 		        'type'              =>  'input',
 		        'field'             =>  'surname',
-		        'collNameBig'       =>  true,
-		        'collNameLittle'    =>  false,
 		        'placeholder'       =>  'Фамилия',
 		        'label'             =>  'Фамилия',
+		        'listing'           =>  Array(
+			        'align' =>  'center'
+		        )
 	        ),
 	        Array(
 		        'type'              =>  'input',
 		        'field'             =>  'surname',
-		        'collNameBig'       =>  true,
-		        'collNameLittle'    =>  false,
 		        'placeholder'       =>  'Отчество',
-		        'label'             =>  'Отчество'
+		        'label'             =>  'Отчество',
+		        'listing'           =>  Array(
+			        'align' =>  'center'
+		        )
 	        ),
         );
 	    $template   =   Array(
-			'list'  =>  self::getTemplate('block/form/list.tpl'),
-		    'form'  =>  self::getTemplate('block/form/form.tpl'),
+			'listing'      =>  Array(
+				'template'  =>  self::getTemplate('block/form/list.tpl'),
+				'js'        =>  Array(),
+				'css'       =>  Array(
+					Array(
+						'file'  =>  'block/form/css/list.css'
+					),
+				),
+			),
+		    'listingNo'      =>  Array(
+				'template'  =>  self::getTemplate('block/form/listNo.tpl'),
+				'js'        =>  Array(),
+				'css'       =>  Array(
+					Array(
+						'file'  =>  'block/form/css/list.css'
+					),
+				),
+			),
+		    'form'      =>  Array(
+				'template'  =>  self::getTemplate('block/form/form.tpl'),
+				'js'        =>  Array(),
+				'css'       =>  Array(),
+			),
 	    );
         $CForm  =   new CForm\component(self::$content, 'CONTENT');
         $CForm->setConfig($config);
@@ -72,6 +96,8 @@ class user extends applicationWeb\AControllers implements applicationWeb\IContro
         $CForm->setTemplate($template);
         $CForm->run();
         self::$content  =    $CForm->getIncomingArray();
+	    self::addCss($CForm::getCss());
+	    self::addJs($CForm::getJS());
     }
 
 }

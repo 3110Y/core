@@ -8,13 +8,17 @@
 
 namespace core\component\CForm;
 
+use \core\component\{
+	templateEngine\engine\simpleView as simpleView
+};
+
 
 /**
 * Class component
  *
  * @package core\component\CForm
  */
-class component
+class component extends ACForm
 {
 	/**
 	 * @var array массив для ответа
@@ -44,6 +48,11 @@ class component
 	 * @var array данные
 	 */
     private $data   =   Array();
+	/**
+	 * @var array ответ
+	 */
+    private $answer = Array();
+
 
    /**
     * Устанавливает массив для ответа и его ключ
@@ -75,7 +84,7 @@ class component
 	 *                      <li>
 	 *                          posible
 	 *                          <ul>
-	 *                              <li>mode: list edit data listData editData</li>
+	 *                              <li>mode: listing edit data listingData editData</li>
 	 *                              <li>id: 0 1 2 ... n</li>
 	 *                              <li>page: 0 1 2 ... n</li>
 	 *                              <li>parent: 0 1 2 ... n</li>
@@ -101,7 +110,7 @@ class component
 	/**
 	 * @param array $templates шаблоны
 	 *                         <ul>
-	 *                              <li>list: string</li>
+	 *                              <li>listing: string</li>
 	 *                              <li>form: string</li>
 	 *                          </ul>
 	 */
@@ -117,8 +126,7 @@ class component
 	{
 		$this->checkConfig();
 		usort($this->schema,Array($this, 'schemaSort'));
-		var_dump($this->schema);
-
+		$this->field[] =    'id';
 		foreach ($this->schema as $key => $field) {
 			if (
 				(
@@ -136,9 +144,124 @@ class component
 			$this->field[] = $field['field'];
 		}
 		$this->data =   $this->fillData();
+		if ($this->config['mode'] == 'listing' || $this->config['mode'] == 'listingData') {
+			for ($i = 0, $iMax = count($this->data); $i < $iMax; $i++) {
+				$answer = Array();
+				$this->answer['FIELDS']  =  Array();
+				foreach ($this->schema as $key => $field) {
+					$fieldComponent = '\core\component\CForm\field\\' . $field['type'] . '\component';
+					$fieldComponent::setConfig($this->config);
+					$fieldComponent::setSchema($this->schema);
+					$fieldComponent::setData($this->data[$i]);
+					$fieldComponent  =   new $fieldComponent();
+					$fieldComponent->setFieldSchema($field);
+					if (isset($this->data[$i][$field['field']])) {
+						$fieldComponent->setFieldValue($this->data[$i][$field['field']]);
+					}
+					$fieldComponent->init();
+					if (method_exists($fieldComponent, $this->config['mode'])) {
+						$mode   =   $this->config['mode'];
+						$fieldComponent->$mode();
+					} else {
+						$fieldComponent->run();
+					}
+					$answer = $fieldComponent->get();
+					if (!isset($answer['FIELD'])) {
+						$answer['FIELD']    = '';
+					}
+					if (!isset($answer['CLASS'])) {
+						$answer['CLASS']    = '';
+					}
+					if (!isset($answer['STYLE'])) {
+						$answer['STYLE']    = '';
+					}
+					if (!isset($answer['ID'])) {
+						$answer['ID']    = '';
+					}
+					$this->answer['FIELDS'][]     =   Array(
+						'FIELD' =>  $answer['FIELD'],
+						'CLASS' =>  $answer['CLASS'],
+						'STYLE' =>  $answer['STYLE'],
+						'ID' =>  $answer['ID'],
+					);
+					$this->config       =   $fieldComponent::getConfig();
+					$this->schema       =   $fieldComponent::getSchema();
+					$this->data[$i]     =   $fieldComponent::getData();
+				}
+				$this->answer['ROWS'][] = $answer;
+			}
 
+		} else {
+			foreach ($this->schema as $key => $field) {
+				$fieldComponent = '\core\component\CForm\field\\' . $field['type'] . '\component';
+				$fieldComponent::setConfig($this->config);
+				$fieldComponent::setSchema($this->schema);
+				$fieldComponent::setData($this->data);
+				$fieldComponent  =   new $fieldComponent();
+				$fieldComponent->setFieldSchema($field);
+				if (isset($this->data[$field['field']])) {
+					$fieldComponent->setFieldValue($this->data[$field['field']]);
+				}
+				$fieldComponent->run();
+				$this->answer['FIELDS'][]     =   Array(
+					'FIELD' =>  $fieldComponent->get(),
+				);
+				$this->config       =   $fieldComponent::getConfig();
+				$this->schema       =   $fieldComponent::getSchema();
+				$this->data         =   $fieldComponent::getData();
+			}
+		}
+		if ($this->config['mode'] == 'listing') {
+			if(count($this->answer) == 0) {
+				if (!isset($this->templates['listingNo']['template']) && is_string($this->templates['listingNo'])) {
+					$this->templates['listingNo'] = Array(
+						'template'  =>  $this->templates['listingNo'],
+						'js'        =>  Array(),
+						'css'       =>  Array(),
+					);
+				}
+				$template   =   $this->templates['listingNo']['template'];
+				$js         =   $this->templates['listingNo']['js'];
+				$css        =   $this->templates['listingNo']['css'];
+			} else {
+				if (!isset($this->templates['listing']['template']) && is_string($this->templates['listing'])) {
+					$this->templates['listing'] = Array(
+						'template'  =>  $this->templates['listing'],
+						'js'        =>  Array(),
+						'css'       =>  Array(),
+					);
+				}
+				$template   =   $this->templates['listing']['template'];
+				$js         =   $this->templates['listing']['js'];
+				$css        =   $this->templates['listing']['css'];
+			}
+			foreach ($js as $script) {
+				if (!isset($script['isTopPosition'])) {
+					$script['isTopPosition'] = false;
+
+				}
+				if (!isset($script['isUnique'])) {
+					$script['isUnique'] = true;
+
+				}
+				self::setJs($script['file'], $script['isTopPosition'], $script['isUnique']);
+			}
+			foreach ($css as $script) {
+				if (!isset($script['isTopPosition'])) {
+					$script['isTopPosition'] = true;
+
+				}
+				if (!isset($script['isUnique'])) {
+					$script['isUnique'] = true;
+
+				}
+				self::setCSS($script['file'], $script['isTopPosition'], $script['isUnique']);
+			}
+			$this->answer   =   simpleView\component::replace($template, $this->answer);
+		} elseif ($this->config['mode'] == 'edit') {
+
+		}
 	}
-
 
 	/**
 	 * Проверяет конфиг
@@ -155,30 +278,32 @@ class component
 			if (
 				count($this->config['sub']) >= 1
 				&& (
-					$this->config['sub'][count($this->config['sub']) - 1] == 'list'
-					||  $this->config['sub'][count($this->config['sub']) - 1] == 'edit'
+					(
+						$this->config['sub'][count($this->config['sub']) - 2] == 'listing'
+					||  $this->config['sub'][count($this->config['sub']) - 2] == 'edit'
+					)
 					|| (
 						$json
 						&& (
-							$this->config['sub'][count($this->config['sub']) - 1] == 'editData'
-							||  $this->config['sub'][count($this->config['sub']) - 1] == 'listData'
-							||  $this->config['sub'][count($this->config['sub']) - 1] == 'data'
+							$this->config['sub'][count($this->config['sub']) - 2] == 'editData'
+							||  $this->config['sub'][count($this->config['sub']) - 2] == 'listingData'
+							||  $this->config['sub'][count($this->config['sub']) - 2] == 'data'
 						)
 					)
 				)
 			) {
-					$this->config['mode'] = $this->config['sub'][count($this->config['sub']) - 1];
+				$this->config['mode'] = $this->config['sub'][count($this->config['sub']) - 2];
 			}  elseif (count($this->config['sub']) == 0) {
-				$this->config['sub'][0]  = 'list';
+				$this->config['sub'][0]  = 'listing';
+				$this->config['mode']  = 'listing';
 			} else {
-				$this->config['sub'][count($this->config) - 1]  = 'list';
+				$this->config['sub'][count($this->config) - 2]  = 'listing';
+				$this->config['mode']  = 'listing';
 			}
-
-			$this->config['mode'] = htmlentities(trim(strip_tags($this->config['sub'][count($this->config['sub']) - 1])));
 		}
 		switch ($this->config['mode']) {
-			case 'listData':
-			case 'list':
+			case 'listingData':
+			case 'listing':
 				if (!isset($this->config['page'])) {
 					if (count($this->config['sub']) >= 2) {
 						$this->config['page'] =   (int)end($this->config['sub']);
@@ -215,7 +340,7 @@ class component
 			}
 		}
 		if (isset($_GET['onPage'])) {
-			$this->config['onPage'] =  (int)$this->config['onPage'];
+			$this->config['onPage'] =  (int)$_GET['onPage'];
 		} elseif (!isset($this->config['onPage'])) {
 			$this->config['onPage'] = 30;
 		}
@@ -228,11 +353,12 @@ class component
 		}
 	}
 
-
+	/**
+	 * Заполняет дату
+	 * @return array дата
+	 */
 	private function fillData()
 	{
-		$field  =   implode(', ', $this->field);
-		$table  =   $this->config['table'];
 		$where  =   Array();
 		if (isset($this->config[$this->config['mode']]['where'])) {
 			$where    = array_merge($where, $this->config[$this->config['mode']]['where']);
@@ -269,15 +395,20 @@ class component
 				)
 			);
 		}
-		if ($this->config['mode'] == 'list') {
+		/** @var \core\component\database\driver\PDO\component $db */
+		$db =   $this->config['db'];
+		if ($this->config['mode'] == 'listing' || $this->config['mode'] == 'listingData') {
 			$order = '';
+			if (isset($_GET['order'])) {
+				$order  =   $_GET['order'];
+			}
 			$limit = Array(
-				$this->config['page'],
+				(($this->config['onPage'] * $this->config['page']) - $this->config['onPage']),
 				$this->config['onPage']
 			);
-			/** @var \core\component\database\driver\PDO\component $db */
-			$db =   $this->config['db'];
-			return $db->selectRows($table, $field, $where, $order, $limit);
+			return $db->selectRows($this->config['table'], $this->field, $where, $order, $limit);
+		} else {
+			return $db->selectRow($this->config['table'], $this->field, $where);
 		}
 	}
 
@@ -308,6 +439,9 @@ class component
 	 */
     public  function getIncomingArray(): array
     {
-        return $this->incomingArray;
+	    $this->incomingArray[$this->incomingKey] = $this->answer;
+	    return $this->incomingArray;
 	}
+
+
 }

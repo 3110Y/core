@@ -70,8 +70,8 @@ abstract class AApplication
      */
     protected static function getTemplate(string $template): string
     {
-        $path   =   self::$application['path'];
-        $theme   =   self::$application['theme'];
+        $path       =   self::$application['path'];
+        $theme      =   self::$application['theme'];
         return "/application/{$path}/theme/{$theme}/{$template}";
     }
 
@@ -113,6 +113,28 @@ abstract class AApplication
         }
     }
 
+	/**
+	 * Задает множество JS
+	 * @param array $scripts скрипты
+	 */
+    protected static function addJs(array $scripts = Array())
+    {
+    	foreach ($scripts as $script) {
+    		self::setJs($script['file'], $script['isTopPosition'], $script['isUnique']);
+	    }
+    }
+
+    /**
+	 * Задает множество CSS
+	 * @param array $style стили
+	 */
+    protected static function addCss(array $style = Array())
+    {
+    	foreach ($style as $css) {
+    		self::setCss($css['file'], $css['isTopPosition'], $css['isUnique']);
+	    }
+    }
+
     /**
      * Отдает CSS
      * @param bool $isTopPosition позиция top|bottom
@@ -150,7 +172,7 @@ abstract class AApplication
                 $location       = core::getDR() . $includeFile;
             }
             if ($location !== false) {
-                $includeFile .= '?' . date ("YmdHis.", filemtime($location));
+                $includeFile .= '?' . date ("YmdHis", filemtime($location));
             } else {
                 $includeFile .= '?none';
             }
@@ -196,7 +218,7 @@ abstract class AApplication
                 $location   = core::getDR() . $includeFile;
             }
             if ($location !== false) {
-                $includeFile .= '?' . date ("YmdHis.", filemtime($location));
+                $includeFile .= '?' . date ("YmdHis", filemtime($location));
             } else {
                 $includeFile .= '?none';
             }
