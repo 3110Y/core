@@ -29,14 +29,6 @@ class component extends ACForm
 	 */
     private $incomingKey    =   '';
 	/**
-	 * @var array настройки
-	 */
-    private $config         =   Array();
-	/**
-	 * @var array схема
-	 */
-    private $schema         =   Array();
-	/**
 	 * @var array шаблоны
 	 */
     private $templates      =   Array();
@@ -95,7 +87,7 @@ class component extends ACForm
 	 */
     public function setConfig(array $config = Array())
     {
-		$this->config           =   $config;
+		self::$config           =   $config;
     }
 
 	/**
@@ -104,7 +96,7 @@ class component extends ACForm
 	 */
 	public function setSchema(array $schema = Array())
 	{
-		$this->schema   =   $schema;
+		self::$schema   =   $schema;
 	}
 
 	/**
@@ -125,49 +117,60 @@ class component extends ACForm
 	public function run()
 	{
 		$this->checkConfig();
-		usort($this->schema,Array($this, 'schemaSort'));
+		usort(self::$schema,Array($this, 'schemaSort'));
 		$this->field[] =    'id';
-		foreach ($this->schema as $key => $field) {
+		foreach (self::$schema as $key => $field) {
 			if (
 				(
 					isset($field["view"])
 					&& $field["view"] === false
 				)
 				|| (
-					isset($field[$this->config['mode']]["view"])
-				&& $field[$this->config['mode']]["view"] === false
+					isset($field[self::$config['mode']]["view"])
+				&& $field[self::$config['mode']]["view"] === false
 				)
 			) {
-				unset($this->schema[$key]);
+				unset(self::$schema[$key]);
 				continue;
 			}
 			$this->field[] = $field['field'];
 		}
 		$this->data =   $this->fillData();
-		if ($this->config['mode'] == 'listing' || $this->config['mode'] == 'listingData') {
+
+
+		if (self::$config['mode'] == 'listing' || self::$config['mode'] == 'listingData') {
+
+			if (isset(self::$config['caption'])) {
+				$this->answer['CAPTION_CLASS']  =   '';
+				$this->answer['CAPTION']        =   self::$config['caption'];
+			} else {
+				$this->answer['CAPTION_CLASS']  =   'is-hidden ';
+			}
+
+			$header                     =   Array();
+			$this->answer['HEADER_ROW'] =   Array();
+			$this->answer['ROWS']       =   Array();
 			for ($i = 0, $iMax = count($this->data); $i < $iMax; $i++) {
-				$answer = Array();
-				$this->answer['FIELDS']  =  Array();
-				foreach ($this->schema as $key => $field) {
+				$coll   =   Array();
+				foreach (self::$schema as $key => $field) {
+					/** @var \core\component\CForm\field\input\component $fieldComponent */
 					$fieldComponent = '\core\component\CForm\field\\' . $field['type'] . '\component';
-					$fieldComponent::setConfig($this->config);
-					$fieldComponent::setSchema($this->schema);
 					$fieldComponent::setData($this->data[$i]);
 					$fieldComponent  =   new $fieldComponent();
-					$fieldComponent->setFieldSchema($field);
+					$fieldComponent->setComponentSchema($field);
 					if (isset($this->data[$i][$field['field']])) {
 						$fieldComponent->setFieldValue($this->data[$i][$field['field']]);
 					}
 					$fieldComponent->init();
-					if (method_exists($fieldComponent, $this->config['mode'])) {
-						$mode   =   $this->config['mode'];
+					if (method_exists($fieldComponent, self::$config['mode'])) {
+						$mode   =   self::$config['mode'];
 						$fieldComponent->$mode();
 					} else {
 						$fieldComponent->run();
 					}
 					$answer = $fieldComponent->get();
-					if (!isset($answer['FIELD'])) {
-						$answer['FIELD']    = '';
+					if (!isset($answer['COMPONENT'])) {
+						$answer['COMPONENT']    = '';
 					}
 					if (!isset($answer['CLASS'])) {
 						$answer['CLASS']    = '';
@@ -178,40 +181,145 @@ class component extends ACForm
 					if (!isset($answer['ID'])) {
 						$answer['ID']    = '';
 					}
-					$this->answer['FIELDS'][]     =   Array(
-						'FIELD' =>  $answer['FIELD'],
-						'CLASS' =>  $answer['CLASS'],
-						'STYLE' =>  $answer['STYLE'],
-						'ID' =>  $answer['ID'],
+					if (!isset($answer['CAPTION'])) {
+						$answer['CAPTION']    = '';
+					}
+					$header[$key] = Array(
+						'COMPONENT' =>  $answer['CAPTION'],
+						'CLASS'     =>  $answer['CLASS'],
+						'STYLE'     =>  $answer['STYLE'],
+						'ID'        =>  'header-' . $answer['ID']
 					);
-					$this->config       =   $fieldComponent::getConfig();
-					$this->schema       =   $fieldComponent::getSchema();
+					$coll['FIELDS'][]     =   Array(
+						'COMPONENT'     =>  $answer['COMPONENT'],
+						'CLASS'     =>  $answer['CLASS'],
+						'STYLE'     =>  $answer['STYLE'],
+						'ID'        =>  $answer['ID']
+					);
 					$this->data[$i]     =   $fieldComponent::getData();
 				}
-				$this->answer['ROWS'][] = $answer;
-			}
 
+
+				$collAction   =   Array();
+				$coll['CLASS_ROW']   =   '';
+				if (self::$config['action_row']) {
+					foreach (self::$config['action']['row'] as $action => $value) {
+						/** @var \core\component\CForm\action\dell\component $actionComponent */
+						$actionComponent = '\core\component\CForm\action\\' . $action . '\component';
+						$actionComponent::setData($this->data);
+						$actionComponent  =   new $actionComponent();
+						$actionComponent->setComponentSchema($value);
+						$actionComponent->init();
+						if (method_exists($actionComponent, 'row')) {
+							$actionComponent->row();
+						} else {
+							$actionComponent->run();
+						}
+						$answer = $actionComponent->get();
+						if (!isset($answer['COMPONENT'])) {
+							$answer['COMPONENT']    = '';
+						}
+						if (!isset($answer['CLASS'])) {
+							$answer['CLASS']    = '';
+						}
+						if (!isset($answer['STYLE'])) {
+							$answer['STYLE']    = '';
+						}
+						if (!isset($answer['ID'])) {
+							$answer['ID']    = '';
+						}
+						$collAction[]     =   Array(
+							'COMPONENT'     =>  $answer['COMPONENT'],
+							'CLASS'         =>  $answer['CLASS'],
+							'STYLE'         =>  $answer['STYLE'],
+							'ID'            =>  $answer['ID'],
+						);
+						$this->data     =   $actionComponent::getData();
+					}
+				}
+				$coll['ACTION_ROW'] =   $collAction;
+				if(empty($collAction)) {
+					$coll['CLASS_ROW'] = 'is-hidden ';
+				} else {
+					$header['ROW']   = Array(
+						'COMPONENT' =>  'Действия',
+						'CLASS'         =>  ' min ',
+						'STYLE'         =>  '',
+						'ID'            =>  '',
+					);
+				}
+				$this->answer['ROWS'][]  =  $coll;
+			}
+			foreach ($header as $headerColl) {
+				$this->answer['HEADER_ROW'][]   =   $headerColl;
+			}
+			$this->answer['CLASS_ROWS'] =   '';
+			$this->answer['ACTION_ROWS']   =   Array();
+			if (self::$config['action_rows']) {
+				foreach (self::$config['action']['rows'] as $action => $value) {
+					/** @var \core\component\CForm\action\dell\component $actionComponent */
+					$actionComponent = '\core\component\CForm\action\\' . $action . '\component';
+					$actionComponent::setData($this->data);
+					$actionComponent  =   new $actionComponent();
+					$actionComponent->setComponentSchema($value);
+					$actionComponent->init();
+					if (method_exists($actionComponent, 'rows')) {
+						$actionComponent->rows();
+					} else {
+						$actionComponent->run();
+					}
+					$answer = $actionComponent->get();
+					if (!isset($answer['COMPONENT'])) {
+						$answer['COMPONENT']    = '';
+					}
+					if (!isset($answer['CLASS'])) {
+						$answer['CLASS']    = '';
+					}
+					if (!isset($answer['STYLE'])) {
+						$answer['STYLE']    = '';
+					}
+					if (!isset($answer['ID'])) {
+						$answer['ID']    = '';
+					}
+					$this->answer['ACTION_ROWS'][]     =   Array(
+						'COMPONENT'    =>  $answer['COMPONENT'],
+						'CLASS'     =>  $answer['CLASS'],
+						'STYLE'     =>  $answer['STYLE'],
+						'ID'        =>  $answer['ID'],
+					);
+					$this->data     =   $actionComponent::getData();
+				}
+			}
+			if(empty($this->answer['ACTION_ROWS'])) {
+				$this->answer['CLASS_ROWS'] = 'is-hidden ';
+			}
 		} else {
-			foreach ($this->schema as $key => $field) {
+			$this->answer['FIELDS']  =  Array();
+			foreach (self::$schema as $key => $field) {
+				/** @var \core\component\CForm\field\input\component $fieldComponent */
 				$fieldComponent = '\core\component\CForm\field\\' . $field['type'] . '\component';
-				$fieldComponent::setConfig($this->config);
-				$fieldComponent::setSchema($this->schema);
 				$fieldComponent::setData($this->data);
 				$fieldComponent  =   new $fieldComponent();
-				$fieldComponent->setFieldSchema($field);
+				$fieldComponent->setComponentSchema($field);
 				if (isset($this->data[$field['field']])) {
 					$fieldComponent->setFieldValue($this->data[$field['field']]);
 				}
-				$fieldComponent->run();
+				$fieldComponent->init();
+				if (method_exists($fieldComponent, self::$config['mode'])) {
+					$mode   =   self::$config['mode'];
+					$fieldComponent->$mode();
+				} else {
+					$fieldComponent->run();
+				}
 				$this->answer['FIELDS'][]     =   Array(
-					'FIELD' =>  $fieldComponent->get(),
+					'COMPONENT' =>  $fieldComponent->get(),
 				);
-				$this->config       =   $fieldComponent::getConfig();
-				$this->schema       =   $fieldComponent::getSchema();
 				$this->data         =   $fieldComponent::getData();
 			}
 		}
-		if ($this->config['mode'] == 'listing') {
+
+
+		if (self::$config['mode'] == 'listing') {
 			if(count($this->answer) == 0) {
 				if (!isset($this->templates['listingNo']['template']) && is_string($this->templates['listingNo'])) {
 					$this->templates['listingNo'] = Array(
@@ -257,9 +365,10 @@ class component extends ACForm
 				}
 				self::setCSS($script['file'], $script['isTopPosition'], $script['isUnique']);
 			}
-			$this->answer   =   simpleView\component::replace($template, $this->answer);
-		} elseif ($this->config['mode'] == 'edit') {
 
+			$this->answer   =   simpleView\component::replace($template, $this->answer);
+		} elseif (self::$config['mode'] == 'edit') {
+			//TODO: форма
 		}
 	}
 
@@ -274,81 +383,158 @@ class component extends ACForm
 			strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
 			$json = true;
 		}
-		if (!isset($this->config['mode'])) {
+		if (!isset(self::$config['mode'])) {
 			if (
-				count($this->config['sub']) >= 1
+				count(self::$config['sub']) >= 1
 				&& (
 					(
-						$this->config['sub'][count($this->config['sub']) - 2] == 'listing'
-					||  $this->config['sub'][count($this->config['sub']) - 2] == 'edit'
+						self::$config['sub'][count(self::$config['sub']) - 2] == 'listing'
+					||  self::$config['sub'][count(self::$config['sub']) - 2] == 'edit'
 					)
 					|| (
 						$json
 						&& (
-							$this->config['sub'][count($this->config['sub']) - 2] == 'editData'
-							||  $this->config['sub'][count($this->config['sub']) - 2] == 'listingData'
-							||  $this->config['sub'][count($this->config['sub']) - 2] == 'data'
+							self::$config['sub'][count(self::$config['sub']) - 2] == 'editData'
+							||  self::$config['sub'][count(self::$config['sub']) - 2] == 'listingData'
+							||  self::$config['sub'][count(self::$config['sub']) - 2] == 'data'
 						)
 					)
 				)
 			) {
-				$this->config['mode'] = $this->config['sub'][count($this->config['sub']) - 2];
-			}  elseif (count($this->config['sub']) == 0) {
-				$this->config['sub'][0]  = 'listing';
-				$this->config['mode']  = 'listing';
+				self::$config['mode'] = self::$config['sub'][count(self::$config['sub']) - 2];
+			}  elseif (count(self::$config['sub']) == 0) {
+				self::$config['sub'][0]  = 'listing';
+				self::$config['mode']  = 'listing';
 			} else {
-				$this->config['sub'][count($this->config) - 2]  = 'listing';
-				$this->config['mode']  = 'listing';
+				self::$config['sub'][count(self::$config) - 2]  = 'listing';
+				self::$config['mode']  = 'listing';
 			}
 		}
-		switch ($this->config['mode']) {
+		switch (self::$config['mode']) {
 			case 'listingData':
 			case 'listing':
-				if (!isset($this->config['page'])) {
-					if (count($this->config['sub']) >= 2) {
-						$this->config['page'] =   (int)end($this->config['sub']);
+				if (!isset(self::$config['page'])) {
+					if (count(self::$config['sub']) >= 2) {
+						self::$config['page'] =   (int)end(self::$config['sub']);
 					} else {
-						$this->config['page'] = 1;
+						self::$config['page'] = 1;
 					}
 				}
 				break;
 			case 'editData':
 			case 'edit':
-				if (!isset($this->config['id'])) {
-					if (count($this->config['sub']) >= 2) {
-						$this->config['id'] =   (int)end($this->config['sub']);
+				if (!isset(self::$config['id'])) {
+					if (count(self::$config['sub']) >= 2) {
+						self::$config['id'] =   (int)end(self::$config['sub']);
 					} else {
-						$this->config['id'] = 0;
+						self::$config['id'] = 0;
 					}
 				}
 				break;
 			case 'data':
-				if (!isset($this->config['field'])) {
+				if (!isset(self::$config['field'])) {
 					if (isset($_GET['field'])) {
-						$this->config['field'] =   htmlentities(trim(strip_tags($_GET['field'])));
+						self::$config['field'] =   htmlentities(trim(strip_tags($_GET['field'])));
 					}
 				}
 				break;
 		}
-		if (!isset($this->config['parent'])) {
-			if (count($this->config['sub']) >= 3) {
-				$this->config['parent'] =   (int)$this->config['sub'][0];
-			} elseif (isset($this->config['parent_field'])) {
-				$this->config['parent']  = 0;
+		if (!isset(self::$config['parent'])) {
+			if (count(self::$config['sub']) >= 3) {
+				self::$config['parent'] =   (int)self::$config['sub'][0];
+			} elseif (isset(self::$config['parent_field'])) {
+				self::$config['parent']  = 0;
 			} else {
-				$this->config['parent'] = false;
+				self::$config['parent'] = false;
 			}
 		}
 		if (isset($_GET['onPage'])) {
-			$this->config['onPage'] =  (int)$_GET['onPage'];
-		} elseif (!isset($this->config['onPage'])) {
-			$this->config['onPage'] = 30;
+			self::$config['onPage'] =  (int)$_GET['onPage'];
+		} elseif (!isset(self::$config['onPage'])) {
+			self::$config['onPage'] = 30;
 		}
 
-		if (!isset($this->config['db'])) {
+		if (!isset(self::$config['action'])) {
+			self::$config['action'] = Array(
+				'group'   => Array(
+					'add'  =>  true,
+					'dell'  =>  true
+				),
+				'row'   =>  Array(
+					'edit'      =>  true,
+					'dell'      =>  true,
+				),
+				'item'  =>  Array(
+					'return'    =>  true,
+					'dell'      =>  true,
+					'save'      =>  true,
+				),
+			);
+		}
+		if (!isset(self::$config['action']['rows'])) {
+			self::$config['action']['rows']   = Array(
+				'add'       =>  true,
+				'dell'      =>  true
+			);
+		}
+		if (!isset(self::$config['action']['row'])) {
+			self::$config['action']['row']   = Array(
+				'edit'      =>  true,
+				'dell'      =>  true
+			);
+		}
+		if (!isset(self::$config['action']['item'])) {
+			self::$config['action']['item']   = Array(
+				'return'    =>  true,
+				'dell'      =>  true,
+				'save'      =>  true
+			);
+		}
+		if (!isset(self::$config['action']['rows']['add'])) {
+			self::$config['action']['rows']['add']    =  true;
+		}
+		if (!isset(self::$config['action']['rows']['dell'])) {
+			self::$config['action']['rows']['dell']    =  true;
+		}
+		if (!isset(self::$config['action']['row']['edit'])) {
+			self::$config['action']['row']['edit']      =  true;
+		}
+		if (!isset(self::$config['action']['row']['dell'])) {
+			self::$config['action']['row']['dell']      =  true;
+		}
+		if (!isset(self::$config['action']['item']['return'])) {
+			self::$config['action']['item']['return']   =  true;
+		}
+		if (!isset(self::$config['action']['item']['dell'])) {
+			self::$config['action']['item']['dell']     =  true;
+		}
+		if (!isset(self::$config['action']['item']['save'])) {
+			self::$config['action']['item']['save']     =  true;
+		}
+
+		if (self::$config['action']['rows']['dell'] || isset(self::$config['action']['rows']['custom'])) {
+			self::$config['action_rows']   =   true;
+		}
+		if (
+			self::$config['action']['row']['edit']
+			|| self::$config['action']['row']['dell']
+			|| isset(self::$config['action']['row']['custom'])
+		) {
+			self::$config['action_row']   =   true;
+		}
+		if (
+			self::$config['action']['item']['return']
+			|| self::$config['action']['item']['dell']
+			|| self::$config['action']['item']['save']
+			|| isset(self::$config['action']['item']['custom'])
+		) {
+			self::$config['action_item']   =   true;
+		}
+
+		if (!isset(self::$config['db'])) {
 			die('Нет подключения к БД');
 		}
-		if (!isset($this->config['table'])) {
+		if (!isset(self::$config['table'])) {
 			die('Не указана таблица');
 		}
 	}
@@ -360,55 +546,55 @@ class component extends ACForm
 	private function fillData()
 	{
 		$where  =   Array();
-		if (isset($this->config[$this->config['mode']]['where'])) {
-			$where    = array_merge($where, $this->config[$this->config['mode']]['where']);
-		} elseif (isset($this->config['where'])) {
-			$where    = array_merge($where, $this->config['where']);
+		if (isset(self::$config[self::$config['mode']]['where'])) {
+			$where    = array_merge($where, self::$config[self::$config['mode']]['where']);
+		} elseif (isset(self::$config['where'])) {
+			$where    = array_merge($where, self::$config['where']);
 		}
 		if (
 			(
-				!isset($this->config['noWhere'])
-				|| $this->config['noWhere'] === false
+				!isset(self::$config['noWhere'])
+				|| self::$config['noWhere'] === false
 			)
-			&& $this->config['mode'] == 'edit'
+			&& self::$config['mode'] == 'edit'
 		) {
 			$where    = array_merge(
 				$where,
 				Array(
-					'id'    =>  $this->config['id'],
+					'id'    =>  self::$config['id'],
 				)
 			);
 		}
 		if (
 			(
-				!isset($this->config['noWhere'])
-				|| $this->config['noWhere'] === false
+				!isset(self::$config['noWhere'])
+				|| self::$config['noWhere'] === false
 			)
-			&& isset($this->config['parent'])
-			&& $this->config['parent'] !== false
-			&& isset($this->config['parent_field'])
+			&& isset(self::$config['parent'])
+			&& self::$config['parent'] !== false
+			&& isset(self::$config['parent_field'])
 		) {
 			$where    = array_merge(
 				$where,
 				Array(
-					$this->config['parent_field']    =>  $this->config['parent'],
+					self::$config['parent_field']    =>  self::$config['parent'],
 				)
 			);
 		}
 		/** @var \core\component\database\driver\PDO\component $db */
-		$db =   $this->config['db'];
-		if ($this->config['mode'] == 'listing' || $this->config['mode'] == 'listingData') {
+		$db =   self::$config['db'];
+		if (self::$config['mode'] == 'listing' || self::$config['mode'] == 'listingData') {
 			$order = '';
 			if (isset($_GET['order'])) {
 				$order  =   $_GET['order'];
 			}
 			$limit = Array(
-				(($this->config['onPage'] * $this->config['page']) - $this->config['onPage']),
-				$this->config['onPage']
+				((self::$config['onPage'] * self::$config['page']) - self::$config['onPage']),
+				self::$config['onPage']
 			);
-			return $db->selectRows($this->config['table'], $this->field, $where, $order, $limit);
+			return $db->selectRows(self::$config['table'], $this->field, $where, $order, $limit);
 		} else {
-			return $db->selectRow($this->config['table'], $this->field, $where);
+			return $db->selectRow(self::$config['table'], $this->field, $where);
 		}
 	}
 
@@ -421,16 +607,16 @@ class component extends ACForm
 	 */
 	private function schemaSort($v1, $v2)
 	{
-		if (!isset($v1[$this->config['mode']]["order"])) {
-			$v1[$this->config['mode']]["order"] = 0;
+		if (!isset($v1[self::$config['mode']]["order"])) {
+			$v1[self::$config['mode']]["order"] = 0;
 		}
-		if (!isset($v2[$this->config['mode']]["order"])) {
-			$v2[$this->config['mode']]["order"] = 0;
+		if (!isset($v2[self::$config['mode']]["order"])) {
+			$v2[self::$config['mode']]["order"] = 0;
 		}
-		if ($v1[$this->config['mode']]["order"] == $v2[$this->config['mode']]["order"]) {
+		if ($v1[self::$config['mode']]["order"] == $v2[self::$config['mode']]["order"]) {
 			return 0;
 		}
-		return ($v1[$this->config['mode']]["order"] < $v2[$this->config['mode']]["order"])? -1: 1;
+		return ($v1[self::$config['mode']]["order"] < $v2[self::$config['mode']]["order"])? -1: 1;
 	}
 
 	/**

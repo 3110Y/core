@@ -206,7 +206,7 @@ final class core
             require $file;
             return true;
         }
-        if (self::getDR() . $file) {
+        if (file_exists(self::getDR() . $file)) {
             require self::getDR() . $file;
             return true;
         }

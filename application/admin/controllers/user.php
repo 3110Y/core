@@ -35,33 +35,37 @@ class user extends applicationWeb\AControllers implements applicationWeb\IContro
 			'sub'       =>  self::$subURL,
 	        'db'        =>  self::get('db'),
 	        'table'     =>  'core_user',
+	        'caption'   =>  'Пользователи'
         );
         $schema     =   Array(
 	        Array(
 		        'type'              =>  'input',
 		        'field'             =>  'name',
+		        'caption'           =>  'Имя',
 		        'placeholder'       =>  'Имя',
 		        'label'             =>  'Имя',
 		        'listing'           =>  Array(
-		        	'align' =>  'center'
+		        	'align' =>  'left'
 		        )
 	        ),
 	        Array(
 		        'type'              =>  'input',
 		        'field'             =>  'surname',
+		        'caption'           =>  'Фамилия',
 		        'placeholder'       =>  'Фамилия',
 		        'label'             =>  'Фамилия',
 		        'listing'           =>  Array(
-			        'align' =>  'center'
+			        'align' =>  'left'
 		        )
 	        ),
 	        Array(
 		        'type'              =>  'input',
 		        'field'             =>  'surname',
+		        'caption'           =>  'Отчество',
 		        'placeholder'       =>  'Отчество',
 		        'label'             =>  'Отчество',
 		        'listing'           =>  Array(
-			        'align' =>  'center'
+			        'align' =>  'left'
 		        )
 	        ),
         );

@@ -8,6 +8,9 @@
 
 namespace core\component\CForm;
 
+use core as core;
+
+
 /**
  * Class ACForm
  *
@@ -15,6 +18,15 @@ namespace core\component\CForm;
  */
 abstract class ACForm
 {
+	/**
+	 * @var array настройки
+	 */
+	protected static $config    =   Array();
+	/**
+	 * @var array схема
+	 */
+	protected static $schema    =   Array();
+
 	/**
 	 * @var array js файлы
 	 */
@@ -73,5 +85,24 @@ abstract class ACForm
 	public static function getCss()
 	{
 		return self::$css;
+	}
+
+
+	/**
+	 * отдает шаблон
+	 * @param string $template шаблон
+	 * @param string $dir
+	 *
+	 * @return string шаблон
+	 */
+	protected static function getTemplate(string $template, string $dir = __DIR__): string
+	{
+		$dir    =   strtr($dir, Array(
+			'\\' =>  '/'
+		));
+		$dr    =   strtr(core\core::getDR(), Array(
+			'\\' =>  '/'
+		));
+		return '/' . str_replace($dr,'', $dir) . '/' . $template;
 	}
 }

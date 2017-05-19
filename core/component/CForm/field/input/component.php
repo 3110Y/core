@@ -23,7 +23,7 @@ class component extends CForm\AField implements CForm\IField
 
 	public function init()
 	{
-		$field  =   $this->fieldSchema['field'];
+		$field  =   $this->componentSchema['field'];
 		$id     =   self::$data['id'];
 		$this->addAnswerID("input-field-{$field}-id-{$id}");
 		$this->addAnswerClass('input');
@@ -35,12 +35,17 @@ class component extends CForm\AField implements CForm\IField
 
 	}
 
+	/**
+	 * генирирует для листинга
+	 */
 	public function listing()
 	{
-
-		if (isset($this->fieldSchema['listing'])) {
-			if (isset($this->fieldSchema['listing']['align'])) {
-				switch ($this->fieldSchema['listing']['align']) {
+		if (isset($this->componentSchema['caption'])) {
+			$this->setFieldCaption($this->componentSchema['caption']);
+		}
+		if (isset($this->componentSchema['listing'])) {
+			if (isset($this->componentSchema['listing']['align'])) {
+				switch ($this->componentSchema['listing']['align']) {
 					case "left":
 						$this->addAnswerClass('input-left');
 						break;
@@ -59,14 +64,14 @@ class component extends CForm\AField implements CForm\IField
 			$data[mb_strtoupper($field)] = $value;
 		}
 		$href   =   '';
-		if (isset($this->fieldSchema['href'])) {
-			$href = strtr($this->fieldSchema['href'], $data);
+		if (isset($this->componentSchema['href'])) {
+			$href = strtr($this->componentSchema['href'], $data);
 		}
 		$data   =   Array(
 			'VALUE' =>  $this->fieldValue,
 			'HREF' =>  $href,
 		);
 		$answer =   simpleView\component::replace(self::getTemplate('tpl/listing.tpl', __DIR__), $data);
-		$this->setAnswerField($answer);
+		$this->setComponentAnswer($answer);
 	}
 }
