@@ -1,1 +1,1 @@
-<button class="uk-button uk-button-danger uk-button-small" uk-icon="icon: close" title="Удалить" uk-tooltip></button>
+<a href="#" class="uk-button uk-button-danger uk-button-small" uk-icon="icon: close" title="Удалить" uk-tooltip></a>

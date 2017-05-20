@@ -1,1 +1,1 @@
-<button class="uk-button uk-button-primary"><span uk-icon="icon: plus"></span>Добавить</button>
+<a href="#" class="uk-button uk-button-primary"><span uk-icon="icon: plus"></span>Добавить</a>

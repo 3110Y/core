@@ -448,8 +448,9 @@ class component extends ACForm
 				self::$config['parent'] = false;
 			}
 		}
-		$paginatorKey   =   'paginator' . self::$config['url'] . self::$config['mode'];
 
+
+		$paginatorKey   =   'paginator' . self::$config['url'] . self::$config['mode'];
 		if (isset($_GET['onPage'])) {
 			self::$config['onPage'] =  (int)$_GET['onPage'];
 			setcookie($paginatorKey, self::$config['onPage'], (time() + 60 * 60 * 24 * 30), '/');
@@ -629,7 +630,11 @@ class component extends ACForm
 	 */
 	private function getPaginator()
 	{
-		$url = self::$config['url'] . '/' . self::$config['mode'] . '/';
+		if(self::$config['parent'] !== false) {
+			$url = self::$config['url'] . '/' . self::$config['mode'] . '/';
+		} else {
+			$url = self::$config['url'] . '/' . self::$config['parent'] . '/' . self::$config['mode'] . '/';
+		}
 		$paginator  =   Array();
 		$totalPages =   ceil ($this->answer['ROW_ALL'] / self::$config['onPage']);
 		if ($totalPages == 1) {
