@@ -448,10 +448,15 @@ class component extends ACForm
 				self::$config['parent'] = false;
 			}
 		}
+		$paginatorKey   =   'paginator' . self::$config['url'] . self::$config['mode'];
+
 		if (isset($_GET['onPage'])) {
 			self::$config['onPage'] =  (int)$_GET['onPage'];
+			setcookie($paginatorKey, self::$config['onPage'], (time() + 60 * 60 * 24 * 30), '/');
+		} elseif (isset($_COOKIE[$paginatorKey])) {
+			self::$config['onPage']  =   $_COOKIE[$paginatorKey];
 		} elseif (!isset(self::$config['onPage'])) {
-			self::$config['onPage'] = 30;
+			self::$config['onPage'] = 10;
 		}
 
 		if (!isset(self::$config['action'])) {
@@ -531,6 +536,10 @@ class component extends ACForm
 			self::$config['action_item']   =   true;
 		}
 
+		if (!isset(self::$config['paginator'])) {
+			self::$config['paginator']  =   Array(10,15,25,30,50,75,100);
+		}
+
 		if (!isset(self::$config['db'])) {
 			die('Нет подключения к БД');
 		}
@@ -592,10 +601,167 @@ class component extends ACForm
 				((self::$config['onPage'] * self::$config['page']) - self::$config['onPage']),
 				self::$config['onPage']
 			);
+			$this->answer['ROW_ALL']    = $db->selectCount(self::$config['table'], $this->field, $where, $order);
+			$this->answer['ROW_FORM']   = ((self::$config['onPage'] * self::$config['page']) - self::$config['onPage'])+1;
+			$this->answer['ROW_TO']     = $this->answer['ROW_FORM']+ self::$config['onPage']-1;
+			if ($this->answer['ROW_TO'] > $this->answer['ROW_ALL']) {
+				$this->answer['ROW_TO'] =  $this->answer['ROW_ALL'];
+			}
+			$this->answer['PAGINATOR'] = $this->getPaginator();
+			$this->answer['ON_PAGE'] =  self::$config['onPage'];
+			foreach (self::$config['paginator'] as $page) {
+				$this->answer['ON_PAGE_LIST'][] =  Array(
+					'CLASS' =>  ($page == self::$config['onPage'])  ?   'uk-active' :   '',
+					'URL'   =>  '?onPage=' . $page,
+					'TEXT'  =>  $page
+				);
+			}
 			return $db->selectRows(self::$config['table'], $this->field, $where, $order, $limit);
 		} else {
 			return $db->selectRow(self::$config['table'], $this->field, $where);
 		}
+	}
+
+
+	/**
+	 * Отдает Постраничку
+	 * @return array данные Постранички
+	 */
+	private function getPaginator()
+	{
+		$url = self::$config['url'] . '/' . self::$config['mode'] . '/';
+		$paginator  =   Array();
+		$totalPages =   ceil ($this->answer['ROW_ALL'] / self::$config['onPage']);
+		if ($totalPages == 1) {
+			$paginator[] = Array(
+				'HREF'  =>  $url . 1,
+				'TEXT'  =>  'Вся информация размещена на одной странице',
+				'CLASS' =>  'uk-active'
+			);
+		} elseif ($totalPages <= 6) {
+			if (self::$config['page'] != '1') {
+				$paginator[] = Array(
+					'CLASS' =>  '',
+					'HREF'  =>  $url . (self::$config['page'] - 1),
+					'TEXT'  =>  '<span uk-pagination-previous></span>',
+				);
+			}
+			for ($i = 1, $iMax = $totalPages; $i < $iMax; $i++) {
+				$paginator[] = Array(
+					'HREF'  =>  $url . $i,
+					'TEXT'  =>  $i,
+					'CLASS' =>  ($i == self::$config['page'])   ?   'uk-active' :   ''
+				);
+			}
+			if (self::$config['page'] != $totalPages) {
+				$paginator[] = Array(
+					'CLASS' =>  '',
+					'HREF'  =>  $url . (self::$config['page'] + 1),
+					'TEXT'  =>  '<span uk-pagination-next></span>',
+				);
+			}
+
+		} elseif (self::$config['page']  <= 4) {
+			if (self::$config['page'] != '1') {
+				$paginator[] = Array(
+					'CLASS' =>  '',
+					'HREF'  =>  $url . (self::$config['page'] - 1),
+					'TEXT'  =>  '<span uk-pagination-previous></span>',
+				);
+			}
+			for ($i = 1, $iMax = 4; $i < $iMax; $i++) {
+				$paginator[] = Array(
+					'HREF'  =>  $url . $i,
+					'TEXT'  =>  $i,
+					'CLASS' =>  ($i == self::$config['page'])   ?   'uk-active' :   ''
+				);
+			}
+			$paginator[] = Array(
+				'CLASS' =>  'uk-disabled',
+				'HREF'  =>  '#',
+				'TEXT'  =>  '...',
+			);
+			$paginator[] = Array(
+				'CLASS' =>  '',
+				'HREF'  =>  $url . $totalPages,
+				'TEXT'  =>  $totalPages,
+			);
+			$paginator[] = Array(
+				'CLASS' =>  '',
+				'HREF'  =>  $url . (self::$config['page'] + 1),
+				'TEXT'  =>  '<span uk-pagination-next></span>',
+			);
+
+		} elseif (self::$config['page'] >=  ($totalPages - 4)) {
+			$paginator[] = Array(
+				'CLASS' =>  '',
+				'HREF'  =>  $url . (self::$config['page'] - 1),
+				'TEXT'  =>  '<span uk-pagination-previous></span>',
+			);
+			$paginator[] = Array(
+				'CLASS' =>  '',
+				'HREF'  =>  $url . 1,
+				'TEXT'  =>  1,
+			);
+			$paginator[] = Array(
+				'CLASS' =>  'uk-disabled',
+				'HREF'  =>  '#',
+				'TEXT'  =>  '...',
+			);
+			for ($i = ($totalPages - 5), $iMax = $totalPages; $i < $iMax; $i++) {
+				$paginator[] = Array(
+					'HREF'  =>  $url . $i,
+					'TEXT'  =>  $i,
+					'CLASS' =>  ($i == self::$config['page'])   ?   'uk-active' :   ''
+				);
+			}
+			if (self::$config['page'] != $totalPages) {
+				$paginator[] = Array(
+					'CLASS' =>  '',
+					'HREF'  =>  $url . (self::$config['page'] + 1),
+					'TEXT'  =>  '<span uk-pagination-next></span>',
+				);
+			}
+		} else {
+			$paginator[] = Array(
+				'CLASS' =>  '',
+				'HREF'  =>  $url . (self::$config['page'] - 1),
+				'TEXT'  =>  '<span uk-pagination-previous></span>',
+			);
+			$paginator[] = Array(
+				'CLASS' =>  '',
+				'HREF'  =>  $url . 1,
+				'TEXT'  =>  1,
+			);
+			$paginator[] = Array(
+				'CLASS' =>  'uk-disabled',
+				'HREF'  =>  '#',
+				'TEXT'  =>  '...',
+			);
+			for ($i = (self::$config['page'] - 2), $iMax = (self::$config['page'] + 2); $i < $iMax; $i++) {
+				$paginator[] = Array(
+					'HREF'  =>  $url . $i,
+					'TEXT'  =>  $i,
+					'CLASS' =>  ($i == self::$config['page'])   ?   'uk-active' :   ''
+				);
+			}
+			$paginator[] = Array(
+				'CLASS' =>  'uk-disabled',
+				'HREF'  =>  '#',
+				'TEXT'  =>  '...',
+			);
+			$paginator[] = Array(
+				'CLASS' =>  '',
+				'HREF'  =>  $url . $totalPages,
+				'TEXT'  =>  $totalPages,
+			);
+			$paginator[] = Array(
+				'CLASS' =>  '',
+				'HREF'  =>  $url . (self::$config['page'] + 1),
+				'TEXT'  =>  '<span uk-pagination-next></span>',
+			);
+		}
+		return $paginator;
 	}
 
 	/**

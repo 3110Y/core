@@ -31,31 +31,23 @@
     <div id="pagination_table" class="uk-placeholder uk-text-center uk-navbar-container uk-navbar">
         <div class="uk-navbar-left">
             <div class="uk-inline">
-                <span class="select"> Показывать по: 25</span>
+                <span class="select"> Показывать по: {ON_PAGE}</span>
                 <div uk-dropdown="mode: click;pos: top" class="uk-dropdown">
                     <ul class="uk-nav uk-dropdown-nav">
-                        <li><a href="">10</a></li>
-                        <li><a href="">15</a></li>
-                        <li class="uk-active">
-                            <a href="">25</a>
+                        {ON_PAGE_LIST}
+                        <li class="{CLASS}">
+                            <a href="{URL}">{TEXT}</a>
                         </li>
-                        <li><a href="">30</a></li>
-                        <li><a href="">50</a></li>
-                        <li><a href="">100</a></li>
+                        {/ON_PAGE_LIST}
                     </ul>
                 </div>
             </div>
         </div>
         <div class="uk-navbar-center">
             <ul class="uk-pagination uk-flex-center" uk-margin>
-                <li><a href="#"><span uk-pagination-previous></span></a></li>
-                <li><a href="#">1</a></li>
-                <li class="uk-disabled"><span>...</span></li>
-                <li><a href="#">5</a></li>
-                <li><a href="#">6</a></li>
-                <li class="uk-active"><span>7</span></li>
-                <li><a href="#">8</a></li>
-                <li><a href="#"><span uk-pagination-next></span></a></li>
+                {PAGINATOR}
+                    <li class="{CLASS}"><a href="{HREF}">{TEXT}</a></li>
+                {/PAGINATOR}
             </ul>
         </div>
         <div class="uk-navbar-right">
