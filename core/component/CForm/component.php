@@ -385,30 +385,47 @@ class component extends ACForm
 		}
 		if (!isset(self::$config['mode'])) {
 			if (
-				count(self::$config['sub']) >= 1
+				count(self::$config['sub']) >= 2
 				&& (
-					(
-						self::$config['sub'][count(self::$config['sub']) - 2] == 'listing'
-					||  self::$config['sub'][count(self::$config['sub']) - 2] == 'edit'
+				    isset(self::$config['sub'][count(self::$config['sub']) - 2])
+					 && (
+						self::$config['sub'][count(self::$config['sub']) - 2] === 'listing'
+					||  self::$config['sub'][count(self::$config['sub']) - 2] === 'edit'
 					)
 					|| (
 						$json
 						&& (
-							self::$config['sub'][count(self::$config['sub']) - 2] == 'editData'
-							||  self::$config['sub'][count(self::$config['sub']) - 2] == 'listingData'
-							||  self::$config['sub'][count(self::$config['sub']) - 2] == 'data'
+							self::$config['sub'][count(self::$config['sub']) - 2] === 'editData'
+							||  self::$config['sub'][count(self::$config['sub']) - 2] === 'listingData'
+							||  self::$config['sub'][count(self::$config['sub']) - 2] === 'data'
 						)
 					)
 				)
 			) {
 				self::$config['mode'] = self::$config['sub'][count(self::$config['sub']) - 2];
-			}  elseif (count(self::$config['sub']) == 0) {
-				self::$config['sub'][0]  = 'listing';
+			} elseif (count(self::$config['sub']) === 0) {
+			    self::$config['sub'][0]  = 'listing';
 				self::$config['mode']  = 'listing';
-			} else {
-				self::$config['sub'][count(self::$config) - 2]  = 'listing';
-				self::$config['mode']  = 'listing';
-			}
+			} elseif (
+			    count(self::$config['sub']) === 1
+                && (
+                    isset(self::$config['sub'][0])
+                    && (
+                        self::$config['sub'][0] === 'listing'
+                        ||  self::$config['sub'][0] === 'edit'
+                    )
+                    || (
+                        $json
+                        && (
+                            self::$config['sub'][0] === 'editData'
+                            ||  self::$config['sub'][0] === 'listingData'
+                            ||  self::$config['sub'][0] === 'data'
+                        )
+                    )
+                )
+            ) {
+                self::$config['mode'] = self::$config['sub'][0];
+            }
 		}
 		switch (self::$config['mode']) {
 			case 'listingData':
