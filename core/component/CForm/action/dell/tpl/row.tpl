@@ -1,1 +1,1 @@
-<a href="#" class="uk-button uk-button-danger uk-button-small" uk-icon="icon: close" title="Удалить" uk-tooltip></a>
+<a href="{URL}/dell/{DATA_ID}" class="uk-button uk-button-danger uk-button-small" uk-icon="icon: close" title="Удалить" uk-tooltip></a>

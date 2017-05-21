@@ -38,8 +38,12 @@ class component extends CForm\AAction implements CForm\IAction
 	public function rows()
 	{
         $data   =   Array(
-            'URL'   => '',
+            'URL'   => self::$config['url'],
         );
+        foreach (self::$data as $key => $value) {
+            $k = 'DATA_' . mb_strtoupper($key);
+            $data[$k]   =   $value;
+        }
 		$answer =   simpleView\component::replace(self::getTemplate('tpl/rows.tpl', __DIR__), $data);
 		$this->setComponentAnswer($answer);
 	}

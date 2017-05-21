@@ -138,7 +138,7 @@ class component extends ACForm
 		$this->data =   $this->fillData();
 
 
-		if (self::$config['mode'] == 'listing' || self::$config['mode'] == 'listingData') {
+		if (self::$config['mode'] === 'listing' || self::$config['mode'] === 'listingData') {
 
 			if (isset(self::$config['caption'])) {
 				$this->answer['CAPTION_CLASS']  =   '';
@@ -206,7 +206,7 @@ class component extends ACForm
 					foreach (self::$config['action']['row'] as $action => $value) {
 						/** @var \core\component\CForm\action\dell\component $actionComponent */
 						$actionComponent = '\core\component\CForm\action\\' . $action . '\component';
-						$actionComponent::setData($this->data);
+						$actionComponent::setData($this->data[$i]);
 						$actionComponent  =   new $actionComponent();
 						$actionComponent->setComponentSchema($value);
 						$actionComponent->init();
@@ -234,7 +234,7 @@ class component extends ACForm
 							'STYLE'         =>  $answer['STYLE'],
 							'ID'            =>  $answer['ID'],
 						);
-						$this->data     =   $actionComponent::getData();
+						$this->data[$i]     =   $actionComponent::getData();
 					}
 				}
 				$coll['ACTION_ROW'] =   $collAction;
@@ -319,9 +319,9 @@ class component extends ACForm
 		}
 
 
-		if (self::$config['mode'] == 'listing') {
-			if(count($this->answer) == 0) {
-				if (!isset($this->templates['listingNo']['template']) && is_string($this->templates['listingNo'])) {
+		if (self::$config['mode'] === 'listing') {
+			if(count($this->answer) === 0) {
+				if (is_string($this->templates['listingNo'])) {
 					$this->templates['listingNo'] = Array(
 						'template'  =>  $this->templates['listingNo'],
 						'js'        =>  Array(),
@@ -332,7 +332,7 @@ class component extends ACForm
 				$js         =   $this->templates['listingNo']['js'];
 				$css        =   $this->templates['listingNo']['css'];
 			} else {
-				if (!isset($this->templates['listing']['template']) && is_string($this->templates['listing'])) {
+				if (is_string($this->templates['listing'])) {
 					$this->templates['listing'] = Array(
 						'template'  =>  $this->templates['listing'],
 						'js'        =>  Array(),
@@ -343,32 +343,72 @@ class component extends ACForm
 				$js         =   $this->templates['listing']['js'];
 				$css        =   $this->templates['listing']['css'];
 			}
-			foreach ($js as $script) {
-				if (!isset($script['isTopPosition'])) {
-					$script['isTopPosition'] = false;
+            if (is_array($js) && !empty($js)) {
+                foreach ($js as $script) {
+                    if (!isset($script['isTopPosition'])) {
+                        $script['isTopPosition'] = false;
 
-				}
-				if (!isset($script['isUnique'])) {
-					$script['isUnique'] = true;
+                    }
+                    if (!isset($script['isUnique'])) {
+                        $script['isUnique'] = true;
 
-				}
-				self::setJs($script['file'], $script['isTopPosition'], $script['isUnique']);
-			}
-			foreach ($css as $script) {
-				if (!isset($script['isTopPosition'])) {
-					$script['isTopPosition'] = true;
+                    }
+                    self::setJs($script['file'], $script['isTopPosition'], $script['isUnique']);
+                }
+            }
+            if (is_array($css) && !empty($css)) {
+                foreach ($css as $script) {
+                    if (!isset($script['isTopPosition'])) {
+                        $script['isTopPosition'] = true;
 
-				}
-				if (!isset($script['isUnique'])) {
-					$script['isUnique'] = true;
+                    }
+                    if (!isset($script['isUnique'])) {
+                        $script['isUnique'] = true;
 
-				}
-				self::setCSS($script['file'], $script['isTopPosition'], $script['isUnique']);
-			}
+                    }
+                    self::setCss($script['file'], $script['isTopPosition'], $script['isUnique']);
+                }
+            }
 
 			$this->answer   =   simpleView\component::replace($template, $this->answer);
-		} elseif (self::$config['mode'] == 'edit') {
-			//TODO: форма
+		} elseif (self::$config['mode'] === 'edit') {
+            if (is_string($this->templates['form'])) {
+                $this->templates['form'] = Array(
+                    'template'  =>  $this->templates['form'],
+                    'js'        =>  Array(),
+                    'css'       =>  Array(),
+                );
+            }
+            $template   =   $this->templates['form']['template'];
+            $js         =   $this->templates['form']['js'];
+            $css        =   $this->templates['form']['css'];
+            if (is_array($js) && !empty($js)) {
+                foreach ($js as $script) {
+                    if (!isset($script['isTopPosition'])) {
+                        $script['isTopPosition'] = false;
+
+                    }
+                    if (!isset($script['isUnique'])) {
+                        $script['isUnique'] = true;
+
+                    }
+                    self::setJs($script['file'], $script['isTopPosition'], $script['isUnique']);
+                }
+            }
+            if (is_array($css) && !empty($css)) {
+                foreach ($css as $script) {
+                    if (!isset($script['isTopPosition'])) {
+                        $script['isTopPosition'] = true;
+
+                    }
+                    if (!isset($script['isUnique'])) {
+                        $script['isUnique'] = true;
+
+                    }
+                    self::setCss($script['file'], $script['isTopPosition'], $script['isUnique']);
+                }
+            }
+            $this->answer   =   simpleView\component::replace($template, $this->answer);
 		}
 	}
 
@@ -470,7 +510,7 @@ class component extends ACForm
 		$paginatorKey   =   'paginator' . self::$config['url'] . self::$config['mode'];
 		if (isset($_GET['onPage'])) {
 			self::$config['onPage'] =  (int)$_GET['onPage'];
-			setcookie($paginatorKey, self::$config['onPage'], (time() + 60 * 60 * 24 * 30), '/');
+			setcookie($paginatorKey, self::$config['onPage'], time() + 2592000, '/');
 		} elseif (isset($_COOKIE[$paginatorKey])) {
 			self::$config['onPage']  =   $_COOKIE[$paginatorKey];
 		} elseif (!isset(self::$config['onPage'])) {
@@ -579,11 +619,12 @@ class component extends ACForm
 			$where    = array_merge($where, self::$config['where']);
 		}
 		if (
-			(
+		    self::$config['mode'] === 'edit'
+			&& (
 				!isset(self::$config['noWhere'])
 				|| self::$config['noWhere'] === false
 			)
-			&& self::$config['mode'] == 'edit'
+
 		) {
 			$where    = array_merge(
 				$where,
@@ -593,13 +634,12 @@ class component extends ACForm
 			);
 		}
 		if (
-			(
+		    self::$config['parent'] !== false
+            && isset(self::$config['parent'], self::$config['parent_field'])
+			&& (
 				!isset(self::$config['noWhere'])
 				|| self::$config['noWhere'] === false
 			)
-			&& isset(self::$config['parent'])
-			&& self::$config['parent'] !== false
-			&& isset(self::$config['parent_field'])
 		) {
 			$where    = array_merge(
 				$where,
@@ -610,7 +650,7 @@ class component extends ACForm
 		}
 		/** @var \core\component\database\driver\PDO\component $db */
 		$db =   self::$config['db'];
-		if (self::$config['mode'] == 'listing' || self::$config['mode'] == 'listingData') {
+		if (self::$config['mode'] === 'listing' || self::$config['mode'] === 'listingData') {
 			$order = '';
 			if (isset($_GET['order'])) {
 				$order  =   $_GET['order'];
@@ -654,7 +694,7 @@ class component extends ACForm
 		}
 		$paginator  =   Array();
 		$totalPages =   ceil ($this->answer['ROW_ALL'] / self::$config['onPage']);
-		if ($totalPages == 1) {
+		if ($totalPages === 1) {
 			$paginator[] = Array(
 				'HREF'  =>  $url . 1,
 				'TEXT'  =>  'Вся информация размещена на одной странице',
@@ -795,16 +835,16 @@ class component extends ACForm
 	 */
 	private function schemaSort($v1, $v2)
 	{
-		if (!isset($v1[self::$config['mode']]["order"])) {
-			$v1[self::$config['mode']]["order"] = 0;
+		if (!isset($v1[self::$config['mode']]['order'])) {
+			$v1[self::$config['mode']]['order'] = 0;
 		}
-		if (!isset($v2[self::$config['mode']]["order"])) {
-			$v2[self::$config['mode']]["order"] = 0;
+		if (!isset($v2[self::$config['mode']]['order'])) {
+			$v2[self::$config['mode']]['order'] = 0;
 		}
-		if ($v1[self::$config['mode']]["order"] == $v2[self::$config['mode']]["order"]) {
+		if ($v1[self::$config['mode']]['order'] === $v2[self::$config['mode']]['order']) {
 			return 0;
 		}
-		return ($v1[self::$config['mode']]["order"] < $v2[self::$config['mode']]["order"])? -1: 1;
+		return ($v1[self::$config['mode']]['order'] < $v2[self::$config['mode']]['order'])? -1: 1;
 	}
 
 	/**

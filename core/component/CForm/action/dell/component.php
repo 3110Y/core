@@ -49,7 +49,14 @@ class component extends CForm\AAction implements CForm\IAction
 	 */
 	public function row()
 	{
-		$answer =   simpleView\component::replace(self::getTemplate('tpl/row.tpl', __DIR__));
+        $data   =   Array(
+            'URL'   => self::$config['url'],
+        );
+        foreach (self::$data as $key => $value) {
+            $k = 'DATA_' . mb_strtoupper($key);
+            $data[$k]   =   $value;
+        }
+		$answer =   simpleView\component::replace(self::getTemplate('tpl/row.tpl', __DIR__), $data);
 		$this->setComponentAnswer($answer);
 	}
 

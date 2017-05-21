@@ -27,7 +27,7 @@ class AComponent extends ACForm
 	/**
 	 * @var mixed|string|array ответ
 	 */
-	protected $answer               =   null;
+	protected $answer;
 
 	/**
 	 * устанавливает ответ
@@ -51,7 +51,7 @@ class AComponent extends ACForm
 	 * Отдает данные
 	 * @return array данные
 	 */
-	public static function getData()
+	public static function getData(): array
 	{
 		return self::$data;
 	}
@@ -79,7 +79,7 @@ class AComponent extends ACForm
 			$this->answer['STYLE']  =   '';
 		}
 		$this->answer['STYLE'] .= ' ' . $style;
-		if ($value != '') {
+		if ($value !== '') {
 			$this->answer['STYLE'] .= ": {$value};";
 		}
 	}
