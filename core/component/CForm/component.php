@@ -295,6 +295,7 @@ class component extends ACForm
 			}
 		} else {
 			$this->answer['FIELDS']  =  Array();
+
 			foreach (self::$schema as $key => $field) {
 				/** @var \core\component\CForm\field\input\component $fieldComponent */
 				$fieldComponent = '\core\component\CForm\field\\' . $field['type'] . '\component';
@@ -311,10 +312,29 @@ class component extends ACForm
 				} else {
 					$fieldComponent->run();
 				}
+				$answer = $fieldComponent->get();
+				if (!isset($answer['COMPONENT'])) {
+					$answer['COMPONENT']    = '';
+				}
+				if (!isset($answer['CLASS'])) {
+					$answer['CLASS']    = '';
+				}
+				if (!isset($answer['STYLE'])) {
+					$answer['STYLE']    = '';
+				}
+				if (!isset($answer['ID'])) {
+					$answer['ID']    = '';
+				}
+				if (!isset($answer['CAPTION'])) {
+					$answer['CAPTION']    = '';
+				}
 				$this->answer['FIELDS'][]     =   Array(
-					'COMPONENT' =>  $fieldComponent->get(),
+					'COMPONENT'     =>  $answer['COMPONENT'],
+					'CLASS'     =>  $answer['CLASS'],
+					'STYLE'     =>  $answer['STYLE'],
+					'ID'        =>  $answer['ID']
 				);
-				$this->data         =   $fieldComponent::getData();
+				$this->data     =   $fieldComponent::getData();
 			}
 		}
 

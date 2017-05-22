@@ -60,7 +60,7 @@ class user extends applicationWeb\AControllers implements applicationWeb\IContro
 	        ),
 	        Array(
 		        'type'              =>  'input',
-		        'field'             =>  'surname',
+		        'field'             =>  'patronymic',
 		        'caption'           =>  'Отчество',
 		        'placeholder'       =>  'Отчество',
 		        'label'             =>  'Отчество',

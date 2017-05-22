@@ -63,6 +63,7 @@ class component extends templateEngine\AEngine implements templateEngine\IEngine
             }
             $content    =   strtr($content, $array);
         }
+	    $array['{DEBUG}']   =   '<pre>' . print_r($data, true) . '</pre>';
         foreach ($data as $key => $value) {
             if (is_array($value)) {
                 $content = self::loop("{$key}", $value, $content);
