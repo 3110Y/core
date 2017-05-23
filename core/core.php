@@ -94,21 +94,21 @@ final class core
      * Добавляет базовую директорию к префиксу пространства имён.
      *
      * @param string $prefix Префикс пространства имён.
-     * @param string $base_dir Базовая директория для файлов классов из пространства имён.
+     * @param string $baseDir Базовая директория для файлов классов из пространства имён.
      * @param bool $prepend Если true, добавить базовую директорию в начало стека.
      * В этом случае она будет проверяться первой.
      * @return void
      */
-    public function addNamespace($prefix, $base_dir = '', $prepend = false)
+    public function addNamespace($prefix, $baseDir = '', $prepend = false)
     {
-        if($base_dir === '') {
-            $base_dir = $prefix;
+        if($baseDir === '') {
+            $baseDir = $prefix;
         }
         // нормализуем префикс пространства имён
         $prefix = trim($prefix, '\\') . '\\';
 
         // нормализуем базовую директорию так, чтобы всегда присутствовал разделитель в конце
-        $base_dir = rtrim($base_dir, DIRECTORY_SEPARATOR) . '/';
+        $base_dir = rtrim($baseDir, DIRECTORY_SEPARATOR) . '/';
 
         // инициализируем массив префиксов пространства имён
         if (isset($this->prefixes[$prefix]) === false) {
@@ -145,9 +145,9 @@ final class core
             $relative_class = substr($class, $pos + 1);
 
             // пробуем загрузить соответсвующий префиксу и относительному имени класса файл
-            $mapped_file = $this->loadMappedFile($prefix, $relative_class);
-            if ($mapped_file) {
-                return $mapped_file;
+            $mappedFile = $this->loadMappedFile($prefix, $relative_class);
+            if ($mappedFile) {
+                return $mappedFile;
             }
 
             // убираем завершающий разделитель пространства имён для следующей итерации strrpos()
@@ -162,10 +162,10 @@ final class core
      * Загружает файл, соответствующий префиксу пространства имён и относительному имени класса.
      *
      * @param string $prefix Префикс пространства имён.
-     * @param string $relative_class Относительное имя класса.
+     * @param string $relativeClass Относительное имя класса.
      * @return mixed false если файл не был загружен. Иначе имя загруженного файла.
      */
-    protected function loadMappedFile($prefix, $relative_class)
+    protected function loadMappedFile($prefix, $relativeClass)
     {
         // есть ли у этого префикса пространства имён какие-либо базовые директории?
         if (isset($this->prefixes[$prefix]) === false) {
@@ -174,13 +174,13 @@ final class core
 
         // ищем префикс в базовых директориях
         if (!empty($this->prefixes[$prefix])) {
-            foreach ($this->prefixes[$prefix] as $base_dir) {
+            foreach ($this->prefixes[$prefix] as $baseDir) {
 
                 // заменяем префикс базовой директорией,
                 // заменяем разделители пространства имён на разделители директорий,
                 // к относительному имени класса добавляем .php
-                $file = $base_dir
-                    . str_replace('\\', '/', $relative_class)
+                $file = $baseDir
+                    . str_replace('\\', '/', $relativeClass)
                     . '.php';
                 // если файл существует, загружаем его
                 if ($this->requireFile($file)) {
