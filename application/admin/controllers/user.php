@@ -91,7 +91,11 @@ class user extends applicationWeb\AControllers implements applicationWeb\IContro
 		    'form'      =>  Array(
 				'template'  =>  self::getTemplate('block/form/form.tpl'),
 				'js'        =>  Array(),
-				'css'       =>  Array(),
+				'css'       =>  Array(
+					Array(
+						'file'  =>  'block/form/css/list.css'
+					),
+				),
 			),
 	    );
         $CForm  =   new CForm\component(self::$content, 'CONTENT');

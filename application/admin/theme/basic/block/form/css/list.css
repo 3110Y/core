@@ -18,19 +18,7 @@
   .cform .cf-table {
     display: table; }
     .cform .cf-table .cf-table-caption {
-      display: table-caption;
-      background-color: #3d536f;
-      padding: 16px 12px;
-      box-sizing: border-box; }
-      .cform .cf-table .cf-table-caption.is-hidden {
-        display: none; }
-      .cform .cf-table .cf-table-caption > * {
-        margin: 0;
-        color: #FFFFFF; }
-      .cform .cf-table .cf-table-caption > h3 {
-        float: left; }
-      .cform .cf-table .cf-table-caption > a {
-        float: right; }
+      display: table-caption; }
     .cform .cf-table .cf-table-row {
       display: table-row; }
       .cform .cf-table .cf-table-row:hover {
@@ -68,5 +56,18 @@
     white-space: nowrap; }
     .cform .group-action.is-hidden {
       display: none; }
+  .cform .cf-caption {
+    background-color: #3d536f;
+    padding: 16px 12px;
+    box-sizing: border-box; }
+    .cform .cf-caption.is-hidden {
+      display: none; }
+    .cform .cf-caption > * {
+      margin: 0;
+      color: #FFFFFF; }
+    .cform .cf-caption > h3 {
+      float: left; }
+    .cform .cf-caption > a {
+      float: right; }
 
 /*# sourceMappingURL=list.css.map */

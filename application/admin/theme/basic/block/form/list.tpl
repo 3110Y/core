@@ -1,6 +1,6 @@
 <div class="cform w-hundred">
     <div class="cf-table">
-        <div class="cf-table-caption {CAPTION_CLASS}">
+        <div class="cf-table-caption cf-caption {CAPTION_CLASS}">
             <h3>{CAPTION}</h3>
             <a href="" uk-icon="icon: more-vertical; ratio: 1.65" uk-toggle="target: #cform-sort"></a>
         </div>

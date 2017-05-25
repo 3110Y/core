@@ -26,18 +26,6 @@ $color6: #3d536f
     display: table
     .cf-table-caption
       display: table-caption
-      background-color: $color6
-      padding: 16px 12px
-      box-sizing: border-box
-      &.is-hidden
-        display: none
-      &>*
-        margin: 0
-        color: $color1
-      &>h3
-        float: left
-      &>a
-        float: right
     .cf-table-row
       display: table-row
       &:hover
@@ -75,3 +63,16 @@ $color6: #3d536f
     white-space: nowrap
     &.is-hidden
       display: none
+  .cf-caption
+    background-color: $color6
+    padding: 16px 12px
+    box-sizing: border-box
+    &.is-hidden
+      display: none
+    &>*
+      margin: 0
+      color: $color1
+    &>h3
+      float: left
+    &>a
+      float: right

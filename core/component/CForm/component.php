@@ -136,17 +136,14 @@ class component extends ACForm
 			$this->field[] = $field['field'];
 		}
 		$this->data =   $this->fillData();
-
+		if (isset(self::$config['caption'])) {
+			$this->answer['CAPTION_CLASS']  =   '';
+			$this->answer['CAPTION']        =   self::$config['caption'];
+		} else {
+			$this->answer['CAPTION_CLASS']  =   'is-hidden ';
+		}
 
 		if (self::$config['mode'] === 'listing' || self::$config['mode'] === 'listingData') {
-
-			if (isset(self::$config['caption'])) {
-				$this->answer['CAPTION_CLASS']  =   '';
-				$this->answer['CAPTION']        =   self::$config['caption'];
-			} else {
-				$this->answer['CAPTION_CLASS']  =   'is-hidden ';
-			}
-
 			$header                     =   Array();
 			$this->answer['HEADER_ROW'] =   Array();
 			$this->answer['ROWS']       =   Array();
