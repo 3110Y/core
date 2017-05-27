@@ -1,0 +1,52 @@
+@import "../../../css/defline.sass"
+
+
+.cform
+  display: block
+  position: relative
+  background-color: $color3
+  box-shadow: 0 14px 25px rgba(0, 0, 0, 0.16)
+  &::after
+    clear: both
+    min-height: 56px
+    padding: 16px 12px
+    content: ' '
+    width: 100%
+    display: block
+    box-sizing: border-box
+  &.w-hundred
+    width: 100%
+    .cf-table
+      width: 100%
+  .group-action
+    position: fixed
+    width: 100%
+    padding: 16px 12px
+    box-sizing: border-box
+    background: $color7
+    bottom: 0
+    left: 0
+    text-align: center
+    white-space: nowrap
+    &.is-hidden
+      display: none
+  .cf-caption
+    background-color: $color9
+    padding: 16px 12px
+    box-sizing: border-box
+    &.is-hidden
+      display: none
+    &::after
+      clear: both
+      content: " "
+      width: 100%
+      display: block
+    &>*
+      margin: 0
+      color: $color3
+    &>h3
+      float: left
+    &>a
+      float: right
+  form
+    padding: 16px 12px

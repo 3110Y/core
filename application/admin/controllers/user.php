@@ -75,6 +75,9 @@ class user extends applicationWeb\AControllers implements applicationWeb\IContro
 				'js'        =>  Array(),
 				'css'       =>  Array(
 					Array(
+						'file'  =>  'block/form/css/style.css'
+					),
+                    Array(
 						'file'  =>  'block/form/css/list.css'
 					),
 				),
@@ -83,6 +86,9 @@ class user extends applicationWeb\AControllers implements applicationWeb\IContro
 				'template'  =>  self::getTemplate('block/form/listNo.tpl'),
 				'js'        =>  Array(),
 				'css'       =>  Array(
+                    Array(
+                        'file'  =>  'block/form/css/style.css'
+                    ),
 					Array(
 						'file'  =>  'block/form/css/list.css'
 					),
@@ -92,8 +98,11 @@ class user extends applicationWeb\AControllers implements applicationWeb\IContro
 				'template'  =>  self::getTemplate('block/form/form.tpl'),
 				'js'        =>  Array(),
 				'css'       =>  Array(
+                    Array(
+                        'file'  =>  'block/form/css/style.css'
+                    ),
 					Array(
-						'file'  =>  'block/form/css/list.css'
+						'file'  =>  'block/form/css/form.css'
 					),
 				),
 			),

@@ -1,27 +1,7 @@
-$color1: #FFFFFF
-$color2: #e5e5e5
-$color3: #ffd
-$color4: rgba(42, 67, 98, 0.4)
-$color5: #999
-$color6: #3d536f
+@import "../../../css/defline.sass"
+
 
 .cform
-  display: block
-  position: relative
-  background-color: $color1
-  box-shadow: 0 14px 25px rgba(0, 0, 0, 0.16)
-  &::after
-    clear: both
-    min-height: 56px
-    padding: 16px 12px
-    content: ' '
-    width: 100%
-    display: block
-    box-sizing: border-box
-  &.w-hundred
-    width: 100%
-    .cf-table
-      width: 100%
   .cf-table
     display: table
     .cf-table-caption
@@ -29,16 +9,16 @@ $color6: #3d536f
     .cf-table-row
       display: table-row
       &:hover
-        background: $color3
+        background: $color6
       .cf-table-row-th
         display: table-column
         padding: 16px 12px
         box-sizing: border-box
         &>*
           font-weight: bold
-          color: $color5
+          color: $color8
       .cf-table-row-td, .cf-table-row-th
-        border-top: 1px solid $color2
+        border-top: 1px solid $color5
         display: table-cell
         padding: 16px 12px
         box-sizing: border-box
@@ -51,28 +31,3 @@ $color6: #3d536f
           overflow: hidden
   .uk-pagination
     margin-bottom: 0
-  .group-action
-    position: fixed
-    width: 100%
-    padding: 16px 12px
-    box-sizing: border-box
-    background: $color4
-    bottom: 0
-    left: 0
-    text-align: center
-    white-space: nowrap
-    &.is-hidden
-      display: none
-  .cf-caption
-    background-color: $color6
-    padding: 16px 12px
-    box-sizing: border-box
-    &.is-hidden
-      display: none
-    &>*
-      margin: 0
-      color: $color1
-    &>h3
-      float: left
-    &>a
-      float: right

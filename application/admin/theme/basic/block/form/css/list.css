@@ -1,73 +1,31 @@
-.cform {
-  display: block;
-  position: relative;
-  background-color: #FFFFFF;
-  box-shadow: 0 14px 25px rgba(0, 0, 0, 0.16); }
-  .cform::after {
-    clear: both;
-    min-height: 56px;
-    padding: 16px 12px;
-    content: " ";
-    width: 100%;
-    display: block;
-    box-sizing: border-box; }
-  .cform.w-hundred {
-    width: 100%; }
-    .cform.w-hundred .cf-table {
-      width: 100%; }
-  .cform .cf-table {
-    display: table; }
-    .cform .cf-table .cf-table-caption {
-      display: table-caption; }
-    .cform .cf-table .cf-table-row {
-      display: table-row; }
-      .cform .cf-table .cf-table-row:hover {
-        background: #ffd; }
-      .cform .cf-table .cf-table-row .cf-table-row-th {
-        display: table-column;
-        padding: 16px 12px;
-        box-sizing: border-box; }
-        .cform .cf-table .cf-table-row .cf-table-row-th > * {
-          font-weight: bold;
-          color: #999; }
-      .cform .cf-table .cf-table-row .cf-table-row-td, .cform .cf-table .cf-table-row .cf-table-row-th {
-        border-top: 1px solid #e5e5e5;
-        display: table-cell;
-        padding: 16px 12px;
-        box-sizing: border-box; }
-        .cform .cf-table .cf-table-row .cf-table-row-td.min, .cform .cf-table .cf-table-row .cf-table-row-th.min {
-          white-space: nowrap;
-          width: 105px; }
-        .cform .cf-table .cf-table-row .cf-table-row-td.is-hidden, .cform .cf-table .cf-table-row .cf-table-row-th.is-hidden {
-          display: none; }
-        .cform .cf-table .cf-table-row .cf-table-row-td.overflow, .cform .cf-table .cf-table-row .cf-table-row-th.overflow {
-          overflow: hidden; }
-  .cform .uk-pagination {
-    margin-bottom: 0; }
-  .cform .group-action {
-    position: fixed;
-    width: 100%;
-    padding: 16px 12px;
-    box-sizing: border-box;
-    background: rgba(42, 67, 98, 0.4);
-    bottom: 0;
-    left: 0;
-    text-align: center;
-    white-space: nowrap; }
-    .cform .group-action.is-hidden {
-      display: none; }
-  .cform .cf-caption {
-    background-color: #3d536f;
-    padding: 16px 12px;
-    box-sizing: border-box; }
-    .cform .cf-caption.is-hidden {
-      display: none; }
-    .cform .cf-caption > * {
-      margin: 0;
-      color: #FFFFFF; }
-    .cform .cf-caption > h3 {
-      float: left; }
-    .cform .cf-caption > a {
-      float: right; }
+.cform .cf-table {
+  display: table; }
+  .cform .cf-table .cf-table-caption {
+    display: table-caption; }
+  .cform .cf-table .cf-table-row {
+    display: table-row; }
+    .cform .cf-table .cf-table-row:hover {
+      background: #ffd; }
+    .cform .cf-table .cf-table-row .cf-table-row-th {
+      display: table-column;
+      padding: 16px 12px;
+      box-sizing: border-box; }
+      .cform .cf-table .cf-table-row .cf-table-row-th > * {
+        font-weight: bold;
+        color: #999; }
+    .cform .cf-table .cf-table-row .cf-table-row-td, .cform .cf-table .cf-table-row .cf-table-row-th {
+      border-top: 1px solid #e5e5e5;
+      display: table-cell;
+      padding: 16px 12px;
+      box-sizing: border-box; }
+      .cform .cf-table .cf-table-row .cf-table-row-td.min, .cform .cf-table .cf-table-row .cf-table-row-th.min {
+        white-space: nowrap;
+        width: 105px; }
+      .cform .cf-table .cf-table-row .cf-table-row-td.is-hidden, .cform .cf-table .cf-table-row .cf-table-row-th.is-hidden {
+        display: none; }
+      .cform .cf-table .cf-table-row .cf-table-row-td.overflow, .cform .cf-table .cf-table-row .cf-table-row-th.overflow {
+        overflow: hidden; }
+.cform .uk-pagination {
+  margin-bottom: 0; }
 
 /*# sourceMappingURL=list.css.map */
