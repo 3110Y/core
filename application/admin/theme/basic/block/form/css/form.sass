@@ -16,6 +16,8 @@
       label, .uk-form-controls
         display: table-cell
         padding: 10px 0
-      .uk-form-controls
+        &.display-none
+          display: none
+      label:not(display-none)+.uk-form-controls
         min-width: 70%
         width: 80%

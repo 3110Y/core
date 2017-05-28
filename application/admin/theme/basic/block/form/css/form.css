@@ -12,7 +12,9 @@
     .cform .cf-table .cform-field label, .cform .cf-table .cform-field .uk-form-controls {
       display: table-cell;
       padding: 10px 0; }
-    .cform .cf-table .cform-field .uk-form-controls {
+      .cform .cf-table .cform-field label.display-none, .cform .cf-table .cform-field .uk-form-controls.display-none {
+        display: none; }
+    .cform .cf-table .cform-field label:not(display-none) + .uk-form-controls {
       min-width: 70%;
       width: 80%; }
 
