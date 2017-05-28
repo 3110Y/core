@@ -1,21 +1,24 @@
+.cform form {
+  padding: 16px 12px; }
 .cform .item-action {
   width: 100%;
   padding: 16px 12px;
   box-sizing: border-box;
   text-align: center;
   white-space: nowrap; }
-.cform .cf-table {
-  display: table;
-  box-sizing: border-box; }
-  .cform .cf-table .cform-field {
-    display: table-row; }
-    .cform .cf-table .cform-field label, .cform .cf-table .cform-field .uk-form-controls {
-      display: table-cell;
-      padding: 10px 0; }
-      .cform .cf-table .cform-field label.display-none, .cform .cf-table .cform-field .uk-form-controls.display-none {
-        display: none; }
-    .cform .cf-table .cform-field label:not(display-none) + .uk-form-controls {
-      min-width: 70%;
-      width: 80%; }
+.cform .cform-field {
+  display: inline-block;
+  width: 100%; }
+  .cform .cform-field label, .cform .cform-field .uk-form-controls {
+    display: inline-block;
+    padding: 10px 0; }
+    .cform .cform-field label.display-none, .cform .cform-field .uk-form-controls.display-none {
+      display: none; }
+  .cform .cform-field label {
+    width: 20%; }
+  .cform .cform-field label:not(display-none) + .uk-form-controls {
+    width: 79%; }
+  .cform .cform-field label.display-none + .uk-form-controls {
+    width: 100%; }
 
 /*# sourceMappingURL=form.css.map */

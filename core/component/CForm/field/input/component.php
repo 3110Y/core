@@ -13,6 +13,7 @@ use \core\component\{
 	templateEngine\engine\simpleView as simpleView
 };
 
+
 /**
  * Class component
  *
@@ -145,20 +146,18 @@ class component extends CForm\AField implements CForm\IField
 		if (isset($this->componentSchema['caption'])) {
 			$this->setFieldCaption($this->componentSchema['caption']);
 		}
-		if (isset($this->componentSchema['listing'])) {
-			if (isset($this->componentSchema['listing']['align'])) {
-				switch ($this->componentSchema['listing']['align']) {
-					case "left":
-						$this->addAnswerClass('input-left');
-						break;
-					case "center":
-						$this->addAnswerClass('input-center');
-						break;
-					case "right":
-						$this->addAnswerClass('input-center');
-						break;
-				}
-			}
+		if (isset($this->componentSchema['listing'], $this->componentSchema['listing']['align'])) {
+            switch ($this->componentSchema['listing']['align']) {
+                case 'left':
+                    $this->addAnswerClass('input-left');
+                    break;
+                case 'center':
+                    $this->addAnswerClass('input-center');
+                    break;
+                case 'right':
+                    $this->addAnswerClass('input-center');
+                    break;
+            }
 		}
 
 		$data   =   Array();

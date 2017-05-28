@@ -1,5 +1,5 @@
 <div class="cform w-hundred">
-    <div class="cf-table">
+    <form method="post" action="{URL}" class="cf-table">
         <div class="cf-table-caption cf-caption {CAPTION_CLASS}">
             <h3>{CAPTION}</h3>
             <a href="" uk-icon="icon: more-vertical; ratio: 1.65" uk-toggle="target: #cform-sort"></a>
@@ -27,7 +27,7 @@
             </div>
         </div>
         {/ROWS}
-    </div>
+    </form>
     <div id="pagination_table" class="uk-placeholder uk-text-center uk-navbar-container uk-navbar">
         <div class="uk-navbar-left">
             <div class="uk-inline">

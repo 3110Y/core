@@ -2,22 +2,25 @@
 
 
 .cform
+  form
+    padding: 16px 12px
   .item-action
     width: 100%
     padding: 16px 12px
     box-sizing: border-box
     text-align: center
     white-space: nowrap
-  .cf-table
-    display: table
-    box-sizing: border-box
-    .cform-field
-      display: table-row
-      label, .uk-form-controls
-        display: table-cell
-        padding: 10px 0
-        &.display-none
-          display: none
-      label:not(display-none)+.uk-form-controls
-        min-width: 70%
-        width: 80%
+  .cform-field
+    display: inline-block
+    width: 100%
+    label, .uk-form-controls
+      display: inline-block
+      padding: 10px 0
+      &.display-none
+        display: none
+    label
+      width: 20%
+    label:not(display-none)+.uk-form-controls
+      width: 79%
+    label.display-none+.uk-form-controls
+      width: 100%

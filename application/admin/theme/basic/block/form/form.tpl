@@ -2,7 +2,7 @@
     <div class="cf-caption {CAPTION_CLASS}">
         <h3>{CAPTION}: Редактирование</h3>
     </div>
-    <form class="cf-table" action="" method="post">
+    <form action="" method="post">
         <div class="cf-table">
             {FIELDS}
                 {COMPONENT}

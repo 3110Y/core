@@ -149,7 +149,52 @@ class component extends ACForm
 			$this->answer['ROWS']       =   Array();
 			for ($i = 0, $iMax = count($this->data); $i < $iMax; $i++) {
 				$coll   =   Array();
-				foreach (self::$schema as $key => $field) {
+
+                if (self::$config['action_rows']) {
+                    /** @var \core\component\CForm\field\actionID\component $fieldComponent */
+                    $fieldComponent = field\actionID\component::class;
+                    $fieldComponent::setData($this->data[$i]);
+                    $fieldComponent  =   new $fieldComponent();
+                    $fieldComponent->init();
+                    if (method_exists($fieldComponent, self::$config['mode'])) {
+                        $mode   =   self::$config['mode'];
+                        $fieldComponent->$mode();
+                    } else {
+                        $fieldComponent->run();
+                    }
+                    $answer = $fieldComponent->get();
+                    if (!isset($answer['COMPONENT'])) {
+                        $answer['COMPONENT']    = '';
+                    }
+                    if (!isset($answer['CLASS'])) {
+                        $answer['CLASS']    = '';
+                    }
+                    if (!isset($answer['STYLE'])) {
+                        $answer['STYLE']    = '';
+                    }
+                    if (!isset($answer['ID'])) {
+                        $answer['ID']    = '';
+                    }
+                    if (!isset($answer['CAPTION'])) {
+                        $answer['CAPTION']    = '';
+                    }
+
+                    $header['action_rows'] = Array(
+                        'COMPONENT'     =>  $answer['CAPTION'],
+                        'CLASS'         =>  $answer['CLASS'],
+                        'STYLE'         =>  $answer['STYLE'],
+                        'ID'            =>  'header-' . $answer['ID']
+                    );
+                    $coll['FIELDS'][]     =   Array(
+                        'COMPONENT'     =>  $answer['COMPONENT'],
+                        'CLASS'         =>  $answer['CLASS'],
+                        'STYLE'         =>  $answer['STYLE'],
+                        'ID'            =>  $answer['ID']
+                    );
+                }
+
+                /** поля для листинга */
+                foreach (self::$schema as $key => $field) {
 					/** @var \core\component\CForm\field\input\component $fieldComponent */
 					$fieldComponent = '\core\component\CForm\field\\' . $field['type'] . '\component';
 					$fieldComponent::setData($this->data[$i]);
@@ -431,7 +476,7 @@ class component extends ACForm
 
 		}
 
-
+        $this->answer['URL'] = self::$config['url'];
 		if (self::$config['mode'] === 'listing') {
 			if(count($this->answer) === 0) {
 				if (is_string($this->templates['listingNo'])) {
