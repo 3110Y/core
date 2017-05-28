@@ -6,5 +6,20 @@
         {FIELDS}
             {COMPONENT}
         {/FIELDS}
+        <div class="item-action {CLASS_ACTION_ITEM}">
+            <div class="uk-button-group">
+                {ACTION_ITEM}
+                {COMPONENT}
+                {/ACTION_ITEM}
+            </div>
+        </div>
+        <div class="group-action {CLASS_ACTION_BOTTOM_ITEM}">
+            <div class="uk-button-group">
+                {ACTION_BOTTOM_ITEM}
+                    {COMPONENT}
+                {/ACTION_BOTTOM_ITEM}
+            </div>
+        </div>
     </form>
 </div>
+<div class="cform-after {CLASS_ACTION_BOTTOM_ITEM}"></div>

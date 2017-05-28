@@ -7,8 +7,7 @@
  */
 
 namespace core\component\CForm;
-
-use core as core;
+use core\core;
 
 
 /**
@@ -100,7 +99,7 @@ abstract class ACForm
 		$dir    =   strtr($dir, Array(
 			'\\' =>  '/'
 		));
-		$dr    =   strtr(core\core::getDR(), Array(
+		$dr    =   strtr(core::getDR(), Array(
 			'\\' =>  '/'
 		));
 		return '/' . str_replace($dr,'', $dir) . '/' . $template;

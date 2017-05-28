@@ -199,40 +199,44 @@ class component extends ACForm
 
 				$collAction   =   Array();
 				$coll['CLASS_ROW']   =   '';
-				if (self::$config['action_row']) {
-					foreach (self::$config['action']['row'] as $action => $value) {
-						/** @var \core\component\CForm\action\dell\component $actionComponent */
-						$actionComponent = '\core\component\CForm\action\\' . $action . '\component';
-						$actionComponent::setData($this->data[$i]);
-						$actionComponent  =   new $actionComponent();
-						$actionComponent->setComponentSchema($value);
-						$actionComponent->init();
-						if (method_exists($actionComponent, 'row')) {
-							$actionComponent->row();
-						} else {
-							$actionComponent->run();
-						}
-						$answer = $actionComponent->get();
-						if (!isset($answer['COMPONENT'])) {
-							$answer['COMPONENT']    = '';
-						}
-						if (!isset($answer['CLASS'])) {
-							$answer['CLASS']    = '';
-						}
-						if (!isset($answer['STYLE'])) {
-							$answer['STYLE']    = '';
-						}
-						if (!isset($answer['ID'])) {
-							$answer['ID']    = '';
-						}
-						$collAction[]     =   Array(
-							'COMPONENT'     =>  $answer['COMPONENT'],
-							'CLASS'         =>  $answer['CLASS'],
-							'STYLE'         =>  $answer['STYLE'],
-							'ID'            =>  $answer['ID'],
-						);
-						$this->data[$i]     =   $actionComponent::getData();
-					}
+				if (
+				    self::$config['action_row']
+                    && isset(self::$config['action'], self::$config['action']['row'])
+                    && !empty(self::$config['action']['row'])
+                ) {
+                    foreach (self::$config['action']['row'] as $action => $value) {
+                        /** @var \core\component\CForm\action\dell\component $actionComponent */
+                        $actionComponent = '\core\component\CForm\action\\' . $action . '\component';
+                        $actionComponent::setData($this->data[$i]);
+                        $actionComponent  =   new $actionComponent();
+                        $actionComponent->setComponentSchema($value);
+                        $actionComponent->init();
+                        if (method_exists($actionComponent, 'row')) {
+                            $actionComponent->row();
+                        } else {
+                            $actionComponent->run();
+                        }
+                        $answer = $actionComponent->get();
+                        if (!isset($answer['COMPONENT'])) {
+                            $answer['COMPONENT']    = '';
+                        }
+                        if (!isset($answer['CLASS'])) {
+                            $answer['CLASS']    = '';
+                        }
+                        if (!isset($answer['STYLE'])) {
+                            $answer['STYLE']    = '';
+                        }
+                        if (!isset($answer['ID'])) {
+                            $answer['ID']    = '';
+                        }
+                        $collAction[]     =   Array(
+                            'COMPONENT'     =>  $answer['COMPONENT'],
+                            'CLASS'         =>  $answer['CLASS'],
+                            'STYLE'         =>  $answer['STYLE'],
+                            'ID'            =>  $answer['ID']
+                            );
+                        $this->data[$i]     =   $actionComponent::getData();
+                        }
 				}
 				$coll['ACTION_ROW'] =   $collAction;
 				if(empty($collAction)) {
@@ -333,6 +337,98 @@ class component extends ACForm
 				);
 				$this->data     =   $fieldComponent::getData();
 			}
+            if (
+                self::$config['action_item']
+                && isset(self::$config['action'], self::$config['action']['item'])
+                && !empty(self::$config['action']['item'])
+            ) {
+                $itemAction = Array();
+                foreach (self::$config['action']['item'] as $action => $value) {
+                    /** @var \core\component\CForm\action\dell\component $actionComponent */
+                    $actionComponent = '\core\component\CForm\action\\' . $action . '\component';
+                    $actionComponent::setData($this->data);
+                    $actionComponent  =   new $actionComponent();
+                    $actionComponent->setComponentSchema($value);
+                    $actionComponent->init();
+                    if (method_exists($actionComponent, 'item')) {
+                        $actionComponent->item();
+                    } else {
+                        $actionComponent->run();
+                    }
+                    $answer = $actionComponent->get();
+                    if (!isset($answer['COMPONENT'])) {
+                        $answer['COMPONENT']    = '';
+                    }
+                    if (!isset($answer['CLASS'])) {
+                        $answer['CLASS']    = '';
+                    }
+                    if (!isset($answer['STYLE'])) {
+                        $answer['STYLE']    = '';
+                    }
+                    if (!isset($answer['ID'])) {
+                        $answer['ID']    = '';
+                    }
+                    $itemAction[]     =   Array(
+                        'COMPONENT'     =>  $answer['COMPONENT'],
+                        'CLASS'         =>  $answer['CLASS'],
+                        'STYLE'         =>  $answer['STYLE'],
+                        'ID'            =>  $answer['ID']
+                    );
+                    $this->data     =   $actionComponent::getData();
+                }
+
+                $this->answer['ACTION_ITEM']     =   $itemAction;
+
+            } else {
+                $this->answer['CLASS_ACTION_ITEM'] = 'is-hidden ';
+            }
+
+            if (
+                self::$config['action_bottomItem']
+                && isset(self::$config['action'], self::$config['action']['bottomItem'])
+                && !empty(self::$config['action']['bottomItem'])
+            ) {
+                $itemAction = Array();
+                foreach (self::$config['action']['bottomItem'] as $action => $value) {
+                    /** @var \core\component\CForm\action\dell\component $actionComponent */
+                    $actionComponent = '\core\component\CForm\action\\' . $action . '\component';
+                    $actionComponent::setData($this->data);
+                    $actionComponent  =   new $actionComponent();
+                    $actionComponent->setComponentSchema($value);
+                    $actionComponent->init();
+                    if (method_exists($actionComponent, 'bottomItem')) {
+                        $actionComponent->bottomItem();
+                    } else {
+                        $actionComponent->run();
+                    }
+                    $answer = $actionComponent->get();
+                    if (!isset($answer['COMPONENT'])) {
+                        $answer['COMPONENT']    = '';
+                    }
+                    if (!isset($answer['CLASS'])) {
+                        $answer['CLASS']    = '';
+                    }
+                    if (!isset($answer['STYLE'])) {
+                        $answer['STYLE']    = '';
+                    }
+                    if (!isset($answer['ID'])) {
+                        $answer['ID']    = '';
+                    }
+                    $itemAction[]     =   Array(
+                        'COMPONENT'     =>  $answer['COMPONENT'],
+                        'CLASS'         =>  $answer['CLASS'],
+                        'STYLE'         =>  $answer['STYLE'],
+                        'ID'            =>  $answer['ID']
+                    );
+                    $this->data     =   $actionComponent::getData();
+                }
+
+                $this->answer['ACTION_BOTTOM_ITEM']     =   $itemAction;
+
+            } else {
+                $this->answer['CLASS_ACTION_BOTTOM_ITEM'] = 'is-hidden ';
+            }
+
 		}
 
 
@@ -506,10 +602,8 @@ class component extends ACForm
 				}
 				break;
 			case 'data':
-				if (!isset(self::$config['field'])) {
-					if (isset($_GET['field'])) {
-						self::$config['field'] =   htmlentities(trim(strip_tags($_GET['field'])));
-					}
+				if (isset($_GET['field']) && !isset(self::$config['field'])) {
+                    self::$config['field'] =   htmlentities(trim(strip_tags($_GET['field'])));
 				}
 				break;
 		}
@@ -545,10 +639,11 @@ class component extends ACForm
 					'dell'      =>  true,
 				),
 				'item'  =>  Array(
-					'return'    =>  true,
+					'back'    =>  true,
 					'dell'      =>  true,
 					'save'      =>  true,
 				),
+                'bottomItem'  =>  Array(),
 			);
 		}
 		if (!isset(self::$config['action']['rows'])) {
@@ -565,7 +660,7 @@ class component extends ACForm
 		}
 		if (!isset(self::$config['action']['item'])) {
 			self::$config['action']['item']   = Array(
-				'return'    =>  true,
+				'back'    =>  true,
 				'dell'      =>  true,
 				'save'      =>  true
 			);
@@ -582,8 +677,8 @@ class component extends ACForm
 		if (!isset(self::$config['action']['row']['dell'])) {
 			self::$config['action']['row']['dell']      =  true;
 		}
-		if (!isset(self::$config['action']['item']['return'])) {
-			self::$config['action']['item']['return']   =  true;
+		if (!isset(self::$config['action']['item']['back'])) {
+			self::$config['action']['item']['back']   =  true;
 		}
 		if (!isset(self::$config['action']['item']['dell'])) {
 			self::$config['action']['item']['dell']     =  true;
@@ -592,24 +687,26 @@ class component extends ACForm
 			self::$config['action']['item']['save']     =  true;
 		}
 
-		if (self::$config['action']['rows']['dell'] || isset(self::$config['action']['rows']['custom'])) {
+		if (self::checkAction('rows')) {
 			self::$config['action_rows']   =   true;
-		}
-		if (
-			self::$config['action']['row']['edit']
-			|| self::$config['action']['row']['dell']
-			|| isset(self::$config['action']['row']['custom'])
-		) {
+		} else {
+            self::$config['action_rows']   =   false;
+        }
+		if (self::checkAction('row')) {
 			self::$config['action_row']   =   true;
-		}
-		if (
-			self::$config['action']['item']['return']
-			|| self::$config['action']['item']['dell']
-			|| self::$config['action']['item']['save']
-			|| isset(self::$config['action']['item']['custom'])
-		) {
+		} else {
+            self::$config['action_row']   =   false;
+        }
+		if (self::checkAction('item')) {
 			self::$config['action_item']   =   true;
-		}
+		} else {
+            self::$config['action_item']   =   false;
+        }
+		if (self::checkAction('bottomItem')) {
+            self::$config['action_bottomItem']   =   true;
+        } else {
+            self::$config['action_bottomItem']   =   false;
+        }
 
 		if (!isset(self::$config['paginator'])) {
 			self::$config['paginator']  =   Array(10,15,25,30,50,75,100);
@@ -622,6 +719,31 @@ class component extends ACForm
 			die('Не указана таблица');
 		}
 	}
+
+    /**
+     * Проверка action
+     * @param string $key ключ массив self::$config['action']
+     * @return bool
+     */
+	private static function checkAction(string $key): bool
+    {
+        $result = false;
+        if (
+            isset(self::$config['action'][$key])
+            && !empty(self::$config['action'][$key])
+            && is_array(self::$config['action'][$key])
+        ) {
+            foreach (self::$config['action'][$key] as $k => $value) {
+                if ($value === true) {
+                    $result = true;
+                } else {
+                    unset(self::$config['action'][$key][$k]);
+                }
+            }
+        }
+        return $result;
+    }
+
 
 	/**
 	 * Заполняет дату
@@ -697,12 +819,11 @@ class component extends ACForm
 		}
 	}
 
-
 	/**
 	 * Отдает Постраничку
 	 * @return array данные Постранички
 	 */
-	private function getPaginator()
+	private function getPaginator() :array
 	{
 		if(self::$config['parent'] !== false) {
 			$url = self::$config['url'] . '/' . self::$config['mode'] . '/';
@@ -850,8 +971,8 @@ class component extends ACForm
 	 *
 	 * @return int порядок
 	 */
-	private function schemaSort($v1, $v2)
-	{
+	private function schemaSort($v1, $v2): int
+    {
 		if (!isset($v1[self::$config['mode']]['order'])) {
 			$v1[self::$config['mode']]['order'] = 0;
 		}
