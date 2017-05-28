@@ -114,7 +114,7 @@ class user extends applicationWeb\AControllers implements applicationWeb\IContro
         $CForm->run();
         self::$content  =    $CForm->getIncomingArray();
 	    self::addCss($CForm::getCss());
-	    self::addJs($CForm::getJS());
+	    self::addJs($CForm::getJs());
     }
 
 }

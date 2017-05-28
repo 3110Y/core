@@ -187,7 +187,7 @@ abstract class AApplication
      * @param bool $isTopPosition позиция top|bottom
      * @return string JS
      */
-    protected static function getJS($isTopPosition = true)
+    protected static function getJS($isTopPosition = true): string
     {
         $position   =   $isTopPosition   ?   'top'   :   'bottom';
         $js   =   array_diff(array_unique(self::$js[$position]), array());

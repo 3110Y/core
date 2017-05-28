@@ -62,5 +62,4 @@ abstract class AField extends AComponent
         return $this->field;
     }
 
-
 }

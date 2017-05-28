@@ -482,7 +482,7 @@ abstract class ADriver
      * @param bool $forInsert длz инсерта
      * @return array
      */
-    protected static function value(array $value, $forInsert = true)
+    protected static function value(array $value, $forInsert = true): array
     {
         $result = Array(
             'value'     => '',
@@ -497,7 +497,7 @@ abstract class ADriver
                 'a'     => null,
                 'f'     => null,
                 'k'     => null,
-                'v '    => null,
+                'v'     => null,
             );
             if (isset($val['a'])) {
                 $v['a'] = "`{$val['a']}` . ";
@@ -520,7 +520,7 @@ abstract class ADriver
                 $v['k'] = ":{$val['k']}";
             } elseif (isset($val['key'])) {
                 $v['k'] = ":{$val['key']}";
-            } elseif ($v['f'] != null) {
+            } elseif ($v['f'] !== null) {
                 $v['k'] = $v['f'] . '_' . uniqid();
                 $v['k'] = ":{$v['k']}";
             }
@@ -531,28 +531,31 @@ abstract class ADriver
                 $v['v'] = $val['value'];
             } elseif (isset($val['val'])) {
                 $v['v'] = $val['val'];
-            } elseif (is_string($val)) {
+            } elseif (!is_array($val)) {
                 $v['v'] = $val;
             }
-            if ($v['f'] != null) {
+            if ($v['f'] !== null) {
                 $v['f'] =   " `{$v['f']}` ";
             }
             $v['f'] = $v['a'] . $v['f'];
             $result['field'][$v['f']] =  $v['k'];
             $result['execute'][$v['k']] = $v['v'];
         }
-
-        if ($forInsert == false) {
-            foreach ($result['field'] as $key => $value) {
-                $result['value'][] = "{$key} = {$value}";
+        if ($forInsert === false) {
+            if (is_array($result['field'])) {
+                foreach ($result['field'] as $key => $val) {
+                    $result['value'][] = "{$key} = {$val}";
+                }
             }
             $result['value'] = implode(',', $result['value']);
         } else {
             $f = Array();
             $v = Array();
-            foreach ($result['field'] as $key => $value) {
-                $f[]    =   $key;
-                $v[]    =   $value;
+            if (is_array($result['field'])) {
+                foreach ($result['field'] as $key => $val) {
+                    $f[] = $key;
+                    $v[] = $val;
+                }
             }
             $f = implode(',', $f);
             $v = implode(',', $v);
@@ -681,7 +684,7 @@ abstract class ADriver
      * @param array $value поля значения
      * @return array
      */
-    public function insetGenerator($table = null, $value = null)
+    public function insetGenerator($table = null, $value = null): array
     {
         $table      =   self::table($table);
         $value      =   self::value($value);

@@ -42,7 +42,7 @@ class component extends database\ADriver implements database\IDriver
      * component constructor.
      * @param array $config конфиг
      */
-    protected function __construct($config = Array())
+    protected function __construct(array $config = Array())
     {
         if(!extension_loaded('pdo')) {
             //TODO: обработка ошибок
@@ -80,7 +80,6 @@ class component extends database\ADriver implements database\IDriver
             //TODO: обработка ошибок
             die("Mysql error ".$e->getMessage());
         }
-        return $this;
     }
 
     /**
@@ -89,7 +88,7 @@ class component extends database\ADriver implements database\IDriver
      * @param mixed $fields поля
      * @return \PDOStatement
      */
-    public function create($table = null, $fields = null)
+    public function create($table = null, $fields = null): \PDOStatement
     {
     	//TODO: ошибка
         $sql = $this->createGenerator($table, $fields);

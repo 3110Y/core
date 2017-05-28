@@ -494,19 +494,45 @@ class component extends ACForm
                 $fieldComponent->setField($this->field);
                 $fieldComponent->init();
                 if (method_exists($fieldComponent, 'preInsert')) {
-                    $fieldComponent->preInsert();
+                    $data[$field]    =   $fieldComponent->preInsert();
                 }
                 $this->field    =   $fieldComponent->getField();
-                $data[$field]    =   $fieldComponent->getDefaultValue();
             }
 
+            $value = Array();
+            foreach ($data as $key => $value) {
+                if ($value !== false) {
+                    $value[$key] = $key;
+                }
+            }
+            $value['status'] = 3;
+            /** @var \core\component\database\driver\PDO\component $db */
+            $db     =   self::$config['db'];
+            $db->inset(self::$config['table'], $value);
+            self::$config['id'] =   $db->getLastID();
+            $this->data         =   $db->selectRow(self::$config['table'],
+                $this->field,
+                Array(
+                    'id' => self::$config['id']
+                ));
 
-
-
-
-
-
-
+            /** поля для пост сохранения */
+            foreach (self::$schema as $key => $field) {
+                /** @var \core\component\CForm\field\input\component $fieldComponent */
+                $fieldComponent  = '\core\component\CForm\field\\' . $field['type'] . '\component';
+                $fieldComponent::setData($this->data);
+                $fieldComponent  =   new $fieldComponent();
+                $fieldComponent->setComponentSchema($field);
+                if (isset($this->data[$field['field']])) {
+                    $fieldComponent->setFieldValue($this->data[$field['field']]);
+                }
+                $fieldComponent->init();
+                if (method_exists($fieldComponent, 'postInsert')) {
+                    $fieldComponent->postInsert();
+                }
+                $this->data     =   $fieldComponent::getData();
+            }
+            self::redirect(self::$config['url'] . '/edit/' . self::$config['id']);
         } else {
 		    die('Режим не определен');
         }
@@ -913,7 +939,7 @@ class component extends ACForm
 		if(self::$config['parent'] !== false) {
 			$url = self::$config['url'] . '/' . self::$config['mode'] . '/';
 		} else {
-			$url = self::$config['url'] . '/' . self::$config['parent'] . '/' . self::$config['mode'] . '/';
+			$url = self::$config['url'] . '/' . self::$config['parent'] . self::$config['mode'] . '/';
 		}
 		$paginator  =   Array();
 		$totalPages =   ceil ($this->answer['ROW_ALL'] / self::$config['onPage']);
@@ -931,7 +957,7 @@ class component extends ACForm
 					'TEXT'  =>  '<span uk-pagination-previous></span>',
 				);
 			}
-			for ($i = 1, $iMax = $totalPages; $i < $iMax; $i++) {
+			for ($i = 1; $i <= $totalPages; $i++) {
 				$paginator[] = Array(
 					'HREF'  =>  $url . $i,
 					'TEXT'  =>  $i,

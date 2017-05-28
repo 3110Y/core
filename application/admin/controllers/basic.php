@@ -57,7 +57,7 @@ class basic extends applicationWeb\AControllers implements applicationWeb\IContr
         $where  =   Array(
             'parent_id' => $parentID,
             'order_in_menu != 0',
-            'status = 0',
+            'status = 1',
             'error = 0',
         );
         /** @var \core\component\database\driver\PDO\component $db */

@@ -104,4 +104,22 @@ abstract class ACForm
 		));
 		return '/' . str_replace($dr,'', $dir) . '/' . $template;
 	}
+
+    /**
+     * переадресация
+     * @param string $url URL
+     * @param boolean $isExternal внешний адресс
+     */
+    protected static function redirect($url, $isExternal = false)
+    {
+        if ($isExternal === false && isset($_SERVER['HTTP_HOST'])) {
+            $protocol = 'http';
+            if (isset($_SERVER['HTTP_X_FORWARDED_PROTO'])) {
+                $protocol = $_SERVER['HTTP_X_FORWARDED_PROTO'];
+            }
+            $url        =   $protocol . '://' .$_SERVER['HTTP_HOST'] . $url;
+        }
+        header("Location: {$url}");
+        exit;
+    }
 }

@@ -24,11 +24,13 @@ class component extends CForm\AField implements CForm\IField
 
 	public function init()
 	{
-		$field  =   $this->componentSchema['field'];
-		$id     =   self::$data['id'];
-		$this->addAnswerID("input-field-{$field}-id-{$id}");
-		$this->addAnswerClass('input');
-		self::setCss(self::getTemplate('css/input.css', __DIR__));
+	    if (isset(self::$data['id'])) {
+            $field = $this->componentSchema['field'];
+            $id = self::$data['id'];
+            $this->addAnswerID("input-field-{$field}-id-{$id}");
+            $this->addAnswerClass('input');
+            self::setCss(self::getTemplate('css/input.css', __DIR__));
+        }
 	}
 
 	public function run()
