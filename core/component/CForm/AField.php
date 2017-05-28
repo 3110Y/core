@@ -21,6 +21,10 @@ abstract class AField extends AComponent
 	 * @var string значение поля
 	 */
 	protected $fieldValue       =   '';
+    /**
+     * @var array поля для запроса
+     */
+    private $field  =   Array();
 
 	/**
 	 * Устанавливает  значение поля
@@ -39,6 +43,24 @@ abstract class AField extends AComponent
 	{
 		$this->answer['CAPTION'] = $fieldCaption;
 	}
+
+    /**
+     * Задает поля для запроса
+     * @param array $field поля для запроса
+     */
+	public function setField(array $field = Array())
+    {
+        $this->field = $field;
+    }
+
+    /**
+     * Отдает поля для запроса
+     * @return array поля для запроса
+     */
+    public function getField(): array
+    {
+        return $this->field;
+    }
 
 
 }

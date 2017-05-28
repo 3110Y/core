@@ -339,7 +339,7 @@ class component extends ACForm
 			if(empty($this->answer['ACTION_ROWS'])) {
 				$this->answer['CLASS_ROWS'] = 'is-hidden ';
 			}
-		} else {
+		} elseif (self::$config['mode'] === 'edit' || self::$config['mode'] === 'editData') {
 			$this->answer['FIELDS']  =  Array();
 
 			foreach (self::$schema as $key => $field) {
@@ -474,7 +474,42 @@ class component extends ACForm
                 $this->answer['CLASS_ACTION_BOTTOM_ITEM'] = 'is-hidden ';
             }
 
-		}
+		} elseif (self::$config['mode'] === 'dell') {
+
+
+        } elseif (self::$config['mode'] === 'save') {
+
+
+        } elseif (self::$config['mode'] === 'add') {
+            $data = Array();
+            foreach ($this->field as $field) {
+                $data[$field] = false;
+            }
+            /** поля для пре сохранения */
+            foreach (self::$schema as $key => $field) {
+                /** @var \core\component\CForm\field\input\component $fieldComponent */
+                $fieldComponent  = '\core\component\CForm\field\\' . $field['type'] . '\component';
+                $fieldComponent  =   new $fieldComponent();
+                $fieldComponent->setComponentSchema($field);
+                $fieldComponent->setField($this->field);
+                $fieldComponent->init();
+                if (method_exists($fieldComponent, 'preInsert')) {
+                    $fieldComponent->preInsert();
+                }
+                $this->field    =   $fieldComponent->getField();
+                $data[$field]    =   $fieldComponent->getDefaultValue();
+            }
+
+
+
+
+
+
+
+
+        } else {
+		    die('Режим не определен');
+        }
 
         $this->answer['URL'] = self::$config['url'];
 		if (self::$config['mode'] === 'listing') {
@@ -589,6 +624,8 @@ class component extends ACForm
 					 && (
 						self::$config['sub'][count(self::$config['sub']) - 2] === 'listing'
 					||  self::$config['sub'][count(self::$config['sub']) - 2] === 'edit'
+					||  self::$config['sub'][count(self::$config['sub']) - 2] === 'dell'
+					||  self::$config['sub'][count(self::$config['sub']) - 2] === 'add'
 					)
 					|| (
 						$json
@@ -611,6 +648,8 @@ class component extends ACForm
                     && (
                         self::$config['sub'][0] === 'listing'
                         ||  self::$config['sub'][0] === 'edit'
+                        ||  self::$config['sub'][0] === 'dell'
+                        ||  self::$config['sub'][0] === 'add'
                     )
                     || (
                         $json
@@ -635,8 +674,18 @@ class component extends ACForm
 						self::$config['page'] = 1;
 					}
 				}
+                $paginatorKey   =   'paginator' . self::$config['url'] . self::$config['mode'];
+                if (isset($_GET['onPage'])) {
+                    self::$config['onPage'] =  (int)$_GET['onPage'];
+                    setcookie($paginatorKey, self::$config['onPage'], time() + 2592000, '/');
+                } elseif (isset($_COOKIE[$paginatorKey])) {
+                    self::$config['onPage']  =   $_COOKIE[$paginatorKey];
+                } elseif (!isset(self::$config['onPage'])) {
+                    self::$config['onPage'] = 10;
+                }
 				break;
 			case 'editData':
+			case 'dell':
 			case 'edit':
 				if (!isset(self::$config['id'])) {
 					if (count(self::$config['sub']) >= 2) {
@@ -663,15 +712,7 @@ class component extends ACForm
 		}
 
 
-		$paginatorKey   =   'paginator' . self::$config['url'] . self::$config['mode'];
-		if (isset($_GET['onPage'])) {
-			self::$config['onPage'] =  (int)$_GET['onPage'];
-			setcookie($paginatorKey, self::$config['onPage'], time() + 2592000, '/');
-		} elseif (isset($_COOKIE[$paginatorKey])) {
-			self::$config['onPage']  =   $_COOKIE[$paginatorKey];
-		} elseif (!isset(self::$config['onPage'])) {
-			self::$config['onPage'] = 10;
-		}
+
 
 		if (!isset(self::$config['action'])) {
 			self::$config['action'] = Array(
@@ -788,7 +829,6 @@ class component extends ACForm
         }
         return $result;
     }
-
 
 	/**
 	 * Заполняет дату

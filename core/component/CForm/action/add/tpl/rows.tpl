@@ -1,1 +1,1 @@
-<a href="{URL}/edit/0" class="uk-button uk-button-primary"><span uk-icon="icon: plus"></span>Добавить</a>
+<a href="{URL}/add" class="uk-button uk-button-primary"><span uk-icon="icon: plus"></span>Добавить</a>
