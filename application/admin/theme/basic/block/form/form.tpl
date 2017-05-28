@@ -2,10 +2,12 @@
     <div class="cf-caption {CAPTION_CLASS}">
         <h3>{CAPTION}: Редактирование</h3>
     </div>
-    <form action="" method="post">
-        {FIELDS}
-            {COMPONENT}
-        {/FIELDS}
+    <form class="cf-table" action="" method="post">
+        <div class="cf-table">
+            {FIELDS}
+                {COMPONENT}
+            {/FIELDS}
+        </div>
         <div class="item-action {CLASS_ACTION_ITEM}">
             <div class="uk-button-group">
                 {ACTION_ITEM}

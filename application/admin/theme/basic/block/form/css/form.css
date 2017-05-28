@@ -4,5 +4,16 @@
   box-sizing: border-box;
   text-align: center;
   white-space: nowrap; }
+.cform .cf-table {
+  display: table;
+  box-sizing: border-box; }
+  .cform .cf-table .cform-field {
+    display: table-row; }
+    .cform .cf-table .cform-field label, .cform .cf-table .cform-field .uk-form-controls {
+      display: table-cell;
+      padding: 10px 0; }
+    .cform .cf-table .cform-field .uk-form-controls {
+      min-width: 70%;
+      width: 80%; }
 
 /*# sourceMappingURL=form.css.map */
