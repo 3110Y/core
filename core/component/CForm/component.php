@@ -636,6 +636,12 @@ class component extends ACForm
 	 */
 	private function checkConfig()
 	{
+		if (!isset(self::$config['db'])) {
+			die('Нет подключения к БД');
+		}
+		if (!isset(self::$config['table'])) {
+			die('Не указана таблица');
+		}
 		$json = false;
 		if (isset($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_X_REQUESTED_WITH']) &&
 			$_SERVER['HTTP_REFERER'] !== '' &&
@@ -689,6 +695,9 @@ class component extends ACForm
             ) {
                 self::$config['mode'] = self::$config['sub'][0];
             }
+		}
+		if (!isset(self::$config['mode'])) {
+			die('Неверный режим компонента');
 		}
 		switch (self::$config['mode']) {
 			case 'listingData':
@@ -822,13 +831,6 @@ class component extends ACForm
 
 		if (!isset(self::$config['paginator'])) {
 			self::$config['paginator']  =   Array(10,15,25,30,50,75,100);
-		}
-
-		if (!isset(self::$config['db'])) {
-			die('Нет подключения к БД');
-		}
-		if (!isset(self::$config['table'])) {
-			die('Не указана таблица');
 		}
 	}
 

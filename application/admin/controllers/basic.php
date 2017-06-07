@@ -39,42 +39,44 @@ class basic extends applicationWeb\AControllers implements applicationWeb\IContr
         /** @var \core\component\database\driver\PDO\component $db */
         $db                             =   self::get('db');
         $data                           =   Array(
-            'MENU'  => self::generationMenu($db)['sub'],
+            'MENU'  => self::generationMenu($db, self::$application['url'])['sub'],
         );
         $template                       =   self::getTemplate('block/menu/menu.tpl');
         self::$content['MENU']          =   simpleView\component::replace($template,  $data);
     }
 
-    /**
-    * @param database\ADriver $db Драйвер ДБ
-    * @param int $parentID родительский уровень
-    * @param string $parentURL родительский URL
-    * @return array меню
-    */
-    private static function generationMenu(database\ADriver $db, $parentID = 0, $parentURL = '/')
+	/**
+	 * @param database\ADriver $db          Драйвер ДБ
+	 * @param string           $parentURL   родительский URL
+	 * @param int              $parentID    родительский уровень
+	 *
+	 * @return array    меню
+	 */
+    private static function generationMenu(database\ADriver $db, $parentURL = '/', $parentID = 0)
     {
         self::getURL(1);
         $where  =   Array(
             'parent_id' => $parentID,
-            'order_in_menu != 0',
-            'status = 1',
-            'error = 0',
+            '`order_in_menu` != 0',
+            '`status` = 1',
+            '`error` = 0',
         );
         /** @var \core\component\database\driver\PDO\component $db */
         $query  =   $db->select('admin_page', '*', $where, 'order_in_menu');
         $rows   =   Array();
         $parentClass =  '';
+	    $parentURL  =   $parentURL != '/'   ?   $parentURL . '/'  :   $parentURL;
         if ($query->rowCount() > 0) {
             while ($row =  $query->fetch()) {
                 $class  =   '';
-                $URL    =   $row['url'] == '/'    ?   $row['url'] :   $parentURL . $row['url'];
+                $URL    =   $row['url'] == '/'    ?   $parentURL :   $parentURL . $row['url'];
                 if ($row['url'] == self::$page['url'] && $row['parent_id'] == self::$page['parent_id']) {
                     $class          .=  'active';
                     $parentClass    =   'open';
                 }
                 $sub    =   '';
                 $subLink =   '';
-                $children   =   self::generationMenu($db, ++$parentID, $row['url'] . '/');
+                $children   =   self::generationMenu($db, $row['url'] . '/', ++$parentID);
                 if (!empty($children)) {
                     $sub        =   $children['sub'];
                     $class      .=  $children['class'];

@@ -29,8 +29,9 @@ class component extends application\AHandler implements application\IHandler
      */
     public static function factory(array $application, array $URL)
     {
-        $namespace  =   'application\\' . $application['path'];
-        $path       =   'application/' . $application['path'];
+        $namespace              =   'application\\' . $application['path'];
+        $path                   =   'application/' . $application['path'];
+	    $application['url']     =   $application['url'] != '/'   ?   '/' . $application['url']   :   $application['url'];
         core::getInstance()->addNamespace($namespace, $path);
         $router = $namespace . '\router';
         if (file_exists(\core\core::getDR() . $path . '/router.php')) {

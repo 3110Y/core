@@ -31,7 +31,7 @@ class user extends applicationWeb\AControllers implements applicationWeb\IContro
     public function init()
     {
         $config     =   Array(
-        	'url'       =>  self::$page['url'],
+        	'url'       =>  self::$application['url'] . '/' . self::$page['url'],
 			'sub'       =>  self::$subURL,
 	        'db'        =>  self::get('db'),
 	        'table'     =>  'core_user',

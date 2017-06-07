@@ -43,10 +43,13 @@ abstract class ARouter extends AApplication
 
     /**
      * Отдает текущую Ошибок
-     * @param int $parentID уровень страницы
+     *
+     * @param int    $parentID  уровень страницы
+     * @param string $parentURL родительский URL
+     *
      * @return array текущая страница
      */
-    private static function getPage($parentID = 0, $parentURL ='/')
+    private static function getPage($parentID = 0, $parentURL ='')
     {
         foreach (self::$structure as $item) {
             if (
