@@ -27,7 +27,8 @@
     bottom: 0;
     left: 0;
     text-align: center;
-    white-space: nowrap; }
+    white-space: nowrap;
+    z-index: 1; }
     .cform .group-action.is-hidden {
       display: none; }
   .cform .cf-caption {

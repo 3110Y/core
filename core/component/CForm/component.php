@@ -475,49 +475,89 @@ class component extends ACForm
             }
 
 		} elseif (self::$config['mode'] === 'dell') {
-			$data = Array();
-			foreach ($this->field as $field) {
-				$data[$field] = false;
-			}
-
-			/** поля для пре удаления */
-			foreach (self::$schema as $key => $field) {
-				/** @var \core\component\CForm\field\input\component $fieldComponent */
-				$fieldComponent  = '\core\component\CForm\field\\' . $field['type'] . '\component';
-				$fieldComponent::setData($this->data);
-				$fieldComponent  =   new $fieldComponent();
-				$fieldComponent->setComponentSchema($field);
-				if (isset($this->data[$field['field']])) {
-					$fieldComponent->setFieldValue($this->data[$field['field']]);
+			
+			if (is_array(self::$config['id'])) {
+				/** @var \core\component\database\driver\PDO\component $db */
+				$db     =   self::$config['db'];
+				foreach ($this->data as $id => $data) {
+					/** поля для пре удаления */
+					foreach (self::$schema as $key => $field) {
+						/** @var \core\component\CForm\field\input\component $fieldComponent */
+						$fieldComponent  = '\core\component\CForm\field\\' . $field['type'] . '\component';
+						$fieldComponent::setData($this->data);
+						$fieldComponent  =   new $fieldComponent();
+						$fieldComponent->setComponentSchema($field);
+						if (isset($this->data[$field['field']])) {
+							$fieldComponent->setFieldValue($data[$field['field']]);
+						}
+						$fieldComponent->setField($this->field);
+						$fieldComponent->init();
+						if (method_exists($fieldComponent, 'preDell')) {
+							$fieldComponent->preDell();
+						}
+						$this->field    =   $fieldComponent->getField();
+					}
+					$where = Array(
+						'id'    =>  $data['id']
+					);
+					$db->dell(self::$config['table'], $where);
+					/** поля для пост удаления */
+					foreach (self::$schema as $key => $field) {
+						/** @var \core\component\CForm\field\input\component $fieldComponent */
+						$fieldComponent  = '\core\component\CForm\field\\' . $field['type'] . '\component';
+						$fieldComponent  =   new $fieldComponent();
+						$fieldComponent->setComponentSchema($field);
+						$fieldComponent->init();
+						if (method_exists($fieldComponent, 'postDell')) {
+							$fieldComponent->postDell();
+						}
+					}
 				}
-				$fieldComponent->setField($this->field);
-				$fieldComponent->init();
-				if (method_exists($fieldComponent, 'preDell')) {
-					$data[$field]    =   $fieldComponent->preDell();
+			} else {
+				/** поля для пре удаления */
+				foreach (self::$schema as $key => $field) {
+					/** @var \core\component\CForm\field\input\component $fieldComponent */
+					$fieldComponent  = '\core\component\CForm\field\\' . $field['type'] . '\component';
+					$fieldComponent::setData($this->data);
+					$fieldComponent  =   new $fieldComponent();
+					$fieldComponent->setComponentSchema($field);
+					if (isset($this->data[$field['field']])) {
+						$fieldComponent->setFieldValue($this->data[$field['field']]);
+					}
+					$fieldComponent->setField($this->field);
+					$fieldComponent->init();
+					if (method_exists($fieldComponent, 'preDell')) {
+						$fieldComponent->preDell();
+					}
+					$this->field    =   $fieldComponent->getField();
 				}
-				$this->field    =   $fieldComponent->getField();
-			}
-			$where = Array(
-				'id'    =>  self::$config['id']
-			);
-			/** @var \core\component\database\driver\PDO\component $db */
-			$db     =   self::$config['db'];
-			$db->dell(self::$config['table'], $where);
+				$where = Array(
+					'id'    =>  self::$config['id']
+				);
+				/** @var \core\component\database\driver\PDO\component $db */
+				$db     =   self::$config['db'];
+				$db->dell(self::$config['table'], $where);
 
-			/** поля для пост удаления */
-			foreach (self::$schema as $key => $field) {
-				/** @var \core\component\CForm\field\input\component $fieldComponent */
-				$fieldComponent  = '\core\component\CForm\field\\' . $field['type'] . '\component';
-				$fieldComponent  =   new $fieldComponent();
-				$fieldComponent->setComponentSchema($field);
-				$fieldComponent->init();
-				if (method_exists($fieldComponent, 'postDell')) {
-					$fieldComponent->postDell();
+				/** поля для пост удаления */
+				foreach (self::$schema as $key => $field) {
+					/** @var \core\component\CForm\field\input\component $fieldComponent */
+					$fieldComponent  = '\core\component\CForm\field\\' . $field['type'] . '\component';
+					$fieldComponent  =   new $fieldComponent();
+					$fieldComponent->setComponentSchema($field);
+					$fieldComponent->init();
+					if (method_exists($fieldComponent, 'postDell')) {
+						$fieldComponent->postDell();
+					}
 				}
 			}
 			$url    =   isset($_GET['back'])    ?   base64_decode($_GET['back'])    :   self::$config['url'];
 			self::redirect($url);
 		} elseif (self::$config['mode'] === 'save') {
+
+			var_dump($_POST);
+			var_dump($_GET);
+			die();
+
 
 
         } elseif (self::$config['mode'] === 'add') {
@@ -761,6 +801,19 @@ class component extends ACForm
 				break;
 			case 'editData':
 			case 'dell':
+				if (!isset(self::$config['id'])) {
+					if (count(self::$config['sub']) >= 2) {
+						self::$config['id'] =   (int)end(self::$config['sub']);
+					} elseif (isset($_POST['row'])) {
+						self::$config['id'] = Array();
+						foreach ($_POST['row'] as $key => $value) {
+							self::$config['id'][] = (int)$key;
+						}
+					} else {
+						self::$config['id'] = 0;
+					}
+				}
+				break;
 			case 'edit':
 				if (!isset(self::$config['id'])) {
 					if (count(self::$config['sub']) >= 2) {
@@ -910,9 +963,13 @@ class component extends ACForm
 		} elseif (isset(self::$config['where'])) {
 			$where    = array_merge($where, self::$config['where']);
 		}
-		if ((
+		if (
+			(
 		    self::$config['mode'] === 'edit'
-		    || self::$config['mode'] === 'dell'
+		    || (
+		    	self::$config['mode'] === 'dell'
+			    && is_int(self::$config['id'])
+				)
 			)
 			&& (
 				!isset(self::$config['noWhere'])
@@ -925,6 +982,29 @@ class component extends ACForm
 				Array(
 					'id'    =>  self::$config['id'],
 				)
+			);
+		}
+		if (
+			self::$config['mode'] === 'dell'
+			&& is_array(self::$config['id'])
+			&& (
+				!isset(self::$config['noWhere'])
+				|| self::$config['noWhere'] === false
+			)
+		) {
+			$w = array();
+			for ($i = 0, $iMax = count(self::$config['id']); $i < $iMax; $i++) {
+				$w[] = Array(
+					'f' => 'id',
+					'v' => self::$config['id'][$i]
+				);
+				if (($iMax - 1) != $i) {
+					$w[] = 'OR';
+				}
+			}
+			$where    = array_merge(
+				$where,
+				$w
 			);
 		}
 		if (
@@ -944,7 +1024,9 @@ class component extends ACForm
 		}
 		/** @var \core\component\database\driver\PDO\component $db */
 		$db =   self::$config['db'];
-		if (self::$config['mode'] === 'listing' || self::$config['mode'] === 'listingData') {
+		if (self::$config['mode'] === 'dell' && is_array(self::$config['id'])) {
+			return $db->selectRows(self::$config['table'], $this->field, $where);
+		} elseif (self::$config['mode'] === 'listing' || self::$config['mode'] === 'listingData') {
 			$order = '';
 			if (isset($_GET['order'])) {
 				$order  =   $_GET['order'];

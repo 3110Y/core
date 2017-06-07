@@ -37,9 +37,15 @@ class component extends CForm\AAction implements CForm\IAction
 	 */
 	public function rows()
 	{
+		$urlBack = self::$config['url'];
+		if (self::$config['mode'] == 'listing') {
+			$urlBack .= '/' . self::$config['mode'] . '/' . self::$config['page'];
+		}
         $data   =   Array(
-            'URL'   => '',
+            'URL'   => self::$config['url'],
+	        'URL_BACK'      => base64_encode($urlBack),
         );
+		self::setJs(self::getTemplate('js/dell.js', __DIR__));
 		$answer =   simpleView\component::replace(self::getTemplate('tpl/rows.tpl', __DIR__), $data);
 		$this->setComponentAnswer($answer);
 	}

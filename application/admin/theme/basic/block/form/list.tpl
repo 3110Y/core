@@ -27,6 +27,13 @@
             </div>
         </div>
         {/ROWS}
+        <div class="group-action {CLASS_ROWS}">
+            <div class="uk-button-group">
+                {ACTION_ROWS}
+                {COMPONENT}
+                {/ACTION_ROWS}
+            </div>
+        </div>
     </form>
     <div id="pagination_table" class="uk-placeholder uk-text-center uk-navbar-container uk-navbar">
         <div class="uk-navbar-left">
@@ -52,13 +59,6 @@
         </div>
         <div class="uk-navbar-right">
             Показано: с {ROW_FORM} по {ROW_TO} из {ROW_ALL}
-        </div>
-    </div>
-    <div class="group-action {CLASS_ROWS}">
-        <div class="uk-button-group">
-            {ACTION_ROWS}
-                {COMPONENT}
-            {/ACTION_ROWS}
         </div>
     </div>
     <div id="cform-sort" uk-offcanvas="flip: true; overlay: true">
