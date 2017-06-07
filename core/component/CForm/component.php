@@ -949,13 +949,20 @@ class component extends ACForm
 			if (isset($_GET['order'])) {
 				$order  =   $_GET['order'];
 			}
+			$this->answer['ROW_ALL']    = $db->selectCount(self::$config['table'], $this->field, $where, $order);
+			if (self::$config['page'] >  ceil ($this->answer['ROW_ALL'] / self::$config['onPage'])) {
+				$urlBack = self::$config['url'];
+				if (self::$config['mode'] == 'listing') {
+					$urlBack .= '/' . self::$config['mode'] . '/' . (self::$config['page'] - 1);
+				}
+				self::redirect($urlBack);
+			}
 			$limit = Array(
 				((self::$config['onPage'] * self::$config['page']) - self::$config['onPage']),
 				self::$config['onPage']
 			);
-			$this->answer['ROW_ALL']    = $db->selectCount(self::$config['table'], $this->field, $where, $order);
-			$this->answer['ROW_FORM']   = ((self::$config['onPage'] * self::$config['page']) - self::$config['onPage'])+1;
-			$this->answer['ROW_TO']     = $this->answer['ROW_FORM']+ self::$config['onPage']-1;
+			$this->answer['ROW_FORM']   = ((self::$config['onPage'] * self::$config['page']) - self::$config['onPage']) + 1;
+			$this->answer['ROW_TO']     = $this->answer['ROW_FORM']+ self::$config['onPage'] - 1;
 			if ($this->answer['ROW_TO'] > $this->answer['ROW_ALL']) {
 				$this->answer['ROW_TO'] =  $this->answer['ROW_ALL'];
 			}
