@@ -475,9 +475,49 @@ class component extends ACForm
             }
 
 		} elseif (self::$config['mode'] === 'dell') {
+			$data = Array();
+			foreach ($this->field as $field) {
+				$data[$field] = false;
+			}
 
+			/** поля для пре удаления */
+			foreach (self::$schema as $key => $field) {
+				/** @var \core\component\CForm\field\input\component $fieldComponent */
+				$fieldComponent  = '\core\component\CForm\field\\' . $field['type'] . '\component';
+				$fieldComponent::setData($this->data);
+				$fieldComponent  =   new $fieldComponent();
+				$fieldComponent->setComponentSchema($field);
+				if (isset($this->data[$field['field']])) {
+					$fieldComponent->setFieldValue($this->data[$field['field']]);
+				}
+				$fieldComponent->setField($this->field);
+				$fieldComponent->init();
+				if (method_exists($fieldComponent, 'preDell')) {
+					$data[$field]    =   $fieldComponent->preDell();
+				}
+				$this->field    =   $fieldComponent->getField();
+			}
+			$where = Array(
+				'id'    =>  self::$config['id']
+			);
+			/** @var \core\component\database\driver\PDO\component $db */
+			$db     =   self::$config['db'];
+			$db->dell(self::$config['table'], $where);
 
-        } elseif (self::$config['mode'] === 'save') {
+			/** поля для пост удаления */
+			foreach (self::$schema as $key => $field) {
+				/** @var \core\component\CForm\field\input\component $fieldComponent */
+				$fieldComponent  = '\core\component\CForm\field\\' . $field['type'] . '\component';
+				$fieldComponent  =   new $fieldComponent();
+				$fieldComponent->setComponentSchema($field);
+				$fieldComponent->init();
+				if (method_exists($fieldComponent, 'postDell')) {
+					$fieldComponent->postDell();
+				}
+			}
+			$url    =   isset($_GET['back'])    ?   base64_decode($_GET['back'])    :   self::$config['url'];
+			self::redirect($url);
+		} elseif (self::$config['mode'] === 'save') {
 
 
         } elseif (self::$config['mode'] === 'add') {
@@ -870,8 +910,10 @@ class component extends ACForm
 		} elseif (isset(self::$config['where'])) {
 			$where    = array_merge($where, self::$config['where']);
 		}
-		if (
+		if ((
 		    self::$config['mode'] === 'edit'
+		    || self::$config['mode'] === 'dell'
+			)
 			&& (
 				!isset(self::$config['noWhere'])
 				|| self::$config['noWhere'] === false
