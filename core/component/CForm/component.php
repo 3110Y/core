@@ -707,6 +707,7 @@ class component extends ACForm
                     self::setCss($script['file'], $script['isTopPosition'], $script['isUnique']);
                 }
             }
+			$this->answer['ID'] = self::$config['id'];
             $this->answer   =   simpleView\component::replace($template, $this->answer);
 		}
 	}
