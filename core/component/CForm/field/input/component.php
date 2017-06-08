@@ -38,6 +38,23 @@ class component extends CForm\AField implements CForm\IField
 
 	}
 
+	public function preUpdate()
+	{
+		if (isset($this->componentSchema['required']) && $this->componentSchema['required'] && trim($this->fieldValue) == '') {
+			$name = $this->componentSchema['field'];
+			if (isset($this->componentSchema['label']) && $this->componentSchema['label'] != '') {
+				$name = $this->componentSchema['label'];
+			} elseif (isset($this->componentSchema['caption']) && $this->componentSchema['caption'] != '') {
+				$name = $this->componentSchema['caption'];
+			} elseif (isset($this->componentSchema['placeholder']) && $this->componentSchema['placeholder'] != '') {
+				$name = $this->componentSchema['placeholder'];
+			}
+			return Array(
+				'error' => "Поле \"{$name}\" не должно быть пустым",
+			);
+		}
+	}
+
 	/**
 	 * генирирует для редактирования
 	 */

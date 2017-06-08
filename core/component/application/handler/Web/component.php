@@ -35,7 +35,10 @@ class component extends application\AHandler implements application\IHandler
         core::getInstance()->addNamespace($namespace, $path);
         $router = $namespace . '\router';
         if (file_exists(\core\core::getDR() . $path . '/router.php')) {
-            $router = new $router($URL, $application);
+	        $isAjaxRequest  =   (isset($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_X_REQUESTED_WITH']) &&
+	        $_SERVER['HTTP_REFERER'] !== '' &&
+	        strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest');
+            $router = new $router($URL, $application, $isAjaxRequest);
             $router->run();
             return $router->render();
         } else {

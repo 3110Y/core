@@ -31,11 +31,12 @@ class user extends applicationWeb\AControllers implements applicationWeb\IContro
     public function init()
     {
         $config     =   Array(
-        	'url'       =>  self::$application['url'] . '/' . self::$page['url'],
-			'sub'       =>  self::$subURL,
-	        'db'        =>  self::get('db'),
-	        'table'     =>  'core_user',
-	        'caption'   =>  'Пользователи'
+        	'url'           =>  self::$application['url'] . '/' . self::$page['url'],
+			'sub'           =>  self::$subURL,
+			'controller'    =>  $this,
+	        'db'            =>  self::get('db'),
+	        'table'         =>  'core_user',
+	        'caption'       =>  'Пользователи'
         );
         $schema     =   Array(
 	        Array(
@@ -54,6 +55,7 @@ class user extends applicationWeb\AControllers implements applicationWeb\IContro
 		        'caption'           =>  'Фамилия',
 		        'placeholder'       =>  'Фамилия',
 		        'label'             =>  'Фамилия',
+		        'required'          =>  true,
 		        'listing'           =>  Array(
 			        'align' =>  'left'
 		        )
@@ -64,6 +66,7 @@ class user extends applicationWeb\AControllers implements applicationWeb\IContro
 		        'caption'           =>  'Отчество',
 		        'placeholder'       =>  'Отчество',
 		        'label'             =>  'Отчество',
+		        'required'          =>  true,
 		        'listing'           =>  Array(
 			        'align' =>  'left'
 		        )

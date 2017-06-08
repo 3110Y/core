@@ -143,7 +143,7 @@ class component extends ACForm
 			$this->answer['CAPTION_CLASS']  =   'is-hidden ';
 		}
 
-		if (self::$config['mode'] === 'listing' || self::$config['mode'] === 'listingData') {
+		if (self::$config['mode'] === 'listing') {
 			$header                     =   Array();
 			$this->answer['HEADER_ROW'] =   Array();
 			$this->answer['ROWS']       =   Array();
@@ -339,7 +339,7 @@ class component extends ACForm
 			if(empty($this->answer['ACTION_ROWS'])) {
 				$this->answer['CLASS_ROWS'] = 'is-hidden ';
 			}
-		} elseif (self::$config['mode'] === 'edit' || self::$config['mode'] === 'editData') {
+		} elseif (self::$config['mode'] === 'edit') {
 			$this->answer['FIELDS']  =  Array();
 
 			foreach (self::$schema as $key => $field) {
@@ -553,13 +553,68 @@ class component extends ACForm
 			$url    =   isset($_GET['back'])    ?   base64_decode($_GET['back'])    :   self::$config['url'];
 			self::redirect($url);
 		} elseif (self::$config['mode'] === 'save') {
+			$error  = Array();
+			$value   = Array();
+			/** поля для пре обновления */
+			foreach (self::$schema as $key => $field) {
+				/** @var \core\component\CForm\field\input\component $fieldComponent */
+				$fieldComponent  = '\core\component\CForm\field\\' . $field['type'] . '\component';
+				$fieldComponent::setData($_POST);
+				$fieldComponent  =   new $fieldComponent();
+				$fieldComponent->setComponentSchema($field);
+				if (isset($_POST[$field['field']])) {
+					$fieldComponent->setFieldValue($_POST[$field['field']]);
+				}
+				$fieldComponent->setField($this->field);
+				$fieldComponent->init();
+				$answer = Array();
+				if (method_exists($fieldComponent, 'preUpdate')) {
+					$answer =    $fieldComponent->preUpdate();
+				}
+				if (isset($answer['value'])) {
+					$value[$field['field']] = $answer['value'];
+				} else {
+					$value[$field['field']] = $_POST[$field['field']];
+				}
+				if (isset($answer['error'])) {
+					$error[] = $answer['error'];
+				}
+			}
+			if (!empty($error)) {
+				$this->answer   =   $error;
+				return;
+			}
+			$where = Array(
+				'id'    =>  self::$config['id']
+			);
+			/** @var \core\component\database\driver\PDO\component $db */
+			$db     =   self::$config['db'];
+			$db->update(self::$config['table'], $value, $where);
+			self::$config['id'] =   $db->getLastID();
+			$this->data         =   $db->selectRow(self::$config['table'], $this->field, $where);
 
-			var_dump($_POST);
-			var_dump($_GET);
-			die();
-
-
-
+			/** поля для пост обновления */
+			foreach (self::$schema as $key => $field) {
+				/** @var \core\component\CForm\field\input\component $fieldComponent */
+				$fieldComponent  = '\core\component\CForm\field\\' . $field['type'] . '\component';
+				$fieldComponent::setData($this->data);
+				$fieldComponent  =   new $fieldComponent();
+				$fieldComponent->setComponentSchema($field);
+				if (isset($this->data[$field['field']])) {
+					$fieldComponent->setFieldValue($this->data[$field['field']]);
+				}
+				$fieldComponent->setField($this->field);
+				$fieldComponent->init();
+				if (method_exists($fieldComponent, 'postUpdate')) {
+					$error[]  =    $fieldComponent->postUpdate();
+				}
+			}
+			if (!empty($error)) {
+				$this->answer   =   $error;
+			} else {
+				$this->answer   =   true;
+			}
+			return;
         } elseif (self::$config['mode'] === 'add') {
             $data = Array();
             foreach ($this->field as $field) {
@@ -723,6 +778,9 @@ class component extends ACForm
 		if (!isset(self::$config['table'])) {
 			die('Не указана таблица');
 		}
+		if (!isset(self::$config['controller'])) {
+			die('Не указан контроллер');
+		}
 		$json = false;
 		if (isset($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_X_REQUESTED_WITH']) &&
 			$_SERVER['HTTP_REFERER'] !== '' &&
@@ -739,14 +797,10 @@ class component extends ACForm
 					||  self::$config['sub'][count(self::$config['sub']) - 2] === 'edit'
 					||  self::$config['sub'][count(self::$config['sub']) - 2] === 'dell'
 					||  self::$config['sub'][count(self::$config['sub']) - 2] === 'add'
+					||  self::$config['sub'][count(self::$config['sub']) - 2] === 'save'
 					)
 					|| (
-						$json
-						&& (
-							self::$config['sub'][count(self::$config['sub']) - 2] === 'editData'
-							||  self::$config['sub'][count(self::$config['sub']) - 2] === 'listingData'
-							||  self::$config['sub'][count(self::$config['sub']) - 2] === 'data'
-						)
+						$json && self::$config['sub'][count(self::$config['sub']) - 2] === 'data'
 					)
 				)
 			) {
@@ -763,14 +817,11 @@ class component extends ACForm
                         ||  self::$config['sub'][0] === 'edit'
                         ||  self::$config['sub'][0] === 'dell'
                         ||  self::$config['sub'][0] === 'add'
+                        ||  self::$config['sub'][0] === 'save'
                     )
                     || (
                         $json
-                        && (
-                            self::$config['sub'][0] === 'editData'
-                            ||  self::$config['sub'][0] === 'listingData'
-                            ||  self::$config['sub'][0] === 'data'
-                        )
+                        &&  self::$config['sub'][0] === 'data'
                     )
                 )
             ) {
@@ -781,7 +832,6 @@ class component extends ACForm
 			die('Неверный режим компонента');
 		}
 		switch (self::$config['mode']) {
-			case 'listingData':
 			case 'listing':
 				if (!isset(self::$config['page'])) {
 					if (count(self::$config['sub']) >= 2) {
@@ -800,7 +850,6 @@ class component extends ACForm
                     self::$config['onPage'] = 10;
                 }
 				break;
-			case 'editData':
 			case 'dell':
 				if (!isset(self::$config['id'])) {
 					if (count(self::$config['sub']) >= 2) {
@@ -816,6 +865,15 @@ class component extends ACForm
 				}
 				break;
 			case 'edit':
+				if (!isset(self::$config['id'])) {
+					if (count(self::$config['sub']) >= 2) {
+						self::$config['id'] =   (int)end(self::$config['sub']);
+					} else {
+						self::$config['id'] = 0;
+					}
+				}
+				break;
+			case 'save':
 				if (!isset(self::$config['id'])) {
 					if (count(self::$config['sub']) >= 2) {
 						self::$config['id'] =   (int)end(self::$config['sub']);
@@ -967,6 +1025,7 @@ class component extends ACForm
 		if (
 			(
 		    self::$config['mode'] === 'edit'
+		    || self::$config['mode'] === 'save'
 		    || (
 		    	self::$config['mode'] === 'dell'
 			    && is_int(self::$config['id'])
@@ -1027,7 +1086,7 @@ class component extends ACForm
 		$db =   self::$config['db'];
 		if (self::$config['mode'] === 'dell' && is_array(self::$config['id'])) {
 			return $db->selectRows(self::$config['table'], $this->field, $where);
-		} elseif (self::$config['mode'] === 'listing' || self::$config['mode'] === 'listingData') {
+		} elseif (self::$config['mode'] === 'listing') {
 			$order = '';
 			if (isset($_GET['order'])) {
 				$order  =   $_GET['order'];
@@ -1232,10 +1291,15 @@ class component extends ACForm
 
 	/**
      * Возвращяет массив для ответа
-	 * @return array массив для ответа
+	 * @return mixed|bool|array массив для ответа
 	 */
-    public  function getIncomingArray(): array
+    public  function getIncomingArray()
     {
+    	/** @var \core\component\application\handler\Web\AApplication $controller */
+    	$controller = self::$config['controller'];
+    	if ($controller->isAjaxRequest()) {
+			return $this->answer;
+	    }
 	    $this->incomingArray[$this->incomingKey] = $this->answer;
 	    return $this->incomingArray;
 	}

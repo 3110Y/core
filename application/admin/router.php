@@ -33,13 +33,16 @@ final class router extends applicationWeb\ARouter implements applicationWeb\IRou
         'character'         =>  'UTF8',
     );
 
-    /**
-     * router constructor.
-     * @param string $URL URL приложения
-     * @param array $application данные приложения
-     */
-    public function __construct($URL, $application)
+	/**
+	 * router constructor.
+	 *
+	 * @param string $URL           URL приложения
+	 * @param array  $application   данные приложения
+	 * @param bool   $isAjaxRequest AJAX запрос
+	 */
+    public function __construct($URL, $application, $isAjaxRequest = false)
     {
+        self::$isAjaxRequest                  =  $isAjaxRequest;
         self::$URL                  =  $URL;
         self::$application          =  $application;
         /** @var PDO\component $db */
@@ -73,7 +76,7 @@ final class router extends applicationWeb\ARouter implements applicationWeb\IRou
         if ($controller instanceof applicationWeb\IControllers) {
             $controller->init();
         }
-        if ($controllerBasic instanceof applicationWeb\IControllerBasic) {
+        if (!self::$isAjaxRequest && $controllerBasic instanceof applicationWeb\IControllerBasic) {
             $controllerBasic->postInit();
         }
         return $this;
@@ -85,9 +88,7 @@ final class router extends applicationWeb\ARouter implements applicationWeb\IRou
      */
     public function render()
     {
-        if (isset($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_X_REQUESTED_WITH']) &&
-            $_SERVER['HTTP_REFERER'] !== '' &&
-            strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
+        if (self::$isAjaxRequest ) {
             return json_encode(self::$content);
         } else {
             $this->get('view')->setTemplate(self::$template);

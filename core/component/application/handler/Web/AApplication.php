@@ -41,6 +41,10 @@ abstract class AApplication
      * @var array структура контента
      */
     protected static $content = Array();
+	/**
+	 * @var bool AJAX запрос
+	 */
+    protected static $isAjaxRequest = false;
     /**
      * @var array URL
      */
@@ -269,5 +273,14 @@ abstract class AApplication
             return self::$registry[$key];
         }
         return false;
+    }
+
+	/**
+	 * Проверяет запрос на аяксовость
+	 * @return bool
+	 */
+    public static function isAjaxRequest()
+    {
+    	return self::$isAjaxRequest;
     }
 }
