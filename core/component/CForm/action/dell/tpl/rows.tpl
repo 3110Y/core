@@ -1,0 +1,1 @@
+<a href="{URL}/dell?back={URL_BACK}" class="uk-button uk-button-danger dells"><span uk-icon="icon: close"></span>Удалить</a>

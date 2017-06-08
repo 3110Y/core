@@ -1,0 +1,53 @@
+.cform-after {
+  clear: both;
+  min-height: 56px;
+  padding: 16px 12px;
+  content: " ";
+  width: 100%;
+  display: block;
+  box-sizing: border-box; }
+  .cform-after.is-hidden {
+    display: none; }
+
+.cform {
+  display: block;
+  position: relative;
+  background-color: #ffffff;
+  box-shadow: 0 14px 25px rgba(0, 0, 0, 0.16); }
+  .cform.w-hundred {
+    width: 100%; }
+    .cform.w-hundred .cf-table {
+      width: 100%; }
+  .cform .group-action {
+    position: fixed;
+    width: 100%;
+    padding: 16px 12px;
+    box-sizing: border-box;
+    background: rgba(42, 67, 98, 0.4);
+    bottom: 0;
+    left: 0;
+    text-align: center;
+    white-space: nowrap;
+    z-index: 1; }
+    .cform .group-action.is-hidden {
+      display: none; }
+  .cform .cf-caption {
+    background-color: #3d536f;
+    padding: 16px 12px;
+    box-sizing: border-box; }
+    .cform .cf-caption.is-hidden {
+      display: none; }
+    .cform .cf-caption::after {
+      clear: both;
+      content: " ";
+      width: 100%;
+      display: block; }
+    .cform .cf-caption > * {
+      margin: 0;
+      color: #ffffff; }
+    .cform .cf-caption > h3 {
+      float: left; }
+    .cform .cf-caption > a {
+      float: right; }
+
+/*# sourceMappingURL=style.css.map */

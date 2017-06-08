@@ -13,117 +13,202 @@ namespace core;
  * Class core
  * @package core
  */
-class core
+final class core
 {
     /**
-     * @var string ключ Автозагрузчика
+     * @const float Версия ядра
      */
-    private $key = '';
-    /**
-     * @var string регулярное выражение
-     */
-    private $regular = '';
-    /**
-     * @var string Путь до пространства
-     */
-    private $path = '';
+    const VERSION   =   1.0;
     /**
      * @const string Путь до компонентов
      */
     const components = '\core\components\\';
+    /**
+     * @var array Ассоциативный массив. Ключи содержат префикс пространства имён,
+     * значение — массив базовых директорий для классов в этом пространстве имён.
+     */
+    protected $prefixes = array();
+    /**
+     * экземпляр
+     * @var null
+     */
+    private static $instance = null;
+    /**
+     * @var string CORE ROOT
+     */
+    private static $DR = '';
 
     /**
-     * Инициализация
-     * @param array $architecture архитектура приложения
+     * @return core|null
      */
-    public static function init(array $architecture = Array())
+    public static function getInstance()
     {
-        self::prepareArchitecture($architecture);
+        if (self::$instance === null) {
+            self::$instance = new self();
+        }
+        return  self::$instance;
+    }
+
+
+    /**
+     * core constructor.
+     */
+    private function __construct(){}
+
+    /**
+     * Устанавливает CORE ROOT;
+     * @param string $DR DOCUMENT ROOT
+     */
+    public static function setDR(string $DR = __DIR__)
+    {
+        self::$DR  =   str_replace('\\', '/', $DR) . '/';
     }
 
     /**
-     * Отдает компонент
-     * @param string $name имя компонента
-     * @param string $file файл
-     * @return bool
+     * Отдает CORE ROOT
+     * @return string CORE ROOT;
      */
-    public static function getComponents($name, $file = '\controller')
+    public static function getDR()
     {
-        $components   =   self::components . $name . $file;
-        $data = array(
-            '_' => DIRECTORY_SEPARATOR,
-            '\\' => DIRECTORY_SEPARATOR,
-        );
-        $file   =   $_SERVER['DOCUMENT_ROOT'] . strtr($components, $data) . '.php';
-        if (file_exists($file)) {
-            return new $components();
+        if (self::$DR !== '') {
+            return self::$DR;
         }
+        if (isset($_SERVER['DOCUMENT_ROOT'])) {
+            return $_SERVER['DOCUMENT_ROOT'];
+        } else {
+            return str_replace('\\', '/', str_replace('\core', '', __DIR__));
+        }
+    }
+
+    /**
+     * Регистрирует загрузчик в стеке загрузчиков SPL.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        spl_autoload_register(array($this, 'loadClass'));
+    }
+
+    /**
+     * Добавляет базовую директорию к префиксу пространства имён.
+     *
+     * @param string $prefix Префикс пространства имён.
+     * @param string $baseDir Базовая директория для файлов классов из пространства имён.
+     * @param bool $prepend Если true, добавить базовую директорию в начало стека.
+     * В этом случае она будет проверяться первой.
+     * @return void
+     */
+    public function addNamespace($prefix, $baseDir = '', $prepend = false)
+    {
+        if($baseDir === '') {
+            $baseDir = $prefix;
+        }
+        // нормализуем префикс пространства имён
+        $prefix = trim($prefix, '\\') . '\\';
+
+        // нормализуем базовую директорию так, чтобы всегда присутствовал разделитель в конце
+        $base_dir = rtrim($baseDir, DIRECTORY_SEPARATOR) . '/';
+
+        // инициализируем массив префиксов пространства имён
+        if (isset($this->prefixes[$prefix]) === false) {
+            $this->prefixes[$prefix] = array();
+        }
+
+        // сохраняем базовую директорию для префикса пространства имён
+        if ($prepend) {
+            array_unshift($this->prefixes[$prefix], $base_dir);
+        } else {
+            array_push($this->prefixes[$prefix], $base_dir);
+        }
+    }
+
+    /**
+     * Загружает файл для заданного имени класса.
+     *
+     * @param string $class Абсолютное имя класса.
+     * @return mixed Если получилось, полное имя файла. Иначе — false.
+     */
+    public function loadClass($class)
+    {
+        // текущий префикс пространства имён
+        $prefix = $class;
+
+        // для определения имени файла обходим пространства имён из абсолютного
+        // имени класса в обратном порядке
+        while (false !== $pos = strrpos($prefix, '\\')) {
+
+            // сохраняем завершающий разделитель пространства имён в префиксе
+            $prefix = substr($class, 0, $pos + 1);
+
+            // всё оставшееся — относительное имя класса
+            $relative_class = substr($class, $pos + 1);
+
+            // пробуем загрузить соответсвующий префиксу и относительному имени класса файл
+            $mappedFile = $this->loadMappedFile($prefix, $relative_class);
+            if ($mappedFile) {
+                return $mappedFile;
+            }
+
+            // убираем завершающий разделитель пространства имён для следующей итерации strrpos()
+            $prefix = rtrim($prefix, '\\');
+        }
+
+        // файл так и не был найден
         return false;
     }
 
     /**
-     * Устанавливет архитектуру приложения
-     * @param array $architecture архитектура приложения
-     * @param array $path путь
+     * Загружает файл, соответствующий префиксу пространства имён и относительному имени класса.
+     *
+     * @param string $prefix Префикс пространства имён.
+     * @param string $relativeClass Относительное имя класса.
+     * @return mixed false если файл не был загружен. Иначе имя загруженного файла.
      */
-    private static function prepareArchitecture(array $architecture = Array(),array $path = Array())
+    protected function loadMappedFile($prefix, $relativeClass)
     {
-        foreach ($architecture as $key => $value) {
-            $newPath = $path;
-            if (!is_int($key)) {
-                $newPath[]     = $key;
-            }
-            if(is_string($value)) {
-                $namespace  = implode('\\\\',$newPath) . '\\\\';
-                $core = new self();
-                $core->register($namespace . $value);
-            } elseif (is_array($value)) {
-                self::prepareArchitecture($value, $newPath);
-            }
+        // есть ли у этого префикса пространства имён какие-либо базовые директории?
+        if (isset($this->prefixes[$prefix]) === false) {
+            return false;
         }
-    }
 
-    /**
-     * Устанавливает автозагрузку
-     * @param string $regular регулярное выражение
-     * @return bool
-     */
-    public function register($regular)
-    {
-        $this->regular      = $regular;
-        $this->path         = $_SERVER['DOCUMENT_ROOT'] . '/';
-        $this->key          = md5($this->path . $this->regular);
-        $autoload = spl_autoload_functions();
+        // ищем префикс в базовых директориях
+        if (!empty($this->prefixes[$prefix])) {
+            foreach ($this->prefixes[$prefix] as $baseDir) {
 
-        if (spl_autoload_functions() !== false) {
-            for ($i = 0, $iMax = count($autoload); $i < $iMax; $i++) {
-                if (!is_string($autoload[$i]) && isset($autoload[$i][0]->key) && $this->key === $autoload[$i][0]->key) {
-                    return false;
+                // заменяем префикс базовой директорией,
+                // заменяем разделители пространства имён на разделители директорий,
+                // к относительному имени класса добавляем .php
+                $file = $baseDir
+                    . str_replace('\\', '/', $relativeClass)
+                    . '.php';
+                // если файл существует, загружаем его
+                if ($this->requireFile($file)) {
+                    // ура, получилось
+                    return $file;
                 }
             }
         }
-        return spl_autoload_register(array($this, 'loader'));
+
+        // файл так и не был найден
+        return false;
     }
 
     /**
-     * Загружает класс
-     * @see $regularAutoload
-     * @see $pathAutoload
-     * @param string $className загружаемый класс
-     * @return bool
+     * Если файл существует, загружеаем его.
+     *
+     * @param string $file файл для загрузки.
+     * @return bool true, если файл существует, false — если нет.
      */
-    private function loader($className)
+    protected function requireFile($file): bool
     {
-        $classSearch    =   ltrim($className, '\\');
-        preg_match('/^' . $this->regular . '$/i', $classSearch, $output);
-        if (isset($output[0])) {
-            $file = str_replace('\\', '/', $this->path . $output[0] . '.php');
-            if (file_exists($file)) {
-                include_once $file;
-                return true;
-            } else {
-                return false;
-            }
+        if (file_exists($file)) {
+            require $file;
+            return true;
+        }
+        if (file_exists(self::getDR() . $file)) {
+            require self::getDR() . $file;
+            return true;
         }
         return false;
     }
