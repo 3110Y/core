@@ -513,7 +513,7 @@ class component extends ACForm
 						}
 					}
 				}
-			} else {
+			} elseif(is_array($this->data)) {
 				/** поля для пре удаления */
 				foreach (self::$schema as $key => $field) {
 					/** @var \core\component\CForm\field\input\component $fieldComponent */
