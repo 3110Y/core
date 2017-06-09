@@ -52,9 +52,9 @@
         </div>
         <div class="uk-navbar-center">
             <ul class="uk-pagination uk-flex-center" uk-margin>
-                {PAGINATOR}
+                {PAGINATION}
                     <li class="{CLASS}"><a href="{HREF}">{TEXT}</a></li>
-                {/PAGINATOR}
+                {/PAGINATION}
             </ul>
         </div>
         <div class="uk-navbar-right">

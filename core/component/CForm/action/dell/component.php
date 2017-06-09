@@ -35,11 +35,11 @@ class component extends CForm\AAction implements CForm\IAction
 	/**
 	 * генирирует для групповых действий
 	 */
-	public function rows()
+	public function many()
 	{
 		$urlBack = self::$config['controller']::getPageURL();
-		if (self::$config['mode'] == 'listing') {
-			$urlBack .= '/' . self::$config['mode'] . '/' . self::$config['page'];
+		if (!empty(self::$subURL)) {
+			$urlBack .= '/' . implode('/', self::$subURL);
 		}
         $data   =   Array(
             'URL'   => self::$config['controller']::getPageURL(),
@@ -53,11 +53,11 @@ class component extends CForm\AAction implements CForm\IAction
 	/**
 	 * генирирует для листинга
 	 */
-	public function row()
+	public function one()
 	{
 		$urlBack = self::$config['controller']::getPageURL();
-		if (self::$config['mode'] == 'listing') {
-			$urlBack .= '/' . self::$config['mode'] . '/' . self::$config['page'];
+		if (!empty(self::$subURL)) {
+			$urlBack .= '/' . implode('/', self::$subURL);
 		}
         $data   =   Array(
             'URL'           => self::$config['controller']::getPageURL(),

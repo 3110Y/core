@@ -22,10 +22,17 @@ abstract class ACForm
 	 */
 	protected static $config    =   Array();
 	/**
-	 * @var array схема
+	 * @var string режим работы
 	 */
-	protected static $schema    =   Array();
-
+	protected static $mode    =   '';
+	/**
+	 * @var array подуровни
+	 */
+	protected static $subURL = Array();
+	/**
+	 * @var int количество подуровней
+	 */
+	protected static $countSubURL = 0;
 
 	/**
 	 * отдает шаблон

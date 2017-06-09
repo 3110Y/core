@@ -35,7 +35,7 @@ class component extends CForm\AField implements CForm\IField
 
     }
 
-    public function listing()
+    public function edit()
     {
         $data   =   Array();
         foreach (self::$data as $field  => $value) {

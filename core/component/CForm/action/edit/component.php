@@ -34,7 +34,7 @@ class component extends CForm\AAction implements CForm\IAction
 	/**
 	 * генирирует для листинга
 	 */
-	public function row()
+	public function one()
 	{
 		$data   =   Array(
 			'URL'   => self::$config['controller']::getPageURL(),

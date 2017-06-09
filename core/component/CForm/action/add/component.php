@@ -35,7 +35,7 @@ class component extends CForm\AAction implements CForm\IAction
 	/**
 	 * генирирует для групповых действий
 	 */
-	public function rows()
+	public function many()
 	{
         $data   =   Array(
             'URL'   => self::$config['controller']::getPageURL(),

@@ -33,7 +33,7 @@ class component extends CForm\AAction implements CForm\IAction
     /**
      * генирирует для карточки
      */
-    public function item()
+    public function one()
     {
         $data   =   Array(
             'URL'   => self::$config['controller']::getPageURL(),

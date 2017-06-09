@@ -157,16 +157,17 @@ class component extends CForm\AField implements CForm\IField
 		$this->setComponentAnswer($answer);
 	}
 
+
 	/**
-	 * генирирует для листинга
+	 * генирирует для просмотра
 	 */
-	public function listing()
+	public function view()
 	{
 		if (isset($this->componentSchema['caption'])) {
 			$this->setFieldCaption($this->componentSchema['caption']);
 		}
-		if (isset($this->componentSchema['listing'], $this->componentSchema['listing']['align'])) {
-            switch ($this->componentSchema['listing']['align']) {
+		if (isset($this->componentSchema[self::$mode], $this->componentSchema[self::$mode]['align'])) {
+            switch ($this->componentSchema[self::$mode]['align']) {
                 case 'left':
                     $this->addAnswerClass('input-left');
                     break;
