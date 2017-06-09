@@ -201,6 +201,9 @@ class component extends CForm\AViewer implements CForm\IViewer
 			}
 			$this->answer['ROWS'][]  =  $coll;
 		}
+		foreach ($header as $headerColl) {
+			$this->answer['HEADER_ROW'][]   =   $headerColl;
+		}
 		$this->answer['CLASS_ROWS'] =   '';
 		$this->answer['ACTION_ROWS']   =   Array();
 

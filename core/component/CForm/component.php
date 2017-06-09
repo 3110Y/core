@@ -389,7 +389,7 @@ class component2 extends ACForm
 					$coll['CLASS_ROW'] = 'is-hidden ';
 				} else {
 					$header['ROW']   = Array(
-						'COMPONENT' =>  'Действия',
+						'COMPONENT'     =>  'Действия',
 						'CLASS'         =>  ' min ',
 						'STYLE'         =>  '',
 						'ID'            =>  '',
