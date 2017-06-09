@@ -41,6 +41,7 @@ class component extends CForm\AViewer implements CForm\IViewer
 		$config = self::$config;
 		unset($config['viewer']);
 		$this->viewerConfig = array_merge($this->viewerConfig, $config);
+		$this->schemaField                =  $this->viewerConfig['field'];
 		$this->viewerConfig['page']       =   $this->getPageNow();
 		$this->viewerConfig['onPage']     =   $this->getOnPage();
 		$this->viewerConfig['parent']     =   $this->getParent();
@@ -48,7 +49,7 @@ class component extends CForm\AViewer implements CForm\IViewer
 			$this->viewerConfig['pagination']  =   Array(10,15,25,30,50,75,100);
 		}
 		$this->data    =   $this->fillData();
-		$this->schemaField = $this->viewerConfig['field'];
+
 	}
 
 	public function run()
