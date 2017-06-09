@@ -23,15 +23,15 @@ abstract class ARouter extends AApplication
      */
     protected static function selectPage()
     {
-        self::$pageError    = self::getPageError();
-        self::$page         = self::getPage();
+        self::$pageError    = self::searchPageError();
+        self::$page         = self::searchPage();
     }
 
     /**
      * Отдает страницу Ошибок
      * @return array
      */
-    private static function getPageError()
+    public static function searchPageError()
     {
         foreach (self::$structure as $item) {
             if ($item['error']) {
@@ -49,7 +49,7 @@ abstract class ARouter extends AApplication
      *
      * @return array текущая страница
      */
-    private static function getPage($parentID = 0, $parentURL ='')
+    private static function searchPage($parentID = 0, $parentURL ='')
     {
         foreach (self::$structure as $item) {
             if (
@@ -88,7 +88,7 @@ abstract class ARouter extends AApplication
                     $controller::setSubURL($subURL);
                     return $item;
                 } else {
-	            	return self::getPage(++$parentID, $item['url']);
+	            	return self::searchPage(++$parentID, $item['url']);
                 }
             }
 

@@ -72,7 +72,7 @@ abstract class AApplication
      * @param string $template шаблон
      * @return string шаблон
      */
-    protected static function getTemplate(string $template): string
+    public static function getTemplate(string $template): string
     {
         $path       =   self::$application['path'];
         $theme      =   self::$application['theme'];
@@ -85,7 +85,7 @@ abstract class AApplication
      * @param bool $isTopPosition позиция top|bottom
      * @param bool $isUnique уникальность
      */
-    protected static function setJs(string $file, bool $isTopPosition = false, bool $isUnique = true)
+    public static function setJs(string $file, bool $isTopPosition = false, bool $isUnique = true)
     {
         $position   =   $isTopPosition   ?   'top'   :   'bottom';
         if ($isUnique) {
@@ -104,7 +104,7 @@ abstract class AApplication
      * @param bool $isTopPosition позиция top|bottom
      * @param bool $isUnique уникальность
      */
-    protected static function setCss(string $file, bool $isTopPosition = true, bool $isUnique = true)
+	public static function setCss(string $file, bool $isTopPosition = true, bool $isUnique = true)
     {
         $position   =   $isTopPosition   ?   'top'   :   'bottom';
         if ($isUnique) {
@@ -266,7 +266,7 @@ abstract class AApplication
      * @param string $key ключ
      * @return mixed|null|object рендер
      */
-    protected static function get($key)
+    public static function get($key)
     {
         //TODO: обработка ошибок
         if (isset(self::$registry[$key])) {
@@ -283,4 +283,53 @@ abstract class AApplication
     {
     	return self::$isAjaxRequest;
     }
+
+	/**
+	 * Отдает настройки текущей страницы
+	 *
+	 * @return array текущая страница
+	 */
+	public static function getPage()
+	{
+		return self::$page;
+	}
+
+	/**
+	 * Отдает настройки страница для страницы
+	 *
+	 * @return array страница для ошибок
+	 */
+	public static function getPageError()
+	{
+		return self::$pageError;
+	}
+
+	/**
+	 * Отдает настройки приложения
+	 *
+	 * @return array приложение
+	 */
+	public static function getApplication()
+	{
+		return self::$application;
+	}
+
+	/**
+	 * Отдает структуру приложения
+	 *
+	 * @return array структура приложения
+	 */
+	public static function getStructure()
+	{
+		return self::$structure;
+	}
+
+	/**
+	 * Отдает структуру контента
+	 * @return array структура контента
+	 */
+	public static function getContent()
+	{
+		return self::$content;
+	}
 }

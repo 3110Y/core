@@ -61,17 +61,24 @@ final class core
      */
     public static function setDR(string $DR = __DIR__)
     {
-        self::$DR  =   str_replace('\\', '/', $DR) . '/';
+        self::$DR  =   str_replace('\\', '/', $DR);
     }
 
-    /**
-     * Отдает CORE ROOT
-     * @return string CORE ROOT;
-     */
-    public static function getDR()
+	/**
+	 * Отдает CORE ROOT
+	 *
+	 * @param bool $notSlash
+	 *
+	 * @return string CORE ROOT;
+	 */
+    public static function getDR($notSlash = false)
     {
         if (self::$DR !== '') {
-            return self::$DR;
+        	if ($notSlash) {
+		        return self::$DR;
+	        } else {
+		        return self::$DR . '/';
+	        }
         }
         if (isset($_SERVER['DOCUMENT_ROOT'])) {
             return $_SERVER['DOCUMENT_ROOT'];

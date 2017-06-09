@@ -31,8 +31,6 @@ class user extends applicationWeb\AControllers implements applicationWeb\IContro
     public function init()
     {
         $config     =   Array(
-        	'url'           =>  self::$application['url'] . '/' . self::$page['url'],
-			'sub'           =>  self::$subURL,
 			'controller'    =>  $this,
 	        'db'            =>  self::get('db'),
 	        'table'         =>  'core_user',
@@ -74,7 +72,7 @@ class user extends applicationWeb\AControllers implements applicationWeb\IContro
         );
 	    $template   =   Array(
 			'listing'      =>  Array(
-				'template'  =>  self::getTemplate('block/form/list.tpl'),
+				'template'  =>  'block/form/list.tpl',
 				'js'        =>  Array(),
 				'css'       =>  Array(
 					Array(
@@ -86,7 +84,7 @@ class user extends applicationWeb\AControllers implements applicationWeb\IContro
 				),
 			),
 		    'listingNo'      =>  Array(
-				'template'  =>  self::getTemplate('block/form/listNo.tpl'),
+				'template'  =>  'block/form/listNo.tpl',
 				'js'        =>  Array(),
 				'css'       =>  Array(
                     Array(
@@ -98,7 +96,7 @@ class user extends applicationWeb\AControllers implements applicationWeb\IContro
 				),
 			),
 		    'form'      =>  Array(
-				'template'  =>  self::getTemplate('block/form/form.tpl'),
+				'template'  =>  'block/form/form.tpl',
 				'js'        =>  Array(),
 				'css'       =>  Array(
                     Array(
@@ -116,8 +114,6 @@ class user extends applicationWeb\AControllers implements applicationWeb\IContro
         $CForm->setTemplate($template);
         $CForm->run();
         self::$content  =    $CForm->getIncomingArray();
-	    self::addCss($CForm::getCss());
-	    self::addJs($CForm::getJs());
     }
 
 }

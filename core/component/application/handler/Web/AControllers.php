@@ -15,9 +15,9 @@ namespace core\component\application\handler\Web;
 abstract class AControllers extends AApplication
 {
     /**
-     * @var array URL путь
+     * @var string URL путь
      */
-    protected static $pageURL= Array();
+    protected static $pageURL   = Array();
     /**
      * @var mixed|int|false Колличество подуровней
      */
@@ -40,11 +40,17 @@ abstract class AControllers extends AApplication
 
 	/**
 	 * Отдает подстраницы
+	 *
+	 * @param mixed|int|boolean $level уровень URL
+	 *
 	 * @return array подстраницы
 	 */
-    public static function getSubURL()
+    public static function getSubURL($level = false)
     {
-        return self::$subURL;
+	    if ($level === false) {
+		    return self::$subURL;
+	    }
+	    return isset(self::$subURL[$level])  ?   self::$subURL[$level]  :   false;
     }
 
     /**
@@ -56,18 +62,28 @@ abstract class AControllers extends AApplication
         self::$pageURL = $URL;
     }
 
+	/**
+	 * Отдает URL путь страницы
+	 * @return string
+	 */
+    public static function getPageURL()
+    {
+    	return self::$pageURL;
+    }
+
     /**
      * Отдает URL
      * @param mixed|int|boolean $level уровень URL
      * @return mixed|string|boolean URL
      */
-    protected static function getURL($level = false)
+    public static function getURL($level = false)
     {
         if ($level === false) {
             return self::$URL;
         }
         return isset(self::$URL[$level])  ?   self::$URL[$level]  :   false;
     }
+
 
 
 

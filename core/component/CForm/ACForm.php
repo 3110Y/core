@@ -26,66 +26,6 @@ abstract class ACForm
 	 */
 	protected static $schema    =   Array();
 
-	/**
-	 * @var array js файлы
-	 */
-	protected static $js = Array();
-	/**
-	 * @var array файлы
-	 */
-	protected static $css = Array();
-
-
-	/**
-	 * Задает JS
-	 * @param string $file файл
-	 * @param bool $isTopPosition позиция top|bottom
-	 * @param bool $isUnique уникальность
-	 */
-	protected static function setJs(string $file, bool $isTopPosition = false, bool $isUnique = true)
-	{
-		self::$js[] = Array(
-			'file'          =>  $file,
-			'isTopPosition' =>  $isTopPosition,
-			'isUnique'      =>  $isUnique
-		);
-	}
-
-	/**
-	 * Задает CSS
-	 * @param string $file файл
-	 * @param bool $isTopPosition позиция top|bottom
-	 * @param bool $isUnique уникальность
-	 */
-	protected static function setCss(string $file, bool $isTopPosition = true, bool $isUnique = true)
-	{
-		self::$css[] = Array(
-			'file'          =>  $file,
-			'isTopPosition' =>  $isTopPosition,
-			'isUnique'      =>  $isUnique
-		);
-	}
-
-	/**
-	 * Отдает JS
-	 *
-	 * @return mixed js
-	 */
-	public static function getJs()
-	{
-		return self::$js;
-	}
-
-	/**
-	 * Отдает CSS
-	 *
-	 * @return mixed js
-	 */
-	public static function getCss()
-	{
-		return self::$css;
-	}
-
 
 	/**
 	 * отдает шаблон

@@ -29,7 +29,7 @@ class component extends CForm\AField implements CForm\IField
             $id = self::$data['id'];
             $this->addAnswerID("input-field-{$field}-id-{$id}");
             $this->addAnswerClass('input');
-            self::setCss(self::getTemplate('css/input.css', __DIR__));
+		    self::$config['controller']::setCss(self::getTemplate('css/input.css', __DIR__));
         }
 	}
 
@@ -140,7 +140,7 @@ class component extends CForm\AField implements CForm\IField
 			$data['PLACEHOLDER']        =     '';
 			$jsInit =   self::getTemplate('vendor/label_better-master/init.tpl', __DIR__);
 			$data['INIT']             =     simpleView\component::replace($jsInit, Array('ID' => $data['ID']));
-			self::setJs(self::getTemplate('vendor/label_better-master/jquery.label_better.min.js', __DIR__));
+			self::$config['controller']::setJs(self::getTemplate('vendor/label_better-master/jquery.label_better.min.js', __DIR__));
 		}
 		if (isset($this->componentSchema['totalWidth'])) {
 			$data['FIELD_STYLE'] = "width: {$this->componentSchema['labelWidth']}; ";

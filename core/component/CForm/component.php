@@ -11,6 +11,7 @@ namespace core\component\CForm;
 use \core\component\{
 	templateEngine\engine\simpleView as simpleView
 };
+use core\core;
 
 
 /**
@@ -62,28 +63,7 @@ class component extends ACForm
 	 * Устанавливает настройки
 	 *
 	 * @param array $config настройки
-	 *                      <ul>
-	 *                        <li>
-	 *                            need
-	 *                            <ul>
-	 *                                  <li>url: string</li>
-	 *                                  <li>table: string</li>
-	 *                                  <li>subURL: array</li>
-	 *                                  <li>db: object</li>
-	 *                                  <li>where: mixed</li>
-	 *                            </ul>
-	 *                         </li>
-	 *                      <li>
-	 *                          posible
-	 *                          <ul>
-	 *                              <li>mode: listing edit data listingData editData</li>
-	 *                              <li>id: 0 1 2 ... n</li>
-	 *                              <li>page: 0 1 2 ... n</li>
-	 *                              <li>parent: 0 1 2 ... n</li>
-	 *                              <li>onPage: 0 1 2 ... n</li>
-	 *                            </ul>
-	 *                       </li>
-	 *                      </ul>
+	 *
 	 */
     public function setConfig(array $config = Array())
     {
@@ -101,14 +81,11 @@ class component extends ACForm
 
 	/**
 	 * @param array $templates шаблоны
-	 *                         <ul>
-	 *                              <li>listing: string</li>
-	 *                              <li>form: string</li>
-	 *                          </ul>
 	 */
 	public function setTemplate(array $templates)
 	{
 		$this->templates    =   $templates;
+		$this->checkTemplate();
 	}
 
 	/**
@@ -550,7 +527,7 @@ class component extends ACForm
 					}
 				}
 			}
-			$url    =   isset($_GET['back'])    ?   base64_decode($_GET['back'])    :   self::$config['url'];
+			$url    =   isset($_GET['back'])    ?   base64_decode($_GET['back'])    :   self::$config['controller']::getPageURL();
 			self::redirect($url);
 		} elseif (self::$config['mode'] === 'save') {
 			$error  = Array(
@@ -673,12 +650,12 @@ class component extends ACForm
                 }
                 $this->data     =   $fieldComponent::getData();
             }
-            self::redirect(self::$config['url'] . '/edit/' . self::$config['id']);
+            self::redirect(self::$config['controller']::getPageURL() . '/edit/' . self::$config['id']);
         } else {
 		    die('Режим не определен');
         }
 
-        $this->answer['URL'] = self::$config['url'];
+        $this->answer['URL'] = self::$config['controller']::getPageURL();
 		if (self::$config['mode'] === 'listing') {
 			if(count($this->answer) === 0) {
 				if (is_string($this->templates['listingNo'])) {
@@ -713,7 +690,7 @@ class component extends ACForm
                         $script['isUnique'] = true;
 
                     }
-                    self::setJs($script['file'], $script['isTopPosition'], $script['isUnique']);
+	                self::$config['controller']::setJs($script['file'], $script['isTopPosition'], $script['isUnique']);
                 }
             }
             if (is_array($css) && !empty($css)) {
@@ -726,7 +703,7 @@ class component extends ACForm
                         $script['isUnique'] = true;
 
                     }
-                    self::setCss($script['file'], $script['isTopPosition'], $script['isUnique']);
+	                self::$config['controller']::setCss($script['file'], $script['isTopPosition'], $script['isUnique']);
                 }
             }
 
@@ -752,7 +729,7 @@ class component extends ACForm
                         $script['isUnique'] = true;
 
                     }
-                    self::setJs($script['file'], $script['isTopPosition'], $script['isUnique']);
+	                self::$config['controller']::setJs($script['file'], $script['isTopPosition'], $script['isUnique']);
                 }
             }
             if (is_array($css) && !empty($css)) {
@@ -765,11 +742,48 @@ class component extends ACForm
                         $script['isUnique'] = true;
 
                     }
-                    self::setCss($script['file'], $script['isTopPosition'], $script['isUnique']);
+	                self::$config['controller']::setCss($script['file'], $script['isTopPosition'], $script['isUnique']);
                 }
             }
 			$this->answer['ID'] = self::$config['id'];
             $this->answer   =   simpleView\component::replace($template, $this->answer);
+		}
+	}
+
+	/**
+	 * Проверяет конфиг шаблонов
+	 */
+	private function checkTemplate()
+	{
+		if (empty($this->templates)) {
+			die('Нет шаблонов форм');
+		}
+		foreach ($this->templates as $mode => $config) {
+			if (!file_exists($config['template'])) {
+				if (file_exists(core::getDR(true) . $config['template'])) {
+					$this->templates[$mode]['template'] = core::getDR() . $config['template'];
+				} elseif (file_exists(core::getDR(true) . $config['template'] . '.tpl')) {
+					$this->templates[$mode]['template'] = core::getDR() . $config['template'] . '.tpl';
+				} elseif (file_exists(self::getTemplate($config['template'], __DIR__))) {
+					$this->templates[$mode]['template'] = self::getTemplate($config['template'], __DIR__);
+				} elseif (file_exists(self::getTemplate($config['template'] . '.tpl', __DIR__))) {
+					$this->templates[$mode]['template'] = self::getTemplate($config['template'] . '.tpl', __DIR__);
+				} elseif (file_exists(self::$config['controller']::getTemplate($config['template']))) {
+					$this->templates[$mode]['template'] = self::$config['controller']::getTemplate($config['template']);
+				} elseif (file_exists(self::$config['controller']::getTemplate($config['template'] . '.tpl', __DIR__))) {
+					$this->templates[$mode]['template'] = self::$config['controller']::getTemplate($config['template'] . '.tpl');
+				} elseif (file_exists(core::getDR(true) . self::getTemplate($config['template'], __DIR__))) {
+					$this->templates[$mode]['template'] = core::getDR(true) . self::getTemplate($config['template'], __DIR__);
+				} elseif (file_exists(core::getDR(true) . self::getTemplate($config['template'] . '.tpl', __DIR__))) {
+					$this->templates[$mode]['template'] = core::getDR(true) . self::getTemplate($config['template'] . '.tpl', __DIR__);
+				} elseif (file_exists(core::getDR(true) . self::$config['controller']::getTemplate($config['template']))) {
+					$this->templates[$mode]['template'] = core::getDR(true) . self::$config['controller']::getTemplate($config['template']);
+				} elseif (file_exists(core::getDR(true) . self::$config['controller']::getTemplate($config['template'] . '.tpl', __DIR__))) {
+					$this->templates[$mode]['template'] = core::getDR(true) . self::$config['controller']::getTemplate($config['template'] . '.tpl');
+				} else {
+					die('Не верный путь к шаблону формы' . $config['template']);
+				}
+			}
 		}
 	}
 
@@ -787,6 +801,9 @@ class component extends ACForm
 		if (!isset(self::$config['controller'])) {
 			die('Не указан контроллер');
 		}
+		/** @var \core\component\application\handler\Web\AControllers $controller */
+		$controller = self::$config['controller'];
+		self::$config['sub']    =   $controller::getSubURL();
 		$json = false;
 		if (isset($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_X_REQUESTED_WITH']) &&
 			$_SERVER['HTTP_REFERER'] !== '' &&
@@ -846,7 +863,7 @@ class component extends ACForm
 						self::$config['page'] = 1;
 					}
 				}
-                $paginatorKey   =   'paginator' . self::$config['url'] . self::$config['mode'];
+                $paginatorKey   =   'paginator' . self::$config['controller']::getPageURL() . self::$config['mode'];
                 if (isset($_GET['onPage'])) {
                     self::$config['onPage'] =  (int)$_GET['onPage'];
                     setcookie($paginatorKey, self::$config['onPage'], time() + 2592000, '/');
@@ -903,10 +920,6 @@ class component extends ACForm
 				self::$config['parent'] = false;
 			}
 		}
-
-
-
-
 		if (!isset(self::$config['action'])) {
 			self::$config['action'] = Array(
 				'group'   => Array(
@@ -986,7 +999,6 @@ class component extends ACForm
         } else {
             self::$config['action_bottomItem']   =   false;
         }
-
 		if (!isset(self::$config['paginator'])) {
 			self::$config['paginator']  =   Array(10,15,25,30,50,75,100);
 		}
@@ -1099,7 +1111,7 @@ class component extends ACForm
 			}
 			$this->answer['ROW_ALL']    = $db->selectCount(self::$config['table'], $this->field, $where, $order);
 			if (self::$config['page'] >  ceil ($this->answer['ROW_ALL'] / self::$config['onPage'])) {
-				$urlBack = self::$config['url'];
+				$urlBack = self::$config['controller']::getPageURL();
 				if (self::$config['mode'] == 'listing') {
 					$urlBack .= '/' . self::$config['mode'] . '/' . (self::$config['page'] - 1);
 				}
@@ -1136,9 +1148,9 @@ class component extends ACForm
 	private function getPaginator() :array
 	{
 		if(self::$config['parent'] !== false) {
-			$url = self::$config['url'] . '/' . self::$config['mode'] . '/';
+			$url = self::$config['controller']::getPageURL() . '/' . self::$config['mode'] . '/';
 		} else {
-			$url = self::$config['url'] . '/' . self::$config['parent'] . self::$config['mode'] . '/';
+			$url = self::$config['controller']::getPageURL() . '/' . self::$config['parent'] . self::$config['mode'] . '/';
 		}
 		$paginator  =   Array();
 		$totalPages =   ceil ($this->answer['ROW_ALL'] / self::$config['onPage']);

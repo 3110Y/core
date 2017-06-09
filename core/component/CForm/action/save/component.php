@@ -36,13 +36,13 @@ class component extends CForm\AAction implements CForm\IAction
     public function item()
     {
         $data   =   Array(
-            'URL'   => self::$config['url'],
+            'URL'   => self::$config['controller']::getPageURL(),
         );
         foreach (self::$data as $key => $value) {
             $k = 'DATA_' . mb_strtoupper($key);
             $data[$k]   =   $value;
         }
-	    self::setJs(self::getTemplate('js/save.js', __DIR__));
+	    self::$config['controller']::setJs(self::getTemplate('js/save.js', __DIR__));
         $answer =   simpleView\component::replace(self::getTemplate('tpl/item.tpl', __DIR__), $data);
         $this->setComponentAnswer($answer);
     }

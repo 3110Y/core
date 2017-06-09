@@ -26,8 +26,8 @@ class component extends CForm\AField implements CForm\IField
         $id     =   self::$data['id'];
         $this->addAnswerID("input-field-actionID-id-{$id}");
         $this->addAnswerClass('actionID');
-        self::setCss(self::getTemplate('css/actionID.css', __DIR__));
-        self::setJs(self::getTemplate('js/actionID.js', __DIR__));
+	    self::$config['controller']::setCss(self::getTemplate('css/actionID.css', __DIR__));
+	    self::$config['controller']::setJs(self::getTemplate('js/actionID.js', __DIR__));
     }
 
     public function run()

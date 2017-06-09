@@ -35,7 +35,7 @@ class component extends CForm\AAction implements CForm\IAction
     public function item()
     {
         $data   =   Array(
-            'URL'   => self::$config['url'],
+            'URL'   => self::$config['controller']::getPageURL(),
         );
         foreach (self::$data as $key => $value) {
             $k = 'DATA_' . mb_strtoupper($key);
