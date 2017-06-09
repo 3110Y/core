@@ -17,10 +17,26 @@ $(document).ready(function () {
             if (array === true) {
                 UIkit.notification("Сохранено", {status:'success'})
             } else {
-                for (var i=0,iMax = array.length; i < iMax; i++) {
-                    UIkit.notification(array[i], {status:'danger'})
+                if (array.danger !== undefined && array.danger.length > 0) {
+                    for (var i = 0, iMax = array.danger.length; i < iMax; i++) {
+                        UIkit.notification(array.danger[i], {status: 'danger'})
+                    }
+                    UIkit.notification("Изменения не сохранены", {
+                        status: 'warning',
+                        timeout: 50000,
+                        pos: 'bottom-right'
+                    })
                 }
-                UIkit.notification("Изменения не сохранены", {status:'warning',timeout:50000,pos:'bottom-right'})
+                if (array.warning !== undefined && array.warning.length > 0) {
+                    for (var i = 0, iMax = array.warning.length; i < iMax; i++) {
+                        UIkit.notification(array.warning[i], {status: 'warning'})
+                    }
+                    UIkit.notification("Изменения сохранены", {
+                        status: 'success',
+                        timeout: 50000,
+                        pos: 'bottom-right'
+                    })
+                }
             }
         });
         return false;

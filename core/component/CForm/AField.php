@@ -62,4 +62,54 @@ abstract class AField extends AComponent
         return $this->field;
     }
 
+	/**
+	 * Обработка пре удаления
+	 */
+    public function preDell()
+    {
+
+    }
+
+	/**
+	 * Обработка пост удаления
+	 */
+    public function postDell()
+    {
+
+    }
+
+	/**
+	 * Обработка пре обновления
+	 * @return array key error value
+	 */
+    public function preUpdate()
+    {
+    	return Array();
+    }
+
+	/**
+	 * Обработка пост обновления
+	 * @return string error
+	 */
+    public function postUpdate()
+    {
+    	return '';
+    }
+
+	/**
+	 * Обработка пре Добавления
+	 * @return mixed|string|bool значение
+	 */
+    public function preInsert()
+    {
+	    return false;
+    }
+
+	/**
+	 * Обработка пост Добавления
+	 */
+    public function postInsert()
+    {
+
+    }
 }

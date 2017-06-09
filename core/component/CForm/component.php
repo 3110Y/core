@@ -553,7 +553,10 @@ class component extends ACForm
 			$url    =   isset($_GET['back'])    ?   base64_decode($_GET['back'])    :   self::$config['url'];
 			self::redirect($url);
 		} elseif (self::$config['mode'] === 'save') {
-			$error  = Array();
+			$error  = Array(
+				'danger'    => Array(),
+				'warning'  => Array()
+			);
 			$value   = Array();
 			/** поля для пре обновления */
 			foreach (self::$schema as $key => $field) {
@@ -577,10 +580,10 @@ class component extends ACForm
 					$value[$field['field']] = $_POST[$field['field']];
 				}
 				if (isset($answer['error'])) {
-					$error[] = $answer['error'];
+					$error['danger'][] = $answer['error'];
 				}
 			}
-			if (!empty($error)) {
+			if (!empty($error['danger'])) {
 				$this->answer   =   $error;
 				return;
 			}
@@ -606,10 +609,13 @@ class component extends ACForm
 				$fieldComponent->setField($this->field);
 				$fieldComponent->init();
 				if (method_exists($fieldComponent, 'postUpdate')) {
-					$error[]  =    $fieldComponent->postUpdate();
+					$err = $fieldComponent->postUpdate();
+					if ($err !== '') {
+						$error['warning'][] = $err;
+					}
 				}
 			}
-			if (!empty($error)) {
+			if (!empty($error['danger']) || !empty($error['warning'])) {
 				$this->answer   =   $error;
 			} else {
 				$this->answer   =   true;
