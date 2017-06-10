@@ -20,10 +20,96 @@ class component extends CForm\AViewer implements CForm\IViewer
         unset($config['viewer']);
         $this->viewerConfig = array_merge($this->viewerConfig, $config);
         $this->schemaField              =  $this->viewerConfig['field'];
+        $this->viewerConfig['id']       =   $this->getID();
+        $this->viewerConfig['parent']   =   $this->getParent();
+        $this->data                     =   $this->fillData();
     }
 
     public function run()
     {
+        $error  = Array(
+            'danger'    => Array(),
+            'warning'  => Array()
+        );
+        $value   = Array();
+        /** поля для пре обновления */
+        foreach ($this->schemaField as $key => $field) {
+            /** @var \core\component\CForm\field\input\component $fieldComponent */
+            $fieldComponent  = '\core\component\CForm\field\\' . $field['type'] . '\component';
+            $fieldComponent::setData($_POST);
+            $fieldComponent  =   new $fieldComponent();
+            $fieldComponent->setComponentSchema($field);
+            if (isset($_POST[$field['field']])) {
+                $fieldComponent->setFieldValue($_POST[$field['field']]);
+            }
+            $fieldComponent->setField($this->field);
+            $fieldComponent->init();
+            $answer = Array();
+            if (method_exists($fieldComponent, 'preUpdate')) {
+                $answer =    $fieldComponent->preUpdate();
+            }
+            if (isset($answer['value'])) {
+                $value[$field['field']] = $answer['value'];
+            } else {
+                $value[$field['field']] = $_POST[$field['field']];
+            }
+            if (isset($answer['error'])) {
+                $error['danger'][] = $answer['error'];
+            }
+        }
+        if (!empty($error['danger'])) {
+            $this->answer   =   $error;
+            return $this->answer;
+        }
+        $where = Array(
+            'id'    =>  $this->viewerConfig['id']
+        );
+        /** @var \core\component\database\driver\PDO\component $db */
+        $db     =   $this->viewerConfig['db'];
+        $db->update($this->viewerConfig['table'], $value, $where);
+        $this->viewerConfig['id'] =   $db->getLastID();
+        $this->data         =   $db->selectRow($this->viewerConfig['table'], $this->field, $where);
 
+        /** поля для пост обновления */
+        foreach ($this->schemaField as $key => $field) {
+            /** @var \core\component\CForm\field\input\component $fieldComponent */
+            $fieldComponent  = '\core\component\CForm\field\\' . $field['type'] . '\component';
+            $fieldComponent::setData($this->data);
+            $fieldComponent  =   new $fieldComponent();
+            $fieldComponent->setComponentSchema($field);
+            if (isset($this->data[$field['field']])) {
+                $fieldComponent->setFieldValue($this->data[$field['field']]);
+            }
+            $fieldComponent->setField($this->field);
+            $fieldComponent->init();
+            if (method_exists($fieldComponent, 'postUpdate')) {
+                $err = $fieldComponent->postUpdate();
+                if ($err !== '') {
+                    $error['warning'][] = $err;
+                }
+            }
+        }
+        if (!empty($error['danger']) || !empty($error['warning'])) {
+            $this->answer   =   $error;
+        } else {
+            $this->answer   =   true;
+        }
+        return $this->answer;
+    }
+
+    /**
+     * Заполняет дату
+     * @return array дата
+     */
+    private function fillData(): array
+    {
+        $this->fillField();
+        usort($this->schemaField, Array($this, 'callbackSchemaSort'));
+        $where  =   $this->preparationWhere(Array(
+            'id'    =>  $this->viewerConfig['id'],
+        ));
+        /** @var \core\component\database\driver\PDO\component $db */
+        $db =   $this->viewerConfig['db'];
+        return $db->selectRow(self::$config['table'], $this->field, $where);
     }
 }

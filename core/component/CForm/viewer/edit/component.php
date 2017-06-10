@@ -182,7 +182,9 @@ class component extends CForm\AViewer implements CForm\IViewer
     {
         $this->fillField();
         usort($this->schemaField, Array($this, 'callbackSchemaSort'));
-        $where  =   $this->preparationWhere();
+        $where  =   $this->preparationWhere(Array(
+            'id'    =>  $this->viewerConfig['id'],
+        ));
         /** @var \core\component\database\driver\PDO\component $db */
         $db =   $this->viewerConfig['db'];
         return $db->selectRow(self::$config['table'], $this->field, $where);

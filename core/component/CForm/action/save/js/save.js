@@ -25,17 +25,18 @@ $(document).ready(function () {
                         status: 'warning',
                         timeout: 50000,
                         pos: 'bottom-right'
+                    });
+                } else {
+                    UIkit.notification("Изменения сохранены", {
+                        status: 'success',
+                        timeout: 50000,
+                        pos: 'bottom-right'
                     })
                 }
                 if (array.warning !== undefined && array.warning.length > 0) {
                     for (var i = 0, iMax = array.warning.length; i < iMax; i++) {
                         UIkit.notification(array.warning[i], {status: 'warning'})
                     }
-                    UIkit.notification("Изменения сохранены", {
-                        status: 'success',
-                        timeout: 50000,
-                        pos: 'bottom-right'
-                    })
                 }
             }
         });
