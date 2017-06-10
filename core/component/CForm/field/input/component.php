@@ -38,7 +38,10 @@ class component extends CForm\AField implements CForm\IField
 
 	}
 
-	public function preUpdate()
+    /**
+     * @return array
+     */
+    public function preUpdate(): array
 	{
 		if (isset($this->componentSchema['required']) && $this->componentSchema['required'] && trim($this->fieldValue) == '') {
 			$name = $this->componentSchema['field'];
@@ -53,6 +56,7 @@ class component extends CForm\AField implements CForm\IField
 				'error' => "Поле \"{$name}\" не должно быть пустым",
 			);
 		}
+        return Array();
 	}
 
 	/**

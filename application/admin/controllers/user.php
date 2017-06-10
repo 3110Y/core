@@ -150,6 +150,8 @@ class user extends applicationWeb\AControllers implements applicationWeb\IContro
 			    'add'      =>  Array(
 				    'viewer'            =>  'add',
 				    'field'             =>  $schema,
+                    'redirect'          =>  '/edit/{DATA_ID}',
+                    'status'            =>  3
 			    ),
             ),
 

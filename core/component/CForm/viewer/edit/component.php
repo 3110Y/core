@@ -172,44 +172,13 @@ class component extends CForm\AViewer implements CForm\IViewer
 
     }
 
-    /**
-     * Отдает ID
-     * @return int ID
-     */
-    private function getID(): int
-    {
-        if (isset($this->viewerConfig['id'])) {
-            return (int)$this->viewerConfig['id'];
-        }
-        if (count(self::$subURL) >= 2) {
-            return (int)end(self::$subURL);
-        }
-        return 0;
-    }
 
-    /**
-     * Отдает родительский ID
-     * @return bool|int Родительский ID
-     */
-    private function getParent()
-    {
-        if (isset($this->viewerConfig['parent'])) {
-            return $this->viewerConfig['parent'];
-        }
-        if (count(self::$subURL) >= 3) {
-            return   (int)self::$subURL[0];
-        }
-        if (isset($this->viewerConfig['parent_field'])) {
-            return  0;
-        }
-        return false;
-    }
 
     /**
      * Заполняет дату
      * @return array дата
      */
-    private function fillData()
+    private function fillData(): array
     {
         $this->fillField();
         usort($this->schemaField, Array($this, 'callbackSchemaSort'));

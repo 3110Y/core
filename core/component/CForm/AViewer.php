@@ -220,4 +220,73 @@ abstract class AViewer extends ACForm
         }
         return $where;
     }
+
+    /**
+     * Отдает родительский ID
+     * @return bool|int Родительский ID
+     */
+    protected function getParent()
+    {
+        if (isset($this->viewerConfig['parent'])) {
+            return $this->viewerConfig['parent'];
+        }
+        if (count(self::$subURL) >= 3) {
+            return   (int)self::$subURL[0];
+        }
+        if (isset($this->viewerConfig['parent_field'])) {
+            return  0;
+        }
+        return false;
+    }
+
+    /**
+     * Отдает ID
+     * @return int ID
+     */
+    protected function getID(): int
+    {
+        if (isset($this->viewerConfig['id'])) {
+            return (int)$this->viewerConfig['id'];
+        }
+        if (count(self::$subURL) >= 2) {
+            return (int)end(self::$subURL);
+        }
+        return 0;
+    }
+
+    /**
+     * Отдает текущую страницу
+     * @return int текущая страница
+     */
+    protected  function getPageNow(): int
+    {
+        if (isset($this->viewerConfig['page'])) {
+            return $this->viewerConfig['page'];
+        }
+        if (count(self::$subURL) >= 2) {
+            return   (int)end(self::$subURL);
+        }
+        return 1;
+
+    }
+
+    /**
+     * Отдает всего на странице
+     * @return int всего на странице
+     */
+    protected function getOnPage()
+    {
+        $paginationKey   =   'pagination' . self::$config['controller']::getPageURL() . self::$mode;
+        if (isset($_GET['onPage'])) {
+            setcookie($paginationKey, $_GET['onPage'], time() + 2592000, '/');
+            return (int)$_GET['onPage'];
+        }
+        if (isset($_COOKIE[$paginationKey])) {
+            return  (int)$_COOKIE[$paginationKey];
+        }
+        if (isset($this->viewerConfig['onPage'])) {
+            return  (int)$this->viewerConfig['onPage'];
+        }
+        return 10;
+    }
 }

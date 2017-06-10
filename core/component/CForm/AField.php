@@ -82,7 +82,7 @@ abstract class AField extends AComponent
 	 * Обработка пре обновления
 	 * @return array key error value
 	 */
-    public function preUpdate()
+    public function preUpdate(): array
     {
     	return Array();
     }
@@ -91,15 +91,15 @@ abstract class AField extends AComponent
 	 * Обработка пост обновления
 	 * @return string error
 	 */
-    public function postUpdate()
+    public function postUpdate(): string
     {
     	return '';
     }
 
-	/**
-	 * Обработка пре Добавления
-	 * @return mixed|string|bool значение
-	 */
+    /**
+     * Обработка пре Добавления
+     * @return boolean|bool|string значение
+     */
     public function preInsert()
     {
 	    return false;
