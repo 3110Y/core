@@ -22,18 +22,6 @@ use \core\component\{
  */
 class component extends CForm\AViewer implements CForm\IViewer
 {
-	/**
-	 * @var array данные
-	 */
-	private $data   =   Array();
-	/**
-	 * @var array схема полей
-	 */
-	private $schemaField   =   Array();
-	/**
-	 * @var array  поля для запроса
-	 */
-	private $field   =   Array();
 
 
 	public function init()
@@ -256,15 +244,16 @@ class component extends CForm\AViewer implements CForm\IViewer
 	 * Отдает текущую страницу
 	 * @return int текущая страница
 	 */
-	private  function getPageNow()
-	{
-		if (!isset($this->viewerConfig['page'])) {
-			if (count(self::$subURL) >= 2) {
-				return   (int)end(self::$subURL);
-			} else {
-				return 1;
-			}
-		}
+	private  function getPageNow(): int
+    {
+		if (isset($this->viewerConfig['page'])) {
+		    return $this->viewerConfig['page'];
+        }
+        if (count(self::$subURL) >= 2) {
+            return   (int)end(self::$subURL);
+        }
+        return 1;
+
 	}
 
 	/**
@@ -274,15 +263,17 @@ class component extends CForm\AViewer implements CForm\IViewer
 	private function getOnPage()
 	{
 		$paginationKey   =   'pagination' . self::$config['controller']::getPageURL() . self::$mode;
-		if (isset($_GET['onPage'])) {
-			setcookie($paginationKey, $_GET['onPage'], time() + 2592000, '/');
-			return (int)$_GET['onPage'];
-		} elseif (isset($_COOKIE[$paginationKey])) {
-			return  (int)$_COOKIE[$paginationKey];
-		} elseif (isset($this->viewerConfig['onPage'])) {
-			return  (int)$this->viewerConfig['onPage'];
-		}
-		return 10;
+        if (isset($_GET['onPage'])) {
+            setcookie($paginationKey, $_GET['onPage'], time() + 2592000, '/');
+            return (int)$_GET['onPage'];
+        }
+        if (isset($_COOKIE[$paginationKey])) {
+            return  (int)$_COOKIE[$paginationKey];
+        }
+        if (isset($this->viewerConfig['onPage'])) {
+            return  (int)$this->viewerConfig['onPage'];
+        }
+        return 10;
 	}
 
 	/**
@@ -296,7 +287,8 @@ class component extends CForm\AViewer implements CForm\IViewer
 		}
 		if (count(self::$subURL) >= 3) {
 			return   (int)self::$subURL[0];
-		} elseif (isset($this->viewerConfig['parent_field'])) {
+		}
+		if (isset($this->viewerConfig['parent_field'])) {
 			return  0;
 		}
 		return false;
@@ -306,42 +298,11 @@ class component extends CForm\AViewer implements CForm\IViewer
 	 * Заполняет дату
 	 * @return array дата
 	 */
-	private function fillData()
-	{
-		$this->field[] =    'id';
-		foreach ($this->schemaField as $key => $field) {
-			if (
-				(
-					isset($field["view"])
-					&& $field["view"] === false
-				)
-				|| (
-					isset($field[self::$mode]["view"])
-					&& $field[self::$mode]["view"] === false
-				)
-			) {
-				unset($this->schemaField[$key]);
-				continue;
-			}
-			$this->field[] = $field['field'];
-		}
-		usort($this->schemaField, Array($this, 'schemaSort'));
-
-		$where  =   Array();
-		if (isset($this->viewerConfig['where'])) {
-			$where    = array_merge($where, $this->viewerConfig['where']);
-		}
-		if (
-			isset($this->viewerConfig['parent'], $this->viewerConfig['parent_field'])
-			&& false !== $this->viewerConfig['parent']
-		) {
-			$where    = array_merge(
-				$where,
-				Array(
-					$this->viewerConfig['parent_field']    =>  $this->viewerConfig['parent'],
-				)
-			);
-		}
+	private function fillData(): array
+    {
+		$this->fillField();
+		usort($this->schemaField, Array($this, 'callbackSchemaSort'));
+		$where  =   $this->preparationWhere();
 
 		/** @var \core\component\database\driver\PDO\component $db */
 		$db =   $this->viewerConfig['db'];

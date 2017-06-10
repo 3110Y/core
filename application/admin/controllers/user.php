@@ -37,6 +37,9 @@ class user extends applicationWeb\AControllers implements applicationWeb\IContro
 			    'caption'           =>  'Имя',
 			    'placeholder'       =>  'Имя',
 			    'label'             =>  'Имя',
+                'edit'           =>  Array(
+                    'mode'  =>  'edit'
+                ),
 			    'listing'           =>  Array(
 				    'align' =>  'left',
 				    'mode'  =>  'view'
@@ -49,6 +52,9 @@ class user extends applicationWeb\AControllers implements applicationWeb\IContro
 			    'placeholder'       =>  'Фамилия',
 			    'label'             =>  'Фамилия',
 			    'required'          =>  true,
+                'edit'           =>  Array(
+                    'mode'  =>  'edit'
+                ),
 			    'listing'           =>  Array(
 				    'align' =>  'left',
 				    'mode'  =>  'view'
@@ -61,6 +67,9 @@ class user extends applicationWeb\AControllers implements applicationWeb\IContro
 			    'placeholder'       =>  'Отчество',
 			    'label'             =>  'Отчество',
 			    'required'          =>  true,
+                'edit'           =>  Array(
+                    'mode'  =>  'edit'
+                ),
 			    'listing'           =>  Array(
 				    'align' =>  'left',
 				    'mode'  =>  'view'
@@ -107,7 +116,7 @@ class user extends applicationWeb\AControllers implements applicationWeb\IContro
 				    ),
 			    ),
 			    'edit'      =>  Array(
-				    'viewer'            =>  'form',
+				    'viewer'            =>  'edit',
 				    'template'          =>  'block/form/form.tpl',
 				    'templateNoData'    =>  'block/form/formNo.tpl',
 				    'css'               =>  Array(
@@ -120,11 +129,8 @@ class user extends applicationWeb\AControllers implements applicationWeb\IContro
 				    ),
 				    'field'             =>  $schema,
 				    'action'            =>  Array(
-				    	'bottomItem'    =>  Array(
+				    	'item'    =>  Array(
 						    'back'      =>   Array(
-							    'method'    =>  'one'
-						    ),
-						    'dell'      =>   Array(
 							    'method'    =>  'one'
 						    ),
 						    'save'      =>  Array(

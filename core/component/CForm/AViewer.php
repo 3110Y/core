@@ -23,8 +23,21 @@ abstract class AViewer extends ACForm
 	 * @var array настроки просмотрщика
 	 */
 	protected  $viewerConfig      =   Array();
+    /**
+     * @var array схема полей
+     */
+    protected $schemaField   =   Array();
+    /**
+     * @var array  поля для запроса
+     */
+    protected $field   =   Array();
+    /**
+     * @var array данные
+     */
+    protected $data   =   Array();
 
-	/**
+
+    /**
 	 * Устанавливает ответ
 	 * @param array $answer ответ
 	 */
@@ -59,7 +72,7 @@ abstract class AViewer extends ACForm
 	 *
 	 * @return int порядок
 	 */
-	protected function schemaSort($v1, $v2): int
+	protected function callbackSchemaSort($v1, $v2): int
 	{
 		if (!isset($v1[self::$mode]['order'])) {
 			$v1[self::$mode]['order'] = 0;
@@ -124,9 +137,6 @@ abstract class AViewer extends ACForm
 	 */
 	private static function checkTemplate($template)
 	{
-		if (empty($template)) {
-			die('Нет шаблонов форм');
-		}
 		if (!file_exists($template)) {
 			if (file_exists(core::getDR(true) . $template)) {
 					return core::getDR() . $template;
@@ -152,5 +162,62 @@ abstract class AViewer extends ACForm
 					die('Не верный путь к шаблону формы' . $template);
 				}
 		}
+		return $template;
 	}
+
+    public function init()
+    {
+        $config = self::$config;
+        unset($config['viewer']);
+        $this->viewerConfig = array_merge($this->viewerConfig, $config);
+        $this->schemaField                =  $this->viewerConfig['field'];
+    }
+
+    /**
+     *  Заполняет поля для запроса
+     */
+    protected function fillField()
+    {
+        $this->field[] =    'id';
+        foreach ($this->schemaField as $key => $field) {
+            if (
+                (
+                    isset($field['view'])
+                    && $field['view'] === false
+                )
+                || (
+                    isset($field[self::$mode]['view'])
+                    && $field[self::$mode]['view'] === false
+                )
+            ) {
+                unset($this->schemaField[$key]);
+                continue;
+            }
+            $this->field[] = $field['field'];
+        }
+    }
+
+    /**
+     * Подготавливает условие
+     * @param array $where условие
+     * @return array условие
+     */
+    protected function preparationWhere(array $where = Array()): array
+    {
+        if (isset($this->viewerConfig['where'])) {
+            $where    = array_merge($where, $this->viewerConfig['where']);
+        }
+        if (
+            isset($this->viewerConfig['parent'], $this->viewerConfig['parent_field'])
+            && false !== $this->viewerConfig['parent']
+        ) {
+            $where    = array_merge(
+                $where,
+                Array(
+                    $this->viewerConfig['parent_field']    =>  $this->viewerConfig['parent'],
+                )
+            );
+        }
+        return $where;
+    }
 }
