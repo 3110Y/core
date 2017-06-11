@@ -152,8 +152,7 @@ class user extends applicationWeb\AControllers implements applicationWeb\IContro
 				    'viewer'            =>  'add',
 				    'field'             =>  $schema,
                     'redirect'          =>  '/edit/{DATA_ID}',
-                    'status'            =>  3,
-                    'date_insert'       =>  'NOW'
+                    'status'            =>  3
 			    ),
             ),
 
