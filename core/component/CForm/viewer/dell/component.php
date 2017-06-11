@@ -160,7 +160,8 @@ class component extends CForm\AViewer implements CForm\IViewer
         if (is_array($this->viewerConfig['id'])) {
             return $db->selectRows($this->viewerConfig['table'], $this->field, $where);
         }
-        return $db->selectRow($this->viewerConfig['table'], $this->field, $where);
+        $row    =   $db->selectRow($this->viewerConfig['table'], $this->field, $where);
+        return ($row === false) ?   []  :   $db->selectRow($this->viewerConfig['table'], $this->field, $where);
     }
 
 }
