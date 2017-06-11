@@ -10,7 +10,7 @@ namespace application\admin\controllers;
 
 use \core\component\{
     application\handler\Web as applicationWeb,
-    CForm                   as CForm
+    CForm
 };
 
 

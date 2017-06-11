@@ -90,10 +90,16 @@ abstract class AViewer extends ACForm
 	 * Отдает подключает js и css шаблон просмотрщика
 	 * @return string шаблон просмотрщика
 	 */
-	protected function getViewerTemplate()
-	{
-		$js         =   isset($this->viewerConfig['js'])        ?   $this->viewerConfig['js']   :   Array();
-		$css        =   isset($this->viewerConfig['css'])       ?   $this->viewerConfig['css']   :   Array();
+	protected function getViewerTemplate(): string
+    {
+        $js     = Array();
+        $css    = Array();
+        if (isset($this->viewerConfig['js'])) {
+            $js = $this->viewerConfig['js'];
+        }
+        if (isset($this->viewerConfig['css'])) {
+            $css = $this->viewerConfig['css'];
+        }
 		if (is_array($js) && !empty($js)) {
 			foreach ($js as $script) {
 				if (!isset($script['isTopPosition'])) {
@@ -120,7 +126,7 @@ abstract class AViewer extends ACForm
 				self::$config['controller']::setCss($script['file'], $script['isTopPosition'], $script['isUnique']);
 			}
 		}
-		if(count($this->answer) === 0) {
+		if(count($this->data) === 0) {
 			$template = $this->viewerConfig['templateNoData'];
 		} else {
 			$template = $this->viewerConfig['template'];

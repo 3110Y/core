@@ -9,8 +9,8 @@
 namespace core\component\CForm\viewer\edit;
 
 use \core\component\{
-	CForm as CForm,
-	templateEngine\engine\simpleView as simpleView
+	CForm,
+	templateEngine\engine\simpleView
 };
 
 
@@ -99,13 +99,13 @@ class component extends CForm\AViewer implements CForm\IViewer
                     $answer['COMPONENT']    = '';
                 }
                 if (!isset($answer['CLASS'])) {
-                    $answer['CLASS']    = '';
+                    $answer['CLASS']        = '';
                 }
                 if (!isset($answer['STYLE'])) {
-                    $answer['STYLE']    = '';
+                    $answer['STYLE']        = '';
                 }
                 if (!isset($answer['ID'])) {
-                    $answer['ID']    = '';
+                    $answer['ID']           = '';
                 }
                 $itemAction[]     =   Array(
                     'COMPONENT'     =>  $answer['COMPONENT'],

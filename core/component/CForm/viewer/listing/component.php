@@ -10,8 +10,8 @@ namespace core\component\CForm\viewer\listing;
 
 
 use \core\component\{
-	CForm as CForm,
-	templateEngine\engine\simpleView as simpleView
+	CForm,
+	templateEngine\engine\simpleView
 };
 
 
@@ -258,7 +258,8 @@ class component extends CForm\AViewer implements CForm\IViewer
 			$order  =   $_GET['order'];
 		}
 		$this->answer['ROW_ALL']    = $db->selectCount($this->viewerConfig['table'], $this->field, $where, $order);
-		if ($this->viewerConfig['page'] >  ceil ($this->answer['ROW_ALL'] / $this->viewerConfig['onPage'])) {
+		$total = (int)ceil ($this->answer['ROW_ALL'] / $this->viewerConfig['onPage']);
+		if (0 !== $total && $this->viewerConfig['page'] >  $total) {
 			$urlBack = $this->viewerConfig['controller']::getPageURL();
 			$urlBack .= '/' . $this->viewerConfig['mode'] . '/' . ($this->viewerConfig['page'] - 1);
 			self::redirect($urlBack);

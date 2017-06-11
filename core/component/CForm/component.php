@@ -24,23 +24,23 @@ class component extends ACForm
 	/**
 	 * @var array массив для ответа
 	 */
-	private $incomingArray      =   Array();
+	private $incomingArray;
 	/**
 	 * @var string ключ массива для ответа
 	 */
-	private $incomingKey        =   '';
+	private $incomingKey;
 	/**
 	 * @var array ответ
 	 */
-	private $answer = Array();
+	private $answer         =   Array();
 	/**
 	 * @var string просмотрщик
 	 */
-	private  $viewer            =   '';
+	private  $viewer        =   '';
 	/**
 	 * @var array настроки просмотрщика
 	 */
-	private  $viewerConfig      =   Array();
+	private  $viewerConfig  =   Array();
 
 	/**
 	 * Устанавливает массив для ответа и его ключ
@@ -83,7 +83,7 @@ class component extends ACForm
 
 		if (self::$countSubURL >= 2 && isset(self::$subURL[self::$countSubURL - 2], self::$config['viewer'][self::$subURL[0]])) {
 			self::$mode   =   self::$subURL[self::$countSubURL - 2];
-		} elseif (self::$countSubURL == 1 && isset(self::$config['viewer'][self::$subURL[0]])) {
+		} elseif (self::$countSubURL === 1 && isset(self::$config['viewer'][self::$subURL[0]])) {
 			self::$mode   =   self::$subURL[0];
 		} elseif (isset(self::$config['viewer'][self::$config['defaultMode']])) {
 			self::$mode   =   self::$config['defaultMode'];
