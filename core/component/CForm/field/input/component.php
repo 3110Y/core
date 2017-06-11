@@ -9,8 +9,8 @@
 namespace core\component\CForm\field\input;
 
 use \core\component\{
-	CForm as CForm,
-	templateEngine\engine\simpleView as simpleView
+	CForm,
+	templateEngine\engine\simpleView
 };
 
 
