@@ -34,9 +34,12 @@ class component extends CForm\AAction implements CForm\IAction
      */
     public function one()
     {
-        $data   =   Array(
-            'URL'   => self::$config['controller']::getPageURL(),
-        );
+        if (!empty($_GET['back'])) {
+            $urlBack = base64_decode($_GET['back']);
+        } else {
+            $urlBack = self::$config['controller']::getPageURL();
+        }
+        $data['URL']   = $urlBack;
         foreach (self::$data as $key => $value) {
             $k = 'DATA_' . mb_strtoupper($key);
             $data[$k]   =   $value;

@@ -187,7 +187,7 @@ class component extends CForm\AViewer implements CForm\IViewer
         ));
         /** @var \core\component\database\driver\PDO\component $db */
         $db =   $this->viewerConfig['db'];
-        return $db->selectRow(self::$config['table'], $this->field, $where);
+        return $db->selectRow($this->viewerConfig['table'], $this->field, $where);
     }
 
 

@@ -131,7 +131,8 @@ class user extends applicationWeb\AControllers implements applicationWeb\IContro
 				    'action'            =>  Array(
 				    	'item'    =>  Array(
 						    'back'      =>   Array(
-							    'method'    =>  'one'
+							    'method'    =>  'one',
+                                'redirect'  =>  '/listing/{PAGE}',
 						    ),
 						    'save'      =>  Array(
 							    'method'    =>  'one',
