@@ -30,6 +30,13 @@ class user extends applicationWeb\AControllers implements applicationWeb\IContro
      */
     public function init()
     {
+        /** @var \core\component\database\driver\PDO\component $db */
+        $db         =   self::get('db');
+        $where      =   Array(
+            'status'    => 3
+        );
+        $row        =   $db->selectRows('core_group','`id`, `name`', $where);
+        $list       =   ($row !== false)    ?   $row    :   Array();
 	    $schema     =   Array(
 		    Array(
 			    'type'              =>  'input',
@@ -68,6 +75,22 @@ class user extends applicationWeb\AControllers implements applicationWeb\IContro
 			    'label'             =>  'Отчество',
 			    'required'          =>  true,
                 'edit'           =>  Array(
+                    'mode'  =>  'edit'
+                ),
+			    'listing'           =>  Array(
+				    'align' =>  'left',
+				    'mode'  =>  'view'
+			    )
+		    ),
+            Array(
+			    'type'              =>  'select',
+			    'field'             =>  'group_id',
+			    'caption'           =>  'Группы',
+			    'placeholder'       =>  'Группы',
+			    'label'             =>  'Группы',
+			    'list'              =>  $list,
+                'multiple'          =>  'multiple',
+                'edit'              =>  Array(
                     'mode'  =>  'edit'
                 ),
 			    'listing'           =>  Array(

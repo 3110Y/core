@@ -8,6 +8,7 @@ $(document).ready(function () {
             action      =   form.prop('action'),
             data        =   form.serialize(),
             jqXHR       =   $.post(action, data);
+        console.log(data);
         jqXHR.fail(function(data) {
             console.error(data);
             alert(data);

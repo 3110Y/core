@@ -88,7 +88,7 @@ class component extends CForm\AField implements CForm\IField
 		}
 		$data['VALUE']              =  $this->fieldValue;
 		$data['ID']                 =  $this->componentSchema['field'];
-		$data['NAME']                 =  $this->componentSchema['field'];
+		$data['NAME']               =  $this->componentSchema['field'];
 		if (isset($this->componentSchema['prevIcon'])) {
 			$data['PREV_ICON'] = "<span class='uk-form-icon' uk-icon='icon: {$this->componentSchema['prevIcon']}'></span>";
 		}
