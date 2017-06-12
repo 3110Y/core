@@ -33,10 +33,25 @@ class user extends applicationWeb\AControllers implements applicationWeb\IContro
         /** @var \core\component\database\driver\PDO\component $db */
         $db         =   self::get('db');
         $where      =   Array(
-            'status'    => 3
+            'status'    => 1
         );
         $row        =   $db->selectRows('core_group','`id`, `name`', $where);
         $list       =   ($row !== false)    ?   $row    :   Array();
+        $listStatus =   Array(
+            Array(
+                'id'    =>  1,
+                'name'  => 'Активно'
+            ),
+            Array(
+                'id'    =>  2,
+                'name'  => 'Неактивно'
+            ),
+            Array(
+                'id'        =>  3,
+                'name'      => 'Черновик',
+                'disabled'  =>  true
+            ),
+        );
 	    $schema     =   Array(
 		    Array(
 			    'type'              =>  'input',
@@ -44,6 +59,7 @@ class user extends applicationWeb\AControllers implements applicationWeb\IContro
 			    'caption'           =>  'Логин',
 			    'placeholder'       =>  'Логин',
 			    'label'             =>  'Логин',
+                'required'          =>  true,
                 'edit'           =>  Array(
                     'mode'  =>  'edit'
                 ),
@@ -56,7 +72,7 @@ class user extends applicationWeb\AControllers implements applicationWeb\IContro
 			    'type'              =>  'password',
 			    'field'             =>  'password',
 			    'caption'           =>  'Пароль',
-			    'placeholder'       =>  'Пароль',
+			    'placeholder'       =>  'Введите новый пароль для изменения',
 			    'label'             =>  'Пароль',
                 'algorithm'         =>  'sha512',
                 'edit'           =>  Array(
@@ -88,7 +104,6 @@ class user extends applicationWeb\AControllers implements applicationWeb\IContro
 			    'caption'           =>  'Фамилия',
 			    'placeholder'       =>  'Фамилия',
 			    'label'             =>  'Фамилия',
-			    'required'          =>  true,
                 'edit'           =>  Array(
                     'mode'  =>  'edit'
                 ),
@@ -103,7 +118,6 @@ class user extends applicationWeb\AControllers implements applicationWeb\IContro
 			    'caption'           =>  'Отчество',
 			    'placeholder'       =>  'Отчество',
 			    'label'             =>  'Отчество',
-			    'required'          =>  true,
                 'edit'           =>  Array(
                     'mode'  =>  'edit'
                 ),
@@ -128,6 +142,22 @@ class user extends applicationWeb\AControllers implements applicationWeb\IContro
 				    'mode'  =>  'view'
 			    )
 		    ),
+            Array(
+                'type'              =>  'select',
+                'field'             =>  'status',
+                'caption'           =>  'Статус',
+                'placeholder'       =>  'Статус',
+                'label'             =>  'Статус',
+                'list'              =>  $listStatus,
+                'NoZero'            =>  true,
+                'edit'              =>  Array(
+                    'mode'  =>  'edit'
+                ),
+                'listing'           =>  Array(
+                    'align' =>  'right',
+                    'mode'  =>  'view'
+                )
+            ),
 	    );
 	    $config     =   Array(
 		    'controller'    =>  $this,

@@ -106,7 +106,7 @@ class component extends ACForm
 		} else {
 			$this->answer['CAPTION_CLASS']  =   'is-hidden ';
 		}
-		$this->answer['URL'] = self::$subURL;
+		$this->answer['URL'] = self::$config['controller']::getPageURL();
 		$viewer =   $this->viewer;
 		$viewer = '\core\component\CForm\viewer\\' . $viewer . '\component';
 		/** @var \core\component\CForm\viewer\listing\component $viewerComponent */

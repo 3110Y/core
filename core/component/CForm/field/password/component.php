@@ -23,7 +23,7 @@ class component extends CForm\AField implements CForm\IField
             $id = self::$data['id'];
             $this->addAnswerID("input-field-{$field}-id-{$id}");
             $this->addAnswerClass('input');
-            self::$config['controller']::setCss(self::getTemplate('css/input.css', __DIR__));
+            self::$config['controller']::setCss(self::getTemplate('css/password.css', __DIR__));
         }
     }
 
@@ -37,6 +37,7 @@ class component extends CForm\AField implements CForm\IField
      */
     public function preUpdate(): array
     {
+        $array = Array();
         if (isset($this->componentSchema['required']) && $this->componentSchema['required'] && trim($this->fieldValue) == '') {
             $name = $this->componentSchema['field'];
             if (isset($this->componentSchema['label']) && $this->componentSchema['label'] != '') {
@@ -46,11 +47,15 @@ class component extends CForm\AField implements CForm\IField
             } elseif (isset($this->componentSchema['placeholder']) && $this->componentSchema['placeholder'] != '') {
                 $name = $this->componentSchema['placeholder'];
             }
-            return Array(
-                'error' => "Поле \"{$name}\" не должно быть пустым",
-            );
+            $array['error'] = "Поле \"{$name}\" не должно быть пустым";
         }
-        return Array();
+        if ($this->fieldValue === '') {
+            $array['value'] = false;
+        } else {
+            $algorithm = $this->componentSchema['algorithm'] ?? 'sha512';
+            $array['value'] = hash($algorithm, $this->fieldValue);
+        }
+        return $array;
     }
 
     /**
@@ -58,6 +63,7 @@ class component extends CForm\AField implements CForm\IField
      */
     public function edit()
     {
+        self::$config['controller']::setJS(self::getTemplate('js/password.js', __DIR__));
         $data   =   Array(
             'PREV_ICON'         =>  '',
             'POST_ICON'         =>  '',
@@ -85,9 +91,6 @@ class component extends CForm\AField implements CForm\IField
         $data['NAME']               =  $this->componentSchema['field'];
         if (isset($this->componentSchema['prevIcon'])) {
             $data['PREV_ICON'] = "<span class='uk-form-icon' uk-icon='icon: {$this->componentSchema['prevIcon']}'></span>";
-        }
-        if (isset($this->componentSchema['postIcon'])) {
-            $data['POST_ICON'] = "<span class='uk-form-icon uk-form-icon-flip' uk-icon='icon: {$this->componentSchema['postIcon']}'></span>";
         }
         if (isset($this->componentSchema['required']) && $this->componentSchema['required']) {
             $data['REQUIRED']  =   'required';
@@ -167,13 +170,13 @@ class component extends CForm\AField implements CForm\IField
         if (isset($this->componentSchema[self::$mode], $this->componentSchema[self::$mode]['align'])) {
             switch ($this->componentSchema[self::$mode]['align']) {
                 case 'left':
-                    $this->addAnswerClass('input-left');
+                    $this->addAnswerClass('password-left');
                     break;
                 case 'center':
-                    $this->addAnswerClass('input-center');
+                    $this->addAnswerClass('password-center');
                     break;
                 case 'right':
-                    $this->addAnswerClass('input-center');
+                    $this->addAnswerClass('password-center');
                     break;
             }
         }
@@ -186,7 +189,6 @@ class component extends CForm\AField implements CForm\IField
         if (isset($this->componentSchema['href'])) {
             $href = strtr($this->componentSchema['href'], $data);
         }
-        $data['VALUE'] =  $this->fieldValue;
         $data['HREF'] =  $href;
         $answer =   simpleView\component::replace(self::getTemplate('tpl/listing.tpl', __DIR__), $data);
         $this->setComponentAnswer($answer);

@@ -48,7 +48,9 @@ class component extends CForm\AViewer implements CForm\IViewer
             if (method_exists($fieldComponent, 'preUpdate')) {
                 $answer =    $fieldComponent->preUpdate();
             }
-            if (isset($answer['value'])) {
+            if (isset($answer['value']) && $answer['value'] === false) {
+                unset($value[$field['field']]);
+            } elseif (isset($answer['value'])) {
                 $value[$field['field']] = $answer['value'];
             } else {
                 $value[$field['field']] = $_POST[$field['field']];

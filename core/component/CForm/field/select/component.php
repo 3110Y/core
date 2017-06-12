@@ -60,6 +60,7 @@ class component extends CForm\AField implements CForm\IField
             'CONTROLS_STYLE'    =>  '',
             'TOP_PLACEHOLDER'   =>  '',
             'INIT'              =>  '',
+            'MULTIPLE'          =>  '',
         );
         foreach (self::$data as $field  => $value) {
             $data['DATA_'. mb_strtoupper($field)] = $value;
@@ -106,8 +107,6 @@ class component extends CForm\AField implements CForm\IField
         if (isset($this->componentSchema['controlsStyle'])) {
             $data['CONTROLS_STYLE']  =   $this->componentSchema['controlsStyle'];
         }
-
-
         if (isset($this->componentSchema['label'])) {
             $data['LABEL']          =   $this->componentSchema['label'];
             $data['LABEL_TITLE']    =   $this->componentSchema['label'];
@@ -142,7 +141,11 @@ class component extends CForm\AField implements CForm\IField
                     'LIST_ID' => 0,
                     'LIST_NAME' => $this->componentSchema['def']
                 );
-            } elseif(!isset($this->componentSchema['multiple']) ) {
+            } elseif(
+                !isset($this->componentSchema['multiple'])
+                && !isset($this->componentSchema['NoZero'])
+                && $this->componentSchema['NoZero'] !== true
+            ) {
                 $data['LIST'][] = Array(
                     'LIST_ID' => 0,
                     'LIST_NAME' => 'Не выбрано'
@@ -167,6 +170,7 @@ class component extends CForm\AField implements CForm\IField
                     'LIST_ID'       =>  $id,
                     'LIST_NAME'     =>  $name,
                     'LIST_SELECTED' =>  isset($value[$id])  ?   'selected'  :   '',
+                    'LIST_DISABLED' =>  (isset($option['disabled']) && $option['disabled'] === true) ? 'disabled' : '',
                 );
 
             }
@@ -191,13 +195,13 @@ class component extends CForm\AField implements CForm\IField
         if (isset($this->componentSchema[self::$mode], $this->componentSchema[self::$mode]['align'])) {
             switch ($this->componentSchema[self::$mode]['align']) {
                 case 'left':
-                    $this->addAnswerClass('input-left');
+                    $this->addAnswerClass('select-left');
                     break;
                 case 'center':
-                    $this->addAnswerClass('input-center');
+                    $this->addAnswerClass('select-center');
                     break;
                 case 'right':
-                    $this->addAnswerClass('input-center');
+                    $this->addAnswerClass('select-center');
                     break;
             }
         }
@@ -223,7 +227,11 @@ class component extends CForm\AField implements CForm\IField
                     'LIST_ID'   => 0,
                     'LIST_NAME' => $this->componentSchema['def']
                 );
-            } elseif(!isset($this->componentSchema['multiple']) ) {
+            } elseif(
+                !isset($this->componentSchema['multiple'])
+                && !isset($this->componentSchema['NoZero'])
+                && $this->componentSchema['NoZero'] !== true
+            ) {
                 $data['LIST'][] = Array(
                     'LIST_ID'   => 0,
                     'LIST_NAME' => 'Не выбрано'
