@@ -10,6 +10,7 @@ namespace application\admin;
 
 
 use \core\component\{
+    rules as rules,
     application\handler\Web as applicationWeb,
     database\driver\PDO as PDO,
     templateEngine\engine\simpleView as simpleView
@@ -42,7 +43,7 @@ final class router extends applicationWeb\ARouter implements applicationWeb\IRou
 	 */
     public function __construct($URL, $application, $isAjaxRequest = false)
     {
-        self::$isAjaxRequest                  =  $isAjaxRequest;
+        self::$isAjaxRequest        =  $isAjaxRequest;
         self::$URL                  =  $URL;
         self::$application          =  $application;
         /** @var PDO\component $db */
@@ -64,6 +65,10 @@ final class router extends applicationWeb\ARouter implements applicationWeb\IRou
      */
     public function run(): router
     {
+        $URL = implode('/', self::$URL);
+        (new rules\component($URL))->setDB(self::get('db'))->setKey(self::$application['name'])
+            ->setAuthorizationURL('/' . self::$application['url'] . '/enter')
+            ->setAuthorizationNoPage('/' . self::$application['url'] . '/404')->check();
         self::selectPage();
         $controllerBasic    =   new controllers\basic();
         if ($controllerBasic instanceof applicationWeb\IControllerBasic) {
