@@ -7,7 +7,7 @@
         {POST_ICON}
         <select id="{ID}" name="{NAME}" class="uk-select select-field{ID}-id{DATA_ID} {CLASS}" {MULTIPLE} placeholder="{PLACEHOLDER}" data-new-placeholder="{TOP_PLACEHOLDER}" style="{STYLE}" value="{VALUE}" {REQUIRED}>
             {LIST}
-                <option value="{LIST_ID}">{LIST_NAME}</option>
+                <option value="{LIST_ID}" {LIST_SELECTED}>{LIST_NAME}</option>
             {/LIST}
         </select>
         {INIT}

@@ -40,6 +40,36 @@ class user extends applicationWeb\AControllers implements applicationWeb\IContro
 	    $schema     =   Array(
 		    Array(
 			    'type'              =>  'input',
+			    'field'             =>  'login',
+			    'caption'           =>  'Логин',
+			    'placeholder'       =>  'Логин',
+			    'label'             =>  'Логин',
+                'edit'           =>  Array(
+                    'mode'  =>  'edit'
+                ),
+			    'listing'           =>  Array(
+				    'align' =>  'left',
+				    'mode'  =>  'view'
+			    )
+		    ),
+            Array(
+			    'type'              =>  'password',
+			    'field'             =>  'password',
+			    'caption'           =>  'Пароль',
+			    'placeholder'       =>  'Пароль',
+			    'label'             =>  'Пароль',
+                'algorithm'         =>  'sha512',
+                'edit'           =>  Array(
+                    'mode'  =>  'edit'
+                ),
+			    'listing'           =>  Array(
+				    'align' =>  'left',
+				    'mode'  =>  'view',
+                    'view'  =>  false
+			    )
+		    ),
+            Array(
+			    'type'              =>  'input',
 			    'field'             =>  'name',
 			    'caption'           =>  'Имя',
 			    'placeholder'       =>  'Имя',
@@ -94,7 +124,7 @@ class user extends applicationWeb\AControllers implements applicationWeb\IContro
                     'mode'  =>  'edit'
                 ),
 			    'listing'           =>  Array(
-				    'align' =>  'left',
+				    'align' =>  'center',
 				    'mode'  =>  'view'
 			    )
 		    ),

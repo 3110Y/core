@@ -28,9 +28,9 @@ abstract class AField extends AComponent
 
 	/**
 	 * Устанавливает  значение поля
-	 * @param string $fieldValue значение поля
+	 * @param mixed|array|string $fieldValue значение поля
 	 */
-	public function setFieldValue(string $fieldValue)
+	public function setFieldValue($fieldValue)
 	{
 		$this->fieldValue = $fieldValue;
 	}

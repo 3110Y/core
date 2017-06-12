@@ -3,20 +3,17 @@
  * Created by PhpStorm.
  * User: gaevoy
  * Date: 12.06.17
- * Time: 1:56
+ * Time: 23:53
  */
 
-namespace core\component\CForm\field\select;
+namespace core\component\CForm\field\password;
 
 use \core\component\{
     CForm,
     templateEngine\engine\simpleView
 };
 
-/**
- * Class component
- * @package core\component\CForm\field\select
- */
+
 class component extends CForm\AField implements CForm\IField
 {
     public function init()
@@ -26,14 +23,34 @@ class component extends CForm\AField implements CForm\IField
             $id = self::$data['id'];
             $this->addAnswerID("input-field-{$field}-id-{$id}");
             $this->addAnswerClass('input');
-            self::$config['controller']::setCss(self::getTemplate('vendor/select2/dist/css/select2.min.css', __DIR__));
-            self::$config['controller']::setJS(self::getTemplate('vendor/select2/dist/js/select2.min.js', __DIR__));
+            self::$config['controller']::setCss(self::getTemplate('css/input.css', __DIR__));
         }
     }
 
     public function run()
     {
 
+    }
+
+    /**
+     * @return array
+     */
+    public function preUpdate(): array
+    {
+        if (isset($this->componentSchema['required']) && $this->componentSchema['required'] && trim($this->fieldValue) == '') {
+            $name = $this->componentSchema['field'];
+            if (isset($this->componentSchema['label']) && $this->componentSchema['label'] != '') {
+                $name = $this->componentSchema['label'];
+            } elseif (isset($this->componentSchema['caption']) && $this->componentSchema['caption'] != '') {
+                $name = $this->componentSchema['caption'];
+            } elseif (isset($this->componentSchema['placeholder']) && $this->componentSchema['placeholder'] != '') {
+                $name = $this->componentSchema['placeholder'];
+            }
+            return Array(
+                'error' => "Поле \"{$name}\" не должно быть пустым",
+            );
+        }
+        return Array();
     }
 
     /**
@@ -120,7 +137,7 @@ class component extends CForm\AField implements CForm\IField
             $data['TOP_PLACEHOLDER']    =     $this->componentSchema['topPlaceholder'];
             $data['PLACEHOLDER']        =     '';
             $jsInit =   self::getTemplate('vendor/label_better-master/init.tpl', __DIR__);
-            $data['INIT']             .=     simpleView\component::replace($jsInit, Array('ID' => $data['ID']));
+            $data['INIT']             =     simpleView\component::replace($jsInit, Array('ID' => $data['ID']));
             self::$config['controller']::setJs(self::getTemplate('vendor/label_better-master/jquery.label_better.min.js', __DIR__));
         }
         if (isset($this->componentSchema['totalWidth'])) {
@@ -132,59 +149,12 @@ class component extends CForm\AField implements CForm\IField
         if (isset($this->componentSchema['width'])) {
             $data['STYLE'] = "width: {$this->componentSchema['width']}; ";
         }
-        if (isset($this->componentSchema['multiple'])) {
-            $data['MULTIPLE'] = "multiple='{$this->componentSchema['multiple']}'";
-            $data['NAME'] .= '[]';
-        }
-        $data['LIST']    = Array();
-        $value  =   array_flip(explode(',', $this->fieldValue));
-        if (
-            isset($this->componentSchema['list'])
-            && is_array($this->componentSchema['list'])
-            && !empty($this->componentSchema['list'])
-        ) {
-            if (isset($this->componentSchema['def'])) {
-                $data['LIST'][] = Array(
-                    'LIST_ID' => 0,
-                    'LIST_NAME' => $this->componentSchema['def']
-                );
-            } elseif(!isset($this->componentSchema['multiple']) ) {
-                $data['LIST'][] = Array(
-                    'LIST_ID' => 0,
-                    'LIST_NAME' => 'Не выбрано'
-                );
-            }
-            foreach ($this->componentSchema['list'] as $key =>  $option) {
-                if(isset($this->componentSchema['listID']) && !empty($this->componentSchema['listID'])) {
-                    $id = $option[$this->componentSchema['listID']];
-                } elseif (isset($option['id']) && !empty($option['id'])) {
-                    $id = $option['id'];
-                } else {
-                    $id = $key;
-                }
-                if(isset($this->componentSchema['listName']) && !empty($this->componentSchema['listName'])) {
-                    $name = $option[$this->componentSchema['listName']];
-                } elseif (isset($option['name']) && !empty($option['name'])) {
-                    $name = $option['name'];
-                } else {
-                    $name = $key;
-                }
-                $data['LIST'][] = Array(
-                    'LIST_ID'       =>  $id,
-                    'LIST_NAME'     =>  $name,
-                    'LIST_SELECTED' =>  isset($value[$id])  ?   'selected'  :   '',
-                );
-
-            }
-        }
-        $jsInit =   self::getTemplate('js/init.tpl', __DIR__);
-        $data['INIT']             .=     simpleView\component::replace($jsInit, Array('ID' => $data['ID']));
 
 
         $answer =   simpleView\component::replace(self::getTemplate('tpl/edit.tpl', __DIR__), $data);
         $this->setComponentAnswer($answer);
-
     }
+
 
     /**
      * генирирует для просмотра
@@ -216,62 +186,10 @@ class component extends CForm\AField implements CForm\IField
         if (isset($this->componentSchema['href'])) {
             $href = strtr($this->componentSchema['href'], $data);
         }
-
-        $data['VALUE'] = Array();
-        $value  =   array_flip(explode(',', $this->fieldValue));
-        if (
-            isset($this->componentSchema['list'])
-            && is_array($this->componentSchema['list'])
-            && !empty($this->componentSchema['list'])
-        ) {
-            if (isset($this->componentSchema['def'])) {
-                $data['LIST'][] = Array(
-                    'LIST_ID'   => 0,
-                    'LIST_NAME' => $this->componentSchema['def']
-                );
-            } elseif(!isset($this->componentSchema['multiple']) ) {
-                $data['LIST'][] = Array(
-                    'LIST_ID'   => 0,
-                    'LIST_NAME' => 'Не выбрано'
-                );
-            }
-            foreach ($this->componentSchema['list'] as $key =>  $option) {
-                if(isset($this->componentSchema['listID']) && !empty($this->componentSchema['listID'])) {
-                    $id = $option[$this->componentSchema['listID']];
-                } elseif (isset($option['id']) && !empty($option['id'])) {
-                    $id = $option['id'];
-                } else {
-                    $id = $key;
-                }
-                if(isset($this->componentSchema['listName']) && !empty($this->componentSchema['listName'])) {
-                    $name = $option[$this->componentSchema['listName']];
-                } elseif (isset($option['name']) && !empty($option['name'])) {
-                    $name = $option['name'];
-                } else {
-                    $name = $key;
-                }
-                if (isset($value[$id])) {
-                    $data['LIST'][] = Array(
-                        'LIST_NAME'     =>  $name,
-                    );
-                }
-
-            }
-        }
-        if (empty($data['LIST'])) {
-            $data['VALUE'][] = Array(
-                'LIST_NAME'     =>  isset($this->componentSchema['def'])   ?:'Ничего не выбрано',
-            );
-        }
-        $data['HREF']   =  $href;
-        $answer =   simpleView\component::replace(self::getTemplate('tpl/view.tpl', __DIR__), $data);
+        $data['VALUE'] =  $this->fieldValue;
+        $data['HREF'] =  $href;
+        $answer =   simpleView\component::replace(self::getTemplate('tpl/listing.tpl', __DIR__), $data);
         $this->setComponentAnswer($answer);
     }
 
-    public function preUpdate(): array
-    {
-        return Array(
-            'value' => implode(',', $this->fieldValue)
-        );
-    }
 }
