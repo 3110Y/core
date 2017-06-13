@@ -2,7 +2,7 @@
     <form method="post" action="{URL}" class="cf-table">
         <div class="cf-table-caption cf-caption {CAPTION_CLASS}">
             <h3>{CAPTION}</h3>
-            <a href="" uk-icon="icon: more-vertical; ratio: 1.65" uk-toggle="target: #cform-sort"></a>
+            <!--<a href="" uk-icon="icon: more-vertical; ratio: 1.65" uk-toggle="target: #cform-sort"></a>-->
         </div>
         <div class="cf-table-row">
             {HEADER_ROW}

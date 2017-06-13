@@ -99,12 +99,11 @@ class component
         $rowU    = self::$db->selectRow('core_rules', '*', $where, '`action` ASC, `priority` ASC', '0,1');
         $action = 0;
         if ($rowG !== false) {
-            $action = $rowU['action'];
+            $action = $rowG['action'];
         }
         if ($rowU !== false) {
             $action = $rowU['action'];
         }
-
         $url = '';
         switch ($action) {
             case 0:
