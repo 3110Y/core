@@ -5,10 +5,10 @@
     </head>
     <body>
         <form action="{URL}" method="post" id="enter-form" class="uk-card uk-card-default uk-position-center">
-            <div class="uk-card-header uk-text-center">
+            <div class="uk-card-header uk-text-center uk-animation-slide-top">
                 <h4 class="uk-card-title uk-margin-remove-bottom">Панель администратора</h4>
             </div>
-            <div class="uk-card-body">
+            <div class="uk-card-body  uk-animation-fade">
                 <div class="uk-margin">
                     <div class="uk-inline">
                         <span class="uk-form-icon" uk-icon="icon: user"></span>
@@ -23,7 +23,7 @@
                     </div>
                 </div>
             </div>
-            <div class="uk-card-footer uk-text-center">
+            <div class="uk-card-footer uk-text-center  uk-animation-slide-bottom">
                 <button type="submit" class="uk-button uk-button-primary" id="enter">Авторизация</button>
             </div>
         </form>
