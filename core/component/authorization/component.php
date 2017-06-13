@@ -32,7 +32,7 @@ class component
             $row = $select->fetch();
             $time   =   time() + 2592000;
             setcookie('uid', $row['id'], $time);
-            setcookie('gid', explode(',', $row['group_id']), $time);
+            setcookie('gid', $row['group_id'], $time);
             $hash = hash('sha512', $row['id'] . $row['group_id'] . $row['password']);
             setcookie('hash', $hash, $time);
             return true;

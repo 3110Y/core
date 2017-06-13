@@ -20,6 +20,13 @@ class component
      */
     public static function get()
     {
-        return isset($_COOKIE['gid']) ? $_COOKIE['gid'] : Array(0);
+
+        if (isset($_COOKIE['gid']) && is_int($_COOKIE['gid'])) {
+            return Array($_COOKIE['gid']);
+        }
+        if (isset($_COOKIE['gid'])) {
+            return explode(',', $_COOKIE['gid']);
+        }
+        return Array(0);
     }
 }
