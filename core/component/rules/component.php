@@ -32,7 +32,7 @@ class component
      */
     private $key = '';
     /**
-     * @var \core\components\PDO\component ДБ
+     * @var \core\component\database\driver\PDO\component ДБ
      */
     private static $db;
     /**
@@ -56,6 +56,7 @@ class component
 
     public function check()
     {
+        //TODO: переделать
         $where = Array(
             'name' => $this->key,
         );
@@ -69,6 +70,69 @@ class component
             self::$db->inset('core_rules_objects', $value);
             $this->row = self::$db->selectRow('core_rules_objects', '*', $where);
         }
+        $groups = \core\component\group\component::get();
+        $g = Array();
+        foreach ($groups as $group) {
+            $g[]    =   "`group_id` = '{$group}'";
+        }
+        if (!empty($g)) {
+            $g = '(' . implode(' OR ', $g) . ')';
+        } else {
+            $g = '';
+        }
+        $where = Array(
+            'object_id'     =>  $this->row['id'],
+            $g,
+            'AND',
+            'user_id'       =>  '0',
+        );
+        $rowG    = self::$db->selectRow('core_rules', '*', $where, '`action` ASC, `priority` ASC', '0,1');
+
+        $uid = \core\component\user\component::get();
+        $where = Array(
+            'object_id'     =>  $this->row['id'],
+            'AND',
+            'user_id'       =>  $uid,
+            'AND',
+            'group_id'      =>  '0',
+        );
+        $rowU    = self::$db->selectRow('core_rules', '*', $where, '`action` ASC, `priority` ASC', '0,1');
+        $action = 0;
+        if ($rowG !== false) {
+            $action = $rowU['action'];
+        }
+        if ($rowU !== false) {
+            $action = $rowU['action'];
+        }
+
+        $url = '';
+        switch ($action) {
+            case 0:
+                return true;
+                break;
+            case 1:
+                if ($this->URL === $this->authorizationURL) {
+                    return true;
+                }
+                $url = $this->authorizationURL;
+                break;
+            case 2:
+                if ($this->URL === $this->authorizationNoPage) {
+                    return true;
+                }
+                $url = $this->authorizationNoPage;
+                break;
+            case 3:
+                if ($this->URL === $this->authorizationBlank) {
+                    return true;
+                }
+                $url = $this->authorizationBlank;
+                break;
+            case 4:
+                die();
+                break;
+        }
+        return $url;
     }
 
     /**
@@ -126,8 +190,4 @@ class component
         return $this;
     }
 
-    private function registration()
-    {
-
-    }
 }

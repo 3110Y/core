@@ -66,9 +66,12 @@ final class router extends applicationWeb\ARouter implements applicationWeb\IRou
     public function run(): router
     {
         $URL = implode('/', self::$URL);
-        (new rules\component($URL))->setDB(self::get('db'))->setKey(self::$application['name'])
-            ->setAuthorizationURL('/' . self::$application['url'] . '/enter')
-            ->setAuthorizationNoPage('/' . self::$application['url'] . '/404')->check();
+        $check = (new rules\component($URL))->setDB(self::get('db'))->setKey(self::$application['name'])
+            ->setAuthorizationURL(self::$application['url'] . '/enter')
+            ->setAuthorizationNoPage(self::$application['url'] . '/404')->check();
+        if ($check !== true) {
+            self::redirect($check);
+        }
         self::selectPage();
         $controllerBasic    =   new controllers\basic();
         if ($controllerBasic instanceof applicationWeb\IControllerBasic) {
@@ -88,18 +91,17 @@ final class router extends applicationWeb\ARouter implements applicationWeb\IRou
     }
 
     /**
-     * Запускает роутинг
-     * @return router
+     *  Запускает роутинг
+     * @return string
      */
     public function render()
     {
         if (self::$isAjaxRequest ) {
             return json_encode(self::$content);
-        } else {
-            $this->get('view')->setTemplate(self::$template);
-            $this->get('view')->setData(self::$content);
-            $this->get('view')->run();
-            return $this->get('view')->get();
         }
+        self::get('view')->setTemplate(self::$template);
+        self::get('view')->setData(self::$content);
+        self::get('view')->run();
+        return self::get('view')->get();
     }
 }

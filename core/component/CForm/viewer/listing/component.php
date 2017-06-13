@@ -256,7 +256,9 @@ class component extends CForm\AViewer implements CForm\IViewer
 		$order = '';
 		if (isset($_GET['order'])) {
 			$order  =   $_GET['order'];
-		}
+		} elseif (isset($this->viewerConfig['order'])) {
+            $order  =   $this->viewerConfig['order'];
+        }
 		$this->answer['ROW_ALL']    = $db->selectCount($this->viewerConfig['table'], $this->field, $where, $order);
 		$total = (int)ceil ($this->answer['ROW_ALL'] / $this->viewerConfig['onPage']);
 		if (0 !== $total && $this->viewerConfig['page'] >  $total) {

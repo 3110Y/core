@@ -118,7 +118,7 @@ class rules extends applicationWeb\AControllers implements applicationWeb\IContr
                 'placeholder'       =>  'Пользователь',
                 'label'             =>  'Пользователь',
                 'list'              =>  $listUser,
-                'def'               =>  'Незарегистрированный',
+                'def'               =>  'Все',
                 'edit'              =>  Array(
                     'mode'  =>  'edit'
                 ),
@@ -134,7 +134,7 @@ class rules extends applicationWeb\AControllers implements applicationWeb\IContr
                 'placeholder'       =>  'Группа',
                 'label'             =>  'Группа',
                 'list'              =>  $listGroup,
-                'def'               =>  'Любая',
+                'def'               =>  'Все',
                 'edit'              =>  Array(
                     'mode'  =>  'edit'
                 ),
@@ -159,6 +159,20 @@ class rules extends applicationWeb\AControllers implements applicationWeb\IContr
                     'mode'  =>  'view'
                 )
             ),
+            Array(
+                'type'              =>  'number',
+                'field'             =>  'priority',
+                'caption'           =>  'Приоритет',
+                'placeholder'       =>  'Приоритет',
+                'label'             =>  'Приоритет',
+                'edit'           =>  Array(
+                    'mode'  =>  'edit'
+                ),
+                'listing'           =>  Array(
+                    'align' =>  'center',
+                    'mode'  =>  'view'
+                )
+            ),
         );
         $config     =   Array(
             'controller'    =>  $this,
@@ -171,6 +185,7 @@ class rules extends applicationWeb\AControllers implements applicationWeb\IContr
                     'viewer'            =>  'listing',
                     'template'          =>  'block/form/list.tpl',
                     'templateNoData'    =>  'block/form/listNo.tpl',
+                    'order'             =>  '`priority` ASC',
                     'css'               =>  Array(
                         Array(
                             'file'  =>  'block/form/css/style.css'

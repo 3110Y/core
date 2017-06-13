@@ -16,10 +16,10 @@ class component
 {
     /**
      * Отдает ID group
-     * @return int ID
+     * @return mixed|string|array|int ID
      */
-    public static function get(): int
+    public static function get()
     {
-        return isset($_COOKIE['gid']) ? $_COOKIE['gid'] : 0;
+        return isset($_COOKIE['gid']) ? $_COOKIE['gid'] : Array(0);
     }
 }

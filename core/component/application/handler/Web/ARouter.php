@@ -51,14 +51,15 @@ abstract class ARouter extends AApplication
      */
     private static function searchPage($parentID = 0, $parentURL ='')
     {
+        //TODO: Переделать, не работают подуровни
         foreach (self::$structure as $item) {
             if (
                 $item['parent_id'] == $parentID
                 && (
                     $item['url'] === self::$URL[$parentID + 1]
                     || (
-                        $item['url'] == '/'
-                        && self::$URL[$parentID + 1] === ""
+                        $item['url'] === '/'
+                        && self::$URL[$parentID + 1] === ''
                     )
                 )
             ) {
@@ -67,7 +68,7 @@ abstract class ARouter extends AApplication
                 /** @var \application\admin\controllers\basic $controller */
                 $controller     =   "application\\{$path}\\controllers\\{$controller}";
                 $countSubURL    =   $controller::$countSubURL;
-	            $item['url'] = ($item['url'] == '/' && $parentID == 0) ?   $item['url'] :  $parentURL . $item['url'];
+	            $item['url'] = ($item['url'] === '/' && $parentID == 0) ?   $item['url'] :  $parentURL . $item['url'];
 	            if (
                     $parentID + 1 == (count(self::$URL) - 1)
                     || (
@@ -87,11 +88,9 @@ abstract class ARouter extends AApplication
                     $controller::setPageURL(implode('/', $url));
                     $controller::setSubURL($subURL);
                     return $item;
-                } else {
-	            	return self::searchPage(++$parentID, $item['url']);
                 }
+                return self::searchPage(++$parentID, $item['url']);
             }
-
         }
         return self::$pageError;
     }

@@ -134,7 +134,7 @@ class user extends applicationWeb\AControllers implements applicationWeb\IContro
 			    'label'             =>  'Группы',
 			    'list'              =>  $list,
                 'multiple'          =>  'multiple',
-                'viewNo'            =>  'Групп нет',
+                'viewNo'            =>  'Нет группы',
                 'edit'              =>  Array(
                     'mode'  =>  'edit'
                 ),
