@@ -91,6 +91,7 @@ class component extends ACForm
 		if (self::$mode === '') {
 			die('Неверный режим просмотрщика');
 		}
+        //die(var_dump(self::$mode));
 		$this->viewer       = self::$config['viewer'][self::$mode]['viewer'];
 		$this->viewerConfig =  self::$config['viewer'][self::$mode];
 	}

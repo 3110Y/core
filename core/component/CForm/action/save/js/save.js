@@ -5,9 +5,10 @@
 $(document).ready(function () {
     $('.save').on('click', function () {
         var form        =   $(this).parents('form'),
-            action      =   form.prop('action'),
+            action      =   form.attr('action'),
             data        =   form.serialize(),
             jqXHR       =   $.post(action, data);
+        console.log(action);
         console.log(data);
         jqXHR.fail(function(data) {
             console.error(data);

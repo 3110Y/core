@@ -2,7 +2,7 @@
     <div class="cf-caption {CAPTION_CLASS}">
         <h3>{CAPTION}: Редактирование</h3>
     </div>
-    <form action="{URL}/save/{ID}" method="post" enctype="multipart/form-data">
+    <form action="{URL}/save/{ID}" method="post" class="edit" enctype="multipart/form-data">
         <div class="cf-table">
             {FIELDS}
                 {COMPONENT}

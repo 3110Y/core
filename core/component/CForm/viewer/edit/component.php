@@ -117,7 +117,7 @@ class component extends CForm\AViewer implements CForm\IViewer
             }
 
             $this->answer['ACTION_ITEM']     =   $itemAction;
-
+            $this->answer['CLASS_ACTION_ITEM'] = '';
         } else {
             $this->answer['CLASS_ACTION_ITEM'] = 'is-hidden ';
         }

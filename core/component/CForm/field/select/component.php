@@ -206,7 +206,9 @@ class component extends CForm\AField implements CForm\IField
             }
         }
 
-        $data   =   Array();
+        $data   =   Array(
+            'LIST' => Array()
+        );
         foreach (self::$data as $field  => $value) {
             $data['DATA_' . mb_strtoupper($field)] = $value;
         }
@@ -216,24 +218,31 @@ class component extends CForm\AField implements CForm\IField
         }
 
         $data['VALUE'] = Array();
-        $value  =   array_flip(explode(',', $this->fieldValue));
+        if (is_string($this->fieldValue)) {
+            $value = array_flip(explode(',', $this->fieldValue));
+        } else {
+            $value = Array(
+                $this->fieldValue => 0
+            );
+        }
         if (
             isset($this->componentSchema['list'])
             && is_array($this->componentSchema['list'])
             && !empty($this->componentSchema['list'])
         ) {
-            if (isset($this->componentSchema['def'])) {
+            if (isset($this->componentSchema['def']) && isset($value[0])) {
                 $data['LIST'][] = Array(
-                    'LIST_ID'   => 0,
+                    'LIST_ID' => 0,
                     'LIST_NAME' => $this->componentSchema['def']
                 );
             } elseif(
                 !isset($this->componentSchema['multiple'])
                 && !isset($this->componentSchema['NoZero'])
+                && isset($value[0])
                 && $this->componentSchema['NoZero'] !== true
             ) {
                 $data['LIST'][] = Array(
-                    'LIST_ID'   => 0,
+                    'LIST_ID' => 0,
                     'LIST_NAME' => 'Не выбрано'
                 );
             }
@@ -254,15 +263,16 @@ class component extends CForm\AField implements CForm\IField
                 }
                 if (isset($value[$id])) {
                     $data['LIST'][] = Array(
+                        'LIST_ID'       =>  $id,
                         'LIST_NAME'     =>  $name,
                     );
                 }
 
             }
         }
-        if (empty($data['LIST'])) {
-            $data['VALUE'][] = Array(
-                'LIST_NAME'     =>  isset($this->componentSchema['def'])   ?:'Ничего не выбрано',
+        if (isset($this->componentSchema['viewNo']) && (empty($data['LIST']) || '' === $this->fieldValue)) {
+            $data['LIST'][] = Array(
+                'LIST_NAME'     =>  $this->componentSchema['viewNo']   ??   'Ничего не выбрано',
             );
         }
         $data['HREF']   =  $href;
@@ -273,7 +283,7 @@ class component extends CForm\AField implements CForm\IField
     public function preUpdate(): array
     {
         return Array(
-            'value' => implode(',', $this->fieldValue)
+            'value' => is_array($this->fieldValue)  ?   implode(',', $this->fieldValue) :   $this->fieldValue
         );
     }
 }
