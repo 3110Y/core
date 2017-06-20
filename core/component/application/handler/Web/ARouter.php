@@ -23,15 +23,15 @@ abstract class ARouter extends AApplication
      */
     protected static function selectPage()
     {
-        self::$pageError    = self::getPageError();
-        self::$page         = self::getPage();
+        self::$pageError    = self::searchPageError();
+        self::$page         = self::searchPage();
     }
 
     /**
      * Отдает страницу Ошибок
      * @return array
      */
-    private static function getPageError()
+    public static function searchPageError()
     {
         foreach (self::$structure as $item) {
             if ($item['error']) {
@@ -49,16 +49,17 @@ abstract class ARouter extends AApplication
      *
      * @return array текущая страница
      */
-    private static function getPage($parentID = 0, $parentURL ='')
+    private static function searchPage($parentID = 0, $parentURL ='')
     {
+        //TODO: Переделать, не работают подуровни
         foreach (self::$structure as $item) {
             if (
                 $item['parent_id'] == $parentID
                 && (
                     $item['url'] === self::$URL[$parentID + 1]
                     || (
-                        $item['url'] == '/'
-                        && self::$URL[$parentID + 1] === ""
+                        $item['url'] === '/'
+                        && self::$URL[$parentID + 1] === ''
                     )
                 )
             ) {
@@ -67,7 +68,7 @@ abstract class ARouter extends AApplication
                 /** @var \application\admin\controllers\basic $controller */
                 $controller     =   "application\\{$path}\\controllers\\{$controller}";
                 $countSubURL    =   $controller::$countSubURL;
-	            $item['url'] = ($item['url'] == '/' && $parentID == 0) ?   $item['url'] :  $parentURL . $item['url'];
+	            $item['url'] = ($item['url'] === '/' && $parentID == 0) ?   $item['url'] :  $parentURL . $item['url'];
 	            if (
                     $parentID + 1 == (count(self::$URL) - 1)
                     || (
@@ -87,11 +88,9 @@ abstract class ARouter extends AApplication
                     $controller::setPageURL(implode('/', $url));
                     $controller::setSubURL($subURL);
                     return $item;
-                } else {
-	            	return self::getPage(++$parentID, $item['url']);
                 }
+                return self::searchPage(++$parentID, $item['url']);
             }
-
         }
         return self::$pageError;
     }

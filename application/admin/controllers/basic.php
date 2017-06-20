@@ -71,15 +71,15 @@ class basic extends applicationWeb\AControllers implements applicationWeb\IContr
                 $class  =   '';
                 $URL    =   $row['url'] == '/'    ?   $parentURL :   $parentURL . $row['url'];
                 if ($row['url'] == self::$page['url'] && $row['parent_id'] == self::$page['parent_id']) {
-                    $class          .=  'active';
-                    $parentClass    =   'open';
+                    $class          .=  'active ';
+                    $parentClass    =   'open ';
                 }
                 $sub    =   '';
                 $subLink =   '';
-                $children   =   self::generationMenu($db, $row['url'] . '/', ++$parentID);
+                $children   =   self::generationMenu($db, $URL, $row['id']);
                 if (!empty($children)) {
                     $sub        =   $children['sub'];
-                    $class      .=  $children['class'];
+                    $class      .=  $children['class'] . ' ';
                     $subLink    =  simpleView\component::replace(self::getTemplate('block/menu/subLink.tpl'));
                 }
 
@@ -93,7 +93,7 @@ class basic extends applicationWeb\AControllers implements applicationWeb\IContr
                     'SUB_LINK'      =>  $subLink,
                 );
             }
-            $parentClass    .=  'parent';
+            $parentClass    .=  'parent ';
         }
         if (!empty($rows)) {
             return Array(

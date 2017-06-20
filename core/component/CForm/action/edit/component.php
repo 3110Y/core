@@ -34,10 +34,15 @@ class component extends CForm\AAction implements CForm\IAction
 	/**
 	 * генирирует для листинга
 	 */
-	public function row()
+	public function one()
 	{
+        $urlBack = self::$config['controller']::getPageURL();
+        if (!empty(self::$subURL)) {
+            $urlBack .= '/' . implode('/', self::$subURL);
+        }
 		$data   =   Array(
-			'URL'   => self::$config['url'],
+			'URL'   => self::$config['controller']::getPageURL(),
+            'BACK'  => base64_encode($urlBack),
 		);
         foreach (self::$data as $key => $value) {
             $k = 'DATA_' . mb_strtoupper($key);

@@ -9,8 +9,8 @@
 namespace core\component\CForm\field\input;
 
 use \core\component\{
-	CForm as CForm,
-	templateEngine\engine\simpleView as simpleView
+	CForm,
+	templateEngine\engine\simpleView
 };
 
 
@@ -29,7 +29,7 @@ class component extends CForm\AField implements CForm\IField
             $id = self::$data['id'];
             $this->addAnswerID("input-field-{$field}-id-{$id}");
             $this->addAnswerClass('input');
-            self::setCss(self::getTemplate('css/input.css', __DIR__));
+		    self::$config['controller']::setCss(self::getTemplate('css/input.css', __DIR__));
         }
 	}
 
@@ -38,7 +38,10 @@ class component extends CForm\AField implements CForm\IField
 
 	}
 
-	public function preUpdate()
+    /**
+     * @return array
+     */
+    public function preUpdate(): array
 	{
 		if (isset($this->componentSchema['required']) && $this->componentSchema['required'] && trim($this->fieldValue) == '') {
 			$name = $this->componentSchema['field'];
@@ -53,6 +56,7 @@ class component extends CForm\AField implements CForm\IField
 				'error' => "Поле \"{$name}\" не должно быть пустым",
 			);
 		}
+        return Array();
 	}
 
 	/**
@@ -84,7 +88,7 @@ class component extends CForm\AField implements CForm\IField
 		}
 		$data['VALUE']              =  $this->fieldValue;
 		$data['ID']                 =  $this->componentSchema['field'];
-		$data['NAME']                 =  $this->componentSchema['field'];
+		$data['NAME']               =  $this->componentSchema['field'];
 		if (isset($this->componentSchema['prevIcon'])) {
 			$data['PREV_ICON'] = "<span class='uk-form-icon' uk-icon='icon: {$this->componentSchema['prevIcon']}'></span>";
 		}
@@ -140,7 +144,7 @@ class component extends CForm\AField implements CForm\IField
 			$data['PLACEHOLDER']        =     '';
 			$jsInit =   self::getTemplate('vendor/label_better-master/init.tpl', __DIR__);
 			$data['INIT']             =     simpleView\component::replace($jsInit, Array('ID' => $data['ID']));
-			self::setJs(self::getTemplate('vendor/label_better-master/jquery.label_better.min.js', __DIR__));
+			self::$config['controller']::setJs(self::getTemplate('vendor/label_better-master/jquery.label_better.min.js', __DIR__));
 		}
 		if (isset($this->componentSchema['totalWidth'])) {
 			$data['FIELD_STYLE'] = "width: {$this->componentSchema['labelWidth']}; ";
@@ -157,16 +161,17 @@ class component extends CForm\AField implements CForm\IField
 		$this->setComponentAnswer($answer);
 	}
 
+
 	/**
-	 * генирирует для листинга
+	 * генирирует для просмотра
 	 */
-	public function listing()
+	public function view()
 	{
 		if (isset($this->componentSchema['caption'])) {
 			$this->setFieldCaption($this->componentSchema['caption']);
 		}
-		if (isset($this->componentSchema['listing'], $this->componentSchema['listing']['align'])) {
-            switch ($this->componentSchema['listing']['align']) {
+		if (isset($this->componentSchema[self::$mode], $this->componentSchema[self::$mode]['align'])) {
+            switch ($this->componentSchema[self::$mode]['align']) {
                 case 'left':
                     $this->addAnswerClass('input-left');
                     break;

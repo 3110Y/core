@@ -35,17 +35,17 @@ class component extends CForm\AAction implements CForm\IAction
 	/**
 	 * генирирует для групповых действий
 	 */
-	public function rows()
+	public function many()
 	{
-		$urlBack = self::$config['url'];
-		if (self::$config['mode'] == 'listing') {
-			$urlBack .= '/' . self::$config['mode'] . '/' . self::$config['page'];
+		$urlBack = self::$config['controller']::getPageURL();
+		if (!empty(self::$subURL)) {
+			$urlBack .= '/' . implode('/', self::$subURL);
 		}
         $data   =   Array(
-            'URL'   => self::$config['url'],
+            'URL'   => self::$config['controller']::getPageURL(),
 	        'URL_BACK'      => base64_encode($urlBack),
         );
-		self::setJs(self::getTemplate('js/dell.js', __DIR__));
+		self::$config['controller']::setJs(self::getTemplate('js/dell.js', __DIR__));
 		$answer =   simpleView\component::replace(self::getTemplate('tpl/rows.tpl', __DIR__), $data);
 		$this->setComponentAnswer($answer);
 	}
@@ -53,14 +53,14 @@ class component extends CForm\AAction implements CForm\IAction
 	/**
 	 * генирирует для листинга
 	 */
-	public function row()
+	public function one()
 	{
-		$urlBack = self::$config['url'];
-		if (self::$config['mode'] == 'listing') {
-			$urlBack .= '/' . self::$config['mode'] . '/' . self::$config['page'];
+		$urlBack = self::$config['controller']::getPageURL();
+		if (!empty(self::$subURL)) {
+			$urlBack .= '/' . implode('/', self::$subURL);
 		}
         $data   =   Array(
-            'URL'           => self::$config['url'],
+            'URL'           => self::$config['controller']::getPageURL(),
             'URL_BACK'      => base64_encode($urlBack),
         );
         foreach (self::$data as $key => $value) {
