@@ -8,6 +8,8 @@
 
 namespace core\component\fileCache;
 
+use core\core;
+
 
 /**
  * Class fileCache
