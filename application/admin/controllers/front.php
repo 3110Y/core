@@ -28,7 +28,8 @@ class front extends applicationWeb\AControllers implements applicationWeb\IContr
      */
     public function init()
     {
-        self::$content['CONTENT']  =    'Привет';
+    	$url = self::$application['url'] == '/' ?   self::$application['url']   :   self::$application['url'] . '/';
+        self::redirect($url .'page');
     }
 
 }

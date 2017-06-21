@@ -17,6 +17,14 @@ $(document).ready(function () {
                    timeout: 1000,
                    pos: 'top-center'
                });
+           } else {
+               UIkit.notification("Добро пожаловать!", {
+                   status: 'success',
+                   timeout: 1000,
+                   pos: 'top-center'
+               });
+               form.submit();
+               return true;
            }
        });
        return false;

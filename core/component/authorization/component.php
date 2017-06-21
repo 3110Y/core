@@ -49,7 +49,7 @@ class component
     public static function check($db): bool
     {
         if (!isset($_COOKIE['uid'])) {
-            return false;
+            return true;
         }
         $where = Array(
             'id'     => $_COOKIE['uid']

@@ -1,7 +1,7 @@
 <div class="cform w-hundred">
     <form method="post" action="{URL}" class="cf-table">
         <div class="cf-table-caption cf-caption {CAPTION_CLASS}">
-            <h3>{CAPTION}</h3>
+            <span>{CAPTION}</span>
         </div>
         <h2 class="uk-text-center">К сожалению, нет данных</h2>
         <br>

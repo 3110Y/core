@@ -543,6 +543,7 @@ abstract class ADriver
         }
         if ($forInsert === false) {
             if (is_array($result['field'])) {
+	            $result['value'] = Array();
                 foreach ($result['field'] as $key => $val) {
                     $result['value'][] = "{$key} = {$val}";
                 }

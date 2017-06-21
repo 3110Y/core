@@ -42,6 +42,7 @@ class component extends CForm\AAction implements CForm\IAction
             $k = 'DATA_' . mb_strtoupper($key);
             $data[$k]   =   $value;
         }
+	    self::$config['controller']::setJs(self::getTemplate('js/jquery.form.min.js', __DIR__));
 	    self::$config['controller']::setJs(self::getTemplate('js/save.js', __DIR__));
         $answer =   simpleView\component::replace(self::getTemplate('tpl/item.tpl', __DIR__), $data);
         $this->setComponentAnswer($answer);

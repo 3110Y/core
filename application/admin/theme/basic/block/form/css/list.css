@@ -1,31 +1,37 @@
-.cform .cf-table {
-  display: table; }
-  .cform .cf-table .cf-table-caption {
-    display: table-caption; }
-  .cform .cf-table .cf-table-row {
-    display: table-row; }
-    .cform .cf-table .cf-table-row:hover {
-      background: #ffd; }
-    .cform .cf-table .cf-table-row .cf-table-row-th {
-      display: table-column;
-      padding: 16px 12px;
-      box-sizing: border-box; }
-      .cform .cf-table .cf-table-row .cf-table-row-th > * {
-        font-weight: bold;
-        color: #999; }
-    .cform .cf-table .cf-table-row .cf-table-row-td, .cform .cf-table .cf-table-row .cf-table-row-th {
-      border-top: 1px solid #e5e5e5;
-      display: table-cell;
-      padding: 16px 12px;
-      box-sizing: border-box; }
-      .cform .cf-table .cf-table-row .cf-table-row-td.min, .cform .cf-table .cf-table-row .cf-table-row-th.min {
-        white-space: nowrap;
-        width: 105px; }
-      .cform .cf-table .cf-table-row .cf-table-row-td.is-hidden, .cform .cf-table .cf-table-row .cf-table-row-th.is-hidden {
-        display: none; }
-      .cform .cf-table .cf-table-row .cf-table-row-td.overflow, .cform .cf-table .cf-table-row .cf-table-row-th.overflow {
-        overflow: hidden; }
+.cform .overflow-form {
+  overflow-x: auto; }
+  .cform .overflow-form .cf-table {
+    display: table; }
+    .cform .overflow-form .cf-table .cf-table-caption {
+      display: table-caption; }
+    .cform .overflow-form .cf-table .cf-table-row {
+      display: table-row; }
+      .cform .overflow-form .cf-table .cf-table-row:hover {
+        background: #ffd; }
+      .cform .overflow-form .cf-table .cf-table-row .cf-table-row-th {
+        display: table-column;
+        padding: 16px 12px;
+        box-sizing: border-box; }
+        .cform .overflow-form .cf-table .cf-table-row .cf-table-row-th > * {
+          font-weight: bold;
+          color: #999; }
+      .cform .overflow-form .cf-table .cf-table-row .cf-table-row-td, .cform .overflow-form .cf-table .cf-table-row .cf-table-row-th {
+        border-top: 1px solid #e5e5e5;
+        display: table-cell;
+        padding: 16px 12px;
+        box-sizing: border-box; }
+        .cform .overflow-form .cf-table .cf-table-row .cf-table-row-td.min, .cform .overflow-form .cf-table .cf-table-row .cf-table-row-th.min {
+          white-space: nowrap;
+          width: 105px; }
+        .cform .overflow-form .cf-table .cf-table-row .cf-table-row-td.is-hidden, .cform .overflow-form .cf-table .cf-table-row .cf-table-row-th.is-hidden {
+          display: none; }
+        .cform .overflow-form .cf-table .cf-table-row .cf-table-row-td.overflow, .cform .overflow-form .cf-table .cf-table-row .cf-table-row-th.overflow {
+          overflow: hidden; }
 .cform .uk-pagination {
   margin-bottom: 0; }
+.cform .dotted {
+  border-bottom: 1px dotted; }
+  .cform .dotted:hover {
+    border-bottom: 0; }
 
 /*# sourceMappingURL=list.css.map */

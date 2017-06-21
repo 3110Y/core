@@ -76,7 +76,7 @@ abstract class ARouter extends AApplication
                         || $countSubURL >= (count(self::$URL) + ($parentID + 1))
                     )
                 ) {
-                    $url    =   '';
+                    $url    =   Array();
                     for ($i = 0, $iMax = ($parentID + 2); $i < $iMax; $i++) {
                         $url[]    =  self::$URL[$i];
                     }

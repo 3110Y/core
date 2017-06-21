@@ -263,7 +263,11 @@ class component extends CForm\AViewer implements CForm\IViewer
 		$total = (int)ceil ($this->answer['ROW_ALL'] / $this->viewerConfig['onPage']);
 		if (0 !== $total && $this->viewerConfig['page'] >  $total) {
 			$urlBack = $this->viewerConfig['controller']::getPageURL();
-			$urlBack .= '/' . $this->viewerConfig['mode'] . '/' . ($this->viewerConfig['page'] - 1);
+			if (isset($this->viewerConfig['mode'])) {
+				$urlBack .= '/' . $this->viewerConfig['mode'] . '/' . ($this->viewerConfig['page'] - 1);
+			} elseif (isset($this->viewerConfig['defaultMode'])) {
+				$urlBack .= '/' . $this->viewerConfig['defaultMode'] . '/' . ($this->viewerConfig['page'] - 1);
+			}
 			self::redirect($urlBack);
 		}
 		$limit = Array(

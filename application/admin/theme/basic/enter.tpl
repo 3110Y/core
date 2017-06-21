@@ -6,7 +6,7 @@
     <body>
         <form action="{URL}" method="post" id="enter-form" class="uk-card uk-card-default uk-position-center">
             <div class="uk-card-header uk-text-center uk-animation-slide-top">
-                <h4 class="uk-card-title uk-margin-remove-bottom">Панель администратора</h4>
+                <span class="uk-margin-remove-bottom">Панель администратора</s>
             </div>
             <div class="uk-card-body  uk-animation-fade">
                 <div class="uk-margin">

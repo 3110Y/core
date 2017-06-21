@@ -7,7 +7,7 @@
 <div id="wrapper-hidden">
     <div id="wrapper">
         <header uk-navbar>
-            <a class="uk-navbar-item uk-logo" href="/">Панель</a>
+            <a class="uk-navbar-item uk-logo" href="/">Панель администратора</a>
             <div class="uk-navbar-left">
                 <ul class="uk-navbar-nav">
                     <li class="only-mobile">

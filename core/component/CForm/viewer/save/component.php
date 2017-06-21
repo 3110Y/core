@@ -36,7 +36,7 @@ class component extends CForm\AViewer implements CForm\IViewer
         foreach ($this->schemaField as $key => $field) {
             /** @var \core\component\CForm\field\input\component $fieldComponent */
             $fieldComponent  = '\core\component\CForm\field\\' . $field['type'] . '\component';
-            $fieldComponent::setData($_POST);
+            $fieldComponent::setData($this->data);
             $fieldComponent  =   new $fieldComponent();
             $fieldComponent->setComponentSchema($field);
             if (isset($_POST[$field['field']])) {
@@ -52,7 +52,7 @@ class component extends CForm\AViewer implements CForm\IViewer
                 unset($value[$field['field']]);
             } elseif (isset($answer['value'])) {
                 $value[$field['field']] = $answer['value'];
-            } else {
+            } elseif (isset($_POST[$field['field']])) {
                 $value[$field['field']] = $_POST[$field['field']];
             }
             if (isset($answer['error'])) {

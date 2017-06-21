@@ -10,6 +10,7 @@ namespace application\admin;
 
 
 use \core\component\{
+    authorization as authorization,
     rules as rules,
     application\handler\Web as applicationWeb,
     database\driver\PDO as PDO,
@@ -25,13 +26,13 @@ final class router extends applicationWeb\ARouter implements applicationWeb\IRou
 {
 
     private static $config = Array(
-        'driver'            =>  'mysql',
-        'host'              =>  '127.0.0.1',
-        'port'              =>  '3306',
-        'db'                =>  'core',
-        'name'              =>  'core',
-        'pass'              =>  'corecore',
-        'character'         =>  'UTF8',
+		'driver'            =>  'mysql',
+		'host'              =>  '127.0.0.1',
+		'port'              =>  '3306',
+		'db'                =>  'core',
+		'name'              =>  'core',
+		'pass'              =>  'corecore',
+		'character'         =>  'UTF8',
     );
 
 	/**
@@ -65,6 +66,9 @@ final class router extends applicationWeb\ARouter implements applicationWeb\IRou
      */
     public function run(): router
     {
+        if (!authorization\component::check(self::get('db'))) {
+            authorization\component::logout();
+        }
         $URL = implode('/', self::$URL);
         $check = (new rules\component($URL))->setDB(self::get('db'))->setKey(self::$application['name'])
             ->setAuthorizationURL(self::$application['url'] . '/enter')
@@ -72,6 +76,7 @@ final class router extends applicationWeb\ARouter implements applicationWeb\IRou
         if ($check !== true) {
             self::redirect($check);
         }
+
         self::selectPage();
         $controllerBasic    =   new controllers\basic();
         if ($controllerBasic instanceof applicationWeb\IControllerBasic) {

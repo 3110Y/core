@@ -1,11 +1,13 @@
-/**
+/**git config --global core.autocrlf true
  * Created by Roman on 7.6.2017.
  */
 
 $(document).ready(function () {
     $('.dells').on('click', function () {
-        var form    =   $(this).parents('form'),
-            href    =   $(this).prop('href');
+        var dataHref    =   $(this).attr('data-href'),
+            parent      =   $('[href="' + dataHref + '"]'),
+            form        =   parent.parents('form'),
+            href        =   $(this).prop('href');
         form.prop('action', href);
         form.submit();
         return false;

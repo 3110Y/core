@@ -1,7 +1,8 @@
 <div class="cform w-hundred">
-    <form method="post" action="{URL}" class="cf-table">
+    <div class="overflow-form">
+        <form method="post" action="{URL}" class="cf-table">
         <div class="cf-table-caption cf-caption {CAPTION_CLASS}">
-            <h3>{CAPTION}</h3>
+            <span>{CAPTION}</span>
             <!--<a href="" uk-icon="icon: more-vertical; ratio: 1.65" uk-toggle="target: #cform-sort"></a>-->
         </div>
         <div class="cf-table-row">
@@ -35,10 +36,11 @@
             </div>
         </div>
     </form>
+    </div>
     <div id="pagination_table" class="uk-placeholder uk-text-center uk-navbar-container uk-navbar">
         <div class="uk-navbar-left">
             <div class="uk-inline">
-                <span class="select"> Показывать по: {ON_PAGE}</span>
+                <span class="select dotted"> Показывать по: {ON_PAGE}</span>
                 <div uk-dropdown="mode: click;pos: top" class="uk-dropdown">
                     <ul class="uk-nav uk-dropdown-nav">
                         {ON_PAGE_LIST}
@@ -58,7 +60,7 @@
             </ul>
         </div>
         <div class="uk-navbar-right">
-            Показано: с {ROW_FORM} по {ROW_TO} из {ROW_ALL}
+            с {ROW_FORM} по {ROW_TO} из {ROW_ALL}
         </div>
     </div>
     <div id="cform-sort" uk-offcanvas="flip: true; overlay: true">

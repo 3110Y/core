@@ -94,6 +94,9 @@ class component extends CForm\AViewer implements CForm\IViewer
                 $fieldComponent  = '\core\component\CForm\field\\' . $field['type'] . '\component';
                 $fieldComponent  =   new $fieldComponent();
                 $fieldComponent->setComponentSchema($field);
+	            if (isset($this->data[$field['field']])) {
+		            $fieldComponent->setFieldValue($this->data[$field['field']]);
+	            }
                 $fieldComponent->init();
                 if (method_exists($fieldComponent, 'postDell')) {
                     $fieldComponent->postDell();

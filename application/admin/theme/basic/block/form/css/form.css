@@ -15,9 +15,9 @@
     .cform .cform-field label.display-none, .cform .cform-field .uk-form-controls.display-none {
       display: none; }
   .cform .cform-field label {
-    width: 20%; }
+    width: 12%; }
   .cform .cform-field label:not(display-none) + .uk-form-controls {
-    width: 79%; }
+    width: 87%; }
   .cform .cform-field label.display-none + .uk-form-controls {
     width: 100%; }
 

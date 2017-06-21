@@ -1,1 +1,1 @@
-<a href="{URL}/save" class="uk-button uk-button-primary uk-button-small save" ><span uk-icon="icon: check"></span>Сохранить</a>
+<a href="{URL}/save" class="uk-button uk-button-primary save" ><span uk-icon="icon: check"></span>Сохранить</a>

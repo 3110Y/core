@@ -144,7 +144,10 @@ class component extends CForm\AField implements CForm\IField
             } elseif(
                 !isset($this->componentSchema['multiple'])
                 && !isset($this->componentSchema['NoZero'])
-                && $this->componentSchema['NoZero'] !== true
+                && (
+	                !isset($this->componentSchema['NoZero'])
+	                || $this->componentSchema['NoZero'] !== true
+                )
             ) {
                 $data['LIST'][] = Array(
                     'LIST_ID' => 0,
@@ -239,7 +242,10 @@ class component extends CForm\AField implements CForm\IField
                 !isset($this->componentSchema['multiple'])
                 && !isset($this->componentSchema['NoZero'])
                 && isset($value[0])
-                && $this->componentSchema['NoZero'] !== true
+                && (
+                	!isset($this->componentSchema['NoZero'])
+                	|| $this->componentSchema['NoZero'] !== true
+                )
             ) {
                 $data['LIST'][] = Array(
                     'LIST_ID' => 0,
