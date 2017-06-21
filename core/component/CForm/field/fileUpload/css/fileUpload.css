@@ -1,0 +1,13 @@
+.fileUpload.fileUpload-left {
+  text-align: left; }
+.fileUpload.fileUpload-center {
+  text-align: center; }
+.fileUpload.fileUpload-right {
+  text-align: right; }
+
+.fileUpload-dflex {
+  display: flex;
+  flex-direction: column;
+  width: 200px; }
+
+/*# sourceMappingURL=fileUpload.css.map */
