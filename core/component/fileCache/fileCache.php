@@ -16,5 +16,8 @@ namespace core\component\fileCache;
  */
 class fileCache
 {
+	public static function getDir(string $dir)
+	{
 
+	}
 }
