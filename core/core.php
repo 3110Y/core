@@ -18,7 +18,7 @@ final class core
     /**
      * @const float Версия ядра
      */
-    const VERSION   =   1.0;
+    const VERSION   =   1.1;
     /**
      * @const string Путь до компонентов
      */
@@ -37,6 +37,14 @@ final class core
      * @var string CORE ROOT
      */
     private static $DR = '';
+	/**
+	 * @var array хранит конфигурации
+	 */
+    private static $config = Array();
+	/**
+	 * @var string директория конфигурации
+	 */
+    private static $dirConfig = '';
 
     /**
      * @return core|null
@@ -220,4 +228,32 @@ final class core
         return false;
     }
 
+	/**
+	 * Устанавливает директорию конфигурации
+	 * @param string $dirConfig директория конфигурации
+	 */
+    public static function setDirConfig(string $dirConfig)
+    {
+    	self::$dirConfig = self::getDR() . $dirConfig . DIRECTORY_SEPARATOR;
+    }
+
+	/**
+	 * Отдает определенный конфиг
+	 * @param string $configName имя конфига
+	 *
+	 * @return array|mixed конфиг
+	 */
+    public static function getConfig(string $configName)
+    {
+    	if (isset(self::$config[$configName])) {
+    		return self::$config[$configName];
+	    }
+	    $globalDirConfig = self::$dirConfig . $configName . '.php';
+    	if (file_exists($globalDirConfig)) {
+    		$config = include $globalDirConfig;
+			self::$config[$configName] = $config;
+		    return $config;
+	    }
+	    return Array();
+    }
 }

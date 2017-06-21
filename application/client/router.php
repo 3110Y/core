@@ -15,19 +15,11 @@ use \core\component\{
     database\driver\PDO as PDO,
     templateEngine\engine\simpleView as simpleView
 };
+use core\core;
 
 
 final class router extends applicationWeb\ARouter implements applicationWeb\IRouter
 {
-    private static $config = Array(
-		'driver'            =>  'mysql',
-		'host'              =>  '127.0.0.1',
-		'port'              =>  '3306',
-		'db'                =>  'core',
-		'name'              =>  'core',
-		'pass'              =>  'corecore',
-		'character'         =>  'UTF8',
-    );
 
     /**
      * router constructor.
@@ -38,11 +30,13 @@ final class router extends applicationWeb\ARouter implements applicationWeb\IRou
      */
     public function __construct($URL, $application, $isAjaxRequest = false)
     {
+
         self::$isAjaxRequest        =  $isAjaxRequest;
         self::$URL                  =  $URL;
         self::$application          =  $application;
+	    $config                     =   core::getConfig('db.common');
         /** @var PDO\component $db */
-        $db =   PDO\component::getInstance(self::$config);
+        $db =   PDO\component::getInstance($config);
         self::set('db', $db);
         self::set('view', new simpleView\component());
         self::get('view')->setExtension('tpl');

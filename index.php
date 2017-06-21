@@ -13,18 +13,10 @@ date_default_timezone_set('Europe/Moscow');
 $timeStart  = microtime(true);
 include 'core' . DIRECTORY_SEPARATOR . 'core.php';
 \core\core::setDR(__DIR__);
+\core\core::setDirConfig('configuration');
 \core\core::getInstance()->register();
 \core\core::getInstance()->addNamespace('core', 'core');
-$config = Array(
-    'driver'            =>  'mysql',
-    'host'              =>  '127.0.0.1',
-    'port'              =>  '3306',
-    'db'                =>  'core',
-    'name'              =>  'core',
-    'pass'              =>  'corecore',
-    'character'         =>  'UTF8',
-);
-
+$config = \core\core::getConfig('db.common');
 /** @var \core\component\database\driver\PDO\component $db */
 $db =   \core\component\database\driver\PDO\component::getInstance($config);
 $structure  =   $db->selectRows('core_application','*', Array( 'status' => '1'), '`priority` ASC');
