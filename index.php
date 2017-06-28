@@ -28,4 +28,3 @@ $timeDiff = $timeEnd - $timeStart;
 echo strtr($result, Array(
     '{time_DIFF}' => $timeDiff,
 ));
-//Qq
