@@ -43,9 +43,14 @@ class component
      * @var array Данные обьекта
      */
     private $row = Array();
+	/**
+	 * @const float Версия
+	 */
+	const VERSION   =   1.0;
 
 
-    /**
+
+	/**
      * component constructor.
      * @param string $URL текущий url
      */

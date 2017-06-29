@@ -14,7 +14,13 @@ namespace core\component\group;
  */
 class component
 {
-    /**
+	/**
+	 * @const float Версия
+	 */
+	const VERSION   =   1.0;
+
+
+	/**
      * Отдает ID group
      * @return mixed|string|array|int ID
      */

@@ -14,7 +14,13 @@ use \core\component\CForm as CForm;
 
 class component extends CForm\AViewer implements CForm\IViewer
 {
-    public function init()
+	/**
+	 * @const float Версия
+	 */
+	const VERSION   =   1.0;
+
+
+	public function init()
     {
         $config = self::$config;
         unset($config['viewer']);

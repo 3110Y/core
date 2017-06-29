@@ -15,7 +15,13 @@ namespace core\component\user;
  */
 class component
 {
-    /**
+	/**
+	 * @const float Версия
+	 */
+	const VERSION   =   1.0;
+
+
+	/**
      * Отдает ID user
      * @return int ID
      */

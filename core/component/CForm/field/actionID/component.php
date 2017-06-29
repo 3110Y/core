@@ -20,8 +20,13 @@ use \core\component\{
  */
 class component extends CForm\AField implements CForm\IField
 {
+	/**
+	 * @const float Версия
+	 */
+	const VERSION   =   1.0;
 
-    public function init()
+
+	public function init()
     {
         $id     =   self::$data['id'];
         $this->addAnswerID("input-field-actionID-id-{$id}");

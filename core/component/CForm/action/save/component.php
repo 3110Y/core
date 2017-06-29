@@ -20,7 +20,13 @@ use \core\component\{
  */
 class component extends CForm\AAction implements CForm\IAction
 {
-    public function init()
+	/**
+	 * @const float Версия
+	 */
+	const VERSION   =   1.0;
+
+
+	public function init()
     {
         // TODO: Implement init() method.
     }

@@ -14,6 +14,11 @@ namespace core\component\authorization;
  */
 class component
 {
+	/**
+	 * @const float Версия
+	 */
+	const VERSION   =   1.0;
+
 
     /**
      * @param \core\components\PDO\component $db ДБ
