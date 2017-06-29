@@ -7,6 +7,7 @@
  */
 
 namespace core\component\image;
+use core\component\fileCache\fileCache;
 use core\core;
 
 /**
@@ -25,7 +26,7 @@ class component
 	 */
 	private static $urlImageDR  = '';
 	/**
-	 * @var string
+	 * @var \Imagick thumbnail
 	 */
 	private static $thumbnail   = '';
 	/**
@@ -36,6 +37,10 @@ class component
 	 * @var string
 	 */
 	private static $ext         = '';
+	/**
+	 * @const float
+	 */
+	const VERSION   =   1.0;
 
 
 	/**
@@ -66,10 +71,7 @@ class component
 				self::$action($value);
 			}
 		}
-		if (!is_dir(core::getDR()   .  'filecache/cache')) {
-			mkdir(core::getDR()    .  'filecache/cache', 0777, true);
-			chmod(core::getDR()     .  'filecache/cache', 0777);
-		}
+		fileCache::checkDir('cache');
 		self::$thumbnail->writeImages(core::getDR() .  $new_file, true);
 		return $new_file;
 	}

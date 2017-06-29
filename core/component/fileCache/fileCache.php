@@ -19,9 +19,9 @@ use core\core;
 class fileCache
 {
 	/**
-	 * @const float Версия ядра
+	 * @const float
 	 */
-	const VERSION   =   1.2;
+	const VERSION   =   1.0;
 
 
 	/**
@@ -38,6 +38,18 @@ class fileCache
 			die('Не могу создать дирректорию ' . $dir);
 		}
 		return $needAbsolute    ?   $dirAbsolute    :   $dir;
+	}
+
+	/**
+	 * Проверяет на наличие дирректорию и создает ее в случае необходимости
+	 * @param string $dir дирректория
+	 */
+	public static function checkDir(string $dir)
+	{
+		$dirAbsolute    =   core::getDirFileCache() . $dir;
+		if (!file_exists($dirAbsolute) && !mkdir($dirAbsolute, 0777, true) && !is_dir($dirAbsolute)) {
+			die('Не могу создать дирректорию ' . $dir);
+		}
 	}
 
 }

@@ -7,10 +7,8 @@
  */
 
 namespace core\component\CForm\field\fileUpload;
-use \core\component\{
-    CForm,
-    templateEngine\engine\simpleView,
-	image\component as image
+use core\component\{
+	CForm, fileCache\fileCache, templateEngine\engine\simpleView, image\component as image
 };
 use core\core;
 
@@ -21,6 +19,11 @@ use core\core;
  */
 class component extends CForm\AField implements CForm\IField
 {
+	/**
+	 * @const float
+	 */
+	const VERSION   =   1.0;
+
 
     public function init()
     {
@@ -228,10 +231,7 @@ class component extends CForm\AField implements CForm\IField
         } else {
             $data['MODE'] = 'toolbar_default';
         }
-        if (!is_dir($_SERVER['DOCUMENT_ROOT'] . '/filecache/' . $this->componentSchema['path'])) {
-            mkdir($_SERVER['DOCUMENT_ROOT'] . '/filecache/' . $this->componentSchema['path'], 0777, true);
-            chmod($_SERVER['DOCUMENT_ROOT'] . '/filecache/' . $this->componentSchema['path'], 0777);
-        }
+	    fileCache::checkDir($this->componentSchema['path']);
 
         $answer =   simpleView\component::replace(self::getTemplate('tpl/edit.tpl', __DIR__), $data);
         $this->setComponentAnswer($answer);

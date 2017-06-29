@@ -8,9 +8,8 @@
 
 namespace core\component\CForm\field\dropZone;
 
-use \core\component\{
-    CForm,
-    templateEngine\engine\simpleView
+use core\component\{
+	CForm, fileCache\fileCache, templateEngine\engine\simpleView
 };
 
 
@@ -20,6 +19,11 @@ use \core\component\{
  */
 class component extends CForm\AField implements CForm\IField
 {
+	/**
+	 * @const float
+	 */
+	const VERSION   =   1.0;
+
 
     public function init()
     {
@@ -159,11 +163,7 @@ class component extends CForm\AField implements CForm\IField
         self::$config['controller']::setJS(self::getTemplate('vendor/dropzone/min/dropzone-amd-module.min.js', __DIR__), true);
         $jsInit =   self::getTemplate('js/init.tpl', __DIR__);
         $data['INIT']             .=     simpleView\component::replace($jsInit, $data);
-        if (!is_dir($_SERVER['DOCUMENT_ROOT'] . '/filecache/' . $this->componentSchema['path'])) {
-            mkdir($_SERVER['DOCUMENT_ROOT'] . '/filecache/' . $this->componentSchema['path'], 0777, true);
-            chmod($_SERVER['DOCUMENT_ROOT'] . '/filecache/' . $this->componentSchema['path'], 0777);
-        }
-
+	    fileCache::checkDir($this->componentSchema['path']);
         $answer =   simpleView\component::replace(self::getTemplate('tpl/edit.tpl', __DIR__), $data);
         $this->setComponentAnswer($answer);
     }
