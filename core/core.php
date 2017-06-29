@@ -18,7 +18,7 @@ final class core
     /**
      * @const float Версия ядра
      */
-    const VERSION   =   1.1;
+    const VERSION   =   1.2;
     /**
      * @const string Путь до компонентов
      */
@@ -45,6 +45,10 @@ final class core
 	 * @var string директория конфигурации
 	 */
     private static $dirConfig = '';
+    /**
+	 * @var string директория для файлов и кеша
+	 */
+    private static $fileCache = '';
 
     /**
      * @return core|null
@@ -229,6 +233,25 @@ final class core
     }
 
 	/**
+	 * Устанавливает директорию для файлов и кеша
+	 * @param string $fileCache директория для файлов и кеша
+	 */
+    public static function setDirFileCache(string $fileCache)
+    {
+    	self::$fileCache = self::getDR() . $fileCache . DIRECTORY_SEPARATOR;
+    }
+
+    /**
+	 * Отдает директорию для файлов и кеша
+     *
+     * @return string директория для файлов и кеша
+	 */
+    public static function getDirFileCache(): string
+    {
+    	return self::$fileCache;
+    }
+
+    /**
 	 * Устанавливает директорию конфигурации
 	 * @param string $dirConfig директория конфигурации
 	 */

@@ -14,6 +14,7 @@ $timeStart  = microtime(true);
 include 'core' . DIRECTORY_SEPARATOR . 'core.php';
 \core\core::setDR(__DIR__);
 \core\core::setDirConfig('configuration');
+\core\core::setDirFileCache('filecache');
 \core\core::getInstance()->register();
 \core\core::getInstance()->addNamespace('core', 'core');
 $config = \core\core::getConfig('db.common');

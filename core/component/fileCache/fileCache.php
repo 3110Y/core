@@ -18,9 +18,26 @@ use core\core;
  */
 class fileCache
 {
-	public static function getDir(string $dir)
-	{
+	/**
+	 * @const float Версия ядра
+	 */
+	const VERSION   =   1.2;
 
+
+	/**
+	 * Проверяет на наличие дирректорию и создает ее в случае необходимости
+	 * @param string $dir дирректория
+	 * @param bool   $needAbsolute нужен абсолютный путь
+	 *
+	 * @return string путь
+	 */
+	public static function getDir(string $dir, $needAbsolute = true): string
+	{
+		$dirAbsolute    =   core::getDirFileCache() . $dir;
+		if (!file_exists($dirAbsolute) && !mkdir($dirAbsolute, 0777, true) && !is_dir($dirAbsolute)) {
+			die('Не могу создать дирректорию ' . $dir);
+		}
+		return $needAbsolute    ?   $dirAbsolute    :   $dir;
 	}
 
 }
