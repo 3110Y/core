@@ -28,7 +28,7 @@ class component extends CForm\AViewer implements CForm\IViewer
         if (self::$countSubURL >= 3) {
             $this->schemaField = Array();
             foreach ($this->viewerConfig['field'] as $value) {
-                if (isset($value['unique']) && $value['unique'] === self::$subURL[3]) {
+                if (isset($value['unique']) && $value['unique'] === self::$subURL[2]) {
                     $this->schemaField[] = $value;
                 }
             }
@@ -127,6 +127,7 @@ class component extends CForm\AViewer implements CForm\IViewer
         ));
         /** @var \core\component\database\driver\PDO\component $db */
         $db =   $this->viewerConfig['db'];
-        return $db->selectRow(self::$config['table'], $this->field, $where);
+        $row    =   $db->selectRow($this->viewerConfig['table'], $this->field, $where);
+        return ($row === false) ?   []  :   $db->selectRow($this->viewerConfig['table'], $this->field, $where);
     }
 }
