@@ -60,7 +60,7 @@ class component
 			return false;
 		}
 		$new_file = '/filecache/cache/' . self::$key . '.' . self::$ext;
-		if (file_exists(core::getDR() .  $new_file)) {
+		if (file_exists(core::getDR(true) .  $new_file)) {
 			return $new_file;
 		}
 		/** @var \Imagick thumbnail */
@@ -72,7 +72,7 @@ class component
 			}
 		}
 		fileCache::checkDir('cache');
-		self::$thumbnail->writeImages(core::getDR() .  $new_file, true);
+		self::$thumbnail->writeImages(core::getDR(true) .  $new_file, true);
 		return $new_file;
 	}
 
