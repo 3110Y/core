@@ -85,7 +85,7 @@ class component extends CForm\AViewer implements CForm\IViewer
             $fieldComponent::setData($this->data);
             $fieldComponent  =   new $fieldComponent();
             $fieldComponent->setComponentSchema($field);
-            if (isset($this->data[$field['field']])) {
+            if (isset($field['field'], $this->data[$field['field']])) {
                 $fieldComponent->setFieldValue($this->data[$field['field']]);
             }
             $fieldComponent->setField($this->field);
