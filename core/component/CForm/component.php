@@ -86,7 +86,9 @@ class component extends ACForm
 		self::$subURL           =   self::$config['controller']::getSubURL();
 		self::$countSubURL      =   count(self::$subURL);
 
-		if (self::$countSubURL >= 2 && isset(self::$subURL[self::$countSubURL - 2], self::$config['viewer'][self::$subURL[0]])) {
+        if (self::$countSubURL >= 3 && isset(self::$subURL[self::$countSubURL - 3], self::$config['viewer'][self::$subURL[0]])) {
+            self::$mode   =   self::$subURL[self::$countSubURL - 3];
+        } elseif (self::$countSubURL >= 2 && isset(self::$subURL[self::$countSubURL - 2], self::$config['viewer'][self::$subURL[0]])) {
 			self::$mode   =   self::$subURL[self::$countSubURL - 2];
 		} elseif (self::$countSubURL === 1 && isset(self::$config['viewer'][self::$subURL[0]])) {
 			self::$mode   =   self::$subURL[0];
@@ -96,7 +98,6 @@ class component extends ACForm
 		if (self::$mode === '') {
 			die('Неверный режим просмотрщика');
 		}
-        //die(var_dump(self::$mode));
 		$this->viewer       = self::$config['viewer'][self::$mode]['viewer'];
 		$this->viewerConfig =  self::$config['viewer'][self::$mode];
 	}
