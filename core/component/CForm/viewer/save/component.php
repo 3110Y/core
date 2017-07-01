@@ -25,7 +25,16 @@ class component extends CForm\AViewer implements CForm\IViewer
         $config = self::$config;
         unset($config['viewer']);
         $this->viewerConfig = array_merge($this->viewerConfig, $config);
-        $this->schemaField              =  $this->viewerConfig['field'];
+        if (self::$countSubURL >= 3) {
+            $this->schemaField = Array();
+            foreach ($this->viewerConfig['field'] as $value) {
+                if ($value['unique'] === self::$subURL[3]) {
+                    $this->schemaField[] = $value;
+                }
+            }
+        } else {
+            $this->schemaField = $this->viewerConfig['field'];
+        }
         $this->viewerConfig['id']       =   $this->getID();
         $this->viewerConfig['parent']   =   $this->getParent();
         $this->data                     =   $this->fillData();
