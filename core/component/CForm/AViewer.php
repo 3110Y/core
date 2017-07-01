@@ -199,7 +199,9 @@ abstract class AViewer extends ACForm
                 unset($this->schemaField[$key]);
                 continue;
             }
-            $this->field[] = $field['field'];
+            if (isset($field['field'])) {
+                $this->field[] = $field['field'];
+            }
         }
     }
 
