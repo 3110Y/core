@@ -28,7 +28,7 @@ class component extends CForm\AViewer implements CForm\IViewer
         if (self::$countSubURL >= 3) {
             $this->schemaField = Array();
             foreach ($this->viewerConfig['field'] as $value) {
-                if ($value['unique'] === self::$subURL[3]) {
+                if (isset($value['unique']) && $value['unique'] === self::$subURL[3]) {
                     $this->schemaField[] = $value;
                 }
             }
