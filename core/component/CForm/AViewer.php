@@ -256,8 +256,11 @@ abstract class AViewer extends ACForm
         if (isset($this->viewerConfig['id'])) {
             return (int)$this->viewerConfig['id'];
         }
-        if (count(self::$subURL) >= 2) {
+        if (count(self::$subURL) === 2) {
             return (int)end(self::$subURL);
+        }
+        if (count(self::$subURL) >= 3) {
+            return (int)self::$subURL[1];
         }
         return 0;
     }
