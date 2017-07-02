@@ -9,6 +9,7 @@
 namespace core\component\CForm\field\fileUploadMultiple;
 use \core\component\{
     CForm,
+    fileCache\fileCache,
     templateEngine\engine\simpleView,
     image\component as image
 };
@@ -221,10 +222,7 @@ class component extends CForm\AField implements CForm\IField
         } else {
             $data['MODE'] = 'toolbar_default';
         }
-        if (!is_dir($_SERVER['DOCUMENT_ROOT'] . '/filecache/' . $this->componentSchema['path'])) {
-            mkdir($_SERVER['DOCUMENT_ROOT'] . '/filecache/' . $this->componentSchema['path'], 0777, true);
-            chmod($_SERVER['DOCUMENT_ROOT'] . '/filecache/' . $this->componentSchema['path'], 0777);
-        }
+        fileCache::checkDir($this->componentSchema['path']);
 
         /** @var \core\component\database\driver\PDO\component $db */
         $db     =   self::$config['db'];
