@@ -7,7 +7,7 @@
  */
 return Array(
 	'driver'            =>  'mysql',
-	'host'              =>  '127.0.0.1',
+	'host'              =>  '91.122.60.48',
 	'port'              =>  '3306',
 	'db'                =>  'core',
 	'name'              =>  'core',
