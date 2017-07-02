@@ -542,17 +542,17 @@ abstract class ADriver
             $result['execute'][$v['k']] = $v['v'];
         }
         if ($forInsert === false) {
-            if (is_array($result['field'])) {
+            if (isset($result['field']) && is_array($result['field'])) {
 	            $result['value'] = Array();
                 foreach ($result['field'] as $key => $val) {
                     $result['value'][] = "{$key} = {$val}";
                 }
+                $result['value'] = implode(',', $result['value']);
             }
-            $result['value'] = implode(',', $result['value']);
         } else {
             $f = Array();
             $v = Array();
-            if (is_array($result['field'])) {
+            if (isset($result['field']) && is_array($result['field'])) {
                 foreach ($result['field'] as $key => $val) {
                     $f[] = $key;
                     $v[] = $val;
