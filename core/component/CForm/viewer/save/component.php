@@ -81,13 +81,14 @@ class component extends CForm\AViewer implements CForm\IViewer
         $where = Array(
             'id'    =>  $this->viewerConfig['id']
         );
+        /** @var \core\component\database\driver\PDO\component $db */
+        $db = $this->viewerConfig['db'];
         if (!empty($value)) {
-            /** @var \core\component\database\driver\PDO\component $db */
-            $db = $this->viewerConfig['db'];
             $db->update($this->viewerConfig['table'], $value, $where);
             $this->viewerConfig['id'] = $db->getLastID();
-            $this->data = $db->selectRow($this->viewerConfig['table'], $this->field, $where);
         }
+        $this->data = $db->selectRow($this->viewerConfig['table'], $this->field, $where);
+
         /** поля для пост обновления */
         foreach ($this->schemaField as $key => $field) {
             /** @var \core\component\CForm\field\input\component $fieldComponent */
