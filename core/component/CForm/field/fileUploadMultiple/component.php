@@ -22,6 +22,11 @@ use core\core;
  */
 class component extends CForm\AField implements CForm\IField
 {
+    /**
+     * @const float
+     */
+    const VERSION   =   1.0;
+
 
     public function init()
     {
