@@ -17,7 +17,7 @@ class component extends CForm\AViewer implements CForm\IViewer
 	/**
 	 * @const float Версия
 	 */
-	const VERSION   =   1.1;
+	const VERSION   =   1.3;
 
 
 	public function init()
@@ -47,6 +47,7 @@ class component extends CForm\AViewer implements CForm\IViewer
             'warning'  => Array()
         );
         $value   = Array();
+        $content = Array();
         /** поля для пре обновления */
         foreach ($this->schemaField as $key => $field) {
             /** @var \core\component\CForm\field\input\component $fieldComponent */
@@ -54,7 +55,7 @@ class component extends CForm\AViewer implements CForm\IViewer
             $fieldComponent::setData($this->data);
             $fieldComponent  =   new $fieldComponent();
             $fieldComponent->setComponentSchema($field);
-            if (isset($_POST[$field['field']])) {
+            if (isset($field['field'], $_POST[$field['field']])) {
                 $fieldComponent->setFieldValue($_POST[$field['field']]);
             }
             $fieldComponent->setField($this->field);
@@ -67,17 +68,26 @@ class component extends CForm\AViewer implements CForm\IViewer
                 unset($value[$field['field']]);
             } elseif (isset($answer['value'])) {
                 $value[$field['field']] = $answer['value'];
-            } elseif (isset($_POST[$field['field']])) {
+            } elseif (isset($field['field'], $_POST[$field['field']])) {
                 $value[$field['field']] = $_POST[$field['field']];
             }
             if (isset($answer['error'])) {
                 $error['danger'][] = $answer['error'];
+            }
+            if (isset($answer['content'])) {
+                if ( isset($field['field'])) {
+                    $content[$field['field']]   =    $answer['content'];
+                } elseif ( isset($field['table'])) {
+                    $content[$field['table']]   =    $answer['content'];
+                }
+
             }
         }
         if (!empty($error['danger'])) {
             $this->answer   =   $error;
             return $this->answer;
         }
+
         $where = Array(
             'id'    =>  $this->viewerConfig['id']
         );
@@ -88,7 +98,6 @@ class component extends CForm\AViewer implements CForm\IViewer
             $this->viewerConfig['id'] = $db->getLastID();
         }
         $this->data = $db->selectRow($this->viewerConfig['table'], $this->field, $where);
-
         /** поля для пост обновления */
         foreach ($this->schemaField as $key => $field) {
             /** @var \core\component\CForm\field\input\component $fieldComponent */
@@ -112,6 +121,9 @@ class component extends CForm\AViewer implements CForm\IViewer
             $this->answer   =   $error;
         } else {
             $this->answer   =   true;
+        }
+        if ($this->answer === true && !empty($content)) {
+            $this->answer   =   $content;
         }
         return $this->answer;
     }
