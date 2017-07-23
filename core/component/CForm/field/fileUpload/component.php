@@ -22,7 +22,7 @@ class component extends CForm\AField implements CForm\IField
 	/**
 	 * @const float
 	 */
-	const VERSION   =   1.1;
+	const VERSION   =   1.8;
 
 
     public function init()
@@ -65,22 +65,23 @@ class component extends CForm\AField implements CForm\IField
             $array['error'] = "Поле \"{$name}\" не должно быть пустым";
         }
         if (isset($_FILES[$this->componentSchema['field']], $_FILES[$this->componentSchema['field']]['tmp_name']) && $_FILES[$this->componentSchema['field']]['tmp_name'] != '') {
-        	if (self::$data[$this->componentSchema['field']] != '' && file_exists(core::getDR(true) . self::$data[$this->componentSchema['field']])) {
-        		unlink(core::getDR(true) . self::$data[$this->componentSchema['field']]);
+            if (self::$data[$this->componentSchema['field']] != '' && file_exists(core::getDR(true) . self::$data[$this->componentSchema['field']])) {
+                unlink(core::getDR(true) . self::$data[$this->componentSchema['field']]);
 	        }
             $files = $_FILES[$this->componentSchema['field']];
+
             $thumbnail              =   new \Imagick($files['tmp_name']);
             $original_size          =   getimagesize($files['tmp_name']);
             $original_width 		=   $original_size[0];
             $original_height 		=   $original_size[1];
             if ($original_width > 1920 || $original_height > 1080) {
-	            $x_ratio = 1920 / $original_width;
-	            $y_ratio = 1080 / $original_height;
-	            $ratio = min($x_ratio, $y_ratio);
-	            $use_x_ratio = ($x_ratio === $ratio);
-	            $new_width = $use_x_ratio ? 1920 : floor($original_width * $ratio);
-	            $new_height = !$use_x_ratio ? 1080 : floor($original_height * $ratio);
-	            $thumbnail->resizeImage($new_width, $new_height, \Imagick::FILTER_LANCZOS, 1);
+                $x_ratio = 1920 / $original_width;
+                $y_ratio = 1080 / $original_height;
+                $ratio = min($x_ratio, $y_ratio);
+                $use_x_ratio = ($x_ratio === $ratio);
+                $new_width = $use_x_ratio ? 1920 : floor($original_width * $ratio);
+                $new_height = !$use_x_ratio ? 1080 : floor($original_height * $ratio);
+                $thumbnail->resizeImage($new_width, $new_height, \Imagick::FILTER_LANCZOS, 1);
             }
             $thumbnailStore = '/filecache/' . $this->componentSchema['path'];
             $name = $files['name'];
@@ -105,17 +106,38 @@ class component extends CForm\AField implements CForm\IField
             if (isset($_POST['id'])) {
                 $name .= '_' . $_POST['id'];
             }
-            $name .= '_' . random_int(0, 9);
-            if ($files["type"] == 'image/gif') {
+            $name   .= '_' . random_int(0, 9);
+            $end    =   '';
+            if ($files['type'] === 'image/gif') {
                 $end = '.gif';
-            } elseif($files["type"] == 'image/png') {
+            } elseif($files['type'] === 'image/png') {
                 $end = '.png';
-            } elseif($files["type"] == 'image/jpeg') {
+            } elseif($files['type'] === 'image/jpeg') {
                 $end = '.jpeg';
             }
             $thumbnailStore .= '/' . $name . $end;
             $thumbnail->writeImages($_SERVER['DOCUMENT_ROOT']  . $thumbnailStore, true);
+            $option = Array(
+                Array(
+                    'action'    => 'adapriveResizeMin',
+                    'width'     => '200',
+                    'height'    => '200'
+                ),
+                Array(
+                    'action'    => 'crop',
+                    'width'     => '200',
+                    'height'    => '200'
+                ),
+            );
+            $data = Array(
+                'CS_FIELD'   => $this->componentSchema['field'],
+                'DATA_ID'    => self::$data['id'],
+                'IMG'        => image::image($thumbnailStore, $option),
+                'IMG_BIG'    => $thumbnailStore,
+            );
+            $photo          =   self::getTemplate('tpl/photo.tpl', __DIR__);
             $array['value'] = $thumbnailStore;
+            $array['content'] =   simpleView\component::replace($photo, $data);
         }
         return $array;
     }
@@ -147,26 +169,14 @@ class component extends CForm\AField implements CForm\IField
         foreach (self::$data as $field  => $value) {
             $data['DATA_'. mb_strtoupper($field)] = $value;
         }
-	    $option = Array(
-		    Array(
-			    'action'    => 'adapriveResizeMax',
-			    'width'     => '200',
-			    'height'    => '200'
-		    ),
-	    );
-        if ( $this->fieldValue != '') {
-	        $data['VALUE'] =  '<a href="#modal-center-' . $this->componentSchema['field'] . '-id-' . self::$data['id'] . '" uk-toggle><img src="' . image::image($this->fieldValue, $option) . '" class="fileUpload-dflex" ></a>
-								<div id="modal-center-' . $this->componentSchema['field'] . '-id-' . self::$data['id'] . '" uk-modal="center: true">
-								    <div class="uk-modal-dialog uk-text-center">
-								        <button class="uk-modal-close-outside" type="button" uk-close></button>
-								        <img src="'.$this->fieldValue.'" alt="">
-								    </div>
-								</div>';
-        } else {
-	        $data['VALUE'] = '<img src="" style="display:none;">';
+        foreach ($this->componentSchema as $field  => $value) {
+            $data['CS_'. mb_strtoupper($field)] = $value;
         }
+
         $data['ID']                 =  $this->componentSchema['field'];
         $data['NAME']               =  $this->componentSchema['field'];
+
+
         if (isset($this->componentSchema['prevIcon'])) {
             $data['PREV_ICON'] = "<span class='uk-form-icon' uk-icon='icon: {$this->componentSchema['prevIcon']}'></span>";
         }
@@ -231,7 +241,27 @@ class component extends CForm\AField implements CForm\IField
             $data['MODE'] = 'toolbar_default';
         }
 	    fileCache::checkDir($this->componentSchema['path']);
-
+        $jsInit =   self::getTemplate('js/init.tpl', __DIR__);
+        $data['INIT']             .=     simpleView\component::replace($jsInit, $data);
+        if ( $this->fieldValue !== '') {
+            $option = Array(
+                Array(
+                    'action'    => 'adapriveResizeMin',
+                    'width'     => '200',
+                    'height'    => '200'
+                ),
+                Array(
+                    'action'    => 'crop',
+                    'width'     => '200',
+                    'height'    => '200'
+                ),
+            );
+            $data['IMG'] =  image::image($this->fieldValue, $option);
+            $data['IMG_BIG'] = $this->fieldValue;
+            $data['VALUE'] = simpleView\component::replace(self::getTemplate('tpl/photo.tpl', __DIR__), $data);
+        } else {
+            $data['VALUE'] = "<div id='{$data['NAME']}-cont-block'></div>";
+        }
         $answer =   simpleView\component::replace(self::getTemplate('tpl/edit.tpl', __DIR__), $data);
         $this->setComponentAnswer($answer);
     }
@@ -268,24 +298,25 @@ class component extends CForm\AField implements CForm\IField
             $href = strtr($this->componentSchema['href'], $data);
         }
 
-	    $option = Array(
-	    	Array(
-	    		'action'    => 'adapriveResizeMax',
-			    'width'     => '100',
-			    'height'    => '100'
-		    ),
-	    );
-	    if ( $this->fieldValue != '') {
-		    $data['VALUE'] =  '<a href="#modal-center-' . $this->componentSchema['field'] . '-id-' . self::$data['id'] . '" uk-toggle><img src="' . image::image($this->fieldValue, $option) . '" class="listing-fileUpload"></a>
+        $option = Array(
+            Array(
+                'action'    => 'adapriveResizeMax',
+                'width'     => '100',
+                'height'    => '100'
+            ),
+        );
+        if ( $this->fieldValue !== '') {
+            $data['VALUE'] =  '<a href="#modal-center-' . $this->componentSchema['field'] . '-id-' . self::$data['id'] . '" uk-toggle>
+		                        <img src="' . image::image($this->fieldValue, $option) . '" class="listing-fileUpload" ></a>
 								<div id="modal-center-' . $this->componentSchema['field'] . '-id-' . self::$data['id'] . '" uk-modal="center: true">
 								    <div class="uk-modal-dialog uk-text-center">
 								        <button class="uk-modal-close-outside" type="button" uk-close></button>
 								        <img src="'.$this->fieldValue.'" alt="">
 								    </div>
 								</div>';
-	    } else {
-		    $data['VALUE'] = '<span class="uk-label uk-label-danger">Изображение не загружено</span>';
-	    }
+        } else {
+            $data['VALUE'] = '<span class="uk-label uk-label-danger">Изображение не загружено</span>';
+        }
         $data['HREF'] =  $href;
         $answer =   simpleView\component::replace(self::getTemplate('tpl/listing.tpl', __DIR__), $data);
         $this->setComponentAnswer($answer);

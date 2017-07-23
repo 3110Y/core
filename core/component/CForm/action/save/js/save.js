@@ -15,9 +15,7 @@ $(document).ready(function () {
             url: action + '?json=true',
             iframe: true,
             dataType: 'json',
-            success:    function(data) {
-                var array = JSON.parse(data);
-                console.log(data);
+            success:    function(array) {
                 if (array === true) {
                     UIkit.notification("Сохранено", {status:'success'})
                 } else {

@@ -40,7 +40,7 @@ class component
 	/**
 	 * @const float
 	 */
-	const VERSION   =   1.2;
+	const VERSION   =   1.3;
 
 
 	/**
@@ -81,8 +81,8 @@ class component
 	 */
 	private static function resize(array $option = Array())
 	{
-		$width  = isset($option['width'])        ?   $option['width']       :   0;
-		$height = isset($option['height'])       ?   $option['height']      :   0;
+		$width  = $option['width'] ?? 0;
+		$height = $option['height'] ?? 0;
 		self::$thumbnail->resizeImage($width, $height, \Imagick::FILTER_LANCZOS, 1);
 	}
 
@@ -91,8 +91,8 @@ class component
 	 */
 	private static function adapriveResizeMax(array $option = Array())
 	{
-		$width  = isset($option['width'])           ?   $option['width']       :   0;
-		$height = isset($option['height'])          ?   $option['height']      :   0;
+		$width  = $option['width'] ?? 0;
+		$height = $option['height'] ?? 0;
 		$original_size          =   getimagesize(self::$urlImageDR);
 		$original_width 		=   $original_size[0];
 		$original_height 		=   $original_size[1];
@@ -110,8 +110,8 @@ class component
 	 */
 	private static function adapriveResizeMin(array $option = Array())
 	{
-		$width  = isset($option['width'])           ?   $option['width']       :   0;
-		$height = isset($option['height'])          ?   $option['height']      :   0;
+		$width  = $option['width'] ?? 0;
+		$height = $option['height'] ?? 0;
 		$original_size          =   getimagesize(self::$urlImageDR);
 		$original_width 		=   $original_size[0];
 		$original_height 		=   $original_size[1];
@@ -129,21 +129,20 @@ class component
 	 */
 	private static function crop(array $option = Array())
 	{
-		$width  = isset($option['width'])           ?   $option['width']       :   0;
-		$height = isset($option['height'])          ?   $option['height']      :   0;
-		if (isset($option['x'])) {
-			$x = $option['x'];
-		} else {
-			$width  = self::$thumbnail->getImageWidth();
-			$x 		        =   ($width / 2);
-
-		}
-		if (isset($option['y'])) {
-			$y = $option['y'];
-		} else {
-			$height = self::$thumbnail->getImageHeight();
-			$y 		        =   ($height / 2);
-		}
-		self::$thumbnail->cropImage($width, $height, $x, $y);
+        $width  = $option['width'] ?? 0;
+        $height = $option['height'] ?? 0;
+        if (isset($option['x'])) {
+            $x = $option['x'];
+        } else {
+            $widthNow       = self::$thumbnail->getImageWidth();
+            $x 		        =   ($widthNow - $width) / 2;
+        }
+        if (isset($option['y'])) {
+            $y = $option['y'];
+        } else {
+            $heightNow = self::$thumbnail->getImageHeight();
+            $y 		        =   ($heightNow - $height) / 2;
+        }
+        self::$thumbnail->cropImage($width, $height, $x, $y);
 	}
 }

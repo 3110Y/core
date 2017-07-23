@@ -1,20 +1,23 @@
 <div class="cform-field {FIELD_CLASS}" style="{FIELD_STYLE}">
 
-	<label for="{ID}" class="uk-form-label {LABEL_CLASS}" title="{LABEL_TITLE}" {TOOLTIP} style="vertical-align: top; {LABEL_STYLE}">{LABEL}</label>
+    <label for="{ID}" class="uk-form-label {LABEL_CLASS}" title="{LABEL_TITLE}" {TOOLTIP} style="vertical-align: top; {LABEL_STYLE}">{LABEL}</label>
 
-	<div class="uk-form-controls {CONTROLS_CLASS}" style="{CONTROLS_STYLE}">
-		{PREV_ICON}
-		{POST_ICON}
-		<div uk-form-custom class="fileUpload-dflex">
+    <div class="uk-form-controls {CONTROLS_CLASS}" style="{CONTROLS_STYLE}">
+        {PREV_ICON}
+        {POST_ICON}
+        <div  class="fileUpload-dflex" id="{NAME}-cont-{ID}-all">
             {VALUE}
-            <div uk-form-custom="target: true">
-                <input type="file" id="{ID}" name="{NAME}"  class="{CLASS}" placeholder="{PLACEHOLDER}" style="{STYLE}" {REQUIRED}>
-                <input class="uk-input uk-form-width-medium" type="text" placeholder="Выберете файл" disabled>
-                <button class="uk-button uk-button-default uk-form-width-medium" >Загрузить</button>
+            <div id="{ID}" class="test-upload uk-placeholder uk-text-center"  style="margin-top: 0">
+                <span uk-icon="icon: cloud-upload"></span>
+                <div uk-form-custom>
+                    <input type="file" multiple  name="{NAME}"  class="{CLASS}" placeholder="{PLACEHOLDER}" style="{STYLE}" {REQUIRED}>
+                    <span class="uk-link" style="color: #5897fb; border-bottom: 1px dotted #5897fb; ">Загрузка</span>
+                </div>
             </div>
 
-		</div>
-	    {INIT}
+            <progress id="progressbar-{ID}" class="uk-progress" value="0" max="100" hidden></progress>
+        </div>
+        {INIT}
     </div>
 
 </div>

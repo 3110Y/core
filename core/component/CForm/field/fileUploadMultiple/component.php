@@ -25,7 +25,7 @@ class component extends CForm\AField implements CForm\IField
     /**
      * @const float
      */
-    const VERSION   =   1.0;
+    const VERSION   =   1.3;
 
 
     public function init()
@@ -36,6 +36,7 @@ class component extends CForm\AField implements CForm\IField
             $this->addAnswerID("fileUploadMultiple-field-{$field}-id-{$id}");
             $this->addAnswerClass('fileUploadMultiple');
             self::$config['controller']::setCss(self::getTemplate('css/fileUploadMultiple.css', __DIR__));
+            self::$config['controller']::setJS(self::getTemplate('vendor/html5sortable/html.sortable.min.js', __DIR__), true);
         }
     }
 
@@ -55,7 +56,21 @@ class component extends CForm\AField implements CForm\IField
     public function preUpdate(): array
     {
         $array = Array();
-        if(isset($_GET['dell']) && $_GET['dell'] !== '') {
+        if (isset($_GET['sort'], $_POST['sort'])) {
+            $sort   =   json_decode($_POST['sort']);
+            /** @var \core\component\database\driver\PDO\component $db */
+            $db     =   self::$config['db'];
+            foreach ($sort as $order_in_img => $id) {
+                $value = Array(
+                    'order_in_img' => $order_in_img * 100
+                );
+                $where = Array(
+                    'id' => $id
+                );
+                $db->update($this->componentSchema['table'], $value, $where);
+            }
+        }
+        if (isset($_GET['dell']) && $_GET['dell'] !== '') {
             /** @var \core\component\database\driver\PDO\component $db */
             $db     =   self::$config['db'];
             $where = Array(
@@ -128,6 +143,28 @@ class component extends CForm\AField implements CForm\IField
                 'order_in_img'  => $row['order_in_img'] === false    ?   100 :   $row['order_in_img'] + 100 ,
             );
             $db->inset($this->componentSchema['table'], $value);
+            $lastID =   $db->getLastID();
+            $row = $db->selectRow($this->componentSchema['table'], '*', Array('id'=>$lastID));
+            $option = Array(
+                Array(
+                    'action'    => 'adapriveResizeMin',
+                    'width'     => '200',
+                    'height'    => '150'
+                ),
+                Array(
+                    'action'    => 'crop',
+                    'width'     => '200',
+                    'height'    => '150'
+                ),
+            );
+            $data = Array(
+                'IMG_IMG'   => image::image($row['img'], $option),
+                'IMG_ID'    => $row['id'],
+                'ID'        => $this->componentSchema['table'],
+            );
+            $jsInit         =   self::getTemplate('tpl/card.tpl', __DIR__);
+            $array['content'] =   simpleView\component::replace($jsInit, $data);
+
         }
         return $array;
     }
@@ -239,8 +276,13 @@ class component extends CForm\AField implements CForm\IField
         if ($rows !== false) {
             $option = Array(
                 Array(
-                    'action'    => 'adapriveResizeMax',
-                    'width'     => '150',
+                    'action'    => 'adapriveResizeMin',
+                    'width'     => '200',
+                    'height'    => '150'
+                ),
+                Array(
+                    'action'    => 'crop',
+                    'width'     => '200',
                     'height'    => '150'
                 ),
             );
