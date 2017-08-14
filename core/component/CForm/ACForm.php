@@ -46,7 +46,7 @@ abstract class ACForm
 		$dir    =   strtr($dir, Array(
 			'\\' =>  '/'
 		));
-		$dr    =   strtr(core::getDR(true), Array(
+		$dr    =   strtr(core::getDR(), Array(
 			'\\' =>  '/'
 		));
 		return '/' . str_replace($dr,'', $dir) . '/' . $template;
