@@ -19,7 +19,7 @@ class component extends templateEngine\AEngine implements templateEngine\IEngine
     /**
      * @const float Версия ядра
      */
-    const VERSION   =   1.3;
+    const VERSION   =   1.4;
 
 
     /**
@@ -44,7 +44,7 @@ class component extends templateEngine\AEngine implements templateEngine\IEngine
             if (file_exists($template)) {
                 $content = file_get_contents($template);
             } elseif (file_exists(core::getDR() . $template)) {
-                $template   =   core::getDR() . $template;
+                $template   =   core::getDR(true) . $template;
                 $content = file_get_contents($template);
             } else {
                 //TODO: Проверка наличия шаблона
