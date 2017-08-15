@@ -24,7 +24,7 @@ class component extends CForm\AAction implements CForm\IAction
 	/**
 	 * @const float Версия
 	 */
-	const VERSION   =   1.0;
+	const VERSION   =   1.1;
 
 	public function init()
 	{
@@ -41,8 +41,9 @@ class component extends CForm\AAction implements CForm\IAction
 	 */
 	public function one()
 	{
+		$application    =   self::$config['controller']::getApplication();
 		$data   =   Array(
-			'URL'           => self::$config['controller']::getPageURL(),
+			'URL'           =>  $application['url'],
 			'CHILDREN_URL'  =>  isset($this->componentSchema['children_url'])       ?   $this->componentSchema['children_url']  :   '',
 			'ICON'          =>  isset($this->componentSchema['icon'])               ?   $this->componentSchema['icon']          :   '',
 			'NAME'          =>  isset($this->componentSchema['name'])               ?   $this->componentSchema['name']          :   '',
