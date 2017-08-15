@@ -25,7 +25,6 @@ abstract class ARouter extends AApplication
     {
         self::$pageError    = self::searchPageError();
         self::$page         = self::searchPage();
-        var_dump(self::$page);
     }
 
     /**
