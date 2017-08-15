@@ -62,7 +62,7 @@ abstract class ARouter extends AApplication
 					$item['countSubURL']        =   $controller::$countSubURL;
 				}
 				if (
-					$parentID === $item['parent_id']
+					(int)$parentID === (int)$item['parent_id']
 					&& (
 						$URLCount === $URLKey
 						|| (
@@ -91,7 +91,7 @@ abstract class ARouter extends AApplication
 					$item['controllerObject']::setSubURL($subURL);
 					return $item;
 				} elseif (
-					$parentID === $item['parent_id']
+					(int)$parentID === (int)$item['parent_id']
 					&& (
 						$item['url'] === $URLItem
 						|| (
