@@ -48,7 +48,6 @@ abstract class ARouter extends AApplication
 	 */
 	private static function searchPage(): array
 	{
-
 		$parentID   = 0;
 		$URLCount   = count(self::$URL) - 1;
 		$path           =   self::$application['path'];
@@ -57,9 +56,10 @@ abstract class ARouter extends AApplication
 			foreach (self::$structure as $item) {
 				if (!isset($item['countSubURL'])) {
 					/** @var \application\admin\controllers\basic $controller */
-					$controller             =   $item['controller'];
-					$controller             =   "application\\{$path}\\controllers\\{$controller}";
-					$item['countSubURL']    =   $controller::$countSubURL;
+					$controller                 =   $item['controller'];
+					$controller                 =   "application\\{$path}\\controllers\\{$controller}";
+					$item['controllerObject']   =   $controller;
+					$item['countSubURL']        =   $controller::$countSubURL;
 				}
 				if (
 					$parentID === $item['parent_id']
@@ -83,12 +83,12 @@ abstract class ARouter extends AApplication
 					for ($i = 0, $iMax = $URLKey + 1; $i < $iMax; $i++) {
 						$url[] = self::$URL[$i];
 					}
-					$controller::setPageURL(implode('/', $url));
+					$item['controllerObject']::setPageURL(implode('/', $url));
 					$subURL   =   Array();
-					for ($i = $URLKey + 1; $i < $URLCount; $i++) {
+					for ($i = $URLKey + 1; $i <= $URLCount; $i++) {
 						$subURL[] = self::$URL[$i];
 					}
-					$controller::setSubURL($subURL);
+					$item['controllerObject']::setSubURL($subURL);
 					return $item;
 				} elseif (
 					$parentID === $item['parent_id']
@@ -107,7 +107,6 @@ abstract class ARouter extends AApplication
 		}
 		return self::$pageError;
 	}
-
 
 
 
