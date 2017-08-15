@@ -17,7 +17,7 @@ class component extends CForm\AViewer implements CForm\IViewer
 	/**
 	 * @const float Версия
 	 */
-	const VERSION   =   1.1;
+	const VERSION   =   1.2;
 
 
     public function init()
@@ -44,7 +44,7 @@ class component extends CForm\AViewer implements CForm\IViewer
             $fieldComponent->setComponentSchema($field);
             $fieldComponent->setField($this->field);
             $fieldComponent->init();
-            if (method_exists($fieldComponent, 'preInsert')) {
+            if (method_exists($fieldComponent, 'preInsert') && isset($field['field'])) {
                 $data[$field['field']]    =   $fieldComponent->preInsert();
             }
             $this->field    =   $fieldComponent->getField();
