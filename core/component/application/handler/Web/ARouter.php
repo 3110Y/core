@@ -52,6 +52,9 @@ abstract class ARouter extends AApplication
 		$URLCount   = count(self::$URL) - 1;
 		$path           =   self::$application['path'];
 		foreach (self::$URL as $URLKey => $URLItem) {
+			if ($URLKey === 0) {
+				continue;
+			}
 			$URLLeft = $URLCount - ($URLKey + 1);
 			foreach (self::$structure as $item) {
 				if (!isset($item['countSubURL'])) {
@@ -64,7 +67,7 @@ abstract class ARouter extends AApplication
 				if (
 					(int)$parentID === (int)$item['parent_id']
 					&& (
-						$URLCount === $URLKey + 1
+						$URLCount === $URLKey
 						|| (
 							$item['countSubURL'] === false
 							|| $item['countSubURL'] >= $URLCount - $URLLeft
