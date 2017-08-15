@@ -64,7 +64,7 @@ abstract class ARouter extends AApplication
 				if (
 					(int)$parentID === (int)$item['parent_id']
 					&& (
-						$URLCount === $URLKey
+						$URLCount === $URLKey + 1
 						|| (
 							$item['countSubURL'] === false
 							|| $item['countSubURL'] >= $URLCount - $URLLeft
