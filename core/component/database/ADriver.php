@@ -296,6 +296,18 @@ abstract class ADriver
                                     $w['c'] = '';
                                 }
                                 $where .= " {$w['t']}`{$w['f']}` {$w['c']} {$w['v']} ";
+                            }  elseif (trim(rtrim($w['c'])) === 'IN') {
+	                            $w['v'] =   strtr($w['v'], ' ', ',');
+	                            $w['v'] =   explode(',', $w['v']);
+	                            $w['v'] =   array_diff($w['v'], array(''));
+	                            $keys = Array();
+	                            foreach ($w['v'] as $v) {
+		                            $k =  ":{$w['f']}_". uniqid();
+		                            $execute[$k] = $v;
+		                            $keys[]   =  $k;
+	                            }
+	                            $keys   =   implode(',', $keys);
+	                            $where .= " {$w['t']}`{$w['f']}` {$w['c']} ({$keys}) ";
                             } elseif (isset($output[0])) {
                                 $where .= " {$w['t']}`{$w['f']}` {$w['c']} {$w['v']} ";
                             } else {
