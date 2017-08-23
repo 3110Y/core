@@ -300,14 +300,22 @@ abstract class ADriver
 	                            $w['v'] =   strtr($w['v'], ' ', ',');
 	                            $w['v'] =   explode(',', $w['v']);
 	                            $w['v'] =   array_diff($w['v'], array(''));
-	                            $keys = Array();
-	                            foreach ($w['v'] as $v) {
+	                            if (count($w['v']) == 1) {
 		                            $k =  ":{$w['f']}_". uniqid();
-		                            $execute[$k] = $v;
-		                            $keys[]   =  $k;
+		                            $where .= " {$w['t']}`{$w['f']}` = {$k} ";
+		                            $execute[$k] = $w['v'][0];
+	                            } elseif(count($w['v']) == 0) {
+		                            $where .= " {$w['t']}`{$w['f']} IS NULL AND {$w['t']}`{$w['f']}` = '1' ";
+	                            } else {
+		                            $keys = Array();
+		                            foreach ($w['v'] as $v) {
+			                            $k = ":{$w['f']}_" . uniqid();
+			                            $execute[$k] = $v;
+			                            $keys[] = $k;
+		                            }
+		                            $keys = implode(',', $keys);
+		                            $where .= " {$w['t']}`{$w['f']}` {$w['c']} ({$keys}) ";
 	                            }
-	                            $keys   =   implode(',', $keys);
-	                            $where .= " {$w['t']}`{$w['f']}` {$w['c']} ({$keys}) ";
                             } elseif (isset($output[0])) {
                                 $where .= " {$w['t']}`{$w['f']}` {$w['c']} {$w['v']} ";
                             } else {
