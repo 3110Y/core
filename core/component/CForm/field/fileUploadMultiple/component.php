@@ -25,7 +25,7 @@ class component extends CForm\AField implements CForm\IField
     /**
      * @const float
      */
-    const VERSION   =   1.3;
+    const VERSION   =   1.6;
 
 
     public function init()
@@ -50,9 +50,10 @@ class component extends CForm\AField implements CForm\IField
         }
     }
 
-    /**
-     * @return array
-     */
+	/**
+	 * @return array
+	 * @throws \Exception
+	 */
     public function preUpdate(): array
     {
         $array = Array();
@@ -158,7 +159,7 @@ class component extends CForm\AField implements CForm\IField
                 ),
             );
             $data = Array(
-                'IMG_IMG'   => image::image($row['img'], $option),
+                'IMG_IMG'   => image::image($thumbnailStore, $option),
                 'IMG_ID'    => $row['id'],
                 'ID'        => $this->componentSchema['table'],
             );

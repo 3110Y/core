@@ -41,59 +41,75 @@ abstract class ARouter extends AApplication
         return self::$structure[0];
     }
 
-    /**
-     * Отдает текущую Ошибок
-     *
-     * @param int    $parentID  уровень страницы
-     * @param string $parentURL родительский URL
-     *
-     * @return array текущая страница
-     */
-    private static function searchPage($parentID = 0, $parentURL ='')
-    {
-        //TODO: Переделать, не работают подуровни
-        foreach (self::$structure as $item) {
-            if (
-                $item['parent_id'] == $parentID
-                && (
-                    $item['url'] === self::$URL[$parentID + 1]
-                    || (
-                        $item['url'] === '/'
-                        && self::$URL[$parentID + 1] === ''
-                    )
-                )
-            ) {
-                $path           =   self::$application['path'];
-                $controller     =   $item['controller'];
-                /** @var \application\admin\controllers\basic $controller */
-                $controller     =   "application\\{$path}\\controllers\\{$controller}";
-                $countSubURL    =   $controller::$countSubURL;
-	            $item['url'] = ($item['url'] === '/' && $parentID == 0) ?   $item['url'] :  $parentURL . $item['url'];
-	            if (
-                    $parentID + 1 == (count(self::$URL) - 1)
-                    || (
-                        $countSubURL === false
-                        || $countSubURL >= (count(self::$URL) + ($parentID + 1))
-                    )
-                ) {
-                    $url    =   Array();
-                    for ($i = 0, $iMax = ($parentID + 2); $i < $iMax; $i++) {
-                        $url[]    =  self::$URL[$i];
-                    }
-                    $subURL   =   Array();
-                    for ($i = ($parentID + 2), $iMax = count(self::$URL); $i < $iMax; $i++) {
-                        $subURL[] = self::$URL[$i];
-                    }
-
-                    $controller::setPageURL(implode('/', $url));
-                    $controller::setSubURL($subURL);
-                    return $item;
-                }
-                return self::searchPage(++$parentID, $item['url']);
-            }
-        }
-        return self::$pageError;
-    }
+	/**
+	 * Отдает текущую
+	 *
+	 * @return array текущая страница
+	 */
+	private static function searchPage(): array
+	{
+		$parentID   = 0;
+		$URLCount   = count(self::$URL) - 1;
+		$path           =   self::$application['path'];
+		foreach (self::$URL as $URLKey => $URLItem) {
+			if ($URLKey === 0) {
+				continue;
+			}
+			$URLLeft = $URLCount - ($URLKey + 1);
+			foreach (self::$structure as $item) {
+				if (!isset($item['countSubURL'])) {
+					/** @var \application\admin\controllers\basic $controller */
+					$controller                 =   $item['controller'];
+					$controller                 =   "application\\{$path}\\controllers\\{$controller}";
+					$item['controllerObject']   =   $controller;
+					$item['countSubURL']        =   $controller::$countSubURL;
+				}
+				if (
+					(int)$parentID === (int)$item['parent_id']
+					&& (
+						$URLCount === $URLKey
+						|| (
+							$item['countSubURL'] === false
+							|| $item['countSubURL'] >= $URLCount - $URLLeft
+						)
+					)
+					&& (
+						$item['url'] === $URLItem
+						|| (
+							$item['url'] === '/'
+							&& $URLItem === ''
+						)
+					)
+				) {
+					//нужная страница
+					$url   =   Array();
+					for ($i = 0, $iMax = $URLKey + 1; $i < $iMax; $i++) {
+						$url[] = self::$URL[$i];
+					}
+					$item['controllerObject']::setPageURL(implode('/', $url));
+					$subURL   =   Array();
+					for ($i = $URLKey + 1; $i <= $URLCount; $i++) {
+						$subURL[] = self::$URL[$i];
+					}
+					$item['controllerObject']::setSubURL($subURL);
+					return $item;
+				} elseif (
+					(int)$parentID === (int)$item['parent_id']
+					&& (
+						$item['url'] === $URLItem
+						|| (
+							$item['url'] === '/'
+							&& $URLItem === ''
+						)
+					)
+				) {
+					//ищем подстраницу
+					$parentID = $item['id'];
+				}
+			}
+		}
+		return self::$pageError;
+	}
 
 
 
