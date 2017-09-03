@@ -167,7 +167,7 @@ abstract class ADriver
                     $array[]  =     $string;
                 }
             }
-            $table = implode(',', $array);
+            $table = implode(' ', $array);
         } else {
             $table = "`{$table}`";
         }
@@ -245,13 +245,13 @@ abstract class ADriver
 							    'k' => null,
 						    );
 						    if (isset($value['t'])) {
-							    $w['t'] =  "{$value['t']} . ";
+							    $w['t'] =  "`{$value['t']}` . ";
 						    } elseif (isset($value['table'])) {
-							    $w['t'] =  "{$value['table']} . ";
+							    $w['t'] =  "`{$value['table']}` . ";
 						    } elseif (isset($value['prefix'])) {
-							    $w['t'] =  "{$value['prefix']} . ";
+							    $w['t'] =  "`{$value['prefix']}` . ";
 						    } elseif (isset($value['p'])) {
-							    $w['t'] =  "{$value['p']} . ";
+							    $w['t'] =  "`{$value['p']}` . ";
 						    }
 
 						    if (isset($value['f'])) {
