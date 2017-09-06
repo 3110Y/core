@@ -327,7 +327,7 @@ abstract class ADriver
 							    } else {
 								    $keys = Array();
 								    foreach ($w['v'] as $kW =>$v) {
-									    $k = ":{$w['k']}_" . uniqid() . $kW;
+									    $k = "{$w['k']}_" . uniqid() . $kW;
 									    $execute[$k] = $v;
 									    $keys[] = $k;
 								    }
