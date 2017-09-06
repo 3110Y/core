@@ -19,7 +19,7 @@ class component extends templateEngine\AEngine implements templateEngine\IEngine
     /**
      * @const float Версия ядра
      */
-    const VERSION   =   1.4;
+    const VERSION   =   1.5;
 
 
     /**
@@ -59,7 +59,7 @@ class component extends templateEngine\AEngine implements templateEngine\IEngine
             $path   = substr($template,0, strrpos($template, '/') + 1);
             for ($i = 0, $iMax = count($output[1]); $i < $iMax; $i++) {
                 $file   =   $path . $output[1][$i];
-                $array[$output[0][$i]]  =   self::replace($file);
+                $array[$output[0][$i]]  =   self::replace($file, $data);
             }
             $content    =   strtr($content, $array);
         }
