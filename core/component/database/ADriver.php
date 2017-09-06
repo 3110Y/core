@@ -86,7 +86,7 @@ abstract class ADriver
                     }
                     $string   =     ($f['t'] != null)   ?   "`{$f['t']}` . "   :   '';
                     $string   .=    ($f['v'] != null)   ?   "`{$f['v']}`"   :   '';
-                    $string   .=    ($f['a'] != null)   ?   " AS `{$f['v']}` "   :   '';
+                    $string   .=    ($f['a'] != null)   ?   " AS `{$f['a']}` "   :   '';
                     $array[]  =     $string;
                 }
             }
