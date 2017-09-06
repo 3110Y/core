@@ -22,7 +22,7 @@ class component extends CForm\AField implements CForm\IField
 	/**
 	 * @const float Версия
 	 */
-	const VERSION   =   1.0;
+	const VERSION   =   1.1;
 
     public function init()
     {
@@ -162,7 +162,7 @@ class component extends CForm\AField implements CForm\IField
             foreach ($this->componentSchema['list'] as $key =>  $option) {
                 if(isset($this->componentSchema['listID']) && !empty($this->componentSchema['listID'])) {
                     $id = $option[$this->componentSchema['listID']];
-                } elseif (isset($option['id']) && !empty($option['id'])) {
+                } elseif (isset($option['id'])) {
                     $id = $option['id'];
                 } else {
                     $id = $key;
