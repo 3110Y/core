@@ -191,8 +191,7 @@ abstract class ADriver
 			    $whereArray =  $where;
 			    $where = '';
 			    foreach ($whereArray as $key => $value) {
-				    //
-				    if (($i % 2) && ($value !== 'AND' && $value !== 'OR' && $value != 'NOT')) {
+				    if ($i % 2 && $value !== 'AND' && $value !== 'OR' && $value !== 'NOT') {
 					    $where .= ' AND ';
 				    } else {
 					    $i++;
