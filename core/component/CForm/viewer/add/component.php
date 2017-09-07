@@ -17,7 +17,7 @@ class component extends CForm\AViewer implements CForm\IViewer
 	/**
 	 * @const float Версия
 	 */
-	const VERSION   =   1.2;
+	const VERSION   =   1.3;
 
 
     public function init()
@@ -103,6 +103,16 @@ class component extends CForm\AViewer implements CForm\IViewer
     private function fillData(): array
     {
         $this->fillField();
+	    foreach ($this->schemaField as $key => $value) {
+		    if(!isset( $value[self::$mode])) {
+			    $value[self::$mode] = Array(
+				    self::$mode => Array(),
+			    );
+		    }
+		    if(!isset( $value[self::$mode]['order'])) {
+			    $this->schemaField[$key][self::$mode]['order'] = $key;
+		    }
+	    }
         usort($this->schemaField, Array($this, 'callbackSchemaSort'));
         $where  =   $this->preparationWhere();
         /** @var \core\component\database\driver\PDO\component $db */
