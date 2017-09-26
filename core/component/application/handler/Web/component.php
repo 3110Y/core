@@ -19,7 +19,7 @@ class component extends application\AHandler implements application\IHandler
     /**
      * @const float Версия
      */
-    const VERSION   =   1.4;
+    const VERSION   =   1.5;
 
     /**
      * Отдает экземпляр роутера приложения

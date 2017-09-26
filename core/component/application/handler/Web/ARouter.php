@@ -78,6 +78,10 @@ abstract class ARouter extends AApplication
 						|| (
 							$item['url'] === '/'
 							&& $URLItem === ''
+							&& (
+								$item['countSubURL'] === false
+								|| $item['countSubURL'] >= $URLCount + $URLLeft
+							)
 						)
 					)
 				) {
