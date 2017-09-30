@@ -25,7 +25,7 @@ class component extends CForm\AViewer implements CForm\IViewer
 	/**
 	 * @const float Версия
 	 */
-	const VERSION   =   1.2;
+	const VERSION   =   1.3;
 
 
 
@@ -348,7 +348,7 @@ class component extends CForm\AViewer implements CForm\IViewer
 				);
 			}
 
-		} elseif ($this->viewerConfig['page']  <= 4) {
+		} elseif ($this->viewerConfig['page']  <= 5) {
 			if ($this->viewerConfig['page'] != '1') {
 				$pagination[] = Array(
 					'CLASS' =>  '',
@@ -356,7 +356,7 @@ class component extends CForm\AViewer implements CForm\IViewer
 					'TEXT'  =>  '<span uk-pagination-previous></span>',
 				);
 			}
-			for ($i = 1, $iMax = 4; $i < $iMax; $i++) {
+			for ($i = 1, $iMax = 7; $i < $iMax; $i++) {
 				$pagination[] = Array(
 					'HREF'  =>  $url . $i,
 					'TEXT'  =>  $i,
@@ -375,7 +375,7 @@ class component extends CForm\AViewer implements CForm\IViewer
 			);
 			$pagination[] = Array(
 				'CLASS' =>  '',
-				'HREF'  =>  $url . (self::$config['page'] + 1),
+				'HREF'  =>  $url . ($this->viewerConfig['page'] + 1),
 				'TEXT'  =>  '<span uk-pagination-next></span>',
 			);
 
@@ -395,7 +395,7 @@ class component extends CForm\AViewer implements CForm\IViewer
 				'HREF'  =>  '#',
 				'TEXT'  =>  '...',
 			);
-			for ($i = ($totalPages - 5), $iMax = $totalPages; $i < $iMax; $i++) {
+			for ($i = ($totalPages - 5), $iMax = $totalPages; $i <= $iMax; $i++) {
 				$pagination[] = Array(
 					'HREF'  =>  $url . $i,
 					'TEXT'  =>  $i,
