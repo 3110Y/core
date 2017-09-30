@@ -2,3 +2,6 @@
 /filecache/*
 !/filecache/*.html
 Будет удалено filecache/
+filecache/
+!filecache/no.png
+!filecache/*.html
