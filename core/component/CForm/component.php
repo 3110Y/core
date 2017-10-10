@@ -24,7 +24,7 @@ class component extends ACForm
 	/**
 	 * @const float Версия
 	 */
-	const VERSION   =   1.2;
+	const VERSION   =   1.3;
 
 	/**
 	 * @var array массив для ответа
