@@ -40,7 +40,7 @@ class component
 	/**
 	 * @const float
 	 */
-	const VERSION   =   1.3;
+	const VERSION   =   1.4;
 
 
 	/**
@@ -51,6 +51,9 @@ class component
 	 */
 	public static function image(string $urlImage, array $option = Array())
 	{
+		if ($urlImage == '') {
+			$urlImage   =   'filecache/no.png';
+		}
 		self::$key          =   md5($urlImage . base64_encode(serialize($option)));
 		self::$urlImage     =   $urlImage;
 		$tmp                =   explode('.', self::$urlImage);

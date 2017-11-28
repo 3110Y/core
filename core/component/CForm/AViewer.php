@@ -184,25 +184,26 @@ abstract class AViewer extends ACForm
      */
     protected function fillField()
     {
-        $this->field[] =    'id';
-        foreach ($this->schemaField as $key => $field) {
-            if (
-                (
-                    isset($field['view'])
-                    && $field['view'] === false
-                )
-                || (
-                    isset($field[self::$mode]['view'])
-                    && $field[self::$mode]['view'] === false
-                )
-            ) {
-                unset($this->schemaField[$key]);
-                continue;
-            }
-            if (isset($field['field'])) {
-                $this->field[] = $field['field'];
-            }
-        }
+	    $this->field[] =    'id';
+	    foreach ($this->schemaField as $key => $field) {
+		    if (
+			    (
+				    isset($field['view'])
+				    && $field['view'] === false
+			    )
+			    || (
+				    isset($field[self::$mode]['view'])
+				    && $field[self::$mode]['view'] === false
+			    )
+		    ) {
+			    unset($this->schemaField[$key]);
+			    continue;
+		    }
+		    if (isset($field['field'])) {
+			    $this->field[] = '`' . $field['field'] . '`';
+		    }
+	    }
+	    $this->field    =   array_unique($this->field);
     }
 
     /**

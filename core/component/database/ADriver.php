@@ -86,7 +86,7 @@ abstract class ADriver
                     }
                     $string   =     ($f['t'] != null)   ?   "`{$f['t']}` . "   :   '';
                     $string   .=    ($f['v'] != null)   ?   "`{$f['v']}`"   :   '';
-                    $string   .=    ($f['a'] != null)   ?   " AS `{$f['v']}` "   :   '';
+                    $string   .=    ($f['a'] != null)   ?   " AS `{$f['a']}` "   :   '';
                     $array[]  =     $string;
                 }
             }
@@ -167,7 +167,7 @@ abstract class ADriver
                     $array[]  =     $string;
                 }
             }
-            $table = implode(',', $array);
+            $table = implode(' ', $array);
         } else {
             $table = "`{$table}`";
         }
@@ -181,146 +181,192 @@ abstract class ADriver
      */
     protected static function where($where)
     {
-        //TODO: переделать
-        $execute   =   Array();
-        if (is_array($where)) {
-            if (empty($where)) {
-                $where = '';
-            } else {
-                $i = 0;
-                $whereArray =  $where;
-                $where = '';
-                foreach ($whereArray as $key => $value) {
-                    //
-                    if (($i % 2) && ($value !== 'AND' && $value !== 'OR' && $value != 'NOT')) {
-                        $where .= ' AND ';
-                    } else {
-                        $i++;
-                    }
-                    if (
-                        is_string($key)
-                        && (
-                            $value === 'CURDATE()'
-                            || $value === 'CURTIME()'
-                            || $value === 'NOW()'
-                            || $value === '!NULL'
-                            || $value === 'NULL'
-                            || $value === 'IS NULL'
-                            || $value === 'NOT IS NULL'
-                        )
-                    ) {
-                        if ($value == '!NULL') {
-                            $value = 'NOT IS NULL';
-                        } elseif ($value == 'NULL') {
-                            $value = 'IS NULL';
-                        }
-                        if ($value == 'IS NULL' || $value == 'NOT IS NULL') {
-                            $where .= " `{$key}`  {$value} ";
-                        } else {
-                            $where .= " `{$key}` = {$value} ";
-                        }
-                    } elseif (is_string($key) && is_string($value)) {
-                        preg_match("/`[a-z0-9_]+`/i", $value, $output);
-                        if (isset($output[0])) {
-                            $where .= " `{$key}` = {$value} ";
-                        } else {
-                            $k =  ":{$key}_". uniqid();
-                            $where .= " `{$key}` = {$k} ";
-                            $execute[$k] = $value;
-                        }
-                    } elseif (is_string($value)) {
-                        $where .= " {$value} ";
-                    } elseif (is_array($value)) {
-                        if(isset($value[0]) && !isset($value['f']) && !isset($value['field']) && !is_string($key)) {
-                            $tmp_where = self::where($value);
-                            $execute = array_merge($execute, $tmp_where['execute']);
-                            $where .= " ({$tmp_where['condition']}) ";
-                        } else {
-                            $w = Array(
-                                't' => null,
-                                'f' => null,
-                                'c' => null,
-                                'v' => null,
-                            );
-                            if (isset($value['t'])) {
-                                $w['t'] =  "{$value['t']} . ";
-                            } elseif (isset($value['table'])) {
-                                $w['t'] =  "{$value['table']} . ";
-                            } elseif (isset($value['prefix'])) {
-                                $w['t'] =  "{$value['prefix']} . ";
-                            } elseif (isset($value['p'])) {
-                                $w['t'] =  "{$value['p']} . ";
-                            }
+	    //TODO: переделать
+	    $execute   =   Array();
+	    if (is_array($where)) {
+		    if (empty($where)) {
+			    $where = '';
+		    } else {
+			    $i = 0;
+			    $whereArray =  $where;
+			    $where = '';
+			    foreach ($whereArray as $key => $value) {
+				    if ($i % 2 && $value !== 'AND' && $value !== 'OR' && $value !== 'NOT') {
+					    $where .= ' AND ';
+				    } else {
+					    $i++;
+				    }
+				    if (
+					    is_string($key)
+					    && (
+						    $value === 'CURDATE()'
+						    || $value === 'CURTIME()'
+						    || $value === 'NOW()'
+						    || $value === '!NULL'
+						    || $value === 'NULL'
+						    || $value === 'IS NULL'
+						    || $value === 'NOT IS NULL'
+					    )
+				    ) {
+					    if ($value == '!NULL') {
+						    $value = 'NOT IS NULL';
+					    } elseif ($value == 'NULL') {
+						    $value = 'IS NULL';
+					    }
+					    if ($value == 'IS NULL' || $value == 'NOT IS NULL') {
+						    $where .= " `{$key}`  {$value} ";
+					    } else {
+						    $where .= " `{$key}` = {$value} ";
+					    }
+				    } elseif (is_string($key) && is_string($value)) {
+					    preg_match("/`[a-z0-9_]+`/i", $value, $output);
+					    if (isset($output[0])) {
+						    $where .= " `{$key}` = {$value} ";
+					    } else {
+						    $k =  ":{$key}_". uniqid();
+						    $where .= " `{$key}` = {$k} ";
+						    $execute[$k] = $value;
+					    }
+				    } elseif (is_string($value)) {
+					    $where .= " {$value} ";
+				    } elseif (is_array($value)) {
+					    if(isset($value[0]) && !isset($value['f']) && !isset($value['field']) && !is_string($key)) {
+						    $tmp_where = self::where($value);
+						    $execute = array_merge($execute, $tmp_where['execute']);
+						    $where .= " ({$tmp_where['condition']}) ";
+					    } else {
 
-                            if (isset($value['f'])) {
-                                $w['f'] =  $value['f'];
-                            } elseif (isset($value['field'])) {
-                                $w['f'] =  $value['field'];
-                            } elseif (is_string($key)) {
-                                $w['f'] =  $key;
-                            }
+						    $w = Array(
+							    't' => null,
+							    'f' => null,
+							    'c' => null,
+							    'v' => null,
+							    'k' => null,
+						    );
+						    if (isset($value['t'])) {
+							    $w['t'] =  "`{$value['t']}` . ";
+						    } elseif (isset($value['table'])) {
+							    $w['t'] =  "`{$value['table']}` . ";
+						    } elseif (isset($value['prefix'])) {
+							    $w['t'] =  "`{$value['prefix']}` . ";
+						    } elseif (isset($value['p'])) {
+							    $w['t'] =  "`{$value['p']}` . ";
+						    }
 
-                            if (isset($value['c'])) {
-                                $w['c'] =  " {$value['c']} ";
-                            } elseif (isset($value['condition'])) {
-                                $w['c'] =  " {$value['condition']} ";
-                            } elseif (isset($value['cond'])) {
-                                $w['c'] =  " {$value['cond']} ";
-                            } else {
-                                $w['c'] =  ' = ';
-                            }
+						    if (isset($value['f'])) {
+							    $w['f'] =  $value['f'];
+						    } elseif (isset($value['field'])) {
+							    $w['f'] =  $value['field'];
+						    } elseif (is_string($key)) {
+							    $w['f'] =  $key;
+						    }
 
-                            if (isset($value['v'])) {
-                                $w['v'] =  $value['v'];
-                            } elseif (isset($value['val'])) {
-                                $w['v'] =  $value['val'];
-                            } elseif (isset($value['value'])) {
-                                $w['v'] =  $value['value'];
-                            }
-                            preg_match("/`[a-z0-9_]+`/i", $w['v'], $output);
+						    if (isset($value['c'])) {
+							    $w['c'] =  " {$value['c']} ";
+						    } elseif (isset($value['condition'])) {
+							    $w['c'] =  " {$value['condition']} ";
+						    } elseif (isset($value['cond'])) {
+							    $w['c'] =  " {$value['cond']} ";
+						    } else {
+							    $w['c'] =  ' = ';
+						    }
 
-                            if (
-                                $w['v'] === 'CURDATE()'
-                                || $w['v'] === 'CURTIME()'
-                                || $w['v'] === 'NOW()'
-                                || $w['v'] === '!NULL'
-                                || $w['v'] === 'NULL'
-                                || $w['v'] === 'IS NULL'
-                                || $w['v'] === 'NOT IS NULL') {
-                                if ($w['v'] == '!NULL') {
-                                    $w['v'] = 'NOT IS NULL';
-                                } elseif ($w['v'] == 'NULL') {
-                                    $w['v'] = 'IS NULL';
-                                }
-                                if ($w['v'] == 'IS NULL' || $w['v'] == 'NOT IS NULL') {
-                                    $w['c'] = '';
-                                }
-                                $where .= " {$w['t']}`{$w['f']}` {$w['c']} {$w['v']} ";
-                            } elseif (isset($output[0])) {
-                                $where .= " {$w['t']}`{$w['f']}` {$w['c']} {$w['v']} ";
-                            } else {
-                                $k =  ":{$w['f']}_". uniqid();
-                                $where .= " {$w['t']}`{$w['f']}` {$w['c']} {$k} ";
-                                $execute[$k] = $w['v'];
-                            }
+						    if (isset($value['v'])) {
+							    $w['v'] =  $value['v'];
+						    } elseif (isset($value['val'])) {
+							    $w['v'] =  $value['val'];
+						    } elseif (isset($value['value'])) {
+							    $w['v'] =  $value['value'];
+						    }
+						    if (isset($value['k'])) {
+							    $w['k'] =  ":{$value['k']}_" .  uniqid();
+						    } elseif (isset($value['key'])) {
+							    $w['k'] =  ":{$value['key']}_" . uniqid();
+						    } else {
+							    $w['k'] =  ":{$w['f']}_". uniqid();
+						    }
+						    preg_match("/`[a-z0-9_]+`/i", $w['v'], $output);
+
+						    if (
+							    $w['v'] === 'CURDATE()'
+							    || $w['v'] === 'CURTIME()'
+							    || $w['v'] === 'NOW()'
+							    || $w['v'] === '!NULL'
+							    || $w['v'] === 'NULL'
+							    || $w['v'] === 'IS NULL'
+							    || $w['v'] === 'NOT IS NULL') {
+							    if ($w['v'] == '!NULL') {
+								    $w['v'] = 'NOT IS NULL';
+							    } elseif ($w['v'] == 'NULL') {
+								    $w['v'] = 'IS NULL';
+							    }
+							    if ($w['v'] == 'IS NULL' || $w['v'] == 'NOT IS NULL') {
+								    $w['c'] = '';
+							    }
+							    if (!is_array($value) || !isset($value['NOT`'])) {
+								    $w['f'] =   "`{$w['f']}`";
+							    }
+							    $where .= " {$w['t']}{$w['f']} {$w['c']} {$w['v']} ";
+						    } elseif (trim(rtrim($w['c'])) === 'IN') {
+							    $w['v'] =   strtr($w['v'], ' ', ',');
+							    $w['v'] =   explode(',', $w['v']);
+							    $w['v'] =   array_diff($w['v'], array(''));
+							    if (count($w['v']) == 1) {
+
+								    if (!is_array($value) || !isset($value['NOT`'])) {
+									    $w['f'] =   "`{$w['f']}`";
+								    }
+								    $where .= " {$w['t']}{$w['f']} = {$w['k']} ";
+								    $execute[$w['k']] = $w['v'][0];
+							    } elseif(count($w['v']) == 0) {
+								    if (!is_array($value) || !isset($value['NOT`'])) {
+									    $w['f'] =   "`{$w['f']}`";
+								    }
+								    $where .= " {$w['t']}{$w['f']} IS NULL AND {$w['t']}`{$w['f']}` = '1' ";
+							    } else {
+								    $keys = Array();
+								    foreach ($w['v'] as $kW =>$v) {
+									    $k = "{$w['k']}_" . uniqid() . $kW;
+									    $execute[$k] = $v;
+									    $keys[] = $k;
+								    }
+								    $keys = implode(',', $keys);
+								    if (!is_array($value) || !isset($value['NOT`'])) {
+									    $w['f'] =   "`{$w['f']}`";
+								    }
+								    $where .= " {$w['t']}{$w['f']} {$w['c']} ({$keys}) ";
+							    }
+						    } elseif (isset($output[0])) {
+							    if (!is_array($value) || !isset($value['NOT`'])) {
+								    $w['f'] =   "`{$w['f']}`";
+							    }
+							    $where .= " {$w['t']}{$w['f']} {$w['c']} {$w['v']} ";
+						    } else {
+
+							    if (!is_array($value) || !isset($value['NOT`'])) {
+								    $w['f'] =   "`{$w['f']}`";
+							    }
+							    $where .= " {$w['t']}{$w['f']} {$w['c']} {$w['k']} ";
+							    $execute[$w['k']] = $w['v'];
+						    }
 
 
-                        }
-                    } else {
-                        $k =  ":{$key}_". uniqid();
-                        $where .= " `{$key}` = {$k} ";
-                        $execute[$k] = $value;
-                    }
-                }
-            }
-        }
-        $result = Array(
-            'condition'  =>  $where,
-            'where'     =>  ($where != null && $where != '')    ?   " WHERE {$where} "  : '',
-            'execute'   =>  $execute
-        );
+					    }
+				    } else {
+					    $k =  ":{$key}_". uniqid();
+					    $where .= " `{$key}` = {$k} ";
+					    $execute[$k] = $value;
+				    }
+			    }
+		    }
+	    }
+	    $result = Array(
+		    'condition'  =>  $where,
+		    'where'     =>  ($where != null && $where != '')    ?   " WHERE {$where} "  : '',
+		    'execute'   =>  $execute
+	    );
 
-        return $result;
+	    return $result;
     }
 
     /**

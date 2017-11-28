@@ -22,7 +22,7 @@ class component extends CForm\AField implements CForm\IField
 	/**
 	 * @const float
 	 */
-	const VERSION   =   1.8;
+	const VERSION   =   1.9;
 
 
     public function init()
