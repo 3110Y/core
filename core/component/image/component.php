@@ -75,6 +75,11 @@ class component
 			}
 		}
 		fileCache::checkDir('cache');
+		if (self::$ext == 'jpg' || self::$ext == 'jpeg' || self::$ext == 'JPG' || self::$ext == 'JPEG') {
+			self::$thumbnail->setImageCompression(\Imagick::COMPRESSION_JPEG);
+			self::$thumbnail->setImageCompressionQuality(65);
+			self::$thumbnail->stripImage();
+		}
 		self::$thumbnail->writeImages(core::getDR(true) .  $new_file, true);
 		return $new_file;
 	}
