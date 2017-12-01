@@ -271,7 +271,11 @@ class page extends applicationWeb\AControllers implements applicationWeb\IContro
             'table'         =>  'client_page',
             'caption'       =>  'Страницы',
             'mode'          =>  'listing',
-            'viewer'        =>  Array()
+            'viewer'        =>  Array(
+                'listing' => Array(
+
+                ),
+            )
         );
         $CForm  =   new CForm\component(self::$content, 'CONTENT');
         $CForm->setConfig($config);

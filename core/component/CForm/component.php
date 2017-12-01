@@ -98,11 +98,19 @@ class component extends ACForm
             parent::$mode = parent::$subURL[1];
             parent::$subURLNow++;
         }
-        if (parent::$id !== '0' && parent::$id !== 0 && (int)parent::$id == 0 && isset($config['viewer'][parent::$mode])) {
+        var_dump(parent::$id !== '0', parent::$id !== 0, (int)parent::$id == 0, isset($config['viewer'][parent::$mode]));
+        if (parent::$id !== '0' && parent::$id !== 0 && (int)parent::$id == 0 ) {
             parent::$isWork = false;
-        } else {
+        } elseif (isset($config['viewer'][parent::$mode])) {
             $this->viewer = $config['viewer'][parent::$mode];
+        }  elseif (parent::$mode == 'api') {
+            $this->viewer = Array(
+                'type' => 'api'
+            );
+        } else {
+            parent::$isWork = false;
         }
+        die();
     }
 
     /**
@@ -110,8 +118,8 @@ class component extends ACForm
      */
     public function run()
     {
-        if (parent::$isWork) {
-            $viewer =   $this->viewer['viewer'];
+        if (parent::$isWork && isset($this->viewer['type'])) {
+            $viewer =   $this->viewer['type'];
             $viewer = "\core\component\CForm\\viewer\{$viewer}\component";
             /** @var \core\component\CForm2\viewer\listing\component $viewerComponent */
             $viewerComponent  =   new $viewer();
@@ -129,6 +137,12 @@ class component extends ACForm
      */
     public  function getIncomingArray()
     {
+        if (parent::$isWork) {
+            echo 'Работаем';
+        } else {
+
+        }
+
         if (!parent::$isWork) {
             return false;
         }
