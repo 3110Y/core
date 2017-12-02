@@ -37,14 +37,9 @@ class component extends ACForm
     private $incomingKey;
 
     /**
-     * @var array ответ
+     * @var mixed ответ
      */
-    private $answer         =   Array();
-
-    /**
-     * @var array просмотрщик
-     */
-    private  $viewer        =   Array();
+    private $answer;
 
 
     /**
@@ -101,9 +96,9 @@ class component extends ACForm
         if (parent::$id !== '0' && parent::$id !== 0 && (int)parent::$id == 0 ) {
             parent::$isWork = false;
         } elseif (isset($config['viewer'][parent::$mode])) {
-            $this->viewer = $config['viewer'][parent::$mode];
+            $this->viewerConfig = $config['viewer'][parent::$mode];
         }  elseif (parent::$mode == 'api') {
-            $this->viewer = Array(
+            $this->viewerConfig = Array(
                 'type' => 'api'
             );
         } else {
@@ -116,19 +111,24 @@ class component extends ACForm
      */
     public function run()
     {
-        if (parent::$isWork && isset($this->viewer['type'])) {
-            $viewer =   $this->viewer['type'];
-            $viewer = "\core\component\CForm\\viewer\\{$viewer}\component";
+        if (!isset($this->viewer['type'])) {
+            $this->viewerConfig['type'] = parent::$mode;
+        }
+        if (parent::$isWork) {
+            $viewerName =   $this->viewerConfig['type'];
+            $viewer =   "core\component\CForm\\viewer\\{$viewerName}\component";
             if (class_exists($viewer)) {
-                /** @var \core\component\CForm2\viewer\listing\component $viewerComponent */
+                if (isset($this->viewerConfig['field']) && !empty($this->viewerConfig['field'])) {
+                    $this->preparationField($viewerName);
+                }
+                if (isset($this->viewerConfig['button']) && !empty($this->viewerConfig['button'])) {
+                    $this->preparationButton($viewerName);
+                }
+                /** @var \core\component\CForm\viewer\listing\component $viewerComponent */
                 $viewerComponent = new $viewer();
-                $viewerComponent->setConfig($this->viewer);
-                $viewerComponent->setAnswer($this->answer);
                 $viewerComponent->init();
                 $viewerComponent->run();
                 $this->answer = $viewerComponent->getAnswer();
-            } else {
-                parent::$isWork = false;
             }
         }
     }
@@ -150,5 +150,79 @@ class component extends ACForm
         $this->incomingArray[$this->incomingKey] = $this->answer;
         return $this->incomingArray;
     }
-    
+
+
+    /**
+     * Подготавливет кнопки
+     *
+     * @param string $viewerName имя просмоторщика
+     */
+    private function preparationButton(string $viewerName)
+    {
+        $buttons = Array();
+        foreach ($this->viewerConfig['button'] as $key => $button) {
+            if (isset($button[$viewerName]) && !empty($button[$viewerName])) {
+                foreach ($button[$viewerName] as $valueName => $value) {
+                    $button[$valueName] = $value;
+                }
+            }
+            unset($button[$viewerName]);
+            if (!isset($button['view']) || $button['view'] === true) {
+                 if (!isset($button['order'])) {
+                     $button['order'] = $key;
+                 }
+                $buttons[] = $button;
+            }
+        }
+        usort($buttons, Array($this, 'callbackSchemaSort'));
+        $this->viewerConfig['field'] = $buttons;
+    }
+
+    /**
+     * Подготавливет поля
+     *
+     * @param string $viewerName имя просмоторщика
+     */
+    private function preparationField(string $viewerName)
+    {
+        $fields = Array();
+        foreach ($this->viewerConfig['field'] as $key => $field) {
+            if (isset($field[$viewerName]) && !empty($field[$viewerName])) {
+                foreach ($field[$viewerName] as $valueName => $value) {
+                    $field[$valueName] = $value;
+                }
+            }
+            unset($field[$viewerName]);
+            if (!isset($field['view']) || $field['view'] === true) {
+                 if (!isset($field['order'])) {
+                     $field['order'] = $key;
+                 }
+                $fields[] = $field;
+            }
+        }
+        usort($fields, Array($this, 'callbackSchemaSort'));
+        $this->viewerConfig['field'] = $fields;
+    }
+
+    /**
+     * Сортировщик
+     *
+     * @param array $v1
+     * @param array $v2
+     * @return int
+     */
+    protected function callbackSchemaSort($v1, $v2): int
+    {
+        if (!isset($v1['order'])) {
+            $v1['order'] = 0;
+        }
+        if (!isset($v2['order'])) {
+            $v2['order'] = 0;
+        }
+        if ($v1['order'] === $v2['order']) {
+            return 0;
+        }
+        return ($v1['order'] < $v2['order'])? -1: 1;
+    }
+
 }

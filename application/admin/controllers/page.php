@@ -264,7 +264,128 @@ class page extends applicationWeb\AControllers implements applicationWeb\IContro
 
 
 
+        $schema     =   Array(
+            Array(
+                'type'              =>  'input',
+                'field'             =>  'name',
+                'caption'           =>  'Название',
+                'placeholder'       =>  'Название',
+                'label'             =>  'Название',
+                'required'          =>  true,
+                'edit'           =>  Array(
+                    'mode'  =>  'edit'
+                ),
+                'listing'           =>  Array(
+                    'align' =>  'left',
+                    'mode'  =>  'view'
+                )
+            ),
+            Array(
+                'type'              =>  'urlName',
+                'field'             =>  'url',
+                'attached'          =>  'name',
+                'caption'           =>  'Адрес (URL)',
+                'placeholder'       =>  'Адрес (URL)',
+                'label'             =>  'Адрес (URL)',
+                'edit'           =>  Array(
+                    'mode'  =>  'edit'
+                ),
+                'listing'           =>  Array(
+                    'align' =>  'left',
+                    'mode'  =>  'view'
+                )
+            ),
+            Array(
+                'type'              =>  'ckeditor',
+                'field'             =>  'content',
+                'caption'           =>  'Текст',
+                'placeholder'       =>  'Текст',
+                'label'             =>  'Текст',
+                'edit'           =>  Array(
+                    'mode'  =>  'edit'
+                ),
+                'listing'           =>  Array(
+                    'align' =>  'left',
 
+                    'mode'  =>  'view'
+                )
+            ),
+            Array(
+                'type'              =>  'select',
+                'field'             =>  'status',
+                'caption'           =>  'Статус',
+                'placeholder'       =>  'Статус',
+                'label'             =>  'Статус',
+                'list'              =>  $listStatus,
+                'NoZero'            =>  true,
+                'edit'              =>  Array(
+                    'mode'  =>  'edit'
+                ),
+                'listing'           =>  Array(
+                    'align' =>  'right',
+                    'mode'  =>  'view'
+                )
+            ),
+            Array(
+                'type'              =>  'input',
+                'field'             =>  'meta_title',
+                'caption'           =>  'META Заголовок',
+                'placeholder'       =>  'META Заголовок',
+                'label'             =>  'META Заголовок',
+                'edit'           =>  Array(
+                    'mode'  =>  'edit'
+                ),
+                'listing'           =>  Array(
+                    'align' =>  'left',
+                    'view'  =>  false,
+                    'mode'  =>  'view'
+                )
+            ),
+            Array(
+                'type'              =>  'input',
+                'field'             =>  'meta_keywords',
+                'caption'           =>  'META Ключевые слова',
+                'placeholder'       =>  'META Ключевые слова',
+                'label'             =>  'META Ключевые слова',
+                'edit'           =>  Array(
+                    'mode'  =>  'edit'
+                ),
+                'listing'           =>  Array(
+                    'align' =>  'left',
+                    'view'  =>  false,
+                    'mode'  =>  'view'
+                )
+            ),
+            Array(
+                'type'              =>  'input',
+                'field'             =>  'meta_description',
+                'caption'           =>  'META Описание',
+                'placeholder'       =>  'META Описание',
+                'label'             =>  'META Описание',
+                'edit'           =>  Array(
+                    'mode'  =>  'edit'
+                ),
+                'listing'           =>  Array(
+                    'align' =>  'left',
+                    'view'  =>  false,
+                    'mode'  =>  'view'
+                )
+            ),
+            Array(
+                'type'              =>  'number',
+                'field'             =>  'order_in_menu',
+                'caption'           =>  'Порядок',
+                'placeholder'       =>  'Порядок',
+                'label'             =>  'Порядок',
+                'edit'           =>  Array(
+                    'mode'  =>  'edit'
+                ),
+                'listing'           =>  Array(
+                    'align' =>  'center',
+                    'mode'  =>  'view'
+                )
+            ),
+        );
         $config     =   Array(
             'controller'    =>  $this,
             'db'            =>  self::get('db'),
@@ -273,7 +394,12 @@ class page extends applicationWeb\AControllers implements applicationWeb\IContro
             'mode'          =>  'listing',
             'viewer'        =>  Array(
                 'listing' => Array(
-
+                    'type'      => 'listing',
+                    'field'     =>  $schema,
+                    'button'    =>  Array(
+                        'row'   =>  Array(),
+                        'rows'  =>  Array(),
+                    )
                 ),
             )
         );

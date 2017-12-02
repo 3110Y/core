@@ -48,4 +48,11 @@ abstract class ACForm
      */
     protected static $isWork = true;
 
+
+    /**
+     * @var array просмотрщик
+     */
+    protected  $viewerConfig        =   Array();
+
+
 }
