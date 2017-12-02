@@ -98,7 +98,6 @@ class component extends ACForm
             parent::$mode = parent::$subURL[1];
             parent::$subURLNow++;
         }
-        var_dump(parent::$id !== '0', parent::$id !== 0, (int)parent::$id == 0, isset($config['viewer'][parent::$mode]));
         if (parent::$id !== '0' && parent::$id !== 0 && (int)parent::$id == 0 ) {
             parent::$isWork = false;
         } elseif (isset($config['viewer'][parent::$mode])) {
@@ -110,7 +109,6 @@ class component extends ACForm
         } else {
             parent::$isWork = false;
         }
-        die();
     }
 
     /**
@@ -120,14 +118,18 @@ class component extends ACForm
     {
         if (parent::$isWork && isset($this->viewer['type'])) {
             $viewer =   $this->viewer['type'];
-            $viewer = "\core\component\CForm\\viewer\{$viewer}\component";
-            /** @var \core\component\CForm2\viewer\listing\component $viewerComponent */
-            $viewerComponent  =   new $viewer();
-            $viewerComponent->setConfig($this->viewer);
-            $viewerComponent->setAnswer($this->answer);
-            $viewerComponent->init();
-            $viewerComponent->run();
-            $this->answer   =   $viewerComponent->getAnswer();
+            $viewer = "\core\component\CForm\\viewer\\{$viewer}\component";
+            if (class_exists($viewer)) {
+                /** @var \core\component\CForm2\viewer\listing\component $viewerComponent */
+                $viewerComponent = new $viewer();
+                $viewerComponent->setConfig($this->viewer);
+                $viewerComponent->setAnswer($this->answer);
+                $viewerComponent->init();
+                $viewerComponent->run();
+                $this->answer = $viewerComponent->getAnswer();
+            } else {
+                parent::$isWork = false;
+            }
         }
     }
 
@@ -137,12 +139,6 @@ class component extends ACForm
      */
     public  function getIncomingArray()
     {
-        if (parent::$isWork) {
-            echo 'Работаем';
-        } else {
-
-        }
-
         if (!parent::$isWork) {
             return false;
         }

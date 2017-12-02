@@ -280,7 +280,7 @@ class page extends applicationWeb\AControllers implements applicationWeb\IContro
         $CForm  =   new CForm\component(self::$content, 'CONTENT');
         $CForm->setConfig($config);
         $CForm->run();
-        //self::$content  =    $CForm->getIncomingArray();
+        self::$content  =    $CForm->getIncomingArray();
 
     }
 
