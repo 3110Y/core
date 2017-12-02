@@ -29,15 +29,6 @@ class component extends CForm\AViewer implements CForm\IViewer
 
 
     /**
-     * Инициализация
-     */
-    public function init()
-    {
-        var_dump($this->answer);
-        // TODO: Implement init() method.
-    }
-
-    /**
      * Запуск
      */
     public function run()

@@ -96,9 +96,9 @@ class component extends ACForm
         if (parent::$id !== '0' && parent::$id !== 0 && (int)parent::$id == 0 ) {
             parent::$isWork = false;
         } elseif (isset($config['viewer'][parent::$mode])) {
-            $this->viewerConfig = $config['viewer'][parent::$mode];
+            self::$viewerConfig = $config['viewer'][parent::$mode];
         }  elseif (parent::$mode == 'api') {
-            $this->viewerConfig = Array(
+            self::$viewerConfig = Array(
                 'type' => 'api'
             );
         } else {
@@ -112,16 +112,17 @@ class component extends ACForm
     public function run()
     {
         if (!isset($this->viewer['type'])) {
-            $this->viewerConfig['type'] = parent::$mode;
+            self::$viewerConfig['type'] = parent::$mode;
         }
         if (parent::$isWork) {
-            $viewerName =   $this->viewerConfig['type'];
+            $viewerName =   self::$viewerConfig['type'];
+            unset(self::$viewerConfig['type']);
             $viewer =   "core\component\CForm\\viewer\\{$viewerName}\component";
             if (class_exists($viewer)) {
-                if (isset($this->viewerConfig['field']) && !empty($this->viewerConfig['field'])) {
+                if (isset($this->viewerConfig['field']) && !empty(self::$viewerConfig['field'])) {
                     $this->preparationField($viewerName);
                 }
-                if (isset($this->viewerConfig['button']) && !empty($this->viewerConfig['button'])) {
+                if (isset($this->viewerConfig['button']) && !empty(self::$viewerConfig['button'])) {
                     $this->preparationButton($viewerName);
                 }
                 /** @var \core\component\CForm\viewer\listing\component $viewerComponent */
@@ -160,7 +161,7 @@ class component extends ACForm
     private function preparationButton(string $viewerName)
     {
         $buttons = Array();
-        foreach ($this->viewerConfig['button'] as $key => $button) {
+        foreach (self::$viewerConfig['button'] as $key => $button) {
             if (isset($button[$viewerName]) && !empty($button[$viewerName])) {
                 foreach ($button[$viewerName] as $valueName => $value) {
                     $button[$valueName] = $value;
@@ -175,7 +176,7 @@ class component extends ACForm
             }
         }
         usort($buttons, Array($this, 'callbackSchemaSort'));
-        $this->viewerConfig['field'] = $buttons;
+        self::$viewerConfig['field'] = $buttons;
     }
 
     /**
@@ -186,7 +187,7 @@ class component extends ACForm
     private function preparationField(string $viewerName)
     {
         $fields = Array();
-        foreach ($this->viewerConfig['field'] as $key => $field) {
+        foreach (self::$viewerConfig['field'] as $key => $field) {
             if (isset($field[$viewerName]) && !empty($field[$viewerName])) {
                 foreach ($field[$viewerName] as $valueName => $value) {
                     $field[$valueName] = $value;
@@ -201,7 +202,7 @@ class component extends ACForm
             }
         }
         usort($fields, Array($this, 'callbackSchemaSort'));
-        $this->viewerConfig['field'] = $fields;
+        self::$viewerConfig['field'] = $fields;
     }
 
     /**

@@ -52,7 +52,7 @@ abstract class ACForm
     /**
      * @var array просмотрщик
      */
-    protected  $viewerConfig        =   Array();
+    protected static  $viewerConfig        =   Array();
 
 
 }
