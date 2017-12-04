@@ -47,12 +47,18 @@ abstract class ADriver
             $array  =   array();
             foreach ($field as $key => $value) {
                 if (is_int($key) && !is_array($value)) {
-                    $value =   rtrim(trim($value, ''), '');
-                    $array[]    =   "`{$value}`";
+                    if (substr($value,0, 1) != '`') {
+                        $value  =   "`{$value}`";
+                    }
+                    $array[]    =   "{$value}";
                 } elseif (is_string($key) && !is_array($value)) {
-                    $value =   rtrim(trim($value, ''), '');
-                    $key =   rtrim(trim($key, ''), '');
-                    $array[]    =   "`{$key}` . `{$value}`";
+                    if (substr($key,0, 1) != '`') {
+                        $key  =   "`{$key}`";
+                    }
+                    if (substr($value,0, 1) != '`') {
+                        $value  =   "`{$value}`";
+                    }
+                    $array[]    =   "{$key} . {$value}";
                 } elseif (is_array($value)) {
                     $f  =   array(
                         't' => null,

@@ -17,5 +17,5 @@ class component
     /**
      * @const float Версия
      */
-    const VERSION   =   1.9;
+    const VERSION   =   2;
 }
