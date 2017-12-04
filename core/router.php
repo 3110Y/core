@@ -48,11 +48,13 @@ class router
     public function __construct($structure = Array())
     {
         $this->structure    =   $structure;
+        $site               =   '';
         if (isset($_SERVER['SHELL']) && isset($argv)) {
             $URL    =   $argv;
             $URL[0] = '/';
         } else {
             $URL    =   explode('/', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
+            $site   =   $_SERVER['HTTP_HOST'];
         }
         $urlFirst   =    $URL;
         $urlSecond  =    $URL;
@@ -60,12 +62,13 @@ class router
         if(count($urlFirst) === 1) {
             $urlFirst[] = '';
         }
-        $this->application  =   $this->setURL($urlFirst);
+        $this->application  =   $this->setURL($urlFirst, $site);
         if (empty($this->application)) {
-            $this->application  =   $this->setURL($urlSecond);
+            $this->application  =   $this->setURL($urlSecond, $site);
         } else {
             $this->URL[0]   =   '/' . $this->URL[0];
         }
+
         if (empty($this->application)) {
             //TODO: нет приложения
             die('нет приложения');
@@ -75,15 +78,16 @@ class router
     /**
      * Устанавливает URL структуы
      * @param array $url URL
+     * @param string $site сайт
      * @return array приложение
      */
-    private function setURL($url)
+    private function setURL($url, $site = '')
     {
         foreach ($this->structure as $item) {
             if (!isset($item['url'])) {
                 $item['url']    =   $item['path'];
             }
-            if ($item['url'] === $url[0] || ($item['url'] == '/' && $url[0] == '')) {
+            if (($item['url'] === $url[0] || ($item['url'] == '/' && $url[0] == '')) && $item['site'] == $site) {
                 $this->URL = $url;
                 return $item;
             }
