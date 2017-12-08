@@ -1,5 +1,5 @@
 <div class="cform w-hundred">
-    <form method="post" action="{URL}" class="cf-table">
+    <form method="post" action="../../../../../../index.php" class="cf-table">
         <div class="cf-table-caption cf-caption {CAPTION_CLASS}">
             <span>{CAPTION}</span>
         </div>

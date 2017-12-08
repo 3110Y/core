@@ -1,4 +1,14 @@
-@import "../../../css/defline.sass"
+$color1: #edecec
+$color2: #2a4362
+$color3: #ffffff
+$color4: #b3b3b3
+$color5: #e5e5e5
+$color6: #ffd
+$color7: rgba(42, 67, 98, 0.4)
+$color8: #999
+$color9: #3d536f
+$width: 1230px
+
 
 .cform-after
   clear: both
@@ -50,3 +60,28 @@
       float: left
     &>a
       float: right
+
+
+.cform
+  form
+    padding: 16px 12px
+  .item-action
+    width: 100%
+    padding: 16px 12px
+    box-sizing: border-box
+    text-align: center
+    white-space: nowrap
+  .cform-field
+    display: inline-block
+    width: 100%
+    label, .uk-form-controls
+      display: inline-block
+      padding: 10px 0
+      &.display-none
+        display: none
+    label
+      width: 12%
+    label:not(display-none)+.uk-form-controls
+      width: 87%
+    label.display-none+.uk-form-controls
+      width: 100%

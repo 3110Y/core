@@ -6,7 +6,7 @@
  * Time: 16:54
  */
 
-namespace core\component\CForm\viewer\edit;
+namespace core\component\CForm\viewer\UKEdit;
 
 
 use \core\component\{

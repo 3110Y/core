@@ -1,0 +1,100 @@
+$color1: #edecec
+$color2: #2a4362
+$color3: #ffffff
+$color4: #b3b3b3
+$color5: #e5e5e5
+$color6: #ffd
+$color7: rgba(42, 67, 98, 0.4)
+$color8: #999
+$color9: #3d536f
+$width: 1230px
+
+
+
+.cform-after
+  clear: both
+  min-height: 56px
+  padding: 16px 12px
+  content: ' '
+  width: 100%
+  display: block
+  box-sizing: border-box
+  &.is-hidden
+    display: none
+.cform
+  display: block
+  position: relative
+  background-color: $color3
+  box-shadow: 0 14px 25px rgba(0, 0, 0, 0.16)
+  &.w-hundred
+    width: 100%
+    .cf-table
+      width: 100%
+  .group-action
+    position: fixed
+    width: 100%
+    padding: 16px 12px
+    box-sizing: border-box
+    background: $color7
+    bottom: 0
+    left: 0
+    text-align: center
+    white-space: nowrap
+    z-index: 1
+    &.is-hidden
+      display: none
+  .cf-caption
+    background-color: $color9
+    padding: 16px 12px
+    box-sizing: border-box
+    &.is-hidden
+      display: none
+    &::after
+      clear: both
+      content: " "
+      width: 100%
+      display: block
+    &>*
+      margin: 0
+      color: $color3
+    &>h3
+      float: left
+    &>a
+      float: right
+
+.cform
+  .overflow-form
+    overflow-x: auto
+    .cf-table
+      display: table
+      .cf-table-caption
+        display: table-caption
+      .cf-table-row
+        display: table-row
+        &:hover
+          background: $color6
+        .cf-table-row-th
+          display: table-column
+          padding: 16px 12px
+          box-sizing: border-box
+          &>*
+            font-weight: bold
+            color: $color8
+        .cf-table-row-td, .cf-table-row-th
+          border-top: 1px solid $color5
+          display: table-cell
+          padding: 16px 12px
+          box-sizing: border-box
+          &.min
+            white-space: nowrap
+            width: 105px
+          &.is-hidden
+            display: none
+          &.overflow
+            overflow: hidden
+  .uk-pagination
+    margin-bottom: 0
+  .dotted
+    border-bottom: 1px dotted
+    &:hover
+      border-bottom: 0

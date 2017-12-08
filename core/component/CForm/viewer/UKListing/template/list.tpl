@@ -1,6 +1,6 @@
 <div class="cform w-hundred">
     <div class="overflow-form">
-        <form method="post" action="{URL}" class="cf-table">
+        <form method="post" action="../../../../../../index.php" class="cf-table">
         <div class="cf-table-caption cf-caption {CAPTION_CLASS}">
             <span>{CAPTION}</span>
             <!--<a href="" uk-icon="icon: more-vertical; ratio: 1.65" uk-toggle="target: #cform-sort"></a>-->
@@ -45,7 +45,7 @@
                     <ul class="uk-nav uk-dropdown-nav">
                         {ON_PAGE_LIST}
                         <li class="{CLASS}">
-                            <a href="{URL}">{TEXT}</a>
+                            <a href="../../../../../../index.php">{TEXT}</a>
                         </li>
                         {/ON_PAGE_LIST}
                     </ul>
@@ -55,7 +55,7 @@
         <div class="uk-navbar-center">
             <ul class="uk-pagination uk-flex-center" uk-margin>
                 {PAGINATION}
-                    <li class="{CLASS}"><a href="{HREF}">{TEXT}</a></li>
+                    <li class="{CLASS}"><a href="../../../../../../index.php">{TEXT}</a></li>
                 {/PAGINATION}
             </ul>
         </div>

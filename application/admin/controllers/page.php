@@ -264,7 +264,7 @@ class page extends applicationWeb\AControllers implements applicationWeb\IContro
 
 
 
-        $schema     =   Array(
+        $field     =   Array(
             Array(
                 'type'              =>  'input',
                 'field'             =>  'name',
@@ -394,8 +394,8 @@ class page extends applicationWeb\AControllers implements applicationWeb\IContro
             'mode'          =>  'listing',
             'viewer'        =>  Array(
                 'listing' => Array(
-                    'type'      => 'listing',
-                    'field'     =>  $schema,
+                    'type'      => 'UKListing',
+                    'field'     =>  $field,
                     'button'    =>  Array(
                         'row'   =>  Array(),
                         'rows'  =>  Array(),

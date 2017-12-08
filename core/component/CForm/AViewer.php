@@ -55,6 +55,21 @@ abstract class AViewer extends ACForm
      */
     protected $page         =   1;
 
+    /**
+     * @var array
+     */
+    protected $data         =   Array();
+
+    /**
+     * @var int
+     */
+    protected $totalRows         =   0;
+
+    /**
+     * @var int
+     */
+    protected $totalPage         =   0;
+
 
     /**
      * @return mixed
@@ -69,12 +84,12 @@ abstract class AViewer extends ACForm
      */
     public function init()
     {
-        $this->button       =   isset(self::$viewerConfig['button'])            ?? self::$viewerConfig['button'];
-        $this->field        =   isset(self::$viewerConfig['field'])             ?? self::$viewerConfig['field'];
-        $this->onPage       =   isset(self::$viewerConfig['onPage'])            ?? self::$viewerConfig['onPage'];
-        $this->pagination   =   isset(self::$viewerConfig['pagination'])        ?? self::$viewerConfig['pagination'];
+        $this->button       =   self::$viewerConfig['button']           ?? $this->button;
+        $this->field        =   self::$viewerConfig['field']            ?? $this->field;
+        $this->onPage       =   self::$viewerConfig['onPage']           ?? $this->onPage ;
+        $this->pagination   =   self::$viewerConfig['pagination']       ?? $this->pagination;
         $this->parent       =   parent::$id;
-        $this->page         =   isset(self::$viewerConfig['page'])              ?? self::$viewerConfig['page'];
+        $this->page         =   self::$viewerConfig['page']             ?? $this->page;
         unset(
             self::$viewerConfig['button'],
             self::$viewerConfig['field'],
@@ -83,9 +98,10 @@ abstract class AViewer extends ACForm
             self::$viewerConfig['parent'],
             self::$viewerConfig['page']
         );
-        $this->config   =   self::$viewerConfig;
+        $this->config       =   self::$viewerConfig;
         $this->pageNow();
         $this->onPage();
+        $this->data         =   self::$viewerConfig['data']             ?? $this->fillData();
     }
 
     /**
@@ -112,5 +128,40 @@ abstract class AViewer extends ACForm
             $this->onPage = (int)$_COOKIE[$paginationKey];
         }
 
+    }
+
+
+    private function fillData()
+    {
+        $where  = $this->config['where']  ??  Array();
+        $where['parent_id'] =   $this->parent;
+        $fields =   Array(
+            'id'
+        );
+        foreach ($this->field as $item) {
+            if (isset($item['field'])) {
+                $fields[] = $item['field'];
+            }
+        }
+        array_unique($fields);
+        $order = '';
+        $orderKey   =   'order' . self::$controller::getPageURL() . '/' . self::$mode;
+        if (isset($_GET['order'])) {
+            setcookie($orderKey, $_GET['order'], time() + 2592000, '/');
+            $order = (int)$_GET['onPage'];
+        } elseif (isset($_COOKIE[$orderKey])) {
+            $order = (int)$_COOKIE[$orderKey];
+        }
+        $this->totalRows = self::$db->selectCount(self::$table, $fields, $where, $order);
+        $this->totalPage = (int)ceil ($this->totalRows / $this->onPage);
+        if (0 !== $this->totalPage && $this->page >  $this->totalPage) {
+            $urlBack = self::$controller::getPageURL() . '/' . self::$id . '/' . parent::$mode;
+            self::redirect($urlBack);
+        }
+        $limit = Array(
+            (($this->onPage * $this->page) - $this->onPage),
+            $this->onPage
+        );
+        return self::$db->selectRows(self::$table, $fields, $where, $order, $limit);
     }
 }

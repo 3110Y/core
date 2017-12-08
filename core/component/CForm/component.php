@@ -111,7 +111,7 @@ class component extends ACForm
      */
     public function run()
     {
-        if (!isset($this->viewer['type'])) {
+        if (!isset(self::$viewerConfig['type'])) {
             self::$viewerConfig['type'] = parent::$mode;
         }
         if (parent::$isWork) {
@@ -125,7 +125,7 @@ class component extends ACForm
                 if (isset($this->viewerConfig['button']) && !empty(self::$viewerConfig['button'])) {
                     $this->preparationButton($viewerName);
                 }
-                /** @var \core\component\CForm\viewer\listing\component $viewerComponent */
+                /** @var \core\component\CForm\viewer\UKListing\component $viewerComponent */
                 $viewerComponent = new $viewer();
                 $viewerComponent->init();
                 $viewerComponent->run();
