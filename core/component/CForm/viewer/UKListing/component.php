@@ -13,6 +13,7 @@ use \core\component\{
 	CForm as CForm,
 	templateEngine\engine\simpleView as simpleView
 };
+use core\core;
 
 
 /**
@@ -51,13 +52,60 @@ class component extends CForm\AViewer implements CForm\IViewer
      */
     public function run()
     {
-
-        var_dump($this->field);
-        die('hfhf');
-
-
-        $template = $this->getViewerTemplate();
+        if ($this->totalRows == 0) {
+            $template = core::getDR(true) . self::getTemplate('template/listNo.tpl', __DIR__);
+        } else {
+            $template = core::getDR(true) . self::getTemplate('template/list.tpl', __DIR__);
+            $this->answer['TR'] = Array(
+                'TH' => Array(),
+                'TD' => Array(),
+            );
+            foreach ($this->data as $row) {
+                /**
+                 * Поля
+                 */
+                foreach ($this->field as $key   =>   $field) {
+                    if (isset($row[$field['field']])) {
+                        $field['value'] = $row[$field['field']];
+                    }
+                    if (!isset($field['mode'])) {
+                        $field['value'] = 'listing';
+                    }
+                    $fieldName      =   $field['type'];
+                    $fieldObject    =   "core\component\CForm\\field\\{$fieldName}\component";
+                    if (class_exists($fieldObject)) {
+                        /** @var \core\component\CForm\field\UKInput\component $fieldComponent */
+                        $fieldComponent = new $fieldObject($field, $this->data);
+                        $fieldComponent->init();
+                        $fieldComponent->run();
+                        if (isset($this->answer['TR']['TH'][$key])) {
+                            $this->answer['TR']['TH'][$key] = $fieldComponent->getCaption();
+                        }
+                        $this->answer['TR']['TD'][]     = $fieldComponent->getAnswer();
+                    }
+                }
+                /**
+                 * Кнопки
+                 */
+                foreach ($this->button as $key   =>   $button) {
+                    $buttonName      =   $button['type'];
+                    $buttonObject    =   "core\component\CForm\\button\\{$buttonName}\component";
+                    if (class_exists($buttonObject)) {
+                        /** @var \core\component\CForm\button\UKSimple\component $fieldComponent */
+                        $buttonComponent = new $buttonObject($button, $this->data);
+                        $buttonComponent->init();
+                        $buttonComponent->run();
+                        if (isset($this->answer['TR']['TH'][$key])) {
+                            $this->answer['TR']['TH'][$key] = $buttonComponent->getCaption();
+                        }
+                        $this->answer['TR']['TD'][]     = $buttonComponent->getAnswer();
+                    }
+                }
+            }
+        }
+        self::$controller::setCss(self::getTemplate('css/list.css', __DIR__));
         $this->answer   =   simpleView\component::replace($template, $this->answer);
+
     }
 
 

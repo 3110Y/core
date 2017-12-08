@@ -56,6 +56,24 @@ abstract class ACForm
 
 
     /**
+     * отдает шаблон
+     * @param string $template шаблон
+     * @param string $dir
+     *
+     * @return string шаблон
+     */
+    protected static function getTemplate(string $template, string $dir = __DIR__): string
+    {
+        $dir    =   strtr($dir, Array(
+            '\\' =>  '/'
+        ));
+        $dr    =   strtr(core::getDR(), Array(
+            '\\' =>  '/'
+        ));
+        return '/' . str_replace($dr,'', $dir) . '/' . $template;
+    }
+
+    /**
      * переадресация
      * @param string $url URL
      * @param boolean $isExternal внешний адресс
