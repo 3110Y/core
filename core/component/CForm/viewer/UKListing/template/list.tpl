@@ -1,43 +1,43 @@
 <div class="cform w-hundred">
     <div class="overflow-form">
-        <form method="post" action="../../../../../../index.php" class="cf-table">
+        <form method="post" action="#" class="cf-table">
         <div class="cf-table-caption cf-caption {CAPTION_CLASS}">
             <span>{CAPTION}</span>
             <!--<a href="" uk-icon="icon: more-vertical; ratio: 1.65" uk-toggle="target: #cform-sort"></a>-->
         </div>
         <div class="cf-table-row">
-            {HEADER_ROW}
-                <div id="{ID}" class="cf-table-row-th {CLASS}" style="{STYLE}">
-                    <span>{COMPONENT}</span>
+            {TH}
+                <div class="cf-table-row-th">
+                    <span>{TEXT}</span>
                 </div>
-            {/HEADER_ROW}
+            {/TH}
         </div>
-        {ROWS}
+        {TR}
         <div class="cf-table-row">
-            {FIELDS}
-            <div id="{ID}" class="cf-table-row-td {CLASS}" style="{STYLE}">
+            {TD_FIELD}
+            <div class="cf-table-row-td">
                 {COMPONENT}
             </div>
-            {/FIELDS}
+            {/TD_FIELD}
             <div class="cf-table-row-td min {CLASS_ROW}">
                 <div class="uk-button-group">
-                    {ACTION_ROW}
+                    {TD_BUTTON}
                         {COMPONENT}
-                    {/ACTION_ROW}
+                    {/TD_BUTTON}
                 </div>
             </div>
         </div>
-        {/ROWS}
-        <div class="group-action {CLASS_ROWS}">
+        {/TR}
+<!--        <div class="group-action {CLASS_ROWS}">
             <div class="uk-button-group">
                 {ACTION_ROWS}
                 {COMPONENT}
                 {/ACTION_ROWS}
             </div>
-        </div>
+        </div>-->
     </form>
     </div>
-    <div id="pagination_table" class="uk-placeholder uk-text-center uk-navbar-container uk-navbar">
+<!--    <div id="pagination_table" class="uk-placeholder uk-text-center uk-navbar-container uk-navbar">
         <div class="uk-navbar-left">
             <div class="uk-inline">
                 <span class="select dotted"> Показывать по: {ON_PAGE}</span>
@@ -73,6 +73,6 @@
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
 
         </div>
-    </div>
+    </div>-->
 </div>
 <div class="cform-after {CLASS_ROWS}"></div>

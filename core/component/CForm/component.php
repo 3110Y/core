@@ -187,6 +187,7 @@ class component extends ACForm
     private function preparationField(string $viewerName)
     {
         $fields = Array();
+        $i = 0 ;
         foreach (self::$viewerConfig['field'] as $key => $field) {
             if (isset($field[$viewerName]) && !empty($field[$viewerName])) {
                 foreach ($field[$viewerName] as $valueName => $value) {
@@ -196,10 +197,11 @@ class component extends ACForm
             unset($field[$viewerName]);
             if (!isset($field['view']) || $field['view'] === true) {
                  if (!isset($field['order'])) {
-                     $field['order'] = $key;
+                     $field['order'] = $i;
                  }
                 $fields[] = $field;
             }
+            $i++;
         }
         usort($fields, Array($this, 'callbackSchemaSort'));
         self::$viewerConfig['field'] = $fields;

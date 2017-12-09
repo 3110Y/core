@@ -266,21 +266,17 @@ class page extends applicationWeb\AControllers implements applicationWeb\IContro
 
         $field     =   Array(
             Array(
-                'type'              =>  'input',
+                'type'              =>  'UKInput',
                 'field'             =>  'name',
-                'caption'           =>  'Название',
                 'placeholder'       =>  'Название',
-                'label'             =>  'Название',
+                'caption'           =>  'Название',
                 'required'          =>  true,
-                'edit'           =>  Array(
-                    'mode'  =>  'edit'
-                ),
                 'listing'           =>  Array(
                     'align' =>  'left',
                     'mode'  =>  'view'
                 )
             ),
-            Array(
+/*            Array(
                 'type'              =>  'urlName',
                 'field'             =>  'url',
                 'attached'          =>  'name',
@@ -384,7 +380,7 @@ class page extends applicationWeb\AControllers implements applicationWeb\IContro
                     'align' =>  'center',
                     'mode'  =>  'view'
                 )
-            ),
+            ),*/
         );
         $config     =   Array(
             'controller'    =>  $this,

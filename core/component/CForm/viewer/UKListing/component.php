@@ -44,6 +44,7 @@ class component extends CForm\AViewer implements CForm\IViewer
         $this->answer['PAGE']               = $this->page;
         $this->answer['TOTAL_ROWS']         = $this->totalRows;
         $this->answer['TOTAL_PAGE']         = $this->totalPage;
+        $this->answer['CAPTION']            = parent::$caption;
         $this->answer['PAGINATION']         = $this->getPagination();
     }
 
@@ -56,49 +57,86 @@ class component extends CForm\AViewer implements CForm\IViewer
             $template = core::getDR(true) . self::getTemplate('template/listNo.tpl', __DIR__);
         } else {
             $template = core::getDR(true) . self::getTemplate('template/list.tpl', __DIR__);
-            $this->answer['TR'] = Array(
-                'TH' => Array(),
-                'TD' => Array(),
-            );
             foreach ($this->data as $row) {
+                $td = Array(
+                    'TH'        => Array(),
+                    'TD_FIELD'  => Array(),
+                    'TD_BUTTON' => Array(),
+                );
                 /**
                  * Поля
                  */
                 foreach ($this->field as $key   =>   $field) {
+                    if (!isset($field['field']) && is_string($key)) {
+                        $field['field'] = $key;
+                    }
                     if (isset($row[$field['field']])) {
                         $field['value'] = $row[$field['field']];
                     }
                     if (!isset($field['mode'])) {
-                        $field['value'] = 'listing';
+                        $field['mode'] = 'view';
                     }
-                    $fieldName      =   $field['type'];
-                    $fieldObject    =   "core\component\CForm\\field\\{$fieldName}\component";
-                    if (class_exists($fieldObject)) {
-                        /** @var \core\component\CForm\field\UKInput\component $fieldComponent */
-                        $fieldComponent = new $fieldObject($field, $this->data);
-                        $fieldComponent->init();
-                        $fieldComponent->run();
-                        if (isset($this->answer['TR']['TH'][$key])) {
-                            $this->answer['TR']['TH'][$key] = $fieldComponent->getCaption();
+                    if (isset($field['type'])) {
+                        $fieldName = $field['type'];
+                        $fieldObject = "core\component\CForm\\field\\{$fieldName}\component";
+                        if (class_exists($fieldObject)) {
+                            /** @var \core\component\CForm\field\UKInput\component $fieldComponent */
+                            $fieldComponent = new $fieldObject($field);
+                            $fieldComponent->init();
+                            if (!isset($this->answer['TH'][$key])) {
+                                $this->answer['TH'][$key] = $fieldComponent->getCaption();
+                            }
+                            $td['TD_FIELD'][] = Array(
+                                'COMPONENT' =>  $fieldComponent->getAnswer()
+                            );
+                            $this->field[$key] = $fieldComponent->getField();
                         }
-                        $this->answer['TR']['TD'][]     = $fieldComponent->getAnswer();
                     }
                 }
+
                 /**
                  * Кнопки
                  */
-                foreach ($this->button as $key   =>   $button) {
-                    $buttonName      =   $button['type'];
-                    $buttonObject    =   "core\component\CForm\\button\\{$buttonName}\component";
-                    if (class_exists($buttonObject)) {
-                        /** @var \core\component\CForm\button\UKSimple\component $fieldComponent */
-                        $buttonComponent = new $buttonObject($button, $this->data);
-                        $buttonComponent->init();
-                        $buttonComponent->run();
-                        if (isset($this->answer['TR']['TH'][$key])) {
-                            $this->answer['TR']['TH'][$key] = $buttonComponent->getCaption();
+                if (isset($this->button['row']) && !empty($this->button['row'])) {
+                    foreach ($this->button['row'] as $key => $button) {
+                        if (isset($button['type'])) {
+                            $buttonName = $button['type'];
+                            $buttonObject = "core\component\CForm\\button\\{$buttonName}\component";
+                            if (class_exists($buttonObject)) {
+                                /** @var \core\component\CForm\button\UKSimple\component $fieldComponent */
+                                $buttonComponent = new $buttonObject($button, $this->data);
+                                $buttonComponent->init();
+                                $buttonComponent->run();
+                                if (!isset($this->answer['TH'][$key])) {
+                                    $this->answer['TH'][$key] = $fieldComponent->getCaption();
+                                }
+                                $this->answer['TR']['TD'][] = $buttonComponent->getAnswer();
+                                $td['TD_BUTTON'][] = Array(
+                                    'COMPONENT' =>  $buttonComponent->getAnswer()
+                                );
+                            }
                         }
-                        $this->answer['TR']['TD'][]     = $buttonComponent->getAnswer();
+                    }
+                }
+                $this->answer['TR'][]   =   $td;
+
+
+            }
+            /**
+             * Кнопки
+             */
+            if (isset($this->button['rows']) && !empty($this->button['rows'])) {
+                foreach ($this->button['rows'] as $key => $button) {
+                    if (isset($button['type'])) {
+                        $buttonName = $button['type'];
+                        $buttonObject = "core\component\CForm\\button\\{$buttonName}\component";
+                        if (class_exists($buttonObject)) {
+                            /** @var \core\component\CForm\button\UKSimple\component $fieldComponent */
+                            $buttonComponent = new $buttonObject($button, $this->data);
+                            $buttonComponent->init();
+                            $buttonComponent->run();
+                            $this->answer['ROWS'][] = $buttonComponent->getAnswer();
+                        }
                     }
                 }
             }

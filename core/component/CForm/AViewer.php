@@ -86,7 +86,7 @@ abstract class AViewer extends ACForm
     {
         $this->button       =   self::$viewerConfig['button']           ?? $this->button;
         $this->field        =   self::$viewerConfig['field']            ?? $this->field;
-        $this->onPage       =   self::$viewerConfig['onPage']           ?? $this->onPage ;
+        $this->onPage       =   self::$viewerConfig['onPage']           ?? $this->onPage;
         $this->pagination   =   self::$viewerConfig['pagination']       ?? $this->pagination;
         $this->parent       =   parent::$id;
         $this->page         =   self::$viewerConfig['page']             ?? $this->page;
@@ -102,6 +102,9 @@ abstract class AViewer extends ACForm
         $this->pageNow();
         $this->onPage();
         $this->data         =   self::$viewerConfig['data']             ?? $this->fillData();
+        foreach ($this->config as $key =>  $value) {
+            $this->answer[mb_strtoupper($key)] =  $value;
+        }
     }
 
     /**
