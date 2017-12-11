@@ -353,21 +353,16 @@ class page extends applicationWeb\AControllers implements applicationWeb\IContro
                    'view'  =>  false,
                    'mode'  =>  'view'
                )
-           ),
-       /*    Array(
-               'type'              =>  'number',
+           ),*/
+           Array(
+               'type'              =>  'UKNumber',
                'field'             =>  'order_in_menu',
                'caption'           =>  'Порядок',
                'placeholder'       =>  'Порядок',
-               'label'             =>  'Порядок',
-               'edit'           =>  Array(
-                   'mode'  =>  'edit'
-               ),
                'listing'           =>  Array(
                    'align' =>  'center',
-                   'mode'  =>  'view'
                )
-           ),*/
+           ),
         );
         $config     =   Array(
             'controller'    =>  $this,
