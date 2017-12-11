@@ -121,7 +121,7 @@ class AField extends ACForm
     /**
      * @return array
      */
-    public function getCaption()
+    public function getLabel()
     {
         return $this->labelField;
     }

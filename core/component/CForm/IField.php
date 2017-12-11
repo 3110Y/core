@@ -23,7 +23,7 @@ interface IField
     /**
      * @return string
      */
-    public function getCaption();
+    public function getLabel();
 
     /**
      * @return string

@@ -82,7 +82,7 @@ class component extends CForm\AViewer implements CForm\IViewer
                         $multiComponent = new $multiObject(Array(), $row);
                         $multiComponent->init();
                         if (!isset($this->answer['TH']['field'])) {
-                            $this->answer['TH']['field'] = $multiComponent->getCaption();
+                            $this->answer['TH']['field'] = $multiComponent->getLabel();
                         }
                         $td['TD_FIELD'][] = Array(
                             'COMPONENT' =>  $multiComponent->getAnswer()
@@ -112,7 +112,7 @@ class component extends CForm\AViewer implements CForm\IViewer
                             $fieldComponent = new $fieldObject($field, $row);
                             $fieldComponent->init();
                             if (!isset($this->answer['TH'][$key])) {
-                                $this->answer['TH'][$key] = $fieldComponent->getCaption();
+                                $this->answer['TH'][$key] = $fieldComponent->getLabel();
                                 if (isset($this->answer['TH'][$key]['FIELD']['field'])) {
                                     $order = $orderAll;
                                     /**
