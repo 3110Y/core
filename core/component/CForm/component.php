@@ -119,11 +119,12 @@ class component extends ACForm
             unset(self::$viewerConfig['type']);
             $viewer =   "core\component\CForm\\viewer\\{$viewerName}\component";
             if (class_exists($viewer)) {
-                if (isset($this->viewerConfig['field']) && !empty(self::$viewerConfig['field'])) {
-                    $this->preparationField($viewerName);
+
+                if (isset(self::$viewerConfig['field']) && !empty(self::$viewerConfig['field'])) {
+                    $this->preparationField();
                 }
-                if (isset($this->viewerConfig['button']) && !empty(self::$viewerConfig['button'])) {
-                    $this->preparationButton($viewerName);
+                if (isset(self::$viewerConfig['button']) && !empty(self::$viewerConfig['button'])) {
+                    $this->preparationButton();
                 }
                 /** @var \core\component\CForm\viewer\UKListing\component $viewerComponent */
                 $viewerComponent = new $viewer();
@@ -156,45 +157,46 @@ class component extends ACForm
     /**
      * Подготавливет кнопки
      *
-     * @param string $viewerName имя просмоторщика
      */
-    private function preparationButton(string $viewerName)
+    private function preparationButton()
     {
-        $buttons = Array();
-        foreach (self::$viewerConfig['button'] as $key => $button) {
-            if (isset($button[$viewerName]) && !empty($button[$viewerName])) {
-                foreach ($button[$viewerName] as $valueName => $value) {
-                    $button[$valueName] = $value;
+        foreach (self::$viewerConfig['button'] as $k => $b) {
+            $buttons = Array();
+            foreach (self::$viewerConfig['button'][$k] as $key => $button) {
+                if (isset($button[self::$mode]) && !empty($button[self::$mode])) {
+                    foreach ($button[self::$mode] as $valueName => $value) {
+                        $button[$valueName] = $value;
+                    }
+                }
+                unset($button[self::$mode]);
+                if (!isset($button['view']) || $button['view'] === true) {
+                    if (!isset($button['order'])) {
+                        $button['order'] = $key;
+                    }
+                    $buttons[] = $button;
                 }
             }
-            unset($button[$viewerName]);
-            if (!isset($button['view']) || $button['view'] === true) {
-                 if (!isset($button['order'])) {
-                     $button['order'] = $key;
-                 }
-                $buttons[] = $button;
-            }
+            usort($buttons, Array($this, 'callbackSchemaSort'));
+            self::$viewerConfig['button'][$k] = $buttons;
         }
-        usort($buttons, Array($this, 'callbackSchemaSort'));
-        self::$viewerConfig['field'] = $buttons;
+
     }
 
     /**
      * Подготавливет поля
      *
-     * @param string $viewerName имя просмоторщика
      */
-    private function preparationField(string $viewerName)
+    private function preparationField()
     {
         $fields = Array();
         $i = 0 ;
         foreach (self::$viewerConfig['field'] as $key => $field) {
-            if (isset($field[$viewerName]) && !empty($field[$viewerName])) {
-                foreach ($field[$viewerName] as $valueName => $value) {
+            if (isset($field[self::$mode]) && !empty($field[self::$mode])) {
+                foreach ($field[self::$mode] as $valueName => $value) {
                     $field[$valueName] = $value;
                 }
             }
-            unset($field[$viewerName]);
+            unset($field[self::$mode]);
             if (!isset($field['view']) || $field['view'] === true) {
                  if (!isset($field['order'])) {
                      $field['order'] = $i;

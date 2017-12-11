@@ -29,9 +29,9 @@
         {/TR}
         <div class="group-action ">
             <div class="uk-button-group">
-                {BUTTON}
+                {ROWS}
                     {COMPONENT}
-                {/BUTTON}
+                {/ROWS}
             </div>
         </div>
     </form>

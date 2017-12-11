@@ -70,12 +70,19 @@ class AField extends ACForm
     protected static $iterator = 0;
 
     /**
+     * @var array
+     */
+    protected $row = Array();
+
+    /**
      * AField constructor.
      * @param $field
+     * @param array $row
      */
-    public function __construct($field)
+    public function __construct($field, $row = Array())
     {
         self::$iterator++;
+        $this->row          =   $row;
         $this->value        =   $field['value']         ?? $this->value;
         $this->modeField    =   $field['mode']          ?? $this->modeField;
         $this->required     =   $field['required']      ?? $this->required;
@@ -89,8 +96,8 @@ class AField extends ACForm
         }
         if (isset($field['style'])) {
             $style  =   '';
-            foreach ($field['style'] as $nsme => $value) {
-                $style .= "{$nsme}: {$value}";
+            foreach ($field['style'] as $name => $value) {
+                $style .= "{$name}: {$value}";
             }
             $this->style = " style='{$style}' ";
         }
@@ -98,7 +105,7 @@ class AField extends ACForm
         if (isset($field['caption'])) {
             $this->captionField['TEXT'] = $field['caption'];
         }
-        unset($field['value'], $field['mode'], $field['caption'], $field['required'], $field['style']);
+        unset($field['value'], $field['mode'], $field['caption'], $field['required'], $field['class'], $field['style']);
         $this->configField              =   $field;
         $this->captionField['FIELD']    =   $this->configField;
     }
@@ -132,8 +139,10 @@ class AField extends ACForm
      */
     public function getField()
     {
+        $this->configField['id']        =   $this->idField;
         $this->configField['value']     =   $this->value;
         $this->configField['mode']      =   $this->modeField;
+        $this->configField['class']     =   $this->class;
         $this->configField['caption']   =   $this->captionField;
         return $this->configField;
     }

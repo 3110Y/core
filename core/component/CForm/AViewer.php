@@ -110,7 +110,7 @@ abstract class AViewer extends ACForm
     /**
      * Устанавливает текущую страницы
      */
-    private function pageNow()
+    protected function pageNow()
     {
         if (isset(parent::$subURL[parent::$subURLNow])) {
             $this->page  = parent::$subURL[parent::$subURLNow];
@@ -121,7 +121,7 @@ abstract class AViewer extends ACForm
     /**
      * Устанавливает на странице всего
      */
-    private function onPage()
+    protected function onPage()
     {
         $paginationKey   =   'pagination' . self::$controller::getPageURL() . '/' . self::$mode;
         if (isset($_GET['onPage'])) {

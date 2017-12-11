@@ -89,7 +89,7 @@ class component extends CForm\AViewer implements CForm\IViewer
                         $fieldObject = "core\component\CForm\\field\\{$fieldName}\component";
                         if (class_exists($fieldObject)) {
                             /** @var \core\component\CForm\field\UKInput\component $fieldComponent */
-                            $fieldComponent = new $fieldObject($field);
+                            $fieldComponent = new $fieldObject($field, $row);
                             $fieldComponent->init();
                             if (!isset($this->answer['TH'][$key])) {
                                 $this->answer['TH'][$key] = $fieldComponent->getCaption();
@@ -145,14 +145,17 @@ class component extends CForm\AViewer implements CForm\IViewer
                             $buttonName = $button['type'];
                             $buttonObject = "core\component\CForm\\button\\{$buttonName}\component";
                             if (class_exists($buttonObject)) {
-                                /** @var \core\component\CForm\button\UKSimple\component $fieldComponent */
-                                $buttonComponent = new $buttonObject($button, $this->data);
+                                /** @var \core\component\CForm\button\UKButton\component $fieldComponent */
+                                $buttonComponent = new $buttonObject($button, $row);
                                 $buttonComponent->init();
                                 $buttonComponent->run();
-                                if (!isset($this->answer['TH'][$key])) {
-                                    $this->answer['TH'][$key] = $fieldComponent->getCaption();
+                                if (!isset($this->answer['TH']['button'])) {
+                                    $this->answer['TH']['button'] = Array(
+                                        'HREF' => '#',
+                                        'ICON' => '',
+                                        'TEXT' => 'Действия'
+                                    );
                                 }
-                                $this->answer['TR']['TD'][] = $buttonComponent->getAnswer();
                                 $td['TD_BUTTON'][] = Array(
                                     'COMPONENT' =>  $buttonComponent->getAnswer()
                                 );
@@ -167,17 +170,20 @@ class component extends CForm\AViewer implements CForm\IViewer
             /**
              * Кнопки
              */
+
             if (isset($this->button['rows']) && !empty($this->button['rows'])) {
                 foreach ($this->button['rows'] as $key => $button) {
                     if (isset($button['type'])) {
                         $buttonName = $button['type'];
                         $buttonObject = "core\component\CForm\\button\\{$buttonName}\component";
                         if (class_exists($buttonObject)) {
-                            /** @var \core\component\CForm\button\UKSimple\component $fieldComponent */
+                            /** @var \core\component\CForm\button\UKButton\component $fieldComponent */
                             $buttonComponent = new $buttonObject($button, $this->data);
                             $buttonComponent->init();
                             $buttonComponent->run();
-                            $this->answer['ROWS'][] = $buttonComponent->getAnswer();
+                            $this->answer['ROWS'][] = Array(
+                                'COMPONENT' =>  $buttonComponent->getAnswer()
+                            );
                         }
                     }
                 }

@@ -323,6 +323,9 @@ class page extends applicationWeb\AControllers implements applicationWeb\IContro
                 'field'             =>  'meta_title',
                 'caption'           =>  'META Заголовок',
                 'placeholder'       =>  'META Заголовок',
+                'listing'           =>  Array(
+                    'view'  =>  false,
+                ),
             ),
             /*
            Array(
@@ -358,10 +361,7 @@ class page extends applicationWeb\AControllers implements applicationWeb\IContro
                'type'              =>  'UKNumber',
                'field'             =>  'order_in_menu',
                'caption'           =>  'Порядок',
-               'placeholder'       =>  'Порядок',
-               'listing'           =>  Array(
-                   'align' =>  'center',
-               )
+               'placeholder'       =>  'Порядок'
            ),
         );
         $config     =   Array(
@@ -375,8 +375,36 @@ class page extends applicationWeb\AControllers implements applicationWeb\IContro
                     'type'      => 'UKListing',
                     'field'     =>  $field,
                     'button'    =>  Array(
-                        'row'   =>  Array(),
-                        'rows'  =>  Array(),
+                        'row'   =>  Array(
+                            Array(
+                                'type'      => 'UKButton',
+                                'url'       => '{PAGE_URL}/{PARENT_ID}/edit/{ROW_ID}',
+                                'title'     => 'Редактировать',
+                                'icon'      => 'pencil',
+                                'class'     => 'uk-button-primary uk-button-small',
+                            ),
+                            Array(
+                                'type'  => 'UKButton',
+                                'url'  => '{PAGE_URL}/{PARENT_ID}/dell/{ROW_ID}', //!
+                                'title'     => 'Удалить',
+                                'icon'      => 'close',
+                                'class'     => 'uk-button-danger  uk-button-small',
+                            )
+                        ),
+                        'rows'  =>  Array(
+                            /*Array(
+                                'type'  => 'UKButtonDellAll',
+                                'url'  => '{PAGE_URL}/{PARENT_ID}/api/action/dell'
+                            ),*/
+                            Array(
+                                'type'      => 'UKButton',
+                                'url'       => '{PAGE_URL}/{PARENT_ID}/add',
+                                'text'      => 'Добавить',
+                                'title'     => 'Добавить',
+                                'icon'      => 'plus',
+                                'class'     => 'uk-button-primary',
+                            ),
+                        ),
                     )
                 ),
             )
