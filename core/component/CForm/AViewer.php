@@ -133,6 +133,28 @@ abstract class AViewer extends ACForm
 
     }
 
+    /**
+     * @return array
+     */
+    protected static function getOrder()
+    {
+        $array = Array();
+        $orderKey   =   'order' . self::$controller::getPageURL() . '/' . self::$mode;
+        if (isset($_GET['order'])) {
+            setcookie($orderKey, serialize($_GET['order']), time() + 2592000, '/');
+            $array =  $_GET['order'];
+        } elseif (isset($_COOKIE[$orderKey])) {
+            $array = unserialize($_COOKIE[$orderKey]);
+        }
+        foreach ($array as $key => $value) {
+            if ($value == 'NONE') {
+                unset($array[$key]);
+            }
+        }
+        return $array;
+
+    }
+
 
     private function fillData()
     {
@@ -147,14 +169,7 @@ abstract class AViewer extends ACForm
             }
         }
         array_unique($fields);
-        $order = '';
-        $orderKey   =   'order' . self::$controller::getPageURL() . '/' . self::$mode;
-        if (isset($_GET['order'])) {
-            setcookie($orderKey, $_GET['order'], time() + 2592000, '/');
-            $order = (int)$_GET['onPage'];
-        } elseif (isset($_COOKIE[$orderKey])) {
-            $order = (int)$_COOKIE[$orderKey];
-        }
+        $order = self::getOrder();
         $this->totalRows = self::$db->selectCount(self::$table, $fields, $where, $order);
         $this->totalPage = (int)ceil ($this->totalRows / $this->onPage);
         if (0 !== $this->totalPage && $this->page >  $this->totalPage) {

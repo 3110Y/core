@@ -271,10 +271,6 @@ class page extends applicationWeb\AControllers implements applicationWeb\IContro
                 'placeholder'       =>  'Название',
                 'caption'           =>  'Название',
                 'required'          =>  true,
-                'listing'           =>  Array(
-                    'align' =>  'left',
-                    'mode'  =>  'view'
-                )
             ),
 /*            Array(
                 'type'              =>  'urlName',
@@ -321,66 +317,57 @@ class page extends applicationWeb\AControllers implements applicationWeb\IContro
                     'align' =>  'right',
                     'mode'  =>  'view'
                 )
-            ),
+            ),*/
             Array(
-                'type'              =>  'input',
+                'type'              =>  'UKInput',
                 'field'             =>  'meta_title',
                 'caption'           =>  'META Заголовок',
                 'placeholder'       =>  'META Заголовок',
-                'label'             =>  'META Заголовок',
-                'edit'           =>  Array(
-                    'mode'  =>  'edit'
-                ),
-                'listing'           =>  Array(
-                    'align' =>  'left',
-                    'view'  =>  false,
-                    'mode'  =>  'view'
-                )
             ),
-            Array(
-                'type'              =>  'input',
-                'field'             =>  'meta_keywords',
-                'caption'           =>  'META Ключевые слова',
-                'placeholder'       =>  'META Ключевые слова',
-                'label'             =>  'META Ключевые слова',
-                'edit'           =>  Array(
-                    'mode'  =>  'edit'
-                ),
-                'listing'           =>  Array(
-                    'align' =>  'left',
-                    'view'  =>  false,
-                    'mode'  =>  'view'
-                )
-            ),
-            Array(
-                'type'              =>  'input',
-                'field'             =>  'meta_description',
-                'caption'           =>  'META Описание',
-                'placeholder'       =>  'META Описание',
-                'label'             =>  'META Описание',
-                'edit'           =>  Array(
-                    'mode'  =>  'edit'
-                ),
-                'listing'           =>  Array(
-                    'align' =>  'left',
-                    'view'  =>  false,
-                    'mode'  =>  'view'
-                )
-            ),
-            Array(
-                'type'              =>  'number',
-                'field'             =>  'order_in_menu',
-                'caption'           =>  'Порядок',
-                'placeholder'       =>  'Порядок',
-                'label'             =>  'Порядок',
-                'edit'           =>  Array(
-                    'mode'  =>  'edit'
-                ),
-                'listing'           =>  Array(
-                    'align' =>  'center',
-                    'mode'  =>  'view'
-                )
-            ),*/
+            /*
+           Array(
+               'type'              =>  'UKInput',
+               'field'             =>  'meta_keywords',
+               'caption'           =>  'META Ключевые слова',
+               'placeholder'       =>  'META Ключевые слова',
+               'edit'           =>  Array(
+                   'mode'  =>  'edit'
+               ),
+               'listing'           =>  Array(
+                   'align' =>  'left',
+                   'view'  =>  false,
+                   'mode'  =>  'view'
+               )
+           ),
+           Array(
+               'type'              =>  'UKInput',
+               'field'             =>  'meta_description',
+               'caption'           =>  'META Описание',
+               'placeholder'       =>  'META Описание',
+               'label'             =>  'META Описание',
+               'edit'           =>  Array(
+                   'mode'  =>  'edit'
+               ),
+               'listing'           =>  Array(
+                   'align' =>  'left',
+                   'view'  =>  false,
+                   'mode'  =>  'view'
+               )
+           ),
+       /*    Array(
+               'type'              =>  'number',
+               'field'             =>  'order_in_menu',
+               'caption'           =>  'Порядок',
+               'placeholder'       =>  'Порядок',
+               'label'             =>  'Порядок',
+               'edit'           =>  Array(
+                   'mode'  =>  'edit'
+               ),
+               'listing'           =>  Array(
+                   'align' =>  'center',
+                   'mode'  =>  'view'
+               )
+           ),*/
         );
         $config     =   Array(
             'controller'    =>  $this,

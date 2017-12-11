@@ -57,6 +57,7 @@ class component extends CForm\AViewer implements CForm\IViewer
             $template = core::getDR(true) . self::getTemplate('template/listNo.tpl', __DIR__);
         } else {
             $template = core::getDR(true) . self::getTemplate('template/list.tpl', __DIR__);
+            $order  =   self::getOrder();
             foreach ($this->data as $row) {
                 $td = Array(
                     'TH'        => Array(),
@@ -85,6 +86,39 @@ class component extends CForm\AViewer implements CForm\IViewer
                             $fieldComponent->init();
                             if (!isset($this->answer['TH'][$key])) {
                                 $this->answer['TH'][$key] = $fieldComponent->getCaption();
+                                if (isset($this->answer['TH'][$key]['FIELD']['field'])) {
+                                    /**
+                                     * icon
+                                     */
+                                    if (!isset($order[$this->answer['TH'][$key]['FIELD']['field']])) {
+                                        $this->answer['TH'][$key]['ICON'] = '';
+                                    } elseif ($order[$this->answer['TH'][$key]['FIELD']['field']]== 'ASC') {
+                                        $this->answer['TH'][$key]['ICON'] = "uk-icon='icon: triangle-up'";
+                                    } elseif ($order[$this->answer['TH'][$key]['FIELD']['field']] == 'DESC') {
+                                        $this->answer['TH'][$key]['ICON'] = "uk-icon='icon: triangle-down'";
+                                    }
+
+                                    /**
+                                     * куда
+                                     */
+                                    if (isset($order[$this->answer['TH'][$key]['FIELD']['field']])) {
+                                        if ($order[$this->answer['TH'][$key]['FIELD']['field']] == 'ASC') {
+                                            $order[$this->answer['TH'][$key]['FIELD']['field']] = 'DESC';
+                                        } else {
+                                            $order[$this->answer['TH'][$key]['FIELD']['field']] = 'NONE';
+                                        }
+                                    } else {
+                                        $order[$this->answer['TH'][$key]['FIELD']['field']] = 'ASC';
+                                    }
+                                    $link = Array();
+                                    foreach ($order as $k => $v) {
+                                        $link["order[{$k}]"] = $v;
+                                    }
+                                    $link = http_build_query ($link);
+                                    $this->answer['TH'][$key]['HREF'] = "?{$link}";
+                                } else {
+                                    $this->answer['TH'][$key]['HREF'] = '#';
+                                }
                             }
                             $td['TD_FIELD'][] = Array(
                                 'COMPONENT' =>  $fieldComponent->getAnswer()
