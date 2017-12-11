@@ -6,7 +6,7 @@
  * Time: 11:53
  */
 
-namespace core\component\CForm\button\UKButton;
+namespace core\component\CForm\button\UKButtonSubmitAjax;
 
 
 use \core\component\{
@@ -17,7 +17,7 @@ use \core\component\{
 
 /**
  * Class component
- * @package core\component\CForm\button\UKButton
+ * @package core\component\CForm\button\UKButtonSubmitAjax
  */
 class component extends CForm\AButton implements CForm\IButton
 {
@@ -39,6 +39,7 @@ class component extends CForm\AButton implements CForm\IButton
         foreach ($this->configButton as $key => $value) {
             $array[mb_strtoupper($key)] = $value;
         }
+        $array['UNIQID']    = uniqid();
         $array['ID_BUTTON'] = $this->idButton;
         $array['URL_TPL']   = $this->url;
         $array['CLASS']     = $this->class;
@@ -66,6 +67,7 @@ class component extends CForm\AButton implements CForm\IButton
         foreach ($this->row as $key => $value) {
             $data['ROW_' . mb_strtoupper($key)] = $value;
         }
+        self::$controller::setJs(self::getTemplate('js/dell.js',__DIR__));
         $this->template     =   self::getTemplate($this->template, __DIR__);
         $this->answer       =   simpleView\component::replace($this->template, $data);
 

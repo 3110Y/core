@@ -374,6 +374,7 @@ class page extends applicationWeb\AControllers implements applicationWeb\IContro
                 'listing' => Array(
                     'type'      => 'UKListing',
                     'field'     =>  $field,
+                    'multi'     =>  'UKActionID',
                     'button'    =>  Array(
                         'row'   =>  Array(
                             Array(
@@ -392,17 +393,19 @@ class page extends applicationWeb\AControllers implements applicationWeb\IContro
                             )
                         ),
                         'rows'  =>  Array(
-                            /*Array(
-                                'type'  => 'UKButtonDellAll',
-                                'url'  => '{PAGE_URL}/{PARENT_ID}/api/action/dell'
-                            ),*/
                             Array(
                                 'type'      => 'UKButton',
                                 'url'       => '{PAGE_URL}/{PARENT_ID}/add',
                                 'text'      => 'Добавить',
-                                'title'     => 'Добавить',
                                 'icon'      => 'plus',
                                 'class'     => 'uk-button-primary',
+                            ),
+                            Array(
+                                'type'      => 'UKButtonSubmitAjax',
+                                'url'       => '{PAGE_URL}/{PARENT_ID}/api/action/dell',
+                                'text'      => 'Удалить',
+                                'icon'      => 'close',
+                                'class'     => 'uk-button-danger',
                             ),
                         ),
                     )

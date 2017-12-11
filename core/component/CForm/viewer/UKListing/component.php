@@ -72,13 +72,33 @@ class component extends CForm\AViewer implements CForm\IViewer
                     'TD_BUTTON' => Array(),
                 );
                 /**
+                 * ID
+                 */
+                if (isset($this->config['multi'])) {
+                    $multiName = $this->config['multi'];
+                    $multiObject = "core\component\CForm\\field\\{$multiName}\component";
+                    if (class_exists($multiObject)) {
+                        /** @var \core\component\CForm\field\UKActionID\component $multiComponent */
+                        $multiComponent = new $multiObject(Array(), $row);
+                        $multiComponent->init();
+                        if (!isset($this->answer['TH']['field'])) {
+                            $this->answer['TH']['field'] = $multiComponent->getCaption();
+                        }
+                        $td['TD_FIELD'][] = Array(
+                            'COMPONENT' =>  $multiComponent->getAnswer()
+                        );
+                        $this->field[] = $multiComponent->getField();
+                    }
+                }
+
+                /**
                  * Поля
                  */
                 foreach ($this->field as $key   =>   $field) {
                     if (!isset($field['field']) && is_string($key)) {
                         $field['field'] = $key;
                     }
-                    if (isset($row[$field['field']])) {
+                    if (isset($field['field'], $row[$field['field']])) {
                         $field['value'] = $row[$field['field']];
                     }
                     if (!isset($field['mode'])) {

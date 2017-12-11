@@ -1,0 +1,1 @@
+<label title="Выделить запись ID: {ROW_ID}" uk-tooltip><input class="uk-checkbox checkbox-row" type="checkbox" name="row[{ROW_ID}]"></label>
