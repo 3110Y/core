@@ -102,8 +102,8 @@ class AField extends ACForm
             $this->style = " style='{$style}' ";
         }
 
-        if (isset($field['caption'])) {
-            $this->labelField['TEXT'] = $field['caption'];
+        if (isset($field['label'])) {
+            $this->labelField['TEXT'] = $field['label'];
         }
         unset($field['value'], $field['mode'], $field['label'], $field['required'], $field['class'], $field['style']);
         $this->configField              =   $field;
