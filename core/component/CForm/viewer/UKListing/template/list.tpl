@@ -44,7 +44,7 @@
                     <ul class="uk-nav uk-dropdown-nav">
                         {ON_PAGE_LIST}
                         <li class="{CLASS}">
-                            <a href="">{TEXT}</a>
+                            <a href="{HREF}">{TEXT}</a>
                         </li>
                         {/ON_PAGE_LIST}
                     </ul>
@@ -54,7 +54,7 @@
         <div class="uk-navbar-center">
             <ul class="uk-pagination uk-flex-center" uk-margin>
                 {PAGINATION}
-                    <li class="{CLASS}"><a href="../../../../../../index.php">{TEXT}</a></li>
+                    <li class="{CLASS}"><a href="{HREF}">{TEXT}</a></li>
                 {/PAGINATION}
             </ul>
         </div>
