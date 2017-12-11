@@ -13,11 +13,12 @@ use \core\component\{
     CForm as CForm,
     templateEngine\engine\simpleView
 };
+use core\core;
 
 /**
  * Class component
  *
- * @package core\component\CForm\viewer\edit
+ * @package core\component\CForm\viewer\UKEdit
  */
 class component extends CForm\AViewer implements CForm\IViewer
 {
@@ -27,12 +28,13 @@ class component extends CForm\AViewer implements CForm\IViewer
     const VERSION   =   2;
 
 
-    /**
-     * Инициализация
-     */
+
     public function init()
     {
-        // TODO: Implement init() method.
+        parent::init();
+        $this->answer['PARENT']             = $this->parent;
+        $this->answer['CAPTION']            = parent::$caption . ': Редактирование';
+
     }
 
     /**
@@ -40,7 +42,58 @@ class component extends CForm\AViewer implements CForm\IViewer
      */
     public function run()
     {
-        // TODO: Implement run() method.
+        if (empty($this->data)) {
+            $template = core::getDR(true) . self::getTemplate('template/formNo.tpl', __DIR__);
+        } else {
+            $template = core::getDR(true) . self::getTemplate('template/form.tpl', __DIR__);
+            $this->answer['FIELDS'] = Array();
+            foreach ($this->field as $key => $field) {
+
+                if (!isset($field['field']) && is_string($key)) {
+                    $field['field'] = $key;
+                }
+                if (isset($field['field'], $this->data[$field['field']])) {
+                    $field['value'] = $this->data[$field['field']];
+                }
+                if (!isset($field['mode'])) {
+                    $field['mode'] = 'edit';
+                }
+                if (isset($field['type'])) {
+                    $fieldName = $field['type'];
+                    $fieldObject = "core\component\CForm\\field\\{$fieldName}\component";
+                    if (class_exists($fieldObject)) {
+                        /** @var \core\component\CForm\field\UKInput\component $fieldComponent */
+                        $fieldComponent = new $fieldObject($field, $this->data);
+                        $fieldComponent->init();
+                        $this->answer['FIELDS'][] = Array(
+                            'COMPONENT' => $fieldComponent->getAnswer()
+                        );
+                    }
+                }
+            }
+        }
+
+        self::$controller::setCss(self::getTemplate('css/form.css', __DIR__));
+        $this->answer   =   simpleView\component::replace($template, $this->answer);
+    }
+
+
+
+    protected function fillData()
+    {
+        $where  = $this->config['where']  ??  Array();
+        $where['parent_id'] =   $this->parent;
+        $where['id']        =   $this->page;
+        $fields =   Array(
+            'id'
+        );
+        foreach ($this->field as $item) {
+            if (isset($item['field'])) {
+                $fields[] = $item['field'];
+            }
+        }
+        array_unique($fields);
+        return self::$db->selectRow(self::$table, $fields, $where);
     }
 
 }

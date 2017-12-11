@@ -1,6 +1,6 @@
 <div class="cform w-hundred">
     <div class="cf-caption {CAPTION_CLASS}">
-        <span>{CAPTION}: Редактирование</span>
+        <span>{CAPTION}</span>
     </div>
     <form action="{URL}/save/{ID}" id="s{ID}" method="post" class="edit" enctype="multipart/form-data">
         <div class="cf-table">

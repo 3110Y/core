@@ -156,7 +156,7 @@ abstract class AViewer extends ACForm
     }
 
 
-    private function fillData()
+    protected function fillData()
     {
         $where  = $this->config['where']  ??  Array();
         $where['parent_id'] =   $this->parent;

@@ -118,14 +118,15 @@ class component extends ACForm
             $viewerName =   self::$viewerConfig['type'];
             unset(self::$viewerConfig['type']);
             $viewer =   "core\component\CForm\\viewer\\{$viewerName}\component";
-            if (class_exists($viewer)) {
 
+            if (class_exists($viewer)) {
                 if (isset(self::$viewerConfig['field']) && !empty(self::$viewerConfig['field'])) {
                     $this->preparationField();
                 }
                 if (isset(self::$viewerConfig['button']) && !empty(self::$viewerConfig['button'])) {
                     $this->preparationButton();
                 }
+
                 /** @var \core\component\CForm\viewer\UKListing\component $viewerComponent */
                 $viewerComponent = new $viewer();
                 $viewerComponent->init();
@@ -152,7 +153,6 @@ class component extends ACForm
         $this->incomingArray[$this->incomingKey] = $this->answer;
         return $this->incomingArray;
     }
-
 
     /**
      * Подготавливет кнопки

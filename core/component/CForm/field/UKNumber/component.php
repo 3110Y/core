@@ -60,7 +60,7 @@ class component extends CForm\AField implements CForm\IField
     public function edit()
     {
         $this->captionField['FIELD'] =   $this->configField;
-        $this->template     =   self::getTemplate('template/view.tpl', __DIR__);
+        $this->template     =   self::getTemplate('template/edit.tpl', __DIR__);
 
     }
 

@@ -410,6 +410,35 @@ class page extends applicationWeb\AControllers implements applicationWeb\IContro
                         ),
                     )
                 ),
+                'edit' => Array(
+                    'type'      => 'UKEdit',
+                    'field'     =>  $field,
+                    'button'    =>  Array(
+                        'rows'  =>  Array(
+                            Array(
+                                'type'      => 'UKButton',
+                                'url'       => '{PAGE_URL}/{BACK_URL}',
+                                'text'      => 'Вернуться',
+                                'icon'      => 'reply',
+                                'class'     => 'uk-button-default',
+                            ),
+                            Array(
+                                'type'      => 'UKButton',
+                                'url'       => '{PAGE_URL}/{PARENT_ID}/add',
+                                'text'      => 'Добавить',
+                                'icon'      => 'plus',
+                                'class'     => 'uk-button-primary',
+                            ),
+                            Array(
+                                'type'      => 'UKButton',
+                                'url'       => '{PAGE_URL}/{PARENT_ID}/dell/{ROW_ID}', //!
+                                'title'     => 'Удалить',
+                                'icon'      => 'close',
+                                'class'     => 'uk-button-danger',
+                            )
+                        ),
+                    ),
+                ),
             )
         );
         $CForm  =   new CForm\component(self::$content, 'CONTENT');
