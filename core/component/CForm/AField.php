@@ -24,7 +24,7 @@ class AField extends ACForm
     /**
      * @var array режим
      */
-    protected $captionField = Array(
+    protected $labelField = Array(
         'FIELD'     =>  '',
         'TEXT'      =>  ''
     );
@@ -103,11 +103,11 @@ class AField extends ACForm
         }
 
         if (isset($field['caption'])) {
-            $this->captionField['TEXT'] = $field['caption'];
+            $this->labelField['TEXT'] = $field['caption'];
         }
-        unset($field['value'], $field['mode'], $field['caption'], $field['required'], $field['class'], $field['style']);
+        unset($field['value'], $field['mode'], $field['label'], $field['required'], $field['class'], $field['style']);
         $this->configField              =   $field;
-        $this->captionField['FIELD']    =   $this->configField;
+        $this->labelField['FIELD']    =   $this->configField;
     }
 
     /**
@@ -123,7 +123,7 @@ class AField extends ACForm
      */
     public function getCaption()
     {
-        return $this->captionField;
+        return $this->labelField;
     }
 
     /**
@@ -143,7 +143,7 @@ class AField extends ACForm
         $this->configField['value']     =   $this->value;
         $this->configField['mode']      =   $this->modeField;
         $this->configField['class']     =   $this->class;
-        $this->configField['caption']   =   $this->captionField;
+        $this->configField['label']     =   $this->labelField;
         return $this->configField;
     }
 

@@ -269,7 +269,7 @@ class page extends applicationWeb\AControllers implements applicationWeb\IContro
                 'type'              =>  'UKInput',
                 'field'             =>  'name',
                 'placeholder'       =>  'Название',
-                'caption'           =>  'Название',
+                'label'             =>  'Название',
                 'required'          =>  true,
             ),
 /*            Array(
@@ -321,7 +321,7 @@ class page extends applicationWeb\AControllers implements applicationWeb\IContro
             Array(
                 'type'              =>  'UKInput',
                 'field'             =>  'meta_title',
-                'caption'           =>  'META Заголовок',
+                'label'           =>  'META Заголовок',
                 'placeholder'       =>  'META Заголовок',
                 'listing'           =>  Array(
                     'view'  =>  false,
@@ -360,7 +360,7 @@ class page extends applicationWeb\AControllers implements applicationWeb\IContro
            Array(
                'type'              =>  'UKNumber',
                'field'             =>  'order_in_menu',
-               'caption'           =>  'Порядок',
+               'label'           =>  'Порядок',
                'placeholder'       =>  'Порядок'
            ),
         );
