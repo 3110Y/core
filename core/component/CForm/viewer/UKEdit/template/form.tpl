@@ -8,18 +8,13 @@
                 {COMPONENT}
             {/FIELDS}
         </div>
-        <div class="item-action {CLASS_ACTION_ITEM}">
-            <div class="uk-button-group">
-                {ACTION_ITEM}
-                {COMPONENT}
-                {/ACTION_ITEM}
-            </div>
+        <div class="item-action ">
         </div>
         <div class="group-action {CLASS_ACTION_BOTTOM_ITEM}">
             <div class="uk-button-group">
-                {ACTION_BOTTOM_ITEM}
+                {ROWS}
                     {COMPONENT}
-                {/ACTION_BOTTOM_ITEM}
+                {/ROWS}
             </div>
         </div>
     </form>
