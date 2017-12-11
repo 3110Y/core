@@ -71,6 +71,28 @@ class component extends CForm\AViewer implements CForm\IViewer
                     }
                 }
             }
+
+            /**
+             * Кнопки
+             */
+            if (isset($this->button['rows']) && !empty($this->button['rows'])) {
+                foreach ($this->button['rows'] as $key => $button) {
+                    if (isset($button['type'])) {
+                        $buttonName = $button['type'];
+                        $buttonObject = "core\component\CForm\\button\\{$buttonName}\component";
+                        if (class_exists($buttonObject)) {
+                            /** @var \core\component\CForm\button\UKButton\component $fieldComponent */
+                            $buttonComponent = new $buttonObject($button, $this->data);
+                            $buttonComponent->init();
+                            $buttonComponent->run();
+                            $this->answer['ROWS'][] = Array(
+                                'COMPONENT' =>  $buttonComponent->getAnswer()
+                            );
+                        }
+                    }
+                }
+            }
+
         }
 
         self::$controller::setCss(self::getTemplate('css/form.css', __DIR__));

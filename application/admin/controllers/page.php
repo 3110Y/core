@@ -417,10 +417,10 @@ class page extends applicationWeb\AControllers implements applicationWeb\IContro
                         'rows'  =>  Array(
                             Array(
                                 'type'      => 'UKButton',
-                                'url'       => '{PAGE_URL}/{BACK_URL}',
+                                'url'       => '{PAGE_URL}/{PARENT_ID}/listing',
                                 'text'      => 'Вернуться',
                                 'icon'      => 'reply',
-                                'class'     => 'uk-button-default',
+                                'class'     => 'uk-button-secondary',
                             ),
                             Array(
                                 'type'      => 'UKButton',
@@ -428,13 +428,6 @@ class page extends applicationWeb\AControllers implements applicationWeb\IContro
                                 'text'      => 'Добавить',
                                 'icon'      => 'plus',
                                 'class'     => 'uk-button-primary',
-                            ),
-                            Array(
-                                'type'      => 'UKButton',
-                                'url'       => '{PAGE_URL}/{PARENT_ID}/dell/{ROW_ID}', //!
-                                'title'     => 'Удалить',
-                                'icon'      => 'close',
-                                'class'     => 'uk-button-danger',
                             )
                         ),
                     ),

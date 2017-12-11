@@ -113,7 +113,6 @@ class component extends CForm\AViewer implements CForm\IViewer
                             $fieldComponent->init();
                             if (!isset($this->answer['TH'][$key])) {
                                 $this->answer['TH'][$key] = $fieldComponent->getLabel();
-                                var_dump($this->answer['TH'][$key]);
                                 if (isset($this->answer['TH'][$key]['FIELD']['field'])) {
                                     $order = $orderAll;
                                     /**
