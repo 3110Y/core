@@ -59,7 +59,7 @@
             </ul>
         </div>
         <div class="uk-navbar-right">
-            с {ROW_FORM} по {ROW_TO} из {ROW_ALL}
+            с {ROW_FORM} по {ROW_TO} из {TOTAL_ROWS}
         </div>
     </div>
 

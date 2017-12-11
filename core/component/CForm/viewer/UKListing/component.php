@@ -42,7 +42,14 @@ class component extends CForm\AViewer implements CForm\IViewer
         $this->answer['ON_PAGE']            = $this->onPage;
         $this->answer['PARENT']             = $this->parent;
         $this->answer['PAGE']               = $this->page;
+        $this->answer['ROW_TO']             = $this->page * $this->onPage;
+        $this->answer['ROW_FORM']           = $this->answer['ROW_TO'] - $this->onPage;
+        $this->answer['ROW_FORM']           = $this->answer['ROW_FORM'] == 0  ? 1 :   $this->answer['ROW_FORM'];
         $this->answer['TOTAL_ROWS']         = $this->totalRows;
+        if ($this->answer['ROW_TO'] > $this->answer['TOTAL_ROWS'] ) {
+            $this->answer['ROW_TO']       = $this->answer['TOTAL_ROWS'];
+        }
+
         $this->answer['TOTAL_PAGE']         = $this->totalPage;
         $this->answer['CAPTION']            = parent::$caption;
         $this->answer['PAGINATION']         = $this->getPagination();
@@ -57,7 +64,7 @@ class component extends CForm\AViewer implements CForm\IViewer
             $template = core::getDR(true) . self::getTemplate('template/listNo.tpl', __DIR__);
         } else {
             $template = core::getDR(true) . self::getTemplate('template/list.tpl', __DIR__);
-            $order  =   self::getOrder();
+            $orderAll  =   self::getOrder();
             foreach ($this->data as $row) {
                 $td = Array(
                     'TH'        => Array(),
@@ -87,6 +94,7 @@ class component extends CForm\AViewer implements CForm\IViewer
                             if (!isset($this->answer['TH'][$key])) {
                                 $this->answer['TH'][$key] = $fieldComponent->getCaption();
                                 if (isset($this->answer['TH'][$key]['FIELD']['field'])) {
+                                    $order = $orderAll;
                                     /**
                                      * icon
                                      */
