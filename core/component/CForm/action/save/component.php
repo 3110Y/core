@@ -23,6 +23,8 @@ class component extends  CForm\AAction implements CForm\IAction
 
     public function run($id = 0)
     {
+        var_dump($this->config);
+        var_dump($this->data);
         die('gsgsgsdg');
     }
 }
