@@ -5,6 +5,8 @@
 $(document).ready(function () {
     var button      =   $('.save'),
         action      =   button.attr('href'),
+        success     =   button.attr('data-success'),
+        error       =   button.attr('data-error'),
         form        =   button.parents('form');
 
     button.on('click', function () {
@@ -28,7 +30,7 @@ $(document).ready(function () {
                     timeout: 50000,
                     pos: 'top-center'
                 });
-                UIkit.notification("Изменения не сохранены", {
+                UIkit.notification(error, {
                     status: 'warning',
                     timeout: 50000,
                     pos: 'bottom-right'
@@ -37,14 +39,14 @@ $(document).ready(function () {
 
         }).done(function (msg) {
             if(msg === 'false') {
-                UIkit.notification("Изменения не сохранены", {
+                UIkit.notification(error, {
                     status: 'warning',
                     timeout: 50000,
                     pos: 'top-center'
                 });
 
             } else {
-                UIkit.notification("Изменения сохранены", {
+                UIkit.notification(success, {
                     status: 'success',
                     timeout: 50000,
                     pos: 'top-center'

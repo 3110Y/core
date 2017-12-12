@@ -427,6 +427,8 @@ class page extends applicationWeb\AControllers implements applicationWeb\IContro
                                 'url'       => '{PAGE_URL}/{PARENT_ID}/api/action/save/run/{ROW_ID}',
                                 'text'      => 'Сохранить',
                                 'icon'      => 'check',
+                                'success'   => 'Изменения сохранены',
+                                'error'     => 'Изменения не сохранены',
                                 'class'     => 'uk-button-primary',
                             )
                         ),
