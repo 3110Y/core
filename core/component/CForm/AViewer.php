@@ -7,7 +7,8 @@
  */
 
 namespace core\component\CForm;
-use core\core;
+
+
 /**
  * Class AViewer
  *

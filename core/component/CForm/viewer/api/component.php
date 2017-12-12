@@ -81,8 +81,8 @@ class component extends CForm\AViewer implements CForm\IViewer
         } else {
             $package    =   $this->package;
             $component  =   $this->component;
-            $method  =   $this->method;
-            $component =   "core\component\CForm\\($package)\\{$component}\component";
+            $method     =   $this->method;
+            $component =   "core\component\CForm\\{$package}\\{$component}\component";
             if (class_exists($component)) {
                 $component = new $component(Array(), $_POST);
                 $component->init();
