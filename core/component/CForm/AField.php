@@ -147,24 +147,24 @@ class AField extends ACForm
         return $this->configField;
     }
 
-    public static function preInsert()
+    public function preInsert()
     {
-
+        return true;
     }
 
-    public static function preInsertAll()
+    public function postInsert()
     {
-
+        return true;
     }
 
-    public static function preUpdate()
+    public function preUpdate()
     {
-
+        return true;
     }
 
-    public static function preUpdateAll()
+    public function postUpdate()
     {
-
+        return true;
     }
 
 

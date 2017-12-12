@@ -34,4 +34,24 @@ interface IField
      * @return array
      */
     public function getField();
+
+    /**
+     * @return boolean
+     */
+    public function preInsert();
+
+    /**
+     * @return boolean
+     */
+    public function postInsert();
+
+    /**
+     * @return boolean
+     */
+    public function preUpdate();
+
+    /**
+     * @return boolean
+     */
+    public function postUpdate();
 }

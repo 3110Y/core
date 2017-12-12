@@ -6,7 +6,7 @@
  * Time: 11:53
  */
 
-namespace core\component\CForm\button\UKButtonSubmitAjax;
+namespace core\component\CForm\button\UKButtonAjax;
 
 
 use \core\component\{
@@ -17,7 +17,7 @@ use \core\component\{
 
 /**
  * Class component
- * @package core\component\CForm\button\UKButtonSubmitAjax
+ * @package core\component\CForm\button\UKButtonAjax
  */
 class component extends CForm\AButton implements CForm\IButton
 {

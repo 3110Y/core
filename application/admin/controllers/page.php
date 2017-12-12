@@ -420,13 +420,13 @@ class page extends applicationWeb\AControllers implements applicationWeb\IContro
                                 'url'       => '{PAGE_URL}/{PARENT_ID}/listing',
                                 'text'      => 'Вернуться',
                                 'icon'      => 'reply',
-                                'class'     => 'uk-button-secondary',
+                                'class'     => 'uk-button-default',
                             ),
                             Array(
-                                'type'      => 'UKButton',
-                                'url'       => '{PAGE_URL}/{PARENT_ID}/add',
-                                'text'      => 'Добавить',
-                                'icon'      => 'plus',
+                                'type'      => 'UKButtonAjax',
+                                'url'       => '{PAGE_URL}/{PARENT_ID}/api/action/save/run/{ROW_ID}',
+                                'text'      => 'Сохранить',
+                                'icon'      => 'check',
                                 'class'     => 'uk-button-primary',
                             )
                         ),

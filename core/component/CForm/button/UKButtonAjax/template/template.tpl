@@ -1,0 +1,1 @@
+<a href="{URL}" class="save uk-button {CLASS}" title="{TITLE}" {TOOLTIP}>{ICON} {TEXT}</a>
