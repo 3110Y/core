@@ -6,7 +6,7 @@
  * Time: 14:14
  */
 
-namespace core\component\CForm\action\save;
+namespace core\component\CForm\action\delete;
 
 
 use \core\component\{
@@ -16,7 +16,7 @@ use \core\component\{
 
 /**
  * Class component
- * @package core\component\CForm\action\save
+ * @package core\component\CForm\action\delete
  */
 class component extends  CForm\AAction implements CForm\IAction
 {
@@ -24,14 +24,14 @@ class component extends  CForm\AAction implements CForm\IAction
 
     public function run($id = 0)
     {
-        $this->preMethod('preUpdate');
+        $this->preMethod('preDelete');
         if (!$this->isError) {
             $where = Array(
                 'id' => $id
             );
-            parent::$db->update(parent::$table, $this->data, $where);
+            parent::$db->dell(parent::$table, $where);
         }
-        $this->postMethod('postUpdate');
+        $this->postMethod('postDelete');
         $this->answer = $this->isError;
     }
 

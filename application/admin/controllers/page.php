@@ -424,7 +424,7 @@ class page extends applicationWeb\AControllers implements applicationWeb\IContro
                             ),
                             Array(
                                 'type'      => 'UKButtonAjax',
-                                'url'       => '{PAGE_URL}/{PARENT_ID}/api/action/save/run/{ROW_ID}',
+                                'url'       => '{PAGE_URL}/{PARENT_ID}/api/action/update/run/{ROW_ID}',
                                 'text'      => 'Сохранить',
                                 'icon'      => 'check',
                                 'success'   => 'Изменения сохранены',
