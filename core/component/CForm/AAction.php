@@ -79,8 +79,9 @@ class AAction extends ACForm
                     $fieldComponent = new $fieldObject($field, $this->data);
                     $fieldComponent->init();
                     $this->answer[$key] = $fieldComponent->$method();
+
                     if (!$this->answer[$key]) {
-                        $this->isError = false;
+                        $this->isError = true;
                     }
                 }
             }
@@ -112,7 +113,7 @@ class AAction extends ACForm
                     $fieldComponent->$method();
                     $this->answer[$key] = $fieldComponent->getAnswer();
                     if (!$this->answer[$key]) {
-                        $this->isError = false;
+                        $this->isError = true;
                     }
                 }
             }

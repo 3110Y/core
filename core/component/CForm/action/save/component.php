@@ -33,6 +33,7 @@ class component extends  CForm\AAction implements CForm\IAction
         }
         $this->postMethod('postUpdate');
         $this->answer = $this->isError;
+        var_dump($this->answer);
     }
 
 

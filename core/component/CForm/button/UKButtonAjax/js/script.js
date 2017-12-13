@@ -10,7 +10,6 @@ $(document).ready(function () {
         form        =   button.parents('form');
 
     button.on('click', function () {
-        alert(form.serialize());
         $.ajax({
             method: "POST",
             url: action,
