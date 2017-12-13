@@ -25,7 +25,7 @@ class component extends  CForm\AAction implements CForm\IAction
     public function run($id = 0)
     {
         $this->preMethod('preUpdate');
-        if ($this->isError) {
+        if (!$this->isError) {
             $where = Array(
                 'id' => $id
             );
@@ -33,7 +33,6 @@ class component extends  CForm\AAction implements CForm\IAction
         }
         $this->postMethod('postUpdate');
         $this->answer = $this->isError;
-        var_dump($this->answer);
     }
 
 

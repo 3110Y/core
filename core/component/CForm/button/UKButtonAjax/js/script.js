@@ -37,7 +37,7 @@ $(document).ready(function () {
             }
 
         }).done(function (msg) {
-            if(msg === 'false') {
+            if(msg === 'true') {
                 UIkit.notification(error, {
                     status: 'warning',
                     timeout: 50000,
