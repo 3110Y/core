@@ -39,4 +39,10 @@ class component extends  CForm\AAction implements CForm\IAction
     }
 
 
+    public function many($id = 0)
+    {
+        die();
+    }
+
+
 }

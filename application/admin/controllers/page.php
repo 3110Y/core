@@ -396,14 +396,14 @@ class page extends applicationWeb\AControllers implements applicationWeb\IContro
                         'rows'  =>  Array(
                             Array(
                                 'type'      => 'UKButton',
-                                'url'       => '{PAGE_URL}/{PARENT_ID}/insert?return={PAGE_URL}/{PARENT_ID}/edit/',
+                                'url'       => '{PAGE_URL}/{PARENT_ID}/api/action/insert?2&redirect={PAGE_URL}/{PARENT_ID}/edit/',
                                 'text'      => 'Добавить',
                                 'icon'      => 'plus',
                                 'class'     => 'uk-button-primary',
                             ),
                             Array(
                                 'type'      => 'UKButtonSubmitAjax',
-                                'url'       => '{PAGE_URL}/{PARENT_ID}/api/action/dell?location=' . $url,
+                                'url'       => '{PAGE_URL}/{PARENT_ID}/api/action/dell/many?location=' . $url,
                                 'text'      => 'Удалить',
                                 'icon'      => 'close',
                                 'class'     => 'uk-button-danger',
