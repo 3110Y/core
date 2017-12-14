@@ -140,4 +140,14 @@ class AAction extends ACForm
         return true;
     }
 
+    public function preDell()
+    {
+        return true;
+    }
+
+    public function postDell()
+    {
+        return true;
+    }
+
 }

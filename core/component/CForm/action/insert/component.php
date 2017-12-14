@@ -33,6 +33,9 @@ class component extends  CForm\AAction implements CForm\IAction
         }
         $this->postMethod('postInsert');
         $this->answer = $this->isError;
+        if (isset($_GET['rederect'])) {
+            self::redirect($_GET['rederect'] . parent::$db->getLastID());
+        }
     }
 
 

@@ -32,7 +32,10 @@ class component extends  CForm\AAction implements CForm\IAction
             parent::$db->dell(parent::$table, $where);
         }
         $this->postMethod('postDelete');
-        $this->answer = $this->isError;
+        if (isset($_GET['return'])) {
+            self::redirect($_GET['rederect']);
+        }
+
     }
 
 

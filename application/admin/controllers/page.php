@@ -364,6 +364,7 @@ class page extends applicationWeb\AControllers implements applicationWeb\IContro
                'placeholder'       =>  'Порядок'
            ),
         );
+        $url = implode('/', self::getURL());
         $config     =   Array(
             'controller'    =>  $this,
             'db'            =>  self::get('db'),
@@ -386,7 +387,7 @@ class page extends applicationWeb\AControllers implements applicationWeb\IContro
                             ),
                             Array(
                                 'type'  => 'UKButton',
-                                'url'  => '{PAGE_URL}/{PARENT_ID}/dell/{ROW_ID}', //!
+                                'url'  => '{PAGE_URL}/{PARENT_ID}/dell/{ROW_ID}?return=' . $url,
                                 'title'     => 'Удалить',
                                 'icon'      => 'close',
                                 'class'     => 'uk-button-danger  uk-button-small',
@@ -395,14 +396,14 @@ class page extends applicationWeb\AControllers implements applicationWeb\IContro
                         'rows'  =>  Array(
                             Array(
                                 'type'      => 'UKButton',
-                                'url'       => '{PAGE_URL}/{PARENT_ID}/add',
+                                'url'       => '{PAGE_URL}/{PARENT_ID}/insert?return={PAGE_URL}/{PARENT_ID}/edit/',
                                 'text'      => 'Добавить',
                                 'icon'      => 'plus',
                                 'class'     => 'uk-button-primary',
                             ),
                             Array(
                                 'type'      => 'UKButtonSubmitAjax',
-                                'url'       => '{PAGE_URL}/{PARENT_ID}/api/action/dell',
+                                'url'       => '{PAGE_URL}/{PARENT_ID}/api/action/dell?location=' . $url,
                                 'text'      => 'Удалить',
                                 'icon'      => 'close',
                                 'class'     => 'uk-button-danger',
