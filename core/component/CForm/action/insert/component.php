@@ -27,14 +27,11 @@ class component extends  CForm\AAction implements CForm\IAction
         $this->preMethod('preInsert');
         $this->data['date_insert']  =   date('Y-m-d H:i:s');
         if (!$this->isError) {
-            var_dump(parent::$db->insetGenerator(parent::$table, $this->data));
             parent::$db->inset(parent::$table, $this->data);
             $id = parent::$db->getLastID();
         } else {
             $id = 0;
         }
-        var_dump($id);
-        die();
         $this->postMethod('postInsert');
         $this->answer = $this->isError;
         if (isset($_GET['redirect'])) {

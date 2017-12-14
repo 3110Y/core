@@ -387,7 +387,7 @@ class page extends applicationWeb\AControllers implements applicationWeb\IContro
                             ),
                             Array(
                                 'type'  => 'UKButton',
-                                'url'  => '{PAGE_URL}/{PARENT_ID}/dell/{ROW_ID}?return=' . $url,
+                                'url'  => '{PAGE_URL}/{PARENT_ID}/api/action/dell/{ROW_ID}?redirect=' . $url,
                                 'title'     => 'Удалить',
                                 'icon'      => 'close',
                                 'class'     => 'uk-button-danger  uk-button-small',

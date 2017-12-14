@@ -7,10 +7,10 @@
  */
 return Array(
 	'driver'            =>  'mysql',
-	'host'              =>  '91.122.60.48',
+	'host'              =>  '127.0.0.1',
 	'port'              =>  '3306',
 	'db'                =>  'core',
-	'name'              =>  'core',
-	'pass'              =>  'corecore',
+	'name'              =>  'root',
+	'pass'              =>  '',
 	'character'         =>  'UTF8',
 );
