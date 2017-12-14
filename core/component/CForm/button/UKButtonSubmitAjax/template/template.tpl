@@ -5,7 +5,7 @@
         <p>Запись будет безвозвратно удалена</p>
         <p class="uk-text-right">
             <a href="#" class="uk-button uk-button-default uk-modal-close"><span uk-icon="icon: close"></span> Отмена</a>
-            <a href="{URL}" class="uk-button uk-button-danger dells" data-href="#modal-dell-rows"><span uk-icon="icon: check"></span> Удалить</a>
+            <a href="#" data-href="{URL}" class="uk-button uk-button-danger dells"  data-id="{FORM}"><span uk-icon="icon: check"></span> Удалить</a>
         </p>
     </div>
 </div>

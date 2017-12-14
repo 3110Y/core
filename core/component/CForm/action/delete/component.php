@@ -21,8 +21,7 @@ use \core\component\{
 class component extends  CForm\AAction implements CForm\IAction
 {
 
-
-    public function run($id = 0)
+    private function dell($id)
     {
         $this->preMethod('preDelete');
         if (!$this->isError) {
@@ -32,6 +31,11 @@ class component extends  CForm\AAction implements CForm\IAction
             parent::$db->dell(parent::$table, $where);
         }
         $this->postMethod('postDelete');
+    }
+
+    public function run($id = 0)
+    {
+        $this->dell($id);
         if (isset($_GET['redirect'])) {
             self::redirect($_GET['redirect']);
         }
@@ -41,7 +45,12 @@ class component extends  CForm\AAction implements CForm\IAction
 
     public function many($id = 0)
     {
-        die();
+        foreach ($_POST['row'] as $idRow => $value) {
+            $this->dell($idRow);
+        }
+        if (isset($_GET['redirect'])) {
+            self::redirect($_GET['redirect']);
+        }
     }
 
 

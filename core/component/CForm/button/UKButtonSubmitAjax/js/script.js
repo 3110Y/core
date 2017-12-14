@@ -3,11 +3,11 @@
  */
 
 $(document).ready(function () {
-    $('.dells').on('click', function () {
-        var dataHref    =   $(this).attr('data-href'),
-            parent      =   $('[href="' + dataHref + '"]'),
-            form        =   parent.parents('form'),
-            href        =   $(this).prop('href');
+    $('.dells').on('click', function (e) {
+        var formID      =   $(this).attr('data-id'),
+            form        =   $(formID),
+            href        =   $(this).attr('data-href');
+        console.log(href);
         form.prop('action', href);
         form.submit();
         return false;

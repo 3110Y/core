@@ -387,7 +387,7 @@ class page extends applicationWeb\AControllers implements applicationWeb\IContro
                             ),
                             Array(
                                 'type'  => 'UKButton',
-                                'url'  => '{PAGE_URL}/{PARENT_ID}/api/action/dell/{ROW_ID}?redirect=' . $url,
+                                'url'  => '{PAGE_URL}/{PARENT_ID}/api/action/delete/run/{ROW_ID}?redirect=' . $url,
                                 'title'     => 'Удалить',
                                 'icon'      => 'close',
                                 'class'     => 'uk-button-danger  uk-button-small',
@@ -403,9 +403,10 @@ class page extends applicationWeb\AControllers implements applicationWeb\IContro
                             ),
                             Array(
                                 'type'      => 'UKButtonSubmitAjax',
-                                'url'       => '{PAGE_URL}/{PARENT_ID}/api/action/dell/many?location=' . $url,
+                                'url'       => '{PAGE_URL}/{PARENT_ID}/api/action/delete/many?redirect=' . $url,
                                 'text'      => 'Удалить',
                                 'icon'      => 'close',
+                                'form'      =>  '#form-listing',
                                 'class'     => 'uk-button-danger',
                             ),
                         ),

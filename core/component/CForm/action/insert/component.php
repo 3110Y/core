@@ -26,6 +26,7 @@ class component extends  CForm\AAction implements CForm\IAction
     {
         $this->preMethod('preInsert');
         $this->data['date_insert']  =   date('Y-m-d H:i:s');
+        $this->data['parent_id']    =   parent::$id;
         if (!$this->isError) {
             parent::$db->inset(parent::$table, $this->data);
             $id = parent::$db->getLastID();
