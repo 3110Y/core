@@ -182,8 +182,12 @@ class component extends database\ADriver implements database\IDriver
     public function update($table = null, $value = null, $where = null)
     {
         $result = $this->updateGenerator($table, $value , $where);
-        $query  =   $this->getConnect()->prepare($result['sql']);
-        $query->execute($result['execute']);
+        try {
+            $query = $this->getConnect()->prepare($result['sql']);
+            $query->execute($result['execute']);
+        } catch (\PDOException $e) {
+            die("Mysql error ".$e->getMessage());
+        }
         return $query;
     }
 
@@ -294,7 +298,7 @@ class component extends database\ADriver implements database\IDriver
 
     /**
      * отдает коннект
-     * @return null|\PDO
+     * @return \PDO
      */
     public function getConnect()
     {

@@ -9,14 +9,19 @@ $(document).ready(function () {
         form        =   button.parents('form');
 
     button.on('click', function () {
+        if (typeof(CKEDITOR) !== 'undefined') {
+            for (var i in CKEDITOR.instances) {
+                CKEDITOR.instances[i].updateElement();
+            }
+        }
         $.ajax({
             method: "POST",
             url: action,
             data: form.serialize(),
-            afterSend: function (xhr) {
+            beforeSend: function (xhr) {
                 if (typeof(CKEDITOR) !== 'undefined') {
-                    for (instance in CKEDITOR.instances) {
-                        CKEDITOR.instances[instance].updateElement();
+                    for (var i in CKEDITOR.instances) {
+                        CKEDITOR.instances[i].updateElement();
                     }
                 }
             },
