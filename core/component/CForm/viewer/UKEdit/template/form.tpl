@@ -3,7 +3,7 @@
         <span>{CAPTION}</span>
     </div>
     <form action="#" method="post" class="edit" enctype="multipart/form-data">
-        <div class="cf-table">
+        <div class="cf-table uk-grid-small uk-flex-center" uk-grid>
             {FIELDS}
                 {COMPONENT}
             {/FIELDS}

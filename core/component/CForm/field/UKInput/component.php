@@ -34,6 +34,8 @@ class component extends CForm\AField implements CForm\IField
     public function init()
     {
         parent::init();
+        $data['GRID']          =   1;
+        $data['PLACEHOLDER']          =   '';
         foreach ($this->configField as $key =>  $field) {
             $data[mb_strtoupper($key)] =  $field;
         }

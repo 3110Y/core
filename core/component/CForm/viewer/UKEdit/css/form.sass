@@ -72,15 +72,18 @@ $width: 1230px
     text-align: center
     white-space: nowrap
   .cform-field
-    display: inline-block
-    width: 100%
+    position: relative
+    >*:focus+label, >*:not(:empty)+label
+      bottom: 27px
     label, .uk-form-controls
       display: inline-block
       padding: 10px 0
       &.display-none
         display: none
     label
-      width: 12%
+      position: absolute
+      bottom: 0px
+      left: 17px
     label:not(display-none)+.uk-form-controls
       width: 87%
     label.display-none+.uk-form-controls

@@ -268,9 +268,16 @@ class page extends applicationWeb\AControllers implements applicationWeb\IContro
             Array(
                 'type'              =>  'UKInput',
                 'field'             =>  'name',
-                'placeholder'       =>  'Название',
                 'label'             =>  'Название',
                 'required'          =>  true,
+                'grid'              =>  3
+            ),
+            Array(
+                'type'              =>  'UKNumber',
+                'field'             =>  'order_in_menu',
+                'label'           =>  'Порядок',
+
+                'grid'              =>  3
             ),
 /*            Array(
                 'type'              =>  'urlName',
@@ -322,7 +329,7 @@ class page extends applicationWeb\AControllers implements applicationWeb\IContro
                 'type'              =>  'UKInput',
                 'field'             =>  'meta_title',
                 'label'           =>  'META Заголовок',
-                'placeholder'       =>  'META Заголовок',
+                'grid'              =>  3,
                 'listing'           =>  Array(
                     'view'  =>  false,
                 ),
@@ -357,12 +364,6 @@ class page extends applicationWeb\AControllers implements applicationWeb\IContro
                    'mode'  =>  'view'
                )
            ),*/
-           Array(
-               'type'              =>  'UKNumber',
-               'field'             =>  'order_in_menu',
-               'label'           =>  'Порядок',
-               'placeholder'       =>  'Порядок'
-           ),
         );
         $url = implode('/', self::getURL());
         $config     =   Array(

@@ -59,15 +59,18 @@
   text-align: center;
   white-space: nowrap; }
 .cform .cform-field {
-  display: inline-block;
-  width: 100%; }
+  position: relative; }
+  .cform .cform-field > *:focus + label, .cform .cform-field > *:not(:empty) + label {
+    bottom: 27px; }
   .cform .cform-field label, .cform .cform-field .uk-form-controls {
     display: inline-block;
     padding: 10px 0; }
     .cform .cform-field label.display-none, .cform .cform-field .uk-form-controls.display-none {
       display: none; }
   .cform .cform-field label {
-    width: 12%; }
+    position: absolute;
+    bottom: 0px;
+    left: 17px; }
   .cform .cform-field label:not(display-none) + .uk-form-controls {
     width: 87%; }
   .cform .cform-field label.display-none + .uk-form-controls {

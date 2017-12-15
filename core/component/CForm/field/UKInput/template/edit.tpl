@@ -1,8 +1,4 @@
-<div class="cform-field">
-
-    <label for="{ID}" class="uk-form-label" title="{LABEL_TITLE}" {TOOLTIP} style="{LABEL_STYLE}">{LABEL}</label>
-
-    <div class="uk-form-controls {CONTROLS_CLASS}" style="{CONTROLS_STYLE}">
+<div class="cform-field uk-width-1-{GRID}">
         <input type="text" id="{ID}" name="{FIELD}" class="uk-input {CLASS}" placeholder="{PLACEHOLDER}" style="{STYLE}" value="{VALUE}" {REQUIRED}>
-    </div>
+        <label for="{ID}" class="uk-form-label">{LABEL}</label>
 </div>
