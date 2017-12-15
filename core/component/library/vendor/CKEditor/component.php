@@ -18,10 +18,17 @@ class component extends library\AVendor implements library\IVendor
      */
     const VERSION   =   1.0;
 
+
+
+    public function __construct()
+    {
+        $this->dir = __DIR__;
+    }
+
     /**
      * @var array
      */
-    protected static $js = Array(
+    protected $js = Array(
         'top'  =>  Array(
             'vendor/ckeditor/contents.css'
         ),
@@ -31,7 +38,7 @@ class component extends library\AVendor implements library\IVendor
     /**
      * @var array
      */
-    protected static $css = Array(
+    protected $css = Array(
         'top'  =>  Array(
             'ckeditor/ckeditor.js'
         ),
@@ -40,12 +47,12 @@ class component extends library\AVendor implements library\IVendor
 
     /**
      * @param array $data
-     * @param string $dir
+     *
      * @return string
      */
-    public static function returnInit($data = Array(), $dir = __DIR__)
+    public function returnInit($data = Array())
     {
-        return parent::returnInit($data, __DIR__);
+        return parent::returnInit($data);
     }
 
 }

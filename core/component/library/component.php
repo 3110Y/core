@@ -21,18 +21,16 @@ class component
     const VERSION   =   1.1;
 
 	/**
-	 * @var string
-	 */
-    private static $namespace = '';
-
-	/**
 	 * @param $name
 	 *
 	 * @return string
 	 */
     public static function connect($name)
     {
-		self::$namespace  =   __NAMESPACE__ . "\\vendor\\{$name}\component";
-		return self::$namespace;
+        $vendor = __NAMESPACE__ . "\\vendor\\{$name}\component";
+        if (class_exists($vendor)) {
+            $vendor = new $vendor();
+        }
+		return $vendor;
     }
 }

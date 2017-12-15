@@ -44,9 +44,9 @@ class component extends CForm\AField implements CForm\IField
 
         /** @var \core\component\library\vendor\CKEditor\component $CKEditor */
         $CKEditor    =   library\component::connect('CKEditor');
-        $CKEditor::setCss(self::$controller);
-        $CKEditor::setJS(self::$controller);
-        $data['INIT']           =   $CKEditor::returnInit($data);
+        $CKEditor->setCss(self::$controller);
+        $CKEditor->setJS(self::$controller);
+        $data['INIT']           =   $CKEditor->returnInit($data);
 
         $this->answer           =   simpleView\component::replace($this->template, $data);
     }

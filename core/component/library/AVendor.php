@@ -16,7 +16,7 @@ abstract class AVendor
 	/**
 	 * @var array
 	 */
-	protected static $js = Array(
+	protected $js = Array(
         'top'  =>  Array(),
         'bottom'  =>  Array(),
     );
@@ -24,35 +24,40 @@ abstract class AVendor
 	/**
 	 * @var array
 	 */
-    protected static $css = Array(
+    protected $css = Array(
         'top'  =>  Array(),
         'bottom'  =>  Array(),
     );
+
+    /**
+     * @var
+     */
+    protected $dir;
 
 
 	/**
 	 * @param object $controller
 	 */
-	public static function setJS($controller)
+	public function setJS($controller)
 	{
-	    foreach (self::$js['top'] as $js) {
-            $controller::setJS(self::getTemplate($js, __DIR__), true);
+	    foreach ($this->js['top'] as $js) {
+            $controller::setJS(self::getTemplate($js, $this->dir), true);
         }
-        foreach (self::$js['bottom'] as $js) {
-            $controller::setJS(self::getTemplate($js, __DIR__), false);
+        foreach ($this->js['bottom'] as $js) {
+            $controller::setJS(self::getTemplate($js, $this->dir), false);
         }
 	}
 
 	/**
 	 * @param object $controller
 	 */
-	public static function setCss($controller)
+	public function setCss($controller)
 	{
-        foreach (self::$css['top'] as $css) {
-            $controller::setCss(self::getTemplate($css, __DIR__), true);
+        foreach ($this->css['top'] as $css) {
+            $controller::setCss(self::getTemplate($css, $this->dir), true);
         }
-        foreach (self::$css['bottom'] as $css) {
-            $controller::setCss(self::getTemplate($css, __DIR__), false);
+        foreach ($this->css['bottom'] as $css) {
+            $controller::setCss(self::getTemplate($css, $this->dir), false);
         }
 	}
 
@@ -79,8 +84,8 @@ abstract class AVendor
      * @param string $dir
      * @return string
      */
-    public static function returnInit($data = Array(), $dir = __DIR__)
+    public function returnInit($data = Array())
     {
-        return simpleView\component::replace(self::getTemplate('template/init.tpl', $dir), $data);
+        return simpleView\component::replace(self::getTemplate('template/init.tpl', $this->dir), $data);
     }
 }

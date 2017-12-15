@@ -15,10 +15,10 @@ interface IVendor
     /**
      * @param object $controller
      */
-    public static function setJS($controller);
+    public function setJS($controller);
 
     /**
      * @param object $controller
      */
-    public static function setCss($controller);
+    public function setCss($controller);
 }
