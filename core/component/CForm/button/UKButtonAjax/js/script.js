@@ -37,7 +37,6 @@ $(document).ready(function () {
 
         }).done(function (msg) {
             var data = JSON.parse(msg);
-            console.log(data.data);
             if(data.result === true) {
                 UIkit.notification(success, {
                     status: 'success',
@@ -46,13 +45,21 @@ $(document).ready(function () {
                 });
                 for (var name in data.data) {
                     $('#' + name).val(data.data[name]);
+                    $('#' + name).removeClass('error');
                 }
+
             } else {
                 UIkit.notification(error, {
                     status: 'warning',
                     timeout: 50000,
                     pos: 'top-center'
-                })
+                });
+                console.log(data.errorData);
+                if (data.errorData != undefined) {
+                    for (var name in data.errorData) {
+                        $('#' + name).addClass('error');
+                    }
+                }
             }
         });
         return false;

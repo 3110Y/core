@@ -60,9 +60,7 @@
   white-space: nowrap; }
 .cform .cform-field {
   position: relative;
-  margin-top: 20px;
-  background-color: #fff;
-  color: #333; }
+  margin-top: 20px; }
   .cform .cform-field > *:not(label) {
     border: 0;
     border-bottom: 1px solid #eee;
@@ -75,21 +73,25 @@
     transition: border-color 0.1s linear;
     position: relative;
     z-index: 2; }
+  .cform .cform-field > *.error:not(label) {
+    border-bottom: 1px solid red; }
   .cform .cform-field > *:not(label):focus {
     outline: none;
     border-color: #aaa; }
   .cform .cform-field > label {
     position: absolute;
-    left: 5px;
+    left: 15px;
     z-index: 1;
     -webkit-transition: all 0.1s linear;
     -moz-transition: all 0.1s linear;
     transition: all 0.1s linear; }
-  .cform .cform-field > *:invalid + label {
+    .cform .cform-field > label > span {
+      color: red; }
+  .cform .cform-field > *:not(label):invalid + label {
     color: #999;
     font-size: 20px;
     top: 5px; }
-  .cform .cform-field > *:valid + label, .cform .cform-field > *:focus + label {
+  .cform .cform-field > *:not(label):valid + label, .cform .cform-field > *:not(label):focus + label {
     color: #333;
     font-size: 0.8em;
     top: -15px; }

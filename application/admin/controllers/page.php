@@ -285,92 +285,80 @@ class page extends applicationWeb\AControllers implements applicationWeb\IContro
                 'label'           =>  'Порядок',
                 'grid'              =>  '1-5'
             ),
-
-/*            Array(
-                'type'              =>  'urlName',
-                'field'             =>  'url',
-                'attached'          =>  'name',
-                'caption'           =>  'Адрес (URL)',
-                'placeholder'       =>  'Адрес (URL)',
-                'label'             =>  'Адрес (URL)',
-                'edit'           =>  Array(
-                    'mode'  =>  'edit'
-                ),
-                'listing'           =>  Array(
-                    'align' =>  'left',
-                    'mode'  =>  'view'
-                )
-            ),
-            Array(
-                'type'              =>  'ckeditor',
-                'field'             =>  'content',
-                'caption'           =>  'Текст',
-                'placeholder'       =>  'Текст',
-                'label'             =>  'Текст',
-                'edit'           =>  Array(
-                    'mode'  =>  'edit'
-                ),
-                'listing'           =>  Array(
-                    'align' =>  'left',
-
-                    'mode'  =>  'view'
-                )
-            ),
-            Array(
-                'type'              =>  'select',
-                'field'             =>  'status',
-                'caption'           =>  'Статус',
-                'placeholder'       =>  'Статус',
-                'label'             =>  'Статус',
-                'list'              =>  $listStatus,
-                'NoZero'            =>  true,
-                'edit'              =>  Array(
-                    'mode'  =>  'edit'
-                ),
-                'listing'           =>  Array(
-                    'align' =>  'right',
-                    'mode'  =>  'view'
-                )
-            ),*/
             Array(
                 'type'              =>  'UKInput',
                 'field'             =>  'meta_title',
-                'label'           =>  'META Заголовок',
+                'label'             =>  'META Заголовок',
                 'grid'              =>  '1-1',
                 'listing'           =>  Array(
                     'view'  =>  false,
                 ),
             ),
-            /*
-           Array(
-               'type'              =>  'UKInput',
-               'field'             =>  'meta_keywords',
-               'caption'           =>  'META Ключевые слова',
-               'placeholder'       =>  'META Ключевые слова',
-               'edit'           =>  Array(
-                   'mode'  =>  'edit'
-               ),
-               'listing'           =>  Array(
-                   'align' =>  'left',
-                   'view'  =>  false,
-                   'mode'  =>  'view'
-               )
-           ),
-           Array(
-               'type'              =>  'UKInput',
-               'field'             =>  'meta_description',
-               'caption'           =>  'META Описание',
-               'placeholder'       =>  'META Описание',
-               'label'             =>  'META Описание',
-               'edit'           =>  Array(
-                   'mode'  =>  'edit'
-               ),
-               'listing'           =>  Array(
-                   'align' =>  'left',
-                   'view'  =>  false,
-                   'mode'  =>  'view'
-               )
-           ),*/
+            Array(
+                'type'              =>  'UKInput',
+                'field'             =>  'meta_keywords',
+                'label'             =>  'META Ключевые слова',
+                'grid'              =>  '1-1',
+                'listing'           =>  Array(
+                    'view'  =>  false,
+                ),
+            ),
+            Array(
+                'type'              =>  'UKInput',
+                'field'             =>  'meta_description',
+                'label'             =>  'META Описание',
+                'grid'              =>  '1-1',
+                'listing'           =>  Array(
+                    'view'  =>  false,
+                ),
+            ),
+
+            /*            Array(
+                            'type'              =>  'urlName',
+                            'field'             =>  'url',
+                            'attached'          =>  'name',
+                            'caption'           =>  'Адрес (URL)',
+                            'placeholder'       =>  'Адрес (URL)',
+                            'label'             =>  'Адрес (URL)',
+                            'edit'           =>  Array(
+                                'mode'  =>  'edit'
+                            ),
+                            'listing'           =>  Array(
+                                'align' =>  'left',
+                                'mode'  =>  'view'
+                            )
+                        ),
+                        Array(
+                            'type'              =>  'ckeditor',
+                            'field'             =>  'content',
+                            'caption'           =>  'Текст',
+                            'placeholder'       =>  'Текст',
+                            'label'             =>  'Текст',
+                            'edit'           =>  Array(
+                                'mode'  =>  'edit'
+                            ),
+                            'listing'           =>  Array(
+                                'align' =>  'left',
+
+                                'mode'  =>  'view'
+                            )
+                        ),
+                        Array(
+                            'type'              =>  'select',
+                            'field'             =>  'status',
+                            'caption'           =>  'Статус',
+                            'placeholder'       =>  'Статус',
+                            'label'             =>  'Статус',
+                            'list'              =>  $listStatus,
+                            'NoZero'            =>  true,
+                            'edit'              =>  Array(
+                                'mode'  =>  'edit'
+                            ),
+                            'listing'           =>  Array(
+                                'align' =>  'right',
+                                'mode'  =>  'view'
+                            )
+                        ),*/
         );
         $url = implode('/', self::getURL());
         $config     =   Array(

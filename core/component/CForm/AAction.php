@@ -79,6 +79,9 @@ class AAction extends ACForm
                     $fieldComponent = new $fieldObject($field, $this->data);
                     $fieldComponent->init();
                     $this->answer[$key] =   $fieldComponent->$method();
+                    if (isset($field['field']) &&  $this->answer[$key]) {
+                        $this->answer['errorData'][$field['field']] = true;
+                    }
                     if (isset($field['field'], $this->data[$field['field']])) {
                         $this->data[$field['field']] = $fieldComponent->getValue();
                     }

@@ -33,8 +33,9 @@ class component extends  CForm\AAction implements CForm\IAction
         }
         $this->postMethod('postUpdate');
         $this->answer = Array(
-            'result'    =>  !$this->isError,
-            'data'      =>  $this->data
+            'result'            =>  !$this->isError,
+            'data'              =>  $this->data,
+            'errorData'         =>  isset($this->answer['errorData']) ?   $this->answer['errorData']    :   Array()
         );
     }
 

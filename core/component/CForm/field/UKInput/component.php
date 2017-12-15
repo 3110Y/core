@@ -43,7 +43,7 @@ class component extends CForm\AField implements CForm\IField
         $data['MODE_FIELD']     =   $this->modeField;
         $data['LABEL_FIELD']    =   $this->labelField;
         $data['LABEL']          =   $this->labelField['TEXT'];
-        $data['REQUIRED']       =   $this->required     ?   'required'  :   '';
+        $data['REQUIRED']       =   $this->required     ?   '*'  :   '';
         $data['STYLE']          =   $this->style;
         $data['CLASS']          =   $this->class;
         $data['ID']             =   $this->idField;
@@ -66,6 +66,17 @@ class component extends CForm\AField implements CForm\IField
         $this->template     =   self::getTemplate('template/edit.tpl', __DIR__);
 
     }
+
+    public function preInsert()
+    {
+        return $this->required && $this->value === '';
+    }
+
+    public function preUpdate()
+    {
+        return $this->required && $this->value === '';
+    }
+
 
 
 }

@@ -74,8 +74,6 @@ $width: 1230px
   .cform-field
     position: relative
     margin-top: 20px
-    background-color: #fff
-    color: #333
     >*:not(label)
       border: 0
       border-bottom: 1px solid #eee
@@ -88,21 +86,25 @@ $width: 1230px
       transition: border-color .1s linear
       position: relative
       z-index: 2
+    >*.error:not(label)
+      border-bottom: 1px solid red
     >*:not(label):focus
       outline: none
       border-color: #aaa
     > label
       position: absolute
-      left: 5px
+      left: 15px
       z-index: 1
       -webkit-transition: all .1s linear
       -moz-transition: all .1s linear
       transition: all .1s linear
-    >*:invalid+label
+      >span
+        color: red
+    >*:not(label):invalid + label
       color: #999
       font-size: 20px
       top: 5px
-    >*:valid + label, >*:focus + label
+    >*:not(label):valid + label, >*:not(label):focus + label
       color: #333
       font-size: 0.8em
       top: -15px
