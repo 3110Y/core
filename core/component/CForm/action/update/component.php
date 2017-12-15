@@ -32,7 +32,10 @@ class component extends  CForm\AAction implements CForm\IAction
             parent::$db->update(parent::$table, $this->data, $where);
         }
         $this->postMethod('postUpdate');
-        $this->answer = $this->isError;
+        $this->answer = Array(
+            'result'    =>  !$this->isError,
+            'data'      =>  $this->data
+        );
     }
 
 

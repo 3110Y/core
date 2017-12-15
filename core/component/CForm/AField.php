@@ -157,32 +157,32 @@ class AField extends ACForm
 
     public function preInsert()
     {
-        return true;
+        return false;
     }
 
     public function postInsert()
     {
-        return true;
+        return false;
     }
 
     public function preUpdate()
     {
-        return true;
+        return false;
     }
 
     public function postUpdate()
     {
-        return true;
+        return false;
     }
 
     public function preDell()
     {
-        return true;
+        return false;
     }
 
     public function postDell()
     {
-        return true;
+        return false;
     }
 
 

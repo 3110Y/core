@@ -1,7 +1,6 @@
 /**
  * Created by Roman on 7.6.2017.
  */
-
 $(document).ready(function () {
     var button      =   $('.save'),
         action      =   button.attr('href'),
@@ -37,13 +36,17 @@ $(document).ready(function () {
             }
 
         }).done(function (msg) {
-            if(msg === 'true') {
+            var data = JSON.parse(msg);
+            console.log(data.data);
+            if(data.result === true) {
                 UIkit.notification(success, {
                     status: 'success',
                     timeout: 50000,
                     pos: 'top-center'
                 });
-
+                for (var name in data.data) {
+                    $('#' + name).val(data.data.name);
+                }
             } else {
                 UIkit.notification(error, {
                     status: 'warning',

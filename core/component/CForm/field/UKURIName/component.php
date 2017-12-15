@@ -73,6 +73,10 @@ class component extends CForm\AField implements CForm\IField
        return $this->generationValue();
     }
 
+    /**
+     * Генерирует значение
+     * @return bool
+     */
     public function generationValue()
     {
         if ($this->value === '' && isset($this->row[$this->configField['attached']])) {
@@ -98,6 +102,7 @@ class component extends CForm\AField implements CForm\IField
             );
             $this->value = mb_strtolower(preg_replace('/-{2,}/', '-', strtr(rtrim(trim($this->value)), $dataText)));
         }
+        return false;
     }
 
     /**
