@@ -107,7 +107,7 @@ class AField extends ACForm
         }
         unset($field['value'], $field['mode'], $field['label'], $field['required'], $field['class'], $field['style']);
         $this->configField              =   $field;
-        $this->labelField['FIELD']    =   $this->configField;
+        $this->labelField['FIELD']      =   $this->configField;
     }
 
     /**
@@ -132,6 +132,14 @@ class AField extends ACForm
     public function getAnswer()
     {
         return $this->answer;
+    }
+
+    /**
+     * @return mixed|string
+     */
+    public function getValue()
+    {
+        return $this->value;
     }
 
     /**

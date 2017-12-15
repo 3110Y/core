@@ -48,11 +48,14 @@ class component extends CForm\AViewer implements CForm\IViewer
      */
     private $paramID = 0;
 
+
+
     /**
      *
      */
     public function init()
     {
+
         if (isset(parent::$subURL[parent::$subURLNow])) {
             $this->package = parent::$subURL[parent::$subURLNow];
             parent::$subURLNow++;
@@ -69,6 +72,8 @@ class component extends CForm\AViewer implements CForm\IViewer
             $this->paramID = parent::$subURL[parent::$subURLNow];
             parent::$subURLNow++;
         }
+        $this->field        =   self::$viewerConfig['field']            ?? $this->field;
+        $this->data         =   self::$viewerConfig['data']             ?? $_POST;
     }
 
     /**
@@ -84,7 +89,7 @@ class component extends CForm\AViewer implements CForm\IViewer
             $method     =   $this->method;
             $component =   "core\component\CForm\\{$package}\\{$component}\component";
             if (class_exists($component)) {
-                $component = new $component($this->data, $_POST);
+                $component = new $component($this->field, $this->data);
                 $component->init();
                 $component->$method($this->paramID);
                 $this->answer = $component->getAnswer();

@@ -33,11 +33,11 @@ class component extends CForm2\AViewer implements CForm2\IViewer
 	{
 		$config = self::$config;
 		unset($config['viewer']);
-		$this->viewerConfig = array_merge($this->viewerConfig, $config);
-		$this->schemaField                =  $this->viewerConfig['field'];
-		$this->viewerConfig['page']       =   $this->getPageNow();
-		$this->viewerConfig['onPage']     =   $this->getOnPage();
-		$this->viewerConfig['parent']     =   $this->getParent();
+		$this->viewerConfig                 =   array_merge($this->viewerConfig, $config);
+		$this->schemaField                  =   $this->viewerConfig['field'];
+		$this->viewerConfig['page']         =   $this->getPageNow();
+		$this->viewerConfig['onPage']       =   $this->getOnPage();
+		$this->viewerConfig['parent']       =   $this->getParent();
 		if (!isset($this->viewerConfig['pagination'])) {
 			$this->viewerConfig['pagination']  =   Array(10,15,25,30,50,75,100);
 		}

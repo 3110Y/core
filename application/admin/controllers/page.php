@@ -270,15 +270,22 @@ class page extends applicationWeb\AControllers implements applicationWeb\IContro
                 'field'             =>  'name',
                 'label'             =>  'Название',
                 'required'          =>  true,
-                'grid'              =>  3
+                'grid'              =>  '2-5'
+            ),
+            Array(
+                'type'              =>  'UKURIName',
+                'field'             =>  'url',
+                'attached'          =>  'name',
+                'label'             =>  'Адрес (URL)',
+                'grid'              =>  '2-5',
             ),
             Array(
                 'type'              =>  'UKNumber',
                 'field'             =>  'order_in_menu',
                 'label'           =>  'Порядок',
-
-                'grid'              =>  3
+                'grid'              =>  '1-5'
             ),
+
 /*            Array(
                 'type'              =>  'urlName',
                 'field'             =>  'url',
@@ -329,7 +336,7 @@ class page extends applicationWeb\AControllers implements applicationWeb\IContro
                 'type'              =>  'UKInput',
                 'field'             =>  'meta_title',
                 'label'           =>  'META Заголовок',
-                'grid'              =>  3,
+                'grid'              =>  '1-1',
                 'listing'           =>  Array(
                     'view'  =>  false,
                 ),
@@ -372,10 +379,10 @@ class page extends applicationWeb\AControllers implements applicationWeb\IContro
             'table'         =>  'client_page',
             'caption'       =>  'Страницы',
             'mode'          =>  'listing',
+            'field'         =>  $field,
             'viewer'        =>  Array(
                 'listing' => Array(
                     'type'      => 'UKListing',
-                    'field'     =>  $field,
                     'multi'     =>  'UKActionID',
                     'button'    =>  Array(
                         'row'   =>  Array(
@@ -415,7 +422,6 @@ class page extends applicationWeb\AControllers implements applicationWeb\IContro
                 ),
                 'edit' => Array(
                     'type'      => 'UKEdit',
-                    'field'     =>  $field,
                     'button'    =>  Array(
                         'rows'  =>  Array(
                             Array(

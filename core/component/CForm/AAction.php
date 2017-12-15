@@ -31,7 +31,6 @@ class AAction extends ACForm
      */
     protected $isError = false;
 
-
     /**
      * AAction constructor.
      * @param array $fields
@@ -61,7 +60,8 @@ class AAction extends ACForm
      */
     protected function preMethod($method)
     {
-        foreach ($this->fields as $key => $field) {
+        foreach ($this->fields  as $key => $field) {
+
             if (!isset($field['field']) && is_string($key)) {
                 $field['field'] = $key;
             }
@@ -78,8 +78,10 @@ class AAction extends ACForm
                     /** @var \core\component\CForm\field\UKInput\component $fieldComponent */
                     $fieldComponent = new $fieldObject($field, $this->data);
                     $fieldComponent->init();
-                    $this->answer[$key] = $fieldComponent->$method();
-
+                    $this->answer[$key] =   $fieldComponent->$method();
+                    if (isset($field['field'], $this->data[$field['field']])) {
+                        $this->data[$field['field']] = $fieldComponent->getValue();
+                    }
                     if (!$this->answer[$key]) {
                         $this->isError = true;
                     }
@@ -93,7 +95,7 @@ class AAction extends ACForm
      */
     protected function postMethod($method)
     {
-        foreach ($this->fields as $key => $field) {
+        foreach (self::$viewerConfig['field']  as $key => $field) {
             if (!isset($field['field']) && is_string($key)) {
                 $field['field'] = $key;
             }
@@ -119,6 +121,7 @@ class AAction extends ACForm
             }
         }
     }
+
 
     public function preInsert()
     {

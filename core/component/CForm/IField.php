@@ -36,6 +36,11 @@ interface IField
     public function getField();
 
     /**
+     * @return array
+     */
+    public function getValue();
+
+    /**
      * @return boolean
      */
     public function preInsert();

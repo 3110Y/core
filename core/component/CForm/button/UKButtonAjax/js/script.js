@@ -38,15 +38,15 @@ $(document).ready(function () {
 
         }).done(function (msg) {
             if(msg === 'true') {
-                UIkit.notification(error, {
-                    status: 'warning',
+                UIkit.notification(success, {
+                    status: 'success',
                     timeout: 50000,
                     pos: 'top-center'
                 });
 
             } else {
-                UIkit.notification(success, {
-                    status: 'success',
+                UIkit.notification(error, {
+                    status: 'warning',
                     timeout: 50000,
                     pos: 'top-center'
                 })

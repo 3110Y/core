@@ -104,6 +104,9 @@ class component extends ACForm
         } else {
             parent::$isWork = false;
         }
+        if (parent::$isWork && !isset(self::$viewerConfig['field']) && isset($config['field'])) {
+            self::$viewerConfig['field'] = $config['field'];
+        }
     }
 
     /**

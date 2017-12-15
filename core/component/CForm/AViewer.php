@@ -72,6 +72,8 @@ abstract class AViewer extends ACForm
     protected $totalPage         =   0;
 
 
+
+
     /**
      * @return mixed
      */
@@ -183,4 +185,6 @@ abstract class AViewer extends ACForm
         );
         return self::$db->selectRows(self::$table, $fields, $where, $order, $limit);
     }
+
+
 }
