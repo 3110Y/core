@@ -30,7 +30,7 @@ class component extends library\AVendor implements library\IVendor
      */
     protected $js = Array(
         'top'  =>  Array(
-            'ckeditor/contents.js'
+            'ckeditor/ckeditor.js'
         ),
         'bottom'  =>  Array(),
     );
@@ -40,7 +40,7 @@ class component extends library\AVendor implements library\IVendor
      */
     protected $css = Array(
         'top'  =>  Array(
-            'ckeditor/ckeditor.css'
+            'ckeditor/contents.css'
         ),
         'bottom'  =>  Array(),
     );

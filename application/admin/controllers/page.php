@@ -286,6 +286,12 @@ class page extends applicationWeb\AControllers implements applicationWeb\IContro
                 'grid'              =>  '1-5'
             ),
             Array(
+                'type'              =>  'CKEditor',
+                'field'             =>  'content',
+                'label'             =>  'Текст',
+                'grid'              =>  '1-1',
+            ),
+            Array(
                 'type'              =>  'UKInput',
                 'field'             =>  'meta_title',
                 'label'             =>  'META Заголовок',
@@ -312,12 +318,7 @@ class page extends applicationWeb\AControllers implements applicationWeb\IContro
                     'view'  =>  false,
                 ),
             ),
-            Array(
-                'type'              =>  'CKEditor',
-                'field'             =>  'content',
-                'label'             =>  'Текст',
-                'grid'              =>  '1-1',
-            ),
+
 
             /*
                         Array(
