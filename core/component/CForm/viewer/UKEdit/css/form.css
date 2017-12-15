@@ -59,21 +59,39 @@
   text-align: center;
   white-space: nowrap; }
 .cform .cform-field {
-  position: relative; }
-  .cform .cform-field > *:focus + label, .cform .cform-field > *:not(:empty) + label {
-    bottom: 27px; }
-  .cform .cform-field label, .cform .cform-field .uk-form-controls {
-    display: inline-block;
-    padding: 10px 0; }
-    .cform .cform-field label.display-none, .cform .cform-field .uk-form-controls.display-none {
-      display: none; }
-  .cform .cform-field label {
+  position: relative;
+  margin-top: 20px;
+  background-color: #fff;
+  color: #333; }
+  .cform .cform-field > *:not(label) {
+    border: 0;
+    border-bottom: 1px solid #eee;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 5px;
+    background-color: transparent;
+    -webkit-transition: border-color 0.1s linear;
+    -moz-transition: border-color 0.1s linear;
+    transition: border-color 0.1s linear;
+    position: relative;
+    z-index: 2; }
+  .cform .cform-field > *:not(label):focus {
+    outline: none;
+    border-color: #aaa; }
+  .cform .cform-field > label {
     position: absolute;
-    bottom: 0px;
-    left: 17px; }
-  .cform .cform-field label:not(display-none) + .uk-form-controls {
-    width: 87%; }
-  .cform .cform-field label.display-none + .uk-form-controls {
-    width: 100%; }
+    left: 5px;
+    z-index: 1;
+    -webkit-transition: all 0.1s linear;
+    -moz-transition: all 0.1s linear;
+    transition: all 0.1s linear; }
+  .cform .cform-field > *:invalid + label {
+    color: #999;
+    font-size: 20px;
+    top: 5px; }
+  .cform .cform-field > *:valid + label, .cform .cform-field > *:focus + label {
+    color: #333;
+    font-size: 0.8em;
+    top: -15px; }
 
 /*# sourceMappingURL=form.css.map */

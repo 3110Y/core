@@ -73,18 +73,36 @@ $width: 1230px
     white-space: nowrap
   .cform-field
     position: relative
-    >*:focus+label, >*:not(:empty)+label
-      bottom: 27px
-    label, .uk-form-controls
-      display: inline-block
-      padding: 10px 0
-      &.display-none
-        display: none
-    label
+    margin-top: 20px
+    background-color: #fff
+    color: #333
+    >*:not(label)
+      border: 0
+      border-bottom: 1px solid #eee
+      -moz-box-sizing: border-box
+      box-sizing: border-box
+      padding: 5px
+      background-color: transparent
+      -webkit-transition: border-color .1s linear
+      -moz-transition: border-color .1s linear
+      transition: border-color .1s linear
+      position: relative
+      z-index: 2
+    >*:not(label):focus
+      outline: none
+      border-color: #aaa
+    > label
       position: absolute
-      bottom: 0px
-      left: 17px
-    label:not(display-none)+.uk-form-controls
-      width: 87%
-    label.display-none+.uk-form-controls
-      width: 100%
+      left: 5px
+      z-index: 1
+      -webkit-transition: all .1s linear
+      -moz-transition: all .1s linear
+      transition: all .1s linear
+    >*:invalid+label
+      color: #999
+      font-size: 20px
+      top: 5px
+    >*:valid + label, >*:focus + label
+      color: #333
+      font-size: 0.8em
+      top: -15px
