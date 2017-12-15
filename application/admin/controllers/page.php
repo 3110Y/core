@@ -304,7 +304,7 @@ class page extends applicationWeb\AControllers implements applicationWeb\IContro
                 ),
             ),
             Array(
-                'type'              =>  'UKInput',
+                'type'              =>  'UKTextarea',
                 'field'             =>  'meta_description',
                 'label'             =>  'META Описание',
                 'grid'              =>  '1-1',

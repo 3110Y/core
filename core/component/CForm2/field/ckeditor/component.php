@@ -6,7 +6,7 @@
  * Time: 10:40
  */
 
-namespace core\component\CForm\field\ckeditor;
+namespace core\component\CForm2\field\ckeditor;
 
 use core\component\{
 	CForm, fileCache\fileCache, templateEngine\engine\simpleView

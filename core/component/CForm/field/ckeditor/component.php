@@ -2,11 +2,11 @@
 /**
  * Created by PhpStorm.
  * User: Roman
- * Date: 09.12.2017
- * Time: 16:48
+ * Date: 16.12.2017
+ * Time: 0:07
  */
 
-namespace core\component\CForm\field\UKInput;
+namespace core\component\CForm\field\ckeditor;
 
 use \core\component\{
     CForm,
@@ -16,16 +16,10 @@ use \core\component\{
 
 /**
  * Class component
- * @package core\component\CForm\field\UKInput
+ * @package core\component\CForm\field\ckeditor
  */
 class component extends CForm\AField implements CForm\IField
 {
-
-    public function __construct($field, $row)
-    {
-        parent::__construct($field, $row);
-        self::$controller::setCss(self::getTemplate('css/input.css', __DIR__));
-    }
 
     public function init()
     {
@@ -72,7 +66,4 @@ class component extends CForm\AField implements CForm\IField
     {
         return $this->required && $this->value === '';
     }
-
-
-
 }

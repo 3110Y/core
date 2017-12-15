@@ -26,10 +26,6 @@ class component extends CForm\AField implements CForm\IField
         parent::__construct($field);
         self::$controller::setCss(self::getTemplate('css/input.css', __DIR__));
     }
-    /**
-     * @var string
-     */
-    protected $value = '';
 
     public function init()
     {
