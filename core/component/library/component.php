@@ -32,7 +32,7 @@ class component
 	 */
     public static function connect($name)
     {
-		self::$namespace  =   "vendor\{$name}\component";
+		self::$namespace  =   __NAMESPACE__ . "\\vendor\\{$name}\component";
 		return self::$namespace;
     }
 }

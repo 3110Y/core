@@ -8,37 +8,79 @@
 
 namespace core\component\library;
 
+use core\core,
+    core\component\templateEngine\engine\simpleView as simpleView;
 
 abstract class AVendor
 {
 	/**
 	 * @var array
 	 */
-	private static $js = Array();
+	protected static $js = Array(
+        'top'  =>  Array(),
+        'bottom'  =>  Array(),
+    );
 
 	/**
 	 * @var array
 	 */
-	private static $css = Array();
+    protected static $css = Array(
+        'top'  =>  Array(),
+        'bottom'  =>  Array(),
+    );
 
 
 	/**
-	 * @param string $name
-	 *
-	 * @return mixed
+	 * @param object $controller
 	 */
-	public static function getJS($name)
+	public static function setJS($controller)
 	{
-		return self::$js[$name];
+	    foreach (self::$js['top'] as $js) {
+            $controller::setJS(self::getTemplate($js, __DIR__), true);
+        }
+        foreach (self::$js['bottom'] as $js) {
+            $controller::setJS(self::getTemplate($js, __DIR__), false);
+        }
 	}
 
 	/**
-	 * @param string $name
-	 *
-	 * @return mixed
+	 * @param object $controller
 	 */
-	public static function getCss($name)
+	public static function setCss($controller)
 	{
-		return self::$css[$name];
+        foreach (self::$js['top'] as $css) {
+            $controller::setCss(self::getTemplate($css, __DIR__), true);
+        }
+        foreach (self::$js['bottom'] as $css) {
+            $controller::setCss(self::getTemplate($css, __DIR__), false);
+        }
 	}
+
+    /**
+     * отдает шаблон
+     * @param string $template шаблон
+     * @param string $dir
+     *
+     * @return string шаблон
+     */
+    protected static function getTemplate(string $template, string $dir = __DIR__): string
+    {
+        $dir    =   strtr($dir, Array(
+            '\\' =>  '/'
+        ));
+        $dr    =   strtr(core::getDR(), Array(
+            '\\' =>  '/'
+        ));
+        return '/' . str_replace($dr,'', $dir) . '/' . $template;
+    }
+
+    /**
+     * @param array $data
+     * @param string $dir
+     * @return string
+     */
+    public static function returnInit($data = Array(), $dir = __DIR__)
+    {
+        return simpleView\component::replace(self::getTemplate('template/init.tpl', $dir), $data);
+    }
 }

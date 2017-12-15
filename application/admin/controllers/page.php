@@ -312,37 +312,14 @@ class page extends applicationWeb\AControllers implements applicationWeb\IContro
                     'view'  =>  false,
                 ),
             ),
+            Array(
+                'type'              =>  'CKEditor',
+                'field'             =>  'content',
+                'label'             =>  'Текст',
+                'grid'              =>  '1-1',
+            ),
 
-            /*            Array(
-                            'type'              =>  'urlName',
-                            'field'             =>  'url',
-                            'attached'          =>  'name',
-                            'caption'           =>  'Адрес (URL)',
-                            'placeholder'       =>  'Адрес (URL)',
-                            'label'             =>  'Адрес (URL)',
-                            'edit'           =>  Array(
-                                'mode'  =>  'edit'
-                            ),
-                            'listing'           =>  Array(
-                                'align' =>  'left',
-                                'mode'  =>  'view'
-                            )
-                        ),
-                        Array(
-                            'type'              =>  'ckeditor',
-                            'field'             =>  'content',
-                            'caption'           =>  'Текст',
-                            'placeholder'       =>  'Текст',
-                            'label'             =>  'Текст',
-                            'edit'           =>  Array(
-                                'mode'  =>  'edit'
-                            ),
-                            'listing'           =>  Array(
-                                'align' =>  'left',
-
-                                'mode'  =>  'view'
-                            )
-                        ),
+            /*
                         Array(
                             'type'              =>  'select',
                             'field'             =>  'status',
