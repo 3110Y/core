@@ -226,7 +226,7 @@ abstract class AApplication
             } else {
                 $includeFile .= '?none';
             }
-            $text   .=  "<script type='text/javascript' src='{$includeFile}'></script>";
+            $text   .=  "<script src='{$includeFile}'></script>";
         }
         $text   .=   '<!-- AUTO JS-->';
         return $text;
