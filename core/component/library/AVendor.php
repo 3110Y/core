@@ -48,10 +48,10 @@ abstract class AVendor
 	 */
 	public static function setCss($controller)
 	{
-        foreach (self::$js['top'] as $css) {
+        foreach (self::$css['top'] as $css) {
             $controller::setCss(self::getTemplate($css, __DIR__), true);
         }
-        foreach (self::$js['bottom'] as $css) {
+        foreach (self::$css['bottom'] as $css) {
             $controller::setCss(self::getTemplate($css, __DIR__), false);
         }
 	}
