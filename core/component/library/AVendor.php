@@ -21,10 +21,6 @@ abstract class AVendor
 	 */
 	private static $css = Array();
 
-	/**
-	 * @var array
-	 */
-	private static $template = Array();
 
 	/**
 	 * @param string $name
@@ -44,15 +40,5 @@ abstract class AVendor
 	public static function getCss($name)
 	{
 		return self::$css[$name];
-	}
-
-	/**
-	 * @param string $name
-	 *
-	 * @return mixed
-	 */
-	public static function getTemplate($name)
-	{
-		return self::$template[$name];
 	}
 }
