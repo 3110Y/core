@@ -59,4 +59,14 @@ interface IField
      * @return boolean
      */
     public function postUpdate();
+
+    /**
+     * @return bool
+     */
+    public function preDelete();
+
+    /**
+     * @return bool
+     */
+    public function postDelete();
 }

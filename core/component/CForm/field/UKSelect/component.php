@@ -29,6 +29,7 @@ class component extends CForm\AField implements CForm\IField
     public function init()
     {
         parent::init();
+
         if (isset($this->configField['multiple']) && $this->configField['multiple']) {
             $this->multiple = true;
             unset($this->configField['multiple']);
@@ -55,7 +56,6 @@ class component extends CForm\AField implements CForm\IField
         $data['HREF']           =   isset($data['HREF'])        ?  "<a href='{$data['HREF']}'"    :  '<span class="uk-text-center">';
         $data['HREF_TWO']       =   $data['HREF'] == '<span class="uk-text-center">'   ?    '</span>'                    :   '</a>';
         $data['VALUE_NAME']     =   'Не выбрано';
-
         $this->value            =   $this->getFieldValue();
         foreach ($list as $key => $value) {
             if (!isset($value['id'])) {
@@ -63,10 +63,12 @@ class component extends CForm\AField implements CForm\IField
             }
             if ($this->multiple) {
                 $selected  = false;
-                foreach ($this->value as $v) {
-                    if ($this->value == $value['id']) {
-                        $selected  = true;
-                        break;
+                if (is_array($this->value)) {
+                    foreach ($this->value as $v) {
+                        if ($v == $value['id']) {
+                            $selected = true;
+                            break;
+                        }
                     }
                 }
             } else {
@@ -78,13 +80,9 @@ class component extends CForm\AField implements CForm\IField
                 'DISABLED'  =>  isset($value['disabled'])   &&  $value['disabled']  ?   'disabled'          :   '',
                 'SELECTED'  =>  $selected                       ?   'selected'          :   '',
             );
-            if ($this->value == $value['id']) {
-                $data['VALUE_NAME'] =  $this->list[$key]['NAME'];
-            }
+
         }
-
         $data['LIST']           =   $this->list;
-
         $data['HREF']           =   simpleView\component::replace(false, $data, $data['HREF']);
         $this->answer           =   simpleView\component::replace($this->template, $data);
     }
@@ -103,13 +101,13 @@ class component extends CForm\AField implements CForm\IField
 
     public function preInsert()
     {
-        return $this->required && $this->value === '';
+        return false;
     }
 
     public function preUpdate()
     {
         $this->setFieldValue();
-        return $this->required && $this->value === '';
+        return false;
     }
 
 
@@ -123,31 +121,35 @@ class component extends CForm\AField implements CForm\IField
                     'as'    => 'id'
                 ),
             );
-            $where = Array(
-                $this->configField['table']['field_id'] => $this->row[$this->configField['table']['field']]
-            );
-            if ($this->multiple) {
-                $rows = parent::$db->selectRows($this->configField['table']['link'], $field, $where);
-                $id = Array();
-                foreach ($rows as $row) {
-                    $id[] = $row[$this->configField['table']['table_id']];
+            if (isset($this->row[$this->configField['table']['field']])) {
+                $where = Array(
+                    $this->configField['table']['field_id'] => $this->row[$this->configField['table']['field']]
+                );
+                if ($this->multiple) {
+                    $rows = parent::$db->selectRows($this->configField['table']['link'], $field, $where);
+                    $id = Array();
+                    foreach ($rows as $row) {
+                        $id[] = $row['id'];
+                    }
+                    return $id;
+                } else {
+                    $row = parent::$db->selectRow($this->configField['table']['link'], $field, $where);
+                    return isset($row['id']) ? $row['id'] : '';
                 }
-                return $id;
-            } else {
-                $row = parent::$db->selectRow($this->configField['table']['link'], $field, $where);
-                return  isset($row['id'])  ?    $row['id']  :   '';
             }
+            return $this->multiple  ?   Array() :   '';
         } else {
             if ($this->multiple) {
-                return  explode(',', $this->configField['value']);
+               return  explode(',', $this->configField['value']);
             } else {
-                return $this->configField['value'];
+               return isset($this->configField['value'])    ?   $this->configField['value'] :   '';
             }
         }
     }
 
     private function setFieldValue()
     {
+
         if (isset($this->configField['table'])) {
             $where = Array();
             $where[]    =   Array(
@@ -171,11 +173,12 @@ class component extends CForm\AField implements CForm\IField
                 );
                 parent::$db->inset($this->configField['table']['link'], $value);
             }
+            $this->value = false;
         } else {
             if ($this->multiple) {
-                return implode(',', $this->value);
+                return $this->value == null ? implode(',', $this->value) : '';
             } else {
-                return $this->value;
+                return $this->value == null ? $this->value : '';
             }
         }
     }

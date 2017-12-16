@@ -191,7 +191,7 @@ class AField extends ACForm
     /**
      * @return bool
      */
-    public function preDell()
+    public function preDelete()
     {
         return false;
     }
@@ -199,7 +199,7 @@ class AField extends ACForm
     /**
      * @return bool
      */
-    public function postDell()
+    public function postDelete()
     {
         return false;
     }

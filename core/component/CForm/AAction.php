@@ -61,7 +61,6 @@ class AAction extends ACForm
     protected function preMethod($method)
     {
         foreach ($this->fields  as $key => $field) {
-
             if (!isset($field['field']) && is_string($key)) {
                 $field['field'] = $key;
             }
@@ -86,6 +85,12 @@ class AAction extends ACForm
                         $this->data[$field['field']] = $fieldComponent->getValue();
                         if ($this->data[$field['field']] === false) {
                             unset($this->data[$field['field']]);
+                        }
+                    }
+                    if (isset($field['table'], $field['table']['link'], $this->data[$field['table']['link']])) {
+                        $this->data[$field['table']['link']] = $fieldComponent->getValue();
+                        if ($this->data[$field['table']['link']] === false) {
+                            unset($this->data[$field['table']['link']]);
                         }
                     }
                     if ($this->answer[$key]) {
@@ -127,32 +132,32 @@ class AAction extends ACForm
 
     public function preInsert()
     {
-        return true;
+        return false;
     }
 
     public function postInsert()
     {
-        return true;
+        return false;
     }
 
     public function preUpdate()
     {
-        return true;
+        return false;
     }
 
     public function postUpdate()
     {
-        return true;
+        return false;
     }
 
     public function preDell()
     {
-        return true;
+        return false;
     }
 
     public function postDell()
     {
-        return true;
+        return false;
     }
 
 }
