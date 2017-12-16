@@ -20,8 +20,15 @@ use \core\component\{
  */
 class component extends  CForm\AAction implements CForm\IAction
 {
+    /**
+     * @const float Версия
+     */
+    const VERSION   =   2.0;
 
-
+    /**
+     * @param int $id
+     * @return mixed|void
+     */
     public function run($id = 0)
     {
         $this->data['id'] = $id;

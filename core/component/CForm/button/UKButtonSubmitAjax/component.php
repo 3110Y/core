@@ -21,6 +21,11 @@ use \core\component\{
  */
 class component extends CForm\AButton implements CForm\IButton
 {
+    /**
+     * @const float Версия
+     */
+    const VERSION   =   2.0;
+
 
     /**
      * Инициализация

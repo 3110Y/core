@@ -26,7 +26,7 @@ class component extends CForm\AViewer implements CForm\IViewer
     /**
      * @const float Версия
      */
-    const VERSION   =   2;
+    const VERSION   =   2.0;
 
     /**
      * @var string

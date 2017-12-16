@@ -20,6 +20,11 @@ use \core\component\{
  */
 class component extends CForm\AField implements CForm\IField
 {
+    /**
+     * @const float Версия
+     */
+    const VERSION   =   2.0;
+
 
     public function __construct($field)
     {
