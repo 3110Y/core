@@ -282,8 +282,11 @@ class page extends applicationWeb\AControllers implements applicationWeb\IContro
             Array(
                 'type'              =>  'UKNumber',
                 'field'             =>  'order_in_menu',
-                'label'           =>  'Порядок',
-                'grid'              =>  '1-5'
+                'label'             =>  'Порядок',
+                'grid'              =>  '1-5',
+                'listing'           =>  Array(
+                    'order'  =>  999,
+                ),
             ),
             Array(
                 'type'              =>  'CKEditor',

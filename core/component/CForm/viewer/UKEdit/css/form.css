@@ -17,7 +17,8 @@
   .cform.w-hundred {
     width: 100%; }
     .cform.w-hundred .cf-table {
-      width: 100%; }
+      width: 100%;
+      margin-left: 0; }
   .cform .group-action {
     position: fixed;
     width: 100%;
