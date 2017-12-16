@@ -21,11 +21,6 @@ use \core\component\{
 class component extends CForm\AField implements CForm\IField
 {
 
-    public function __construct($field, $row = Array())
-    {
-        parent::__construct($field, $row);
-        self::$controller::setCss(self::getTemplate('css/input.css', __DIR__));
-    }
 
     public function init()
     {

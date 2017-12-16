@@ -92,7 +92,7 @@
     color: #999;
     font-size: 20px;
     top: 5px; }
-  .cform .cform-field > *:not(label):valid + label, .cform .cform-field > *:not(label):focus + label {
+  .cform .cform-field > *:not(label):valid + label, .cform .cform-field > *:not(label):focus + label, .cform .cform-field > *:not(label) + label.multiple {
     color: #333;
     font-size: 0.8em;
     top: -15px; }
