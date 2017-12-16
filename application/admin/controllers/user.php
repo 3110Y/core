@@ -60,14 +60,14 @@ class user extends applicationWeb\AControllers implements applicationWeb\IContro
                 'field'             =>  'login',
                 'label'             =>  'Логин',
                 'required'          =>  true,
-                'grid'              =>  '1-2'
+                'grid'              =>  '1-3'
             ),
             Array(
 			    'type'              =>  'UKPassword',
 			    'field'             =>  'password',
 			    'label'             =>  'Пароль',
                 'algorithm'         =>  'sha512',
-                'grid'              =>  '1-2',
+                'grid'              =>  '1-3',
                 'edit'           =>  Array(
                     'mode'          =>  'edit',
                     'label'         =>  'Введите новый пароль для изменения',
@@ -77,80 +77,39 @@ class user extends applicationWeb\AControllers implements applicationWeb\IContro
 			    )
 		    ),
             Array(
-			    'type'              =>  'input',
-			    'field'             =>  'name',
-			    'caption'           =>  'Имя',
-			    'placeholder'       =>  'Имя',
-			    'label'             =>  'Имя',
-                'edit'           =>  Array(
-                    'mode'  =>  'edit'
-                ),
-			    'listing'           =>  Array(
-				    'align' =>  'left',
-				    'mode'  =>  'view'
-			    )
-		    ),
-		    Array(
-			    'type'              =>  'input',
-			    'field'             =>  'surname',
-			    'caption'           =>  'Фамилия',
-			    'placeholder'       =>  'Фамилия',
-			    'label'             =>  'Фамилия',
-                'edit'           =>  Array(
-                    'mode'  =>  'edit'
-                ),
-			    'listing'           =>  Array(
-				    'align' =>  'left',
-				    'mode'  =>  'view'
-			    )
-		    ),
-		    Array(
-			    'type'              =>  'input',
-			    'field'             =>  'patronymic',
-			    'caption'           =>  'Отчество',
-			    'placeholder'       =>  'Отчество',
-			    'label'             =>  'Отчество',
-                'edit'           =>  Array(
-                    'mode'  =>  'edit'
-                ),
-			    'listing'           =>  Array(
-				    'align' =>  'left',
-				    'mode'  =>  'view'
-			    )
-		    ),
-            Array(
-			    'type'              =>  'select',
-			    'field'             =>  'group_id',
-			    'caption'           =>  'Группы',
-			    'placeholder'       =>  'Группы',
-			    'label'             =>  'Группы',
-			    'list'              =>  $list,
-                'multiple'          =>  'multiple',
-                'viewNo'            =>  'Нет группы',
-                'edit'              =>  Array(
-                    'mode'  =>  'edit'
-                ),
-			    'listing'           =>  Array(
-				    'align' =>  'center',
-				    'mode'  =>  'view'
-			    )
-		    ),
-            Array(
-                'type'              =>  'select',
+                'type'              =>  'UKSelect',
                 'field'             =>  'status',
-                'caption'           =>  'Статус',
-                'placeholder'       =>  'Статус',
                 'label'             =>  'Статус',
+                'grid'              =>  '1-3',
+                'required'          =>  true,
                 'list'              =>  $listStatus,
-                'NoZero'            =>  true,
-                'edit'              =>  Array(
-                    'mode'  =>  'edit'
-                ),
-                'listing'           =>  Array(
-                    'align' =>  'right',
-                    'mode'  =>  'view'
-                )
             ),
+            Array(
+			    'type'              =>  'UKInput',
+			    'field'             =>  'name',
+			    'label'             =>  'Имя',
+                'grid'              =>  '1-3'
+		    ),
+		    Array(
+			    'type'              =>  'UKInput',
+			    'field'             =>  'surname',
+			    'label'             =>  'Фамилия',
+                'grid'              =>  '1-3'
+		    ),
+		    Array(
+			    'type'              =>  'UKInput',
+			    'field'             =>  'patronymic',
+			    'label'             =>  'Отчество',
+                'grid'              =>  '1-3'
+		    ),
+            Array(
+			    'type'              =>  'UKSelect',
+			    'field'             =>  'group_id',
+			    'label'             =>  'Группы',
+                'grid'              =>  '1-1',
+			    'list'              =>  $list,
+                'multiple'          =>  'multiple'
+		    ),
 	    );
         self::$content  =    model\CFormDefault::generation($this, 'core_user', 'Пользователи', $field);
 
