@@ -33,7 +33,7 @@ class component extends CForm\AViewer implements CForm\IViewer
     {
         parent::init();
         $this->answer['PARENT']             = $this->parent;
-        $this->answer['CAPTION']            = parent::$caption . ': Редактирование';
+        $this->answer['CAPTION']            = parent::$caption;
 
     }
 

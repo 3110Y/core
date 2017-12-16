@@ -42,7 +42,8 @@ class component extends CForm\AField implements CForm\IField
 
     public function init()
     {
-        $this->labelField['FIELD'] =   $this->configField;
+        $data['TD']                    =   'uk-table-shrink';
+        $this->labelField['FIELD']      =   $this->configField;
         $this->template     =   self::getTemplate('template/template.tpl', __DIR__);
         foreach ($this->configField as $key =>  $field) {
             $data[mb_strtoupper($key)] =  $field;

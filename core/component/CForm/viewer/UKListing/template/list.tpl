@@ -1,32 +1,38 @@
 <div class="cform w-hundred">
     <div class="overflow-form">
-        <form method="post" action="#" class="cf-table" id="form-listing">
         <div class="cf-table-caption cf-caption">
             <span>{CAPTION}</span>
         </div>
-        <div class="cf-table-row">
-            {TH}
-                <div class="cf-table-row-th uk-text-center">
-                    <a href="{HREF}" {ICON}><span>{TEXT} </span></a>
-                </div>
-            {/TH}
-        </div>
-        {TR}
-        <div class="cf-table-row">
-            {TD_FIELD}
-            <div class="cf-table-row-td">
-                {COMPONENT}
-            </div>
-            {/TD_FIELD}
-            <div class="cf-table-row-td min {CLASS_ROW}">
-                <div class="uk-button-group">
-                    {TD_BUTTON}
-                        {COMPONENT}
-                    {/TD_BUTTON}
-                </div>
-            </div>
-        </div>
-        {/TR}
+        <form method="post" action="#" id="form-listing">
+            <table class="uk-table uk-table-divider uk-table-hover uk-table-striped">
+                <thead>
+                    <tr>
+                        {TH}
+                        <th class="uk-text-center">
+                            <a href="{HREF}" {ICON}>
+                                {TEXT}
+                            </a>
+                        </th>
+                        {/TH}
+                    </tr>
+                </thead>
+                <tbody>
+                    {TR}
+                    <tr>
+                        {TD_FIELD}
+                            {COMPONENT}
+                        {/TD_FIELD}
+                        <td class="uk-table-shrink">
+                            <div class="uk-button-group">
+                                {TD_BUTTON}
+                                    {COMPONENT}
+                                {/TD_BUTTON}
+                            </div>
+                        </td>
+                    </tr>
+                    {/TR}
+                </tbody>
+            </table>
         <div class="group-action ">
             <div class="uk-button-group">
                 {ROWS}

@@ -122,6 +122,9 @@ class component extends ACForm
             unset(self::$viewerConfig['type']);
             $viewer =   "core\component\CForm\\viewer\\{$viewerName}\component";
             if (class_exists($viewer)) {
+                if (isset(self::$viewerConfig['caption'])) {
+                    parent::$caption            =   self::$viewerConfig['caption'];
+                }
                 if (isset(self::$viewerConfig['field']) && !empty(self::$viewerConfig['field'])) {
                     $this->preparationField();
                 }

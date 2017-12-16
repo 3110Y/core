@@ -80,6 +80,7 @@ class CFormDefault extends applicationWeb\AClass
                 ),
                 'edit' => Array(
                     'type'      => 'UKEdit',
+                    'caption'       =>  $caption .': Редактирование',
                     'button'    =>  Array(
                         'rows'  =>  Array(
                             Array(

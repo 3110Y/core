@@ -1,1 +1,1 @@
-{HREF}<span class="uk-text-meta">{VALUE}</span>{HREF_TWO}
+<td class="{TD}">{HREF}<span class="uk-text-meta">{VALUE}</span>{HREF_TWO}</td>

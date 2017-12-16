@@ -25,6 +25,7 @@ class component extends CForm\AField implements CForm\IField
     public function init()
     {
         parent::init();
+        $data['TD']                    =   '';
         $data['GRID']                 =   '1-1';
         $data['PLACEHOLDER']          =   '';
         foreach ($this->configField as $key =>  $field) {

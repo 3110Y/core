@@ -31,6 +31,7 @@ class component extends CForm\AField implements CForm\IField
             $this->multiple = true;
             unset($this->configField['multiple']);
         }
+        $data['TD']                         =   '';
         $data['GRID']                       =   1;
         $data['PLACEHOLDER']                =   '';
         $list                               =   $this->configField['list'] ??   Array();
