@@ -104,7 +104,12 @@ class user extends applicationWeb\AControllers implements applicationWeb\IContro
 		    ),
             Array(
 			    'type'              =>  'UKSelect',
-			    'field'             =>  'group_id',
+			    'table'        =>  Array(
+                    'field'     =>  'id',
+			        'link'      =>  'core_user_group',
+                    'field_id'  =>  'user_id',
+                    'table_id'  =>  'group_id',
+                ),
 			    'label'             =>  'Группы',
                 'grid'              =>  '1-1',
 			    'list'              =>  $list,

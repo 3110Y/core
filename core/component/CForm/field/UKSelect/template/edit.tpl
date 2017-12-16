@@ -1,5 +1,5 @@
 <div class="cform-field uk-width-{GRID}@m">
-    <select id="{ID}" name="{ID}" class="uk-select {CLASS}" {MULTIPLE} placeholder="{PLACEHOLDER}" style="{STYLE}" required>
+    <select id="{ID}" name="{ID_NAME}" class="uk-select {CLASS}" {MULTIPLE} placeholder="{PLACEHOLDER}" style="{STYLE}" required>
         {LIST}
         <option value="{ID}" {SELECTED} {DISABLED}>{NAME}</option>
         {/LIST}

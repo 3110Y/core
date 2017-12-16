@@ -1,0 +1,1 @@
+<td class="{TD}">{HREF}{LIST_VALUE}<span class="uk-label">{LIST_NAME}</span>{/LIST_VALUE}{HREF_TWO}</td>

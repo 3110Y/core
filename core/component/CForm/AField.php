@@ -86,7 +86,7 @@ class AField extends ACForm
         $this->value        =   $field['value']         ?? $this->value;
         $this->modeField    =   $field['mode']          ?? $this->modeField;
         $this->required     =   $field['required']      ?? $this->required;
-        $this->idField      =   $field['field']         ?? 'field_' . __CLASS__ . '_' .  self::$iterator . '_' .  uniqid();
+        $this->idField      =   $field['field']         ?? $field['table']['link']  ??  'field_' . __CLASS__ . '_' .  self::$iterator . '_' .  uniqid();
         if (isset($field['class'])) {
            if (!is_array($field['class'])) {
                $this->class        =   $field['class'];
@@ -106,7 +106,7 @@ class AField extends ACForm
             $this->labelField['TEXT'] = $field['label'];
         }
 
-        unset($field['value'], $field['mode'], $field['label'], $field['required'], $field['class'], $field['style']);
+        unset($field['mode'], $field['label'], $field['required'], $field['class'], $field['style']);
         $this->configField              =   $field;
         $this->labelField['FIELD']      =   $this->idField;
     }
@@ -156,31 +156,49 @@ class AField extends ACForm
         return $this->configField;
     }
 
+    /**
+     * @return bool
+     */
     public function preInsert()
     {
         return false;
     }
 
+    /**
+     * @return bool
+     */
     public function postInsert()
     {
         return false;
     }
 
+    /**
+     * @return bool
+     */
     public function preUpdate()
     {
         return false;
     }
 
+    /**
+     * @return bool
+     */
     public function postUpdate()
     {
         return false;
     }
 
+    /**
+     * @return bool
+     */
     public function preDell()
     {
         return false;
     }
 
+    /**
+     * @return bool
+     */
     public function postDell()
     {
         return false;

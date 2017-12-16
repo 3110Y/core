@@ -42,6 +42,7 @@ class CFormDefault extends applicationWeb\AClass
                 'listing' => Array(
                     'type'      => 'UKListing',
                     'multi'     =>  'UKActionID',
+                    'search'    =>  true,
                     'button'    =>  Array(
                         'row'   =>  Array(
                             Array(

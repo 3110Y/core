@@ -24,8 +24,10 @@ class component extends  CForm\AAction implements CForm\IAction
 
     public function run($id = 0)
     {
+        $this->data['id'] = $id;
         $this->preMethod('preUpdate');
         if (!$this->isError) {
+            unset($this->data['id']);
             $where = Array(
                 'id' => $id
             );
