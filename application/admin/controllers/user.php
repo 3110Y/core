@@ -103,7 +103,7 @@ class user extends applicationWeb\AControllers implements applicationWeb\IContro
                 'grid'              =>  '1-3'
 		    ),
             Array(
-			    'type'              =>  'UKSelect',
+			    'type'              =>  'select2',
 			    'table'        =>  Array(
                     'field'     =>  'id',
 			        'link'      =>  'core_user_group',
