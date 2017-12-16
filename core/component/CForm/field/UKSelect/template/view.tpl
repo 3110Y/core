@@ -1,1 +1,1 @@
-<td class="{TD}">{HREF}<span>{VALUE_NAME}</span>{HREF_TWO}</td>
+<td class="{TD}">{HREF}{VALUE_NAME}<span class="uk-label">{NAME}</span>{/VALUE_NAME}{HREF_TWO}</td>

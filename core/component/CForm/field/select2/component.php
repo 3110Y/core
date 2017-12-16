@@ -55,7 +55,7 @@ class component extends CForm\AField implements CForm\IField
         $data['ID_NAME']        =   $this->multiple ?   $this->idField . '[]'   :   $this->idField;
         $data['HREF']           =   isset($data['HREF'])        ?  "<a href='{$data['HREF']}'"    :  '<span class="uk-text-center">';
         $data['HREF_TWO']       =   $data['HREF'] == '<span class="uk-text-center">'   ?    '</span>'                    :   '</a>';
-        $data['VALUE_NAME']     =   'Не выбрано';
+        $data['VALUE_NAME']     =   Array();
         $this->value            =   $this->getFieldValue();
         foreach ($list as $key => $value) {
             if (!isset($value['id'])) {
@@ -80,7 +80,17 @@ class component extends CForm\AField implements CForm\IField
                 'DISABLED'  =>  isset($value['disabled'])   &&  $value['disabled']  ?   'disabled'          :   '',
                 'SELECTED'  =>  $selected                       ?   'selected'          :   '',
             );
+            if ($selected) {
+                $data['VALUE_NAME'][] = Array(
+                    'NAME'  =>  $this->list[$key]['NAME'],
+                );
+            }
 
+        }
+        if (empty($data['VALUE_NAME'])) {
+            $data['VALUE_NAME'][] = Array(
+                'NAME'  =>  'Не выбрано',
+            );
         }
         $data['LIST']           =   $this->list;
 

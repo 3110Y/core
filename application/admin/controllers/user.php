@@ -81,7 +81,6 @@ class user extends applicationWeb\AControllers implements applicationWeb\IContro
                 'field'             =>  'status',
                 'label'             =>  'Статус',
                 'grid'              =>  '1-3',
-                'required'          =>  true,
                 'list'              =>  $listStatus,
             ),
             Array(

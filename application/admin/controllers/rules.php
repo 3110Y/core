@@ -81,98 +81,45 @@ class rules extends applicationWeb\AControllers implements applicationWeb\IContr
         );
         $field     =   Array(
             Array(
-                'type'              =>  'select',
+                'type'              =>  'UKSelect',
                 'field'             =>  'object_id',
-                'caption'           =>  'Обьект',
-                'placeholder'       =>  'Обьект',
                 'label'             =>  'Обьект',
                 'list'              =>  $listObject,
-                'NoZero'            =>  true,
-                'edit'              =>  Array(
-                    'mode'  =>  'edit'
-                ),
-                'listing'           =>  Array(
-                    'align' =>  'center',
-                    'mode'  =>  'view'
-                )
+                'grid'              =>  '1-4',
             ),
             Array(
-                'type'              =>  'select',
+                'type'              =>  'UKSelect',
                 'field'             =>  'action',
-                'caption'           =>  'Действие',
-                'placeholder'       =>  'Действие',
                 'label'             =>  'Действие',
                 'list'              =>  $listAction,
-                'NoZero'            =>  true,
-                'edit'              =>  Array(
-                    'mode'  =>  'edit'
-                ),
-                'listing'           =>  Array(
-                    'align' =>  'center',
-                    'mode'  =>  'view'
-                )
+                'grid'              =>  '1-4',
             ),
             Array(
-                'type'              =>  'select',
+                'type'              =>  'UKSelect',
                 'field'             =>  'user_id',
-                'caption'           =>  'Пользователь',
-                'placeholder'       =>  'Пользователь',
                 'label'             =>  'Пользователь',
                 'list'              =>  $listUser,
-                'def'               =>  'Все',
-                'edit'              =>  Array(
-                    'mode'  =>  'edit'
-                ),
-                'listing'           =>  Array(
-                    'align' =>  'center',
-                    'mode'  =>  'view'
-                )
+                'grid'              =>  '1-4',
             ),
             Array(
-                'type'              =>  'select',
+                'type'              =>  'UKSelect',
                 'field'             =>  'group_id',
-                'caption'           =>  'Группа',
-                'placeholder'       =>  'Группа',
                 'label'             =>  'Группа',
                 'list'              =>  $listGroup,
-                'def'               =>  'Все',
-                'edit'              =>  Array(
-                    'mode'  =>  'edit'
-                ),
-                'listing'           =>  Array(
-                    'align' =>  'center',
-                    'mode'  =>  'view'
-                )
+                'grid'              =>  '1-4',
             ),
             Array(
-                'type'              =>  'select',
+                'type'              =>  'UKSelect',
                 'field'             =>  'status',
-                'caption'           =>  'Статус',
-                'placeholder'       =>  'Статус',
                 'label'             =>  'Статус',
                 'list'              =>  $listStatus,
-                'NoZero'            =>  true,
-                'edit'              =>  Array(
-                    'mode'  =>  'edit'
-                ),
-                'listing'           =>  Array(
-                    'align' =>  'right',
-                    'mode'  =>  'view'
-                )
+                'grid'              =>  '1-2',
             ),
             Array(
-                'type'              =>  'number',
+                'type'              =>  'UKNumber',
                 'field'             =>  'priority',
-                'caption'           =>  'Приоритет',
-                'placeholder'       =>  'Приоритет',
                 'label'             =>  'Приоритет',
-                'edit'           =>  Array(
-                    'mode'  =>  'edit'
-                ),
-                'listing'           =>  Array(
-                    'align' =>  'center',
-                    'mode'  =>  'view'
-                )
+                'grid'              =>  '1-2',
             ),
         );
         self::$content  =    model\CFormDefault::generation($this, 'core_rules', 'Правила', $field);
