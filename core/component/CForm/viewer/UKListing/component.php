@@ -112,31 +112,30 @@ class component extends CForm\AViewer implements CForm\IViewer
                             $fieldComponent->init();
                             if (!isset($this->answer['TH'][$key])) {
                                 $this->answer['TH'][$key] = $fieldComponent->getLabel();
-
-                                if (isset($this->answer['TH'][$key]['FIELD']['field'])) {
+                                if (isset($this->answer['TH'][$key]['FIELD'])) {
                                     $order = $orderAll;
                                     /**
                                      * icon
                                      */
-                                    if (!isset($order[$this->answer['TH'][$key]['FIELD']['field']])) {
+                                    if (!isset($order[$this->answer['TH'][$key]['FIELD']])) {
                                         $this->answer['TH'][$key]['ICON'] = '';
-                                    } elseif ($order[$this->answer['TH'][$key]['FIELD']['field']]== 'ASC') {
+                                    } elseif ($order[$this->answer['TH'][$key]['FIELD']]== 'ASC') {
                                         $this->answer['TH'][$key]['ICON'] = "uk-icon='icon: triangle-up'";
-                                    } elseif ($order[$this->answer['TH'][$key]['FIELD']['field']] == 'DESC') {
+                                    } elseif ($order[$this->answer['TH'][$key]['FIELD']] == 'DESC') {
                                         $this->answer['TH'][$key]['ICON'] = "uk-icon='icon: triangle-down'";
                                     }
 
                                     /**
                                      * куда
                                      */
-                                    if (isset($order[$this->answer['TH'][$key]['FIELD']['field']])) {
-                                        if ($order[$this->answer['TH'][$key]['FIELD']['field']] == 'ASC') {
-                                            $order[$this->answer['TH'][$key]['FIELD']['field']] = 'DESC';
+                                    if (isset($order[$this->answer['TH'][$key]['FIELD']])) {
+                                        if ($order[$this->answer['TH'][$key]['FIELD']] == 'ASC') {
+                                            $order[$this->answer['TH'][$key]['FIELD']] = 'DESC';
                                         } else {
-                                            $order[$this->answer['TH'][$key]['FIELD']['field']] = 'NONE';
+                                            $order[$this->answer['TH'][$key]['FIELD']] = 'NONE';
                                         }
                                     } else {
-                                        $order[$this->answer['TH'][$key]['FIELD']['field']] = 'ASC';
+                                        $order[$this->answer['TH'][$key]['FIELD']] = 'ASC';
                                     }
                                     $link = Array();
                                     foreach ($order as $k => $v) {
