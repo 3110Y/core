@@ -59,7 +59,7 @@ class group extends applicationWeb\AControllers implements applicationWeb\IContr
                 'list'              =>  $listStatus,
             ),
         );
-        self::$content  =    model\CFormDefault::generation($this, $field);
+        self::$content  =    model\CFormDefault::generation($this, 'core_group', 'Группы', $field);
 
     }
 

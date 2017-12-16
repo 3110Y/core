@@ -23,17 +23,19 @@ class CFormDefault extends applicationWeb\AClass
 {
     /**
      * @param object $controller
+     * @param string $table
+     * @param string $caption
      * @param array $field
      * @return array|bool|mixed
      */
-    public static function generation($controller, $field)
+    public static function generation($controller, $table, $caption, $field)
     {
         $url = implode('/', $controller::getURL());
         $config     =   Array(
             'controller'    =>  $controller,
             'db'            =>  self::get('db'),
-            'table'         =>  'client_page',
-            'caption'       =>  'Страницы',
+            'table'         =>  $table,
+            'caption'       =>  $caption,
             'mode'          =>  'listing',
             'field'         =>  $field,
             'viewer'        =>  Array(

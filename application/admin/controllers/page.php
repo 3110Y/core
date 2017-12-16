@@ -114,7 +114,7 @@ class page extends applicationWeb\AControllers implements applicationWeb\IContro
 
             /**/
         );
-        self::$content  =    model\CFormDefault::generation($this, $field);
+        self::$content  =    model\CFormDefault::generation($this, 'client_page', 'Страницы', $field);
 
     }
 

@@ -37,10 +37,10 @@ class rulesObjects extends applicationWeb\AControllers implements applicationWeb
                 'field'             =>  'name',
                 'label'             =>  'Название',
                 'required'          =>  true,
-                'grid'              =>  '1-2'
+                'grid'              =>  '1-1'
             ),
         );
-        self::$content  =    model\CFormDefault::generation($this, $field);
+        self::$content  =    model\CFormDefault::generation($this, 'core_rules_objects', 'Правила', $field);
 
     }
 

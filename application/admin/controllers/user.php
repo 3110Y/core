@@ -154,7 +154,7 @@ class user extends applicationWeb\AControllers implements applicationWeb\IContro
                 )
             ),
 	    );
-        self::$content  =    model\CFormDefault::generation($this, $field);
+        self::$content  =    model\CFormDefault::generation($this, 'core_user', 'Пользователи', $field);
 
     }
 

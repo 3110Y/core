@@ -175,8 +175,7 @@ class rules extends applicationWeb\AControllers implements applicationWeb\IContr
                 )
             ),
         );
-        self::$content  =    model\CFormDefault::generation($this, $field);
-
+        self::$content  =    model\CFormDefault::generation($this, 'core_rules', 'Правила', $field);
     }
 
 }
