@@ -1,0 +1,1 @@
+<td class="{TD}">{HREF}<span class="uk-label">*****</span>{HREF_TWO}</td>

@@ -1,12 +1,12 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: Roman
- * Date: 09.12.2017
- * Time: 16:48
+ * User: gaevoy
+ * Date: 12.06.17
+ * Time: 23:53
  */
 
-namespace core\component\CForm\field\UKInput;
+namespace core\component\CForm\field\UKPassword;
 
 use \core\component\{
     CForm,
@@ -16,7 +16,7 @@ use \core\component\{
 
 /**
  * Class component
- * @package core\component\CForm\field\UKInput
+ * @package core\component\CForm\field\UKPassword
  */
 class component extends CForm\AField implements CForm\IField
 {
@@ -62,14 +62,28 @@ class component extends CForm\AField implements CForm\IField
 
     public function preInsert()
     {
+        $this->generationValue();
         return $this->required && $this->value === '';
     }
 
     public function preUpdate()
     {
+        $this->generationValue();
         return $this->required && $this->value === '';
     }
 
-
-
+    /**
+     * Генерирует значение
+     */
+    public function generationValue()
+    {
+        if ($this->value !== '') {
+            if (!isset($this->configField['algorithm'])) {
+                $this->configField['algorithm'] = 'sha512';
+            }
+            $this->value    =   hash($this->configField['algorithm'], $this->value);
+        } else {
+            $this->value = false;
+        }
+    }
 }

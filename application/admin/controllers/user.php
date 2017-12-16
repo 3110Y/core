@@ -63,18 +63,16 @@ class user extends applicationWeb\AControllers implements applicationWeb\IContro
                 'grid'              =>  '1-2'
             ),
             Array(
-			    'type'              =>  'password',
+			    'type'              =>  'UKPassword',
 			    'field'             =>  'password',
-			    'caption'           =>  'Пароль',
-			    'placeholder'       =>  'Введите новый пароль для изменения',
 			    'label'             =>  'Пароль',
                 'algorithm'         =>  'sha512',
+                'grid'              =>  '1-2',
                 'edit'           =>  Array(
-                    'mode'  =>  'edit'
+                    'mode'          =>  'edit',
+                    'label'         =>  'Введите новый пароль для изменения',
                 ),
 			    'listing'           =>  Array(
-				    'align' =>  'left',
-				    'mode'  =>  'view',
                     'view'  =>  false
 			    )
 		    ),

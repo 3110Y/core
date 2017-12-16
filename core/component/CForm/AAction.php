@@ -84,6 +84,9 @@ class AAction extends ACForm
                     }
                     if (isset($field['field'], $this->data[$field['field']])) {
                         $this->data[$field['field']] = $fieldComponent->getValue();
+                        if ($this->data[$field['field']] === false) {
+                            unset($this->data[$field['field']]);
+                        }
                     }
                     if ($this->answer[$key]) {
                         $this->isError = true;
