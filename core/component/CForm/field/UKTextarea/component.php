@@ -45,15 +45,16 @@ class component extends CForm\AField implements CForm\IField
 
     public function view()
     {
-        $this->labelField['FIELD'] =   $this->configField;
-        $this->template     =   self::getTemplate('template/view.tpl', __DIR__);
+        $this->value                =   self::truncation(trim(strip_tags($this->value)), 200);
+        $this->labelField['FIELD']  =   $this->configField;
+        $this->template             =   self::getTemplate('template/view.tpl', __DIR__);
 
     }
 
     public function edit()
     {
-        $this->labelField['FIELD'] =   $this->configField;
-        $this->template     =   self::getTemplate('template/edit.tpl', __DIR__);
+        $this->labelField['FIELD']  =   $this->configField;
+        $this->template             =   self::getTemplate('template/edit.tpl', __DIR__);
 
     }
 
@@ -65,5 +66,28 @@ class component extends CForm\AField implements CForm\IField
     public function preUpdate()
     {
         return $this->required && $this->value === '';
+    }
+
+    /**
+     * @param string $str
+     * @param int $length
+     * @return string
+     */
+    private static function truncation($str, $length)
+    {
+        $str = substr($str, 0, $length - 2);        //Обрезаем до заданной длины
+        $words=explode(' ', $str);                //Разбиваем по словам
+        array_splice($words,-1);                //Удаляем последнее слово
+
+        $last=array_pop($words);                //Получаем последнее слово
+
+        for ($i = 1, $iMax = strlen($last); $i < $iMax; $i++) {
+            //Ищем и удаляем в конце последнего слова все кроме букв и цифр
+            if (preg_match('/\W$/', $last[strlen($last) - 1])) {
+                $last = mb_substr($last, 0, strlen($last) - 1);
+            } else break;
+        }
+        $text   =   implode(' ', $words).  ' ' . $last;
+        return $text ===  ' '  ?   ''  :   $text. '...';
     }
 }

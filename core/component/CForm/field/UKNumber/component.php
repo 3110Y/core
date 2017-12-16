@@ -43,8 +43,8 @@ class component extends CForm\AField implements CForm\IField
         $data['STYLE']          =   $this->style;
         $data['CLASS']          =   $this->class;
         $data['ID']             =   $this->idField;
-        $data['HREF']           =   isset($data['HREF'])        ?  "<a href='{$data['HREF']}'"    :  '<span>';
-        $data['HREF_TWO']       =   $data['HREF'] == '<span>'   ?    '</span>'                    :   '</a>';
+        $data['HREF']           =   isset($data['HREF'])        ?  "<a href='{$data['HREF']}'"    :  '<div class="uk-text-center">';
+        $data['HREF_TWO']       =   $data['HREF'] == '<div class="uk-text-center">'   ?    '</div>'                    :   '</a>';
         $data['HREF']           =   simpleView\component::replace(false, $data, $data['HREF']);
         $this->answer           =   simpleView\component::replace($this->template, $data);
     }

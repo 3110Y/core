@@ -1,1 +1,1 @@
-{HREF}<span>{VALUE}</span>{HREF_TWO}
+{HREF}<span class="uk-text-meta">{VALUE}</span>{HREF_TWO}

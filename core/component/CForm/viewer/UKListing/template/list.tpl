@@ -6,7 +6,7 @@
         </div>
         <div class="cf-table-row">
             {TH}
-                <div class="cf-table-row-th">
+                <div class="cf-table-row-th uk-text-center">
                     <a href="{HREF}" {ICON}><span>{TEXT} </span></a>
                 </div>
             {/TH}

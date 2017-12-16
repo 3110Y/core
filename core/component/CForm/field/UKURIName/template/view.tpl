@@ -1,1 +1,1 @@
-{HREF}<span class="uk-badge">{VALUE}</span>{HREF_TWO}
+{HREF}{VALUE}{HREF_TWO}
