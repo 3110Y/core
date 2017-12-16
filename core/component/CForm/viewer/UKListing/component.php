@@ -87,7 +87,6 @@ class component extends CForm\AViewer implements CForm\IViewer
                         $td['TD_FIELD'][] = Array(
                             'COMPONENT' =>  $multiComponent->getAnswer()
                         );
-                        $this->field[] = $multiComponent->getField();
                     }
                 }
 
@@ -113,6 +112,7 @@ class component extends CForm\AViewer implements CForm\IViewer
                             $fieldComponent->init();
                             if (!isset($this->answer['TH'][$key])) {
                                 $this->answer['TH'][$key] = $fieldComponent->getLabel();
+
                                 if (isset($this->answer['TH'][$key]['FIELD']['field'])) {
                                     $order = $orderAll;
                                     /**
@@ -151,7 +151,7 @@ class component extends CForm\AViewer implements CForm\IViewer
                             $td['TD_FIELD'][] = Array(
                                 'COMPONENT' =>  $fieldComponent->getAnswer()
                             );
-                            $this->field[$key] = $fieldComponent->getField();
+
                         }
                     }
                 }
@@ -161,6 +161,7 @@ class component extends CForm\AViewer implements CForm\IViewer
                  */
                 if (isset($this->button['row']) && !empty($this->button['row'])) {
                     foreach ($this->button['row'] as $key => $button) {
+
                         if (isset($button['type'])) {
                             $buttonName = $button['type'];
                             $buttonObject = "core\component\CForm\\button\\{$buttonName}\component";
@@ -181,16 +182,15 @@ class component extends CForm\AViewer implements CForm\IViewer
                                 );
                             }
                         }
+
                     }
                 }
                 $this->answer['TR'][]   =   $td;
-
-
             }
+
             /**
              * Кнопки
              */
-
             if (isset($this->button['rows']) && !empty($this->button['rows'])) {
                 foreach ($this->button['rows'] as $key => $button) {
                     if (isset($button['type'])) {

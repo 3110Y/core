@@ -8,6 +8,7 @@
 
 namespace application\admin\controllers;
 
+use application\admin\model as model;
 use \core\component\{
     application\handler\Web as applicationWeb,
     CForm
@@ -78,7 +79,7 @@ class rules extends applicationWeb\AControllers implements applicationWeb\IContr
                 'name'  => 'Показать пустоту'
             ),
         );
-        $schema     =   Array(
+        $field     =   Array(
             Array(
                 'type'              =>  'select',
                 'field'             =>  'object_id',
@@ -174,94 +175,7 @@ class rules extends applicationWeb\AControllers implements applicationWeb\IContr
                 )
             ),
         );
-        $config     =   Array(
-            'controller'    =>  $this,
-            'db'            =>  self::get('db'),
-            'table'         =>  'core_rules',
-            'caption'       =>  'Правила',
-            'defaultMode'   =>  'listing',
-            'viewer'        => Array(
-                'listing'      =>  Array(
-                    'viewer'            =>  'listing',
-                    'template'          =>  'block/form/list.tpl',
-                    'templateNoData'    =>  'block/form/listNo.tpl',
-                    'order'             =>  '`priority` ASC',
-                    'css'               =>  Array(
-                        Array(
-                            'file'  =>  'block/form/css/style.css'
-                        ),
-                        Array(
-                            'file'  =>  'block/form/css/list.css'
-                        ),
-                    ),
-                    'field'             =>  $schema,
-                    'action'            =>  Array(
-                        'row'       =>  Array(
-                            'edit'      =>  Array(
-                                'method'    =>  'one'
-                            ),
-                            'dell'      =>   Array(
-                                'method'    =>  'one'
-                            ),
-                        ),
-                        'rows'      =>  Array(
-                            'add'       =>  Array(
-                                'method'    =>  'many'
-                            ),
-                            'dell'      =>  Array(
-                                'method'    =>  'many'
-                            ),
-                        ),
-                    ),
-                ),
-                'edit'      =>  Array(
-                    'viewer'            =>  'edit',
-                    'template'          =>  'block/form/form.tpl',
-                    'templateNoData'    =>  'block/form/formNo.tpl',
-                    'css'               =>  Array(
-                        Array(
-                            'file'  =>  'block/form/css/style.css'
-                        ),
-                        Array(
-                            'file'  =>  'block/form/css/form.css'
-                        ),
-                    ),
-                    'field'             =>  $schema,
-                    'action'            =>  Array(
-                        'item'    =>  Array(
-                            'back'      =>   Array(
-                                'method'    =>  'one',
-                                'redirect'  =>  '/listing/{PAGE}',
-                            ),
-                            'save'      =>  Array(
-                                'method'    =>  'one',
-                            ),
-                        ),
-                    ),
-                ),
-                'dell'      =>  Array(
-                    'viewer'            =>  'dell',
-                    'field'             =>  $schema,
-                ),
-                'save'      =>  Array(
-                    'viewer'            =>  'save',
-                    'field'             =>  $schema,
-                ),
-                'add'      =>  Array(
-                    'viewer'            =>  'add',
-                    'field'             =>  $schema,
-                    'redirect'          =>  '/edit/{DATA_ID}',
-                    'status'            =>  3
-                ),
-            ),
-
-        );
-
-
-        $CForm  =   new CForm\component(self::$content, 'CONTENT');
-        $CForm->setConfig($config);
-        $CForm->run();
-        self::$content  =    $CForm->getIncomingArray();
+        self::$content  =    model\CFormDefault::generation($this, $field);
 
     }
 

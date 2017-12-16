@@ -33,9 +33,10 @@ class component extends CForm\AField implements CForm\IField
      */
     public function __construct($field, $row)
     {
+        $this->idField                  =   $field['field']         ?? 'field_' . __CLASS__ . '_' .  self::$iterator . '_' .  uniqid();
         $this->row                      =   $row;
-        $this->labelField['FIELD']    =   $this->configField;
-        $this->labelField['TEXT']     =   $this->configField;
+        $this->labelField['FIELD']      =   $this->idField;
+        $this->labelField['TEXT']       =   $this->configField;
         self::$controller::setJS(self::getTemplate('js/actionID.js', __DIR__));
     }
 
@@ -48,7 +49,6 @@ class component extends CForm\AField implements CForm\IField
         }
         $data['VALUE']          =   $this->value;
         $data['MODE_FIELD']     =   $this->modeField;
-        $data['LABEL_FIELD']    =   $this->labelField;
         $data['LABEL']          =   $this->labelField['TEXT'];
         $data['REQUIRED']       =   $this->required     ?   'required'  :   '';
         $data['STYLE']          =   $this->style;

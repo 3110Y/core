@@ -1,1 +1,1 @@
-{HREF}<span>{VALUE}</span>{HREF_TWO}
+{HREF}<span>{VALUE_NAME}</span>{HREF_TWO}

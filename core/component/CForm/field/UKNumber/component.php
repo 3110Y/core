@@ -37,7 +37,6 @@ class component extends CForm\AField implements CForm\IField
         }
         $data['VALUE']          =   $this->value;
         $data['MODE_FIELD']     =   $this->modeField;
-        $data['LABEL_FIELD']    =   $this->labelField;
         $data['LABEL']          =   $this->labelField['TEXT'];
         $data['REQUIRED']       =   $this->required     ?   '*'  :   '';
         $data['STYLE']          =   $this->style;
@@ -51,14 +50,12 @@ class component extends CForm\AField implements CForm\IField
 
     public function view()
     {
-        $this->labelField['FIELD'] =   $this->configField;
         $this->template     =   self::getTemplate('template/view.tpl', __DIR__);
 
     }
 
     public function edit()
     {
-        $this->labelField['FIELD'] =   $this->configField;
         $this->template     =   self::getTemplate('template/edit.tpl', __DIR__);
 
     }
