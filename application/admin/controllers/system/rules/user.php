@@ -6,7 +6,7 @@
  * Time: 11:46
  */
 
-namespace application\admin\controllers;
+namespace application\admin\controllers\system\rules;
 
 use application\admin\model as model;
 use \core\component\{

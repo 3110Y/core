@@ -6,17 +6,17 @@
  * Time: 15:33
  */
 
-namespace application\admin\controllers;
+namespace application\admin\controllers\system\common;
 
 
 use core\component\application\handler\Web as applicationWeb;
 
 
 /**
- * Class error
- * @package app\admin\controllers
+ * Class front
+ * @package application\admin\controllers
  */
-class error extends applicationWeb\AControllers implements applicationWeb\IControllers
+class front extends applicationWeb\AControllers implements applicationWeb\IControllers
 {
     /**
      * @var mixed|int|false Колличество подуровней
@@ -28,8 +28,8 @@ class error extends applicationWeb\AControllers implements applicationWeb\IContr
      */
     public function init()
     {
-        header('HTTP/1.0 404 Not Found');
-        self::$content['CONTENT']  =    'Ошибка';
+    	$url = self::$application['url'] == '/' ?   self::$application['url']   :   self::$application['url'] . '/';
+        self::redirect($url .'page');
     }
 
 }

@@ -6,7 +6,7 @@
  * Time: 13:54
  */
 
-namespace application\admin\controllers;
+namespace application\admin\controllers\system\common;
 
 use \core\component\{
     database                            as database,
@@ -17,7 +17,7 @@ use \core\component\{
 
 /**
  * Class basic
- * @package application\admin\controllers
+ * @package application\admin\controllers\system\common
  */
 class basic extends applicationWeb\AControllers implements applicationWeb\IControllers, applicationWeb\IControllerBasic
 {

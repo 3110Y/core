@@ -45,6 +45,7 @@ final class router extends applicationWeb\ARouter implements applicationWeb\IRou
         self::set('view', new simpleView\component());
         self::get('view')->setExtension('tpl');
         self::$structure = $db->selectRows('admin_page','*', Array( 'status' => '1'), '`order_in_menu` ASC');
+
         if (empty(self::$structure)) {
             die('Нет страниц');
         }
@@ -68,9 +69,9 @@ final class router extends applicationWeb\ARouter implements applicationWeb\IRou
         if ($check !== true) {
             self::redirect($check);
         }
-
         self::selectPage();
-        $controllerBasic    =   new controllers\basic();
+        $controllerBasic    =   'application\\' . self::$application['path'] . '\controllers\\' . self::$application['basicController'];
+        $controllerBasic    =   new $controllerBasic();
         if ($controllerBasic instanceof applicationWeb\IControllerBasic) {
             $controllerBasic->preInit();
         }

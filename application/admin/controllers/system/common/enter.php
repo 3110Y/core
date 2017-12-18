@@ -6,7 +6,7 @@
  * Time: 5:25
  */
 
-namespace application\admin\controllers;
+namespace application\admin\controllers\system\common;
 
 use \core\component\{
     application\handler\Web as applicationWeb,
