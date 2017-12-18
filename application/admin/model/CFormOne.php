@@ -30,10 +30,12 @@ class CFormOne extends applicationWeb\AClass
             'caption'       =>  $caption,
             'mode'          =>  'edit',
             'field'         =>  $field,
-            'id'            =>  $id,
             'viewer'        =>  Array(
                 'edit' => Array(
                     'type'      => 'UKEdit',
+                    'where'     =>  Array(
+                        'id' => $id
+                    ),
                     'caption'   =>  $caption,
                     'button'    =>  Array(
                         'rows'  =>  Array(
