@@ -66,7 +66,8 @@ final class router extends applicationWeb\ARouter implements applicationWeb\IRou
         }
 
         self::selectPage();
-        $controllerBasic    =   new controllers\basic();
+        $controllerBasic    =   'application\\' . self::$application['path'] . '\controllers\\' . self::$application['basicController'];
+        $controllerBasic    =   new $controllerBasic();
         if ($controllerBasic instanceof applicationWeb\IControllerBasic) {
             $controllerBasic->preInit();
         }
