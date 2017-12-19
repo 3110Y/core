@@ -64,11 +64,11 @@ class component extends CForm\AViewer implements CForm\IViewer
             $template = core::getDR(true) . self::getTemplate('template/listNo.tpl', __DIR__);
         } else {
             $template = core::getDR(true) . self::getTemplate('template/list.tpl', __DIR__);
-            $orderAll  =   self::getOrder();
+            $orderAll = self::getOrder();
             foreach ($this->data as $row) {
                 $td = Array(
-                    'TH'        => Array(),
-                    'TD_FIELD'  => Array(),
+                    'TH' => Array(),
+                    'TD_FIELD' => Array(),
                     'TD_BUTTON' => Array(),
                 );
                 /**
@@ -85,7 +85,7 @@ class component extends CForm\AViewer implements CForm\IViewer
                             $this->answer['TH']['field'] = $multiComponent->getLabel();
                         }
                         $td['TD_FIELD'][] = Array(
-                            'COMPONENT' =>  $multiComponent->getAnswer()
+                            'COMPONENT' => $multiComponent->getAnswer()
                         );
                     }
                 }
@@ -93,7 +93,7 @@ class component extends CForm\AViewer implements CForm\IViewer
                 /**
                  * Поля
                  */
-                foreach ($this->field as $key   =>   $field) {
+                foreach ($this->field as $key => $field) {
                     if (!isset($field['field']) && is_string($key)) {
                         $field['field'] = $key;
                     }
@@ -119,7 +119,7 @@ class component extends CForm\AViewer implements CForm\IViewer
                                      */
                                     if (!isset($order[$this->answer['TH'][$key]['FIELD']])) {
                                         $this->answer['TH'][$key]['ICON'] = '';
-                                    } elseif ($order[$this->answer['TH'][$key]['FIELD']]== 'ASC') {
+                                    } elseif ($order[$this->answer['TH'][$key]['FIELD']] == 'ASC') {
                                         $this->answer['TH'][$key]['ICON'] = "uk-icon='icon: triangle-up'";
                                     } elseif ($order[$this->answer['TH'][$key]['FIELD']] == 'DESC') {
                                         $this->answer['TH'][$key]['ICON'] = "uk-icon='icon: triangle-down'";
@@ -141,14 +141,14 @@ class component extends CForm\AViewer implements CForm\IViewer
                                     foreach ($order as $k => $v) {
                                         $link["order[{$k}]"] = $v;
                                     }
-                                    $link = http_build_query ($link);
+                                    $link = http_build_query($link);
                                     $this->answer['TH'][$key]['HREF'] = "?{$link}";
                                 } else {
                                     $this->answer['TH'][$key]['HREF'] = '#';
                                 }
                             }
                             $td['TD_FIELD'][] = Array(
-                                'COMPONENT' =>  $fieldComponent->getAnswer()
+                                'COMPONENT' => $fieldComponent->getAnswer()
                             );
 
                         }
@@ -177,33 +177,34 @@ class component extends CForm\AViewer implements CForm\IViewer
                                     );
                                 }
                                 $td['TD_BUTTON'][] = Array(
-                                    'COMPONENT' =>  $buttonComponent->getAnswer()
+                                    'COMPONENT' => $buttonComponent->getAnswer()
                                 );
                             }
                         }
 
                     }
                 }
-                $this->answer['TR'][]   =   $td;
+                $this->answer['TR'][] = $td;
             }
+        }
 
-            /**
-             * Кнопки
-             */
-            if (isset($this->button['rows']) && !empty($this->button['rows'])) {
-                foreach ($this->button['rows'] as $key => $button) {
-                    if (isset($button['type'])) {
-                        $buttonName = $button['type'];
-                        $buttonObject = "core\component\CForm\\button\\{$buttonName}\component";
-                        if (class_exists($buttonObject)) {
-                            /** @var \core\component\CForm\button\UKButton\component $fieldComponent */
-                            $buttonComponent = new $buttonObject($button, $this->data);
-                            $buttonComponent->init();
-                            $buttonComponent->run();
-                            $this->answer['ROWS'][] = Array(
-                                'COMPONENT' =>  $buttonComponent->getAnswer()
-                            );
-                        }
+
+        /**
+         * Кнопки
+         */
+        if (isset($this->button['rows']) && !empty($this->button['rows'])) {
+            foreach ($this->button['rows'] as $key => $button) {
+                if (isset($button['type'])) {
+                    $buttonName = $button['type'];
+                    $buttonObject = "core\component\CForm\\button\\{$buttonName}\component";
+                    if (class_exists($buttonObject)) {
+                        /** @var \core\component\CForm\button\UKButton\component $fieldComponent */
+                        $buttonComponent = new $buttonObject($button, $this->data);
+                        $buttonComponent->init();
+                        $buttonComponent->run();
+                        $this->answer['ROWS'][] = Array(
+                            'COMPONENT' => $buttonComponent->getAnswer()
+                        );
                     }
                 }
             }

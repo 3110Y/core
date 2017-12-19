@@ -1,16 +1,18 @@
 <div class="cform w-hundred">
-    <form method="post" action="../../../../../../index.php" class="cf-table">
-        <div class="cf-table-caption cf-caption {CAPTION_CLASS}">
+    <div class="overflow-form">
+        <div class="cf-table-caption cf-caption">
             <span>{CAPTION}</span>
         </div>
-        <h2 class="uk-text-center">К сожалению, нет данных</h2>
-        <br>
-        <div class="group-action {CLASS_ROWS}">
-            <div class="uk-button-group">
-                {ACTION_ROWS}
-                {COMPONENT}
-                {/ACTION_ROWS}
+        <form method="post" action="#" id="form-listing">
+            <h2 class="uk-text-center">К сожалению, нет данных</h2>
+            <br>
+            <div class="group-action {CLASS_ROWS}">
+                <div class="uk-button-group">
+                    {ROWS}
+                     {COMPONENT}
+                    {/ROWS}
+                </div>
             </div>
-        </div>
-    </form>
+        </form>
+    </div>
 </div>

@@ -62,6 +62,7 @@ class component extends CForm\AField implements CForm\IField
         $data['HREF_TWO']       =   $data['HREF'] == '<span class="uk-text-center">'   ?    '</span>'                    :   '</a>';
         $data['VALUE_NAME']     =   Array();
         $this->value            =   $this->getFieldValue();
+        $this->value            =   is_array($this->value)  ?   $this->value    :   explode(',', $this->value);
         foreach ($list as $key => $value) {
             if (!isset($value['id'])) {
                 $value['id'] = $key;
@@ -128,7 +129,7 @@ class component extends CForm\AField implements CForm\IField
 
     public function preUpdate()
     {
-        $this->setFieldValue();
+        $this->value = $this->setFieldValue();
         return false;
     }
 
@@ -162,7 +163,15 @@ class component extends CForm\AField implements CForm\IField
             return $this->multiple  ?   Array() :   '';
         } else {
             if ($this->multiple) {
-                return  explode(',', $this->configField['value']);
+                if (isset($this->configField['value'])) {
+                    if (is_array($this->configField['value'])) {
+                        return implode(',', $this->configField['value']);
+                    } else {
+                        return $this->configField['value'];
+                    }
+                } else {
+                    return '';
+                }
             } else {
                 return isset($this->configField['value'])    ?   $this->configField['value'] :   '';
             }
@@ -198,7 +207,15 @@ class component extends CForm\AField implements CForm\IField
             $this->value = false;
         } else {
             if ($this->multiple) {
-                return $this->value == null ? implode(',', $this->value) : '';
+                if (isset($this->value)) {
+                    if (is_array($this->value)) {
+                        return implode(',', $this->value);
+                    } else {
+                        return $this->value;
+                    }
+                } else {
+                    return '';
+                }
             } else {
                 return $this->value == null ? $this->value : '';
             }

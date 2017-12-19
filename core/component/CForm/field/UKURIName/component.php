@@ -62,7 +62,7 @@ class component extends CForm\AField implements CForm\IField
     public function preInsert()
     {
         $this->generationValue();
-        return $this->required && $this->value === '';
+        return false;
     }
 
     public function preUpdate()
