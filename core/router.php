@@ -87,7 +87,7 @@ class router
             '*'  =>  '([\w]+)$',
             '/'  =>  '\/',
         );
-        $site   =  '^' . strtr($site, $replace) . '$';
+        $site   =  '/^' . strtr($site, $replace) . '$/ig';
         foreach ($this->structure as $item) {
             if (!isset($item['url'])) {
                 $item['url']    =   $item['path'];
