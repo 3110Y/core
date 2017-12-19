@@ -116,7 +116,9 @@ class AField extends ACForm
      */
     public function init()
     {
-        $this->{$this->modeField}();
+        if ($this->modeField != '') {
+            $this->{$this->modeField}();
+        }
     }
 
     /**

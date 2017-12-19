@@ -90,7 +90,6 @@ class component extends CForm\AViewer implements CForm\IViewer
             $component =   "core\component\CForm\\{$package}\\{$component}\component";
             if (class_exists($component)) {
                 $component = new $component($this->field, $this->data);
-                $component->init();
                 $component->$method($this->paramID);
                 $this->answer = $component->getAnswer();
             }

@@ -99,8 +99,9 @@ class component extends CForm\AField implements CForm\IField
 
     }
 
-    public function save()
+    public function save($id = 0)
     {
+        var_dump($id);
         die('fghfhgf');
 
     }
