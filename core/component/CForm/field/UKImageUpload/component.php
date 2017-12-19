@@ -105,18 +105,12 @@ class component extends CForm\AField implements CForm\IField
     {
         $table = parent::$subURL[parent::$subURLNow];
         parent::$subURLNow++;
-        $field = parent::$subURL[parent::$subURLNow];
+        $fieldName = parent::$subURL[parent::$subURLNow];
         parent::$subURLNow++;
         $array = Array();
-        echo '<pre>';
-        var_dump($table);
-        var_dump($id);
-        var_dump($field);
-        var_dump($_FILES);
-        echo '</pre>';
         $configField    =   Array();
         foreach ($this->configField as $field) {
-            if ($field['field'] == $field) {
+            if ($field['field'] == $fieldName) {
                 $configField = $field;
             }
         }
@@ -127,15 +121,15 @@ class component extends CForm\AField implements CForm\IField
         } else {
             $this->path = $this->idField;
         }
-        if (!isset($_FILES[$field])) {
+        if (!isset($_FILES[$field['field']])) {
             $array['error'] = "Поле '{$field}' не должно быть пустым";
             return array();
         }
         $where = Array(
             'id' => $id
         );
-        $row    =   parent::$db->selectRow($table, $field, $where);
-        $valueOld = $row[$field];
+        $row    =   parent::$db->selectRow($table, $field['field'], $where);
+        $valueOld = $row[$field['field']];
         if ($valueOld != '' && file_exists(core::getDR(true) . $valueOld)) {
             unlink(core::getDR(true) .$valueOld);
         }
