@@ -83,7 +83,6 @@ class router
      */
     private function setURL($url, $site = '')
     {
-        //([A-Z]*)
         $replace    =   Array(
             '*'  =>  '([\w]+)$',
             '/'  =>  '\/',
