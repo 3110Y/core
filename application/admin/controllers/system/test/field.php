@@ -120,6 +120,12 @@ class field extends applicationWeb\AControllers implements applicationWeb\IContr
                 'label'             =>  'CKEditor',
                 'grid'              =>  '1-1',
             ),
+            Array(
+                'type'              =>  'UKImageUpload',
+                'field'             =>  'UKImageUpload',
+                'label'             =>  'UKImageUpload',
+                'grid'              =>  '1-1',
+            ),
         );
         self::$content  =    model\CFormDefault::generation($this, 'test_field', 'Поля', $field);
     }
