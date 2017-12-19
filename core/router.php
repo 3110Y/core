@@ -93,7 +93,6 @@ class router
             );
             $item['site']   =  '/^' . strtr($item['site'], $replace) . '$/i';
             preg_match($item['site'], $site, $output);
-            var_dump($site, $item['site'], $output);
             if (($item['url'] === $url[0] || ($item['url'] == '/' && $url[0] == '')) && isset($output[0])) {
                 $this->URL = $url;
                 return $item;
