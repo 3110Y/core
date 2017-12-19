@@ -204,7 +204,7 @@ class component extends CForm\AField implements CForm\IField
                 );
                 parent::$db->inset($this->configField['table']['link'], $value);
             }
-            $this->value = false;
+            return false;
         } else {
             if ($this->multiple) {
                 if (isset($this->value)) {
