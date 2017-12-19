@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Дек 18 2017 г., 13:25
+-- Время создания: Дек 19 2017 г., 21:03
 -- Версия сервера: 5.5.50-MariaDB
 -- Версия PHP: 7.0.8
 
@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS `admin_page` (
   `order_in_menu` int(11) NOT NULL DEFAULT '10',
   `date_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `date_insert` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=MyISAM AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `admin_page`
@@ -62,7 +62,8 @@ INSERT INTO `admin_page` (`id`, `parent_id`, `status`, `name`, `text`, `url`, `i
 (13, 0, 1, 'Выход', '', 'logout', '', '', '', '', 'basic', 'system\\common\\logout', 0, 0, 0, '2017-06-13 02:23:35', '2017-06-12 21:00:00'),
 (14, 0, 1, 'Страницы', '', 'page', 'file', '', '', '', 'clear', 'page', 0, 0, 10, '2017-06-13 05:49:36', '2017-06-12 21:00:00'),
 (20, 0, 1, 'Настройки', '', 'settings', 'settings', '', '', '', 'clear', 'system\\common\\settings', 0, 0, 9000, '2017-12-18 09:10:53', '0000-00-00 00:00:00'),
-(21, 0, 1, 'Тесты', '', 'test', 'push', '', '', '', 'clear', 'system\\test\\test', 0, 0, 20000, '2017-12-18 09:24:06', '0000-00-00 00:00:00');
+(21, 0, 1, 'Тесты', '', 'test', 'push', '', '', '', 'clear', 'system\\test\\test', 0, 0, 20000, '2017-12-18 09:24:06', '0000-00-00 00:00:00'),
+(22, 21, 1, 'Поля', '', 'field', 'file-edit', '', '', '', 'clear', 'system\\test\\field', 0, 0, 20010, '2017-12-19 11:56:26', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -248,7 +249,7 @@ CREATE TABLE IF NOT EXISTS `core_user` (
 --
 
 INSERT INTO `core_user` (`id`, `parent_id`, `status`, `name`, `surname`, `patronymic`, `email`, `phone`, `login`, `password`, `group_id`, `date_update`, `date_insert`) VALUES
-(1, 0, 1, 'Г', 'Р', 'С', '', '', 'admin', '83118464172d90694a57159304d9f59560306f3901ed3b8508480fbdd9a0124ffe613d1806a27a4331cfc08f59c7f4603b9a4e14cd34825aee13530e81dd0d55', '1,2', '2017-05-18 10:36:18', '0000-00-00 00:00:00'),
+(1, 0, 0, 'Г', 'Р', 'С', '', '', 'admin', '83118464172d90694a57159304d9f59560306f3901ed3b8508480fbdd9a0124ffe613d1806a27a4331cfc08f59c7f4603b9a4e14cd34825aee13530e81dd0d55', '1,2', '2017-05-18 10:36:18', '0000-00-00 00:00:00'),
 (55, 0, 2, '', '', '', '', '', 'тест', '', '', '2017-12-16 15:43:45', '2017-12-16 15:43:45');
 
 -- --------------------------------------------------------
@@ -261,16 +262,15 @@ CREATE TABLE IF NOT EXISTS `core_user_group` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL DEFAULT '0',
   `group_id` int(11) NOT NULL DEFAULT '0'
-) ENGINE=MyISAM AUTO_INCREMENT=44 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=68 DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `core_user_group`
 --
 
 INSERT INTO `core_user_group` (`id`, `user_id`, `group_id`) VALUES
-(41, 55, 2),
-(42, 1, 1),
-(43, 1, 2);
+(67, 1, 2),
+(66, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -282,9 +282,27 @@ CREATE TABLE IF NOT EXISTS `test_field` (
   `id` int(11) NOT NULL,
   `parent_id` int(11) NOT NULL DEFAULT '0',
   `status` tinyint(1) DEFAULT '3',
+  `CKEditor` longtext NOT NULL,
+  `select2` int(11) NOT NULL DEFAULT '0',
+  `select2_multiple` varchar(255) NOT NULL,
+  `UKImageUpload` varchar(255) NOT NULL,
+  `UKInput` varchar(255) NOT NULL,
+  `UKNumber` int(11) NOT NULL DEFAULT '0',
+  `UKPassword` varchar(512) NOT NULL,
+  `UKSelect` int(11) NOT NULL DEFAULT '0',
+  `UKSelect_multiple` varchar(255) NOT NULL,
+  `UKTextarea` text NOT NULL,
+  `UKURIName` varchar(255) NOT NULL,
   `date_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `date_insert` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `test_field`
+--
+
+INSERT INTO `test_field` (`id`, `parent_id`, `status`, `CKEditor`, `select2`, `select2_multiple`, `UKImageUpload`, `UKInput`, `UKNumber`, `UKPassword`, `UKSelect`, `UKSelect_multiple`, `UKTextarea`, `UKURIName`, `date_update`, `date_insert`) VALUES
+(1, 0, 3, '<p>тест</p>\r\n', 0, '1,2', '', 'тест', 10, '', 0, '1,2', 'тест', 'test', '2017-12-19 12:33:20', '2017-12-19 12:33:20');
 
 --
 -- Индексы сохранённых таблиц
@@ -358,7 +376,7 @@ ALTER TABLE `test_field`
 -- AUTO_INCREMENT для таблицы `admin_page`
 --
 ALTER TABLE `admin_page`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=23;
 --
 -- AUTO_INCREMENT для таблицы `client_page`
 --
@@ -398,12 +416,12 @@ ALTER TABLE `core_user`
 -- AUTO_INCREMENT для таблицы `core_user_group`
 --
 ALTER TABLE `core_user_group`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=44;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=68;
 --
 -- AUTO_INCREMENT для таблицы `test_field`
 --
 ALTER TABLE `test_field`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
