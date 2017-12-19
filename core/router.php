@@ -83,11 +83,18 @@ class router
      */
     private function setURL($url, $site = '')
     {
+        //([A-Z]*)
+        $replace    =   Array(
+            '*'  =>  '([\w]+)$',
+            '/'  =>  '\/',
+        );
+        $site   =  '^' . strtr($site, $replace) . '$';
         foreach ($this->structure as $item) {
             if (!isset($item['url'])) {
                 $item['url']    =   $item['path'];
             }
-            if (($item['url'] === $url[0] || ($item['url'] == '/' && $url[0] == '')) && $item['site'] == $site) {
+            preg_match($site, $item['site'], $output);
+            if (($item['url'] === $url[0] || ($item['url'] == '/' && $url[0] == '')) && isset($output[0])) {
                 $this->URL = $url;
                 return $item;
             }
