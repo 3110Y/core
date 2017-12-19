@@ -15,6 +15,7 @@ use \core\component\{
     library as library,
     image\component as image
 };
+use core\core;
 
 
 /**
@@ -55,6 +56,7 @@ class component extends CForm\AField implements CForm\IField
         $data['TD']                     =   '';
         $data['GRID']                   =   1;
         $data['PLACEHOLDER']            =   '';
+        $data['TABLE']                  =   parent::$table;
         foreach ($this->configField as $key =>  $field) {
             $data[mb_strtoupper($key)] =  $field;
         }
@@ -101,9 +103,123 @@ class component extends CForm\AField implements CForm\IField
 
     public function save($id = 0)
     {
+        $table = parent::$subURL[parent::$subURLNow];
+        parent::$subURLNow++;
+        $field = parent::$subURL[parent::$subURLNow];
+        parent::$subURLNow++;
+        $array = Array();
+        echo '<pre>';
+        var_dump($table);
         var_dump($id);
-        die('fghfhgf');
+        var_dump($field);
+        var_dump($_FILES);
+        echo '</pre>';
+        $configField    =   Array();
+        foreach ($this->configField as $field) {
+            if ($field['field'] == $field) {
+                $configField = $field;
+            }
+        }
+        $this->configField = $configField;
+        if (isset($this->configField['path'])) {
+            $this->path = $this->configField['path'];
+            unset($this->configField['path']);
+        } else {
+            $this->path = $this->idField;
+        }
+        if (!isset($_FILES[$field])) {
+            $array['error'] = "Поле '{$field}' не должно быть пустым";
+            return array();
+        }
+        $where = Array(
+            'id' => $id
+        );
+        $row    =   parent::$db->selectRow($table, $field, $where);
+        $valueOld = $row[$field];
+        if ($valueOld != '' && file_exists(core::getDR(true) . $valueOld)) {
+            unlink(core::getDR(true) .$valueOld);
+        }
+        $files = $_FILES[$field];
+        $thumbnail              =   new \Imagick($files['tmp_name']);
+        $original_size          =   getimagesize($files['tmp_name']);
+        $original_width 		=   $original_size[0];
+        $original_height 		=   $original_size[1];
+        if ($original_width > 1920 || $original_height > 1080) {
+            $x_ratio = 1920 / $original_width;
+            $y_ratio = 1080 / $original_height;
+            $ratio = min($x_ratio, $y_ratio);
+            $use_x_ratio = ($x_ratio === $ratio);
+            $new_width = $use_x_ratio ? 1920 : floor($original_width * $ratio);
+            $new_height = !$use_x_ratio ? 1080 : floor($original_height * $ratio);
+            $thumbnail->resizeImage($new_width, $new_height, \Imagick::FILTER_LANCZOS, 1);
+        }
+        $thumbnailStore = '/filecache/' . $this->path;
+        $name = $files['name'];
+        $dataText = array(
+            ' ' => '-', '\\' => '-', '!' => '', '@' => '-', '#' => '-', '$' => '-',
+            '%' => '-', '^' => '-', '&' => '-', '*' => '-', '(' => '-', ')' => '-',
+            '+' => '-', '|' => '-', '`' => '-', '~' => '-', '[' => '-', ']' => '-',
+            '{' => '-', '}' => '-', ';' => '-', ':' => '-', "'" => '-', '"' => '-', '/' => '-', '—' => '-',
+            '<' => '-', '>' => '-', ',' => '-', '?' => '-', '№' => '-', '_' => '-', 'А' => 'A', 'Б' => 'B',
+            'В' => 'V', 'Г' => 'G', 'Д' => 'D', 'Е' => 'E', 'Ё' => 'Yo', 'Ж' => 'J', 'З' => 'Z',
+            'И' => 'I', 'Й' => 'Y', 'К' => 'K', 'Л' => 'L', 'М' => 'M', 'Н' => 'N', 'О' => 'O',
+            'П' => 'P', 'Р' => 'R', 'С' => 'S', 'Т' => 'T', 'У' => 'U', 'Ф' => 'F', 'Х' => 'H', 'Ц' => 'C', 'Ч' => 'Ch',
+            'Ш' => 'Sh', 'Щ' => 'W', 'Ъ' => '', 'Ы' => 'Y', 'Ь' => '', 'Э' => 'Je', 'Ю' => 'Yu', 'Я' => 'Ya', 'а' => 'a',
+            'б' => 'b', 'в' => 'v', 'г' => 'g', 'д' => 'd', 'е' => 'e', 'ё' => 'yo', 'ж' => 'j', 'з' => 'z', 'и' => 'i', 'й' => 'y', 'к' => 'k',
+            'л' => 'l', 'м' => 'm', 'н' => 'n', 'о' => 'o', 'п' => 'p', 'р' => 'r', 'с' => 's', 'т' => 't', 'у' => 'u', 'ф' => 'f', 'х' => 'h',
+            'ц' => 'c', 'ч' => 'ch', 'ш' => 'sh', 'щ' => 'shh', 'ъ' => '', 'ы' => 'y', 'ь' => '', 'э' => 'je', 'ю' => 'yu', 'я' => 'ya', '--' => '-'
+        );
+        $this->value = mb_strtolower(preg_replace('/-{2,}/', '-', strtr(rtrim(trim($name)), $dataText)));
+        $name .= "_{$id}_" . uniqid();
+        if ($files['type'] === 'image/gif') {
+            $end = '.gif';
+        } elseif($files['type'] === 'image/png') {
+            $end = '.png';
+        } elseif($files['type'] === 'image/jpeg') {
+            $end = '.jpeg';
+        } else {
+            $end = '.none';
+        }
+        $thumbnailStore .= '/' . $name . $end;
+        $thumbnail->writeImages(core::getDR(true)  . $thumbnailStore, true);
+        $option = Array(
+            Array(
+                'action'    => 'adapriveResizeMin',
+                'width'     => '200',
+                'height'    => '200'
+            ),
+            Array(
+                'action'    => 'crop',
+                'width'     => '200',
+                'height'    => '200'
+            ),
+        );
+        $data = Array(
+            'CS_FIELD'   => $field['field'],
+            'DATA_ID'    => $id,
+            'IMG'        => image::image($thumbnailStore, $option),
+            'IMG_BIG'    => $thumbnailStore,
+        );
+        $value = Array(
+            $field => $thumbnailStore
+        );
+        parent::$db->update($table, $value, $where);
+        $photo          =   self::getTemplate('tpl/photo.tpl', __DIR__);
+        $array['value'] = $thumbnailStore;
+        $array['content'] =   simpleView\component::replace($photo, $data);
+        return $array;
+    }
 
+    public function postDelete()
+    {
+        return false;
+    }
+
+    public function delete($value)
+    {
+        if ($value !== '' && file_exists(core::getDR(true) . $value)) {
+            unlink(core::getDR(true) . $value);
+        }
     }
 
     public function edit()

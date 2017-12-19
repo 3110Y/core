@@ -37,10 +37,11 @@ class component extends  CForm\AAction implements CForm\IAction
         if (!$this->isError) {
             parent::$db->inset(parent::$table, $this->data);
             $id = parent::$db->getLastID();
+            $this->postMethod('postInsert');
         } else {
             $id = 0;
         }
-        $this->postMethod('postInsert');
+
         $this->answer = $this->isError;
         if (isset($_GET['redirect'])) {
             self::redirect($_GET['redirect'] . $id);

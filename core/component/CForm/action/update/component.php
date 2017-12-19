@@ -39,8 +39,9 @@ class component extends  CForm\AAction implements CForm\IAction
                 'id' => $id
             );
             parent::$db->update(parent::$table, $this->data, $where);
+            $this->postMethod('postUpdate');
         }
-        $this->postMethod('postUpdate');
+
         $this->answer = Array(
             'result'            =>  !$this->isError,
             'data'              =>  $this->data,

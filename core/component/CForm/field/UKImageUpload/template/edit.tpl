@@ -3,7 +3,7 @@
     <label for="{ID}" class="uk-form-label" style="vertical-align: top;">{LABEL}</label>
     <div  class="fileUpload-dflex" style="display: flex;flex-direction: column;width: 200px">
         {VALUE}
-        <div id="{ID}" data-action="{URL}/{PARENT_URL}/api/field/UKImageUpload/save/{ROW_ID}/{ID}" class="test-upload uk-placeholder uk-text-center"  style="margin-top: 0">
+        <div id="{ID}" data-action="{URL}/{PARENT_URL}/api/field/UKImageUpload/save/{ROW_ID}/{TABLE}/{ID}" class="test-upload uk-placeholder uk-text-center"  style="margin-top: 0">
             <span uk-icon="icon: cloud-upload"></span>
             <div uk-form-custom>
                 <input type="file" multiple  name="{ID}"  class="{CLASS}" placeholder="{PLACEHOLDER}" style="{STYLE}">

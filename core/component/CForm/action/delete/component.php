@@ -36,8 +36,9 @@ class component extends  CForm\AAction implements CForm\IAction
                 'id' => $id
             );
             parent::$db->dell(parent::$table, $where);
+            $this->postMethod('postDelete');
         }
-        $this->postMethod('postDelete');
+
     }
 
     public function run($id = 0)

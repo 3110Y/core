@@ -5,7 +5,7 @@
             action      =   $('#{ID}').attr('data-action');
 
         UIkit.upload('#{ID}', {
-            url: action + '/{CS_UNIQUE}',
+            url: action,
             multiple: true,
             name:'{ID}',
             beforeSend: function() { console.log('beforeSend', arguments); },
