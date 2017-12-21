@@ -78,7 +78,7 @@ class component extends CForm\AField implements CForm\IField
                     }
                 }
             } else {
-                $selected   =   $this->value == $value['id'];
+                $selected   =   $this->value[0] == $value['id'];
             }
             $this->list[$key] = Array(
                 'ID'        =>  $value['id'],
