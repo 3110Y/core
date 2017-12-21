@@ -117,12 +117,19 @@ class component extends CForm\AField implements CForm\IField
 
     public function preInsert()
     {
+        $this->setFieldValue();
+        if (isset($this->configField['table'])) {
+            return $this->getFieldValue();
+        }
         return false;
     }
 
     public function preUpdate()
     {
-        $this->value = $this->setFieldValue();
+        $this->setFieldValue();
+        if (isset($this->configField['table'])) {
+            return $this->getFieldValue();
+        }
         return false;
     }
 
@@ -166,7 +173,12 @@ class component extends CForm\AField implements CForm\IField
                     return '';
                 }
             } else {
-               return isset($this->configField['value'])    ?   $this->configField['value'] :   '';
+                if (isset($this->configField['value']) && !is_array($this->configField['value'])) {
+                    return $this->configField['value'];
+                } elseif (isset($this->configField['value'], $this->configField['value'][0])) {
+                    return $this->configField['value'][0];
+                }
+                return '';
             }
         }
     }
