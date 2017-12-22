@@ -24,17 +24,16 @@ class component extends CForm\AField implements CForm\IField
     /**
      * @const float Версия
      */
-    const VERSION   =   2.0;
+    const VERSION = 2.0;
 
 
-    private $multiple   = false;
-    private $list       = Array();
+    private $multiple = false;
+    private $list = Array();
 
 
     public function init()
     {
         parent::init();
-
         if (isset($this->configField['multiple']) && $this->configField['multiple']) {
             $this->multiple = true;
             unset($this->configField['multiple']);
@@ -50,7 +49,6 @@ class component extends CForm\AField implements CForm\IField
             $data[mb_strtoupper($key)] =  $field;
         }
         $data['MULTIPLE']       =   $this->multiple ?   'multiple'  :   '';
-        $data['VALUE']          =   $this->value;
         $data['MODE_FIELD']     =   $this->modeField;
         $data['LABEL']          =   $this->labelField['TEXT'];
         $data['REQUIRED']       =   $this->required     ?   '*'  :   '';
@@ -62,23 +60,16 @@ class component extends CForm\AField implements CForm\IField
         $data['HREF_TWO']       =   $data['HREF'] == '<span class="uk-text-center">'   ?    '</span>'                    :   '</a>';
         $data['VALUE_NAME']     =   Array();
         $this->value            =   $this->getFieldValue();
-        $this->value            =   is_array($this->value)  ?   $this->value    :   explode(',', $this->value);
         foreach ($list as $key => $value) {
             if (!isset($value['id'])) {
                 $value['id'] = $key;
             }
-            if ($this->multiple) {
-                $selected  = false;
-                if (is_array($this->value)) {
-                    foreach ($this->value as $v) {
-                        if ($v == $value['id']) {
-                            $selected = true;
-                            break;
-                        }
-                    }
+            $selected = false;
+            foreach ($this->value as $v) {
+                if ($v == $value['id']) {
+                    $selected = true;
+                    break;
                 }
-            } else {
-                $selected   =   $this->value[0] == $value['id'];
             }
             $this->list[$key] = Array(
                 'ID'        =>  $value['id'],
@@ -101,18 +92,18 @@ class component extends CForm\AField implements CForm\IField
         $data['LIST']           =   $this->list;
 
         /** @var \core\component\library\vendor\select2\component $select2 */
-        $select2    =   library\component::connect('select2');
+        $select2 = library\component::connect('select2');
         $select2->setCss(self::$controller);
         $select2->setJS(self::$controller);
-        $data['INIT']           =   $select2->returnInit($data);
+        $data['INIT'] = $select2->returnInit($data);
 
-        $data['HREF']           =   simpleView\component::replace(false, $data, $data['HREF']);
-        $this->answer           =   simpleView\component::replace($this->template, $data);
+        $data['HREF'] = simpleView\component::replace(false, $data, $data['HREF']);
+        $this->answer = simpleView\component::replace($this->template, $data);
     }
 
     public function view()
     {
-        $this->template     =   self::getTemplate('template/view.tpl', __DIR__);
+        $this->template = self::getTemplate('template/view.tpl', __DIR__);
 
     }
 
@@ -124,17 +115,47 @@ class component extends CForm\AField implements CForm\IField
 
     public function preInsert()
     {
-        $this->setFieldValue();
-        return $this->getFieldValue();
+        if (isset($this->configField['table'])) {
+            return false;
+        } else {
+            return implode(',', $this->value);
+        }
     }
 
     public function preUpdate()
     {
-        $this->setFieldValue();
-        return $this->getFieldValue();
+        if (isset($this->configField['table'])) {
+            $this->postDelete();
+            foreach ($this->row[$this->configField['table']['link']] as $table) {
+                $value = Array(
+                    $this->configField['table']['field_id'] =>  $this->row[$this->configField['table']['field']],
+                    $this->configField['table']['table_id'] =>  $table
+                );
+                parent::$db->inset($this->configField['table']['link'], $value);
+            }
+            $this->value =  false;
+        } else {
+            $this->value = implode(',', $this->value);
+        }
+        return parent::preUpdate();
     }
 
+    public function postDelete()
+    {
+        if (isset($this->configField['table'])) {
+            $where = Array();
+            $where[] = Array(
+                'field' => $this->configField['table']['field_id'],
+                'value' => $this->row[$this->configField['table']['field']]
+            );
+            parent::$db->dell($this->configField['table']['link'], $where);
+        }
+        return parent::postDelete();
+    }
 
+    /**
+     * @return array|mixed
+     */
     private function getFieldValue()
     {
         if (isset($this->configField['table'])) {
@@ -145,86 +166,30 @@ class component extends CForm\AField implements CForm\IField
                     'as'    => 'id'
                 ),
             );
-            if (isset($this->row[$this->configField['table']['field']])) {
-                $where = Array(
-                    $this->configField['table']['field_id'] => $this->row[$this->configField['table']['field']]
-                );
-                if ($this->multiple) {
-                    $rows = parent::$db->selectRows($this->configField['table']['link'], $field, $where);
-                    $id = Array();
-                    foreach ($rows as $row) {
-                        $id[] = $row['id'];
-                    }
-                    return $id;
-                } else {
-                    $row = parent::$db->selectRow($this->configField['table']['link'], $field, $where);
-                    return isset($row['id']) ? $row['id'] : '';
-                }
-            }
-            return $this->multiple  ?   Array() :   '';
-        } else {
-            if ($this->multiple) {
-                if (isset($this->configField['value'])) {
-                    if (is_array($this->configField['value'])) {
-                        return implode(',', $this->configField['value']);
-                    } else {
-                        return $this->configField['value'];
-                    }
-                } else {
-                    return '';
-                }
-            } else {
-                if (isset($this->configField['value']) && !is_array($this->configField['value'])) {
-                    return $this->configField['value'];
-                } elseif (isset($this->configField['value'], $this->configField['value'][0])) {
-                    return $this->configField['value'][0];
-                }
-                return '';
-            }
-        }
-    }
-
-    private function setFieldValue()
-    {
-
-        if (isset($this->configField['table'])) {
-            $where = Array();
-            $where[]    =   Array(
-                'field'     =>  $this->configField['table']['field_id'],
-                'value'     =>  $this->row[$this->configField['table']['field']]
+            $where = Array(
+                $this->configField['table']['field_id'] => $this->row[$this->configField['table']['field']]
             );
-
-            parent::$db->dell($this->configField['table']['link'], $where);
-            if ($this->multiple) {
-                foreach ($this->row[$this->configField['table']['link']] as $table) {
-                    $value = Array(
-                        $this->configField['table']['field_id'] =>  $this->row[$this->configField['table']['field']],
-                        $this->configField['table']['table_id'] =>  $table
-                    );
-                    parent::$db->inset($this->configField['table']['link'], $value);
+            $rows = parent::$db->selectRows($this->configField['table']['link'], $field, $where);
+            $array = Array();
+            if ($rows !== false) {
+                foreach ($rows as $row) {
+                    $array[] = $row['id'];
                 }
-            } else {
-                $value = Array(
-                    $this->configField['table']['field_id'] =>  $this->row[$this->configField['table']['field']],
-                    $this->configField['table']['table_id'] =>  $this->row[$this->configField['table']['link']]
-                );
-                parent::$db->inset($this->configField['table']['link'], $value);
             }
-            return false;
+            $this->value =  $array;
+        }
+        if ($this->value == '' ) {
+            return Array();
+        }
+        if (is_array($this->value)) {
+            return $this->value;
+        }
+        if ($this->multiple) {
+            return explode(',', $this->value);
         } else {
-            if ($this->multiple) {
-                if (isset($this->value)) {
-                    if (is_array($this->value)) {
-                        return implode(',', $this->value);
-                    } else {
-                        return $this->value;
-                    }
-                } else {
-                    return '';
-                }
-            } else {
-                return $this->value == null ? $this->value : '';
-            }
+            return Array(
+                $this->value
+            );
         }
     }
 }

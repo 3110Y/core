@@ -37,7 +37,9 @@ class component extends  CForm\AAction implements CForm\IAction
         if (!$this->isError) {
             parent::$db->inset(parent::$table, $this->data);
             $id = parent::$db->getLastID();
+            $this->data['id'] = $id;
             $this->postMethod('postInsert');
+            unset($this->data['id']);
         } else {
             $id = 0;
         }

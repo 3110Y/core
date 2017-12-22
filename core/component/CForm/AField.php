@@ -109,6 +109,7 @@ class AField extends ACForm
         unset($field['mode'], $field['label'], $field['required'], $field['class'], $field['style']);
         $this->configField              =   $field;
         $this->labelField['FIELD']      =   $this->idField;
+
     }
 
     /**

@@ -30,7 +30,9 @@ class component extends  CForm\AAction implements CForm\IAction
      */
     private function dell($id)
     {
+        $this->data['id'] = $id;
         $this->preMethod('preDelete');
+        unset($this->data['id']);
         if (!$this->isError) {
             $where = Array(
                 'id' => $id
