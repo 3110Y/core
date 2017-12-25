@@ -73,7 +73,7 @@ class component extends CForm\AField implements CForm\IField
         $data['HREF_TWO']       =   $data['HREF'] == '<span>'   ?    '</span>'                    :   '</a>';
         $data['HREF']           =   simpleView\component::replace(false, $data, $data['HREF']);
 
-        $data['IMG']            =   image::image($this->value, $this->option);
+        $data['IMG']            =   $this->value != ''  ?   image::image($this->value, $this->option)   :   $this->value;
         $data['IMG_BIG']        =   $this->value;
         $data['PARAM']          =   json_encode($data);
 
