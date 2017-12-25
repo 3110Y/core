@@ -81,11 +81,11 @@ abstract class AVendor
 
     /**
      * @param array $data
-     * @param string $dir
+     * @param string $name
      * @return string
      */
-    public function returnInit($data = Array())
+    public function returnInit($data = Array(), $name = 'init.tpl')
     {
-        return simpleView\component::replace(self::getTemplate('template/init.tpl', $this->dir), $data);
+        return simpleView\component::replace(self::getTemplate('template/' . $name, $this->dir), $data);
     }
 }

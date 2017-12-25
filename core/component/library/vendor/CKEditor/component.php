@@ -48,11 +48,12 @@ class component extends library\AVendor implements library\IVendor
     /**
      * @param array $data
      *
+     * @param string $name
      * @return string
      */
-    public function returnInit($data = Array())
+    public function returnInit($data = Array(), $name = 'init.tpl')
     {
-        return parent::returnInit($data);
+        return parent::returnInit($data, $name);
     }
 
 }

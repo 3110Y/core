@@ -35,7 +35,7 @@ class component extends library\AVendor implements library\IVendor
      */
     protected $js = Array(
         'top'  =>  Array(
-            'html5sortable/dist/js/html.sortable.min.js'
+            'js/html.sortable.min.js'
         ),
         'bottom'  =>  Array(),
     );
@@ -51,11 +51,12 @@ class component extends library\AVendor implements library\IVendor
     /**
      * @param array $data
      *
+     * @param string $name
      * @return string
      */
-    public function returnInit($data = Array())
+    public function returnInit($data = Array(), $name = 'init.tpl')
     {
-        return parent::returnInit($data);
+        return parent::returnInit($data, $name);
     }
 
 }

@@ -1,7 +1,0 @@
-{
-"version": 3,
-"mappings": "AACA,SAAS;EACP,KAAK,EAAE,IAAI;EACX,UAAU,EAAE,MAAM",
-"sources": ["actionID.sass"],
-"names": [],
-"file": "actionID.css"
-}

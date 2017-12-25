@@ -1,1 +1,0 @@
-<label title="Выделить все на странице" uk-tooltip><input class="uk-checkbox checkbox-rows" type="checkbox" name="row[ALL]"></label>

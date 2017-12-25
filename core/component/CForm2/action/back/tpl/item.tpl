@@ -1,1 +1,0 @@
-<a href="{URL}" class="uk-button uk-button-default" ><span uk-icon="icon: reply"></span>Вернуться</a>

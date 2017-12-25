@@ -1,7 +1,0 @@
-{
-"version": 3,
-"mappings": "AACE,2BAAiB;EACf,UAAU,EAAE,IAAI;AAClB,6BAAmB;EACjB,UAAU,EAAE,MAAM;AACpB,4BAAkB;EAChB,UAAU,EAAE,KAAK;;AACrB,iBAAiB;EACf,OAAO,EAAE,IAAI;EACb,cAAc,EAAE,MAAM;EACtB,KAAK,EAAE,KAAK",
-"sources": ["fileUpload.sass"],
-"names": [],
-"file": "fileUpload.css"
-}

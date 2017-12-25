@@ -1,1 +1,0 @@
-{HREF}{VALUE}{HREF}

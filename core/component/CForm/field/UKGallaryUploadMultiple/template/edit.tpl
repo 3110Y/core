@@ -1,13 +1,14 @@
-<div class="cform-field {FIELD_CLASS}" style="{FIELD_STYLE}">
-    <label for="{ID}" class="uk-form-label {LABEL_CLASS}" title="{LABEL_TITLE}" {TOOLTIP} style="vertical-align: top;{LABEL_STYLE}">{LABEL}</label>
-    <ul class="uk-form-controls {CONTROLS_CLASS}" style="{CONTROLS_STYLE}">
-        {PREV_ICON}
-        {POST_ICON}
-        <div id="{ID}" class="test-upload uk-placeholder uk-text-center">
+<div class="uk-width-{GRID}@m">
+    <label for="{ID}" class="uk-form-label">{LABEL}</label>
+        <div id="{ID}" class="test-upload uk-placeholder uk-text-center"
+             data-action="{URL}/{PARENT_URL}/api/field/UKGallaryUploadMultiple/save/{ROW_ID}/{TABLE}/{ID}/{TABLE_LINK}"
+             data-action-edit="{URL}/{PARENT_URL}/api/field/UKGallaryUploadMultiple/sort/{ROW_ID}/{TABLE}/{ID}/{TABLE_LINK}"
+             data-action-dell="{URL}/{PARENT_URL}/api/field/UKGallaryUploadMultiple/dell/{ROW_ID}/{TABLE}/{ID}/{TABLE_LINK}"
+        >
             <span uk-icon="icon: cloud-upload"></span>
             <span class="uk-text-middle">Загрузите файлы, перетащиав их сюда или</span>
             <div uk-form-custom>
-                <input type="file" multiple  name="{NAME}"  class="{CLASS}" placeholder="{PLACEHOLDER}" style="{STYLE}" {REQUIRED}>
+                <input type="file" multiple  name="{ID}[]"  class="{CLASS}" placeholder="{PLACEHOLDER}" style="{STYLE}">
                 <span class="uk-link" style="color: #5897fb; border-bottom: 1px dotted #5897fb; ">нажмите для выбора</span>
             </div>
         </div>
