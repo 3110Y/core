@@ -35,7 +35,7 @@ class AField extends ACForm
     protected $configField = Array();
 
     /**
-     * @var string
+     * @var mixed|string|array
      */
     protected $answer = '';
 

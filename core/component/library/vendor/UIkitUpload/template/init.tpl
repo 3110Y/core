@@ -13,10 +13,9 @@
             load: function() { console.log('load', arguments); },
             error: function() { console.log('error', arguments); },
             complete: function(responseText) {
-                console.log('complete', arguments);
                 console.log(responseText.responseText);
-                var text = JSON.parse(responseText.responseText);
-                text    =   text['{ID}'];
+                var answer    = JSON.parse(responseText.responseText);
+                var text            =  answer.content;
                 console.log(text);
                 $('#{ID}-cont-block').remove();
                 $('#{ID}-cont-all').prepend(text);

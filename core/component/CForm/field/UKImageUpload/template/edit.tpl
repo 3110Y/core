@@ -1,7 +1,7 @@
 <div class=" uk-width-{GRID}@m">
 
     <label for="{ID}" class="uk-form-label" style="vertical-align: top;">{LABEL}</label>
-    <div  class="fileUpload-dflex" style="display: flex;flex-direction: column;width: 200px">
+    <div  class="fileUpload-dflex" id="{ID}-cont-all" style="display: flex;flex-direction: column;width: 200px">
         {VALUE}
         <div id="{ID}" data-action="{URL}/{PARENT_URL}/api/field/UKImageUpload/save/{ROW_ID}/{TABLE}/{ID}" class="test-upload uk-placeholder uk-text-center"  style="margin-top: 0">
             <span uk-icon="icon: cloud-upload"></span>

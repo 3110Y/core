@@ -75,6 +75,7 @@ class component extends CForm\AField implements CForm\IField
 
         $data['IMG']            =   image::image($this->value, $this->option);
         $data['IMG_BIG']        =   $this->value;
+        $data['PARAM']          =   json_encode($data);
 
         //UIkitUpload
         /** @var \core\component\library\vendor\UIkitUpload\component $UIkitUpload */
@@ -107,33 +108,32 @@ class component extends CForm\AField implements CForm\IField
         parent::$subURLNow++;
         $fieldName = parent::$subURL[parent::$subURLNow];
         parent::$subURLNow++;
-        $array = Array();
-        $configField    =   Array();
+        $this->answer = Array();
         foreach ($this->configField as $field) {
             if ($field['field'] == $fieldName) {
-                $configField = $field;
+                $this->configField = $field;
+                break;
             }
         }
-        $this->configField = $configField;
         if (isset($this->configField['path'])) {
             $this->path = $this->configField['path'];
             unset($this->configField['path']);
         } else {
             $this->path = $this->idField;
         }
-        if (!isset($_FILES[$field['field']])) {
-            $array['error'] = "Поле '{$field}' не должно быть пустым";
+        if (!isset($_FILES[$this->configField['field']])) {
+            $this->answer['error'] = "Поле '{$this->configField['field']}' не должно быть пустым";
             return array();
         }
         $where = Array(
             'id' => $id
         );
-        $row    =   parent::$db->selectRow($table, $field['field'], $where);
-        $valueOld = $row[$field['field']];
+        $row    =   parent::$db->selectRow($table, $this->configField['field'], $where);
+        $valueOld = $row[$this->configField['field']];
         if ($valueOld != '' && file_exists(core::getDR(true) . $valueOld)) {
             unlink(core::getDR(true) .$valueOld);
         }
-        $files = $_FILES[$field];
+        $files = $_FILES[$this->configField['field']];
         $thumbnail              =   new \Imagick($files['tmp_name']);
         $original_size          =   getimagesize($files['tmp_name']);
         $original_width 		=   $original_size[0];
@@ -174,6 +174,8 @@ class component extends CForm\AField implements CForm\IField
         } else {
             $end = '.none';
         }
+        fileCache::checkDir($this->path);
+       // chmod(core::getDR(true)  . $thumbnailStore, 0777);
         $thumbnailStore .= '/' . $name . $end;
         $thumbnail->writeImages(core::getDR(true)  . $thumbnailStore, true);
         $option = Array(
@@ -189,19 +191,18 @@ class component extends CForm\AField implements CForm\IField
             ),
         );
         $data = Array(
-            'CS_FIELD'   => $field['field'],
-            'DATA_ID'    => $id,
+            'ID'   => $this->configField['field'],
+            'ROW_ID'    => $id,
             'IMG'        => image::image($thumbnailStore, $option),
             'IMG_BIG'    => $thumbnailStore,
         );
         $value = Array(
-            $field => $thumbnailStore
+            $this->configField['field'] => $thumbnailStore
         );
         parent::$db->update($table, $value, $where);
-        $photo          =   self::getTemplate('tpl/photo.tpl', __DIR__);
-        $array['value'] = $thumbnailStore;
-        $array['content'] =   simpleView\component::replace($photo, $data);
-        return $array;
+        $photo              =   self::getTemplate('template/photo.tpl', __DIR__);
+        $this->answer['value']     =   $thumbnailStore;
+        $this->answer['content']   =   simpleView\component::replace($photo, $data);
     }
 
     public function postDelete()
