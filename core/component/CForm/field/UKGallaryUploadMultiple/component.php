@@ -119,6 +119,7 @@ class component extends CForm\AField implements CForm\IField
     public function view()
     {
         $this->template = 'template/view.tpl';
+
     }
 
     public function sort($id = 0)
@@ -262,6 +263,14 @@ class component extends CForm\AField implements CForm\IField
 
     public function postDelete()
     {
+        $where = Array(
+            'parent_id' => $this->row['id'],
+        );
+        $rows    =   parent::$db->selectRows($this->configField['table']['link'], '*', $where, '`order_in_img` ASC');
+        foreach ($rows as $row) {
+            $this->delete($row['img']);
+        }
+        parent::$db->dell($this->configField['table']['link'], $where);
         return false;
     }
 

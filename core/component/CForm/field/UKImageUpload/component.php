@@ -207,7 +207,12 @@ class component extends CForm\AField implements CForm\IField
 
     public function postDelete()
     {
-        return false;
+        $where = Array(
+            'id'    => $this->row['id']
+        );
+        $row    =   parent::$db->selectRow(parent::$table, $this->configField['field'], $where );
+        $this->delete($row['field']);
+        return parent::postDelete();
     }
 
     public function delete($value)

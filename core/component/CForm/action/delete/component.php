@@ -32,7 +32,6 @@ class component extends  CForm\AAction implements CForm\IAction
     {
         $this->data['id'] = $id;
         $this->preMethod('preDelete');
-        unset($this->data['id']);
         if (!$this->isError) {
             $where = Array(
                 'id' => $id
@@ -40,6 +39,7 @@ class component extends  CForm\AAction implements CForm\IAction
             parent::$db->dell(parent::$table, $where);
             $this->postMethod('postDelete');
         }
+        unset($this->data['id']);
 
     }
 
