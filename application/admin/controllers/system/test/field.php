@@ -125,6 +125,7 @@ class field extends applicationWeb\AControllers implements applicationWeb\IContr
                 'field'             =>  'UKImageUpload',
                 'label'             =>  'UKImageUpload',
                 'grid'              =>  '1-1',
+                'path'              =>  'field_one'
             ),
         );
         self::$content  =    model\CFormDefault::generation($this, 'test_field', 'Поля', $field);
