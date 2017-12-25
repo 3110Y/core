@@ -113,13 +113,12 @@ class component extends CForm\AField implements CForm\IField
                 );
             }
         }
-        $this->answer           =   simpleView\component::replace(self::getTemplate('template/edit.tpl', __DIR__), $data);
+        $this->answer           =   simpleView\component::replace(self::getTemplate($this->template, __DIR__), $data);
     }
 
     public function view()
     {
-
-
+        $this->template = 'template/view.tpl';
     }
 
     public function sort($id = 0)
@@ -301,7 +300,7 @@ class component extends CForm\AField implements CForm\IField
 
     public function edit()
     {
-
+        $this->template = 'template/edit.tpl';
     }
 
     public function preInsert()
