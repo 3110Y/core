@@ -127,6 +127,15 @@ class field extends applicationWeb\AControllers implements applicationWeb\IContr
                 'grid'              =>  '1-1',
                 'path'              =>  'field_one'
             ),
+            Array(
+                'type'              =>  'UKGallaryUploadMultiple',
+                'table'             =>  Array(
+                    'link'      =>  'test_field_photo',
+                ),
+                'label'             =>  'UKGallaryUploadMultiple',
+                'grid'              =>  '1-1',
+                'path'              =>  'field_more'
+            ),
         );
         self::$content  =    model\CFormDefault::generation($this, 'test_field', 'Поля', $field);
     }
