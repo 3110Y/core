@@ -2,11 +2,11 @@
 /**
  * Created by PhpStorm.
  * User: Roman
- * Date: 16.12.2017
- * Time: 0:49
+ * Date: 27.12.2017
+ * Time: 20:05
  */
 
-namespace core\component\library\vendor\select2;
+namespace core\component\library\vendor\JSColor;
 
 
 use core\component\library as library;
@@ -14,7 +14,7 @@ use core\component\library as library;
 
 /**
  * Class component
- * @package core\component\library\vendor\select2
+ * @package core\component\library\vendor\JSColor
  */
 class component extends library\AVendor implements library\IVendor
 {
@@ -36,7 +36,7 @@ class component extends library\AVendor implements library\IVendor
     protected $js = Array(
         'top'  =>  Array(),
         'bottom'  =>  Array(
-            'js/select2/dist/js/select2.min.js'
+            'js/jscolor/jscolor.min.js'
         ),
     );
 
@@ -44,9 +44,7 @@ class component extends library\AVendor implements library\IVendor
      * @var array
      */
     protected $css = Array(
-        'top'  =>  Array(
-            'js/select2/dist/css/select2.min.css'
-        ),
+        'top'  =>  Array(),
         'bottom'  =>  Array(),
     );
 
@@ -58,7 +56,7 @@ class component extends library\AVendor implements library\IVendor
      */
     public function returnInit($data = Array(), $name = 'init.tpl')
     {
-        return parent::returnInit($data, $name);
+        return '';
     }
 
 }

@@ -115,6 +115,13 @@ class field extends applicationWeb\AControllers implements applicationWeb\IContr
                 'grid'              =>  '1-1'
             ),
             Array(
+                'type'              =>  'JSColor',
+                'field'             =>  'JSColor',
+                'label'             =>  'JSColor',
+                'required'          =>  true,
+                'grid'              =>  '1-1'
+            ),
+            Array(
                 'type'              =>  'CKEditor',
                 'field'             =>  'CKEditor',
                 'label'             =>  'CKEditor',
