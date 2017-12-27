@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Дек 25 2017 г., 15:31
+-- Время создания: Дек 27 2017 г., 20:35
 -- Версия сервера: 5.5.50-MariaDB
 -- Версия PHP: 7.0.8
 
@@ -295,6 +295,7 @@ CREATE TABLE IF NOT EXISTS `test_field` (
   `UKSelect_multiple` varchar(255) NOT NULL,
   `UKTextarea` text NOT NULL,
   `UKURIName` varchar(255) NOT NULL,
+  `JSColor` varchar(255) NOT NULL,
   `date_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `date_insert` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
@@ -303,8 +304,8 @@ CREATE TABLE IF NOT EXISTS `test_field` (
 -- Дамп данных таблицы `test_field`
 --
 
-INSERT INTO `test_field` (`id`, `parent_id`, `status`, `CKEditor`, `select2`, `select2_multiple`, `UKImageUpload`, `UKInput`, `UKNumber`, `UKPassword`, `UKSelect`, `UKSelect_multiple`, `UKTextarea`, `UKURIName`, `date_update`, `date_insert`) VALUES
-(1, 0, 3, '<p>тест</p>\r\n', 1, '1,2', '', 'тест', 10, '', 1, '1,2', 'тест', 'test', '2017-12-19 12:33:20', '2017-12-19 12:33:20');
+INSERT INTO `test_field` (`id`, `parent_id`, `status`, `CKEditor`, `select2`, `select2_multiple`, `UKImageUpload`, `UKInput`, `UKNumber`, `UKPassword`, `UKSelect`, `UKSelect_multiple`, `UKTextarea`, `UKURIName`, `JSColor`, `date_update`, `date_insert`) VALUES
+(1, 0, 3, '<p>тест</p>\r\n', 1, '1,2', '', 'тест', 10, '', 1, '1,2', 'тест', 'test', '', '2017-12-19 12:33:20', '2017-12-19 12:33:20');
 
 -- --------------------------------------------------------
 
