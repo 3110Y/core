@@ -9,8 +9,7 @@
 namespace application\client;
 
 use \core\component\{
-    authorization as authorization,
-    rules as rules,
+    authentication as authentication,
     application\handler\Web as applicationWeb,
     database\driver\PDO as PDO,
     templateEngine\engine\simpleView as simpleView
@@ -54,17 +53,13 @@ final class router extends applicationWeb\ARouter implements applicationWeb\IRou
      */
     public function run(): router
     {
-        if (!authorization\component::check(self::get('db'))) {
-            authorization\component::logout();
+        /** @var \core\component\authentication\component $auth */
+        $auth = self::get('auth');
+        $auth->get('authorization')->check();
+        $auth->get('object')->register('application_' . self::$application['id'], 'Вход в приложение: ' . self::$application['name']);
+        if (!$auth->get('rules')->check('application_' . self::$application['id'])  && self::$URL[1] !== '404') {
+            self::redirect(self::$application['url'] . '/404');
         }
-        $URL = implode('/', self::$URL);
-        $check = (new rules\component($URL))->setDB(self::get('db'))->setKey(self::$application['name'])
-            ->setAuthorizationURL(self::$application['url'] . '/enter')
-            ->setAuthorizationNoPage(self::$application['url'] . '/404')->check();
-        if ($check !== true) {
-            self::redirect($check);
-        }
-
         self::selectPage();
         $controllerBasic    =   'application\\' . self::$application['path'] . '\controllers\\' . self::$application['basicController'];
         $controllerBasic    =   new $controllerBasic();

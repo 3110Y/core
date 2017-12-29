@@ -37,9 +37,23 @@ class rules extends applicationWeb\AControllers implements applicationWeb\IContr
         );
         $row        =   $db->selectRows('core_group','`id`, `name`', $where);
         $listGroup  =   ($row !== false)    ?   $row    :   Array();
+        $array   =  Array(
+            Array(
+                'id' => 0,
+                'name'  =>  'Нет группы или любая группа'
+            ),
+        );
+        $listGroup = array_merge($array, $listGroup);
         $field      =   '`id`, CONCAT(`name`, " ",`surname`, " ", `patronymic`, " (", `login`, ")") as `name`';
         $row        =   $db->selectRows('core_user', $field, $where);
         $listUser   =   ($row !== false)    ?   $row    :   Array();
+        $array   =  Array(
+            Array(
+                'id' => 0,
+                'name'  =>  'Не авторизованный или любой '
+            ),
+        );
+        $listUser = array_merge($array, $listUser);
         $row        =   $db->selectRows('core_rules_objects','`id`, `name`');
         $listObject =   ($row !== false)    ?   $row    :   Array();
         $listStatus =   Array(
@@ -60,23 +74,11 @@ class rules extends applicationWeb\AControllers implements applicationWeb\IContr
         $listAction  =   Array(
             Array(
                 'id'    =>  0,
-                'name'  => 'Разрешено'
+                'name'  => 'Запрещено'
             ),
             Array(
                 'id'    =>  1,
-                'name'  => 'Показать авторизацию'
-            ),
-            Array(
-                'id'    =>  2,
-                'name'  => 'Показать 404'
-            ),
-            Array(
-                'id'    =>  3,
-                'name'  => 'Показать пустую страницу'
-            ),
-            Array(
-                'id'    =>  4,
-                'name'  => 'Показать пустоту'
+                'name'  => 'Разрешено'
             ),
         );
         $field     =   Array(
@@ -85,28 +87,29 @@ class rules extends applicationWeb\AControllers implements applicationWeb\IContr
                 'field'             =>  'object_id',
                 'label'             =>  'Обьект',
                 'list'              =>  $listObject,
-                'grid'              =>  '1-4',
-            ),
-            Array(
-                'type'              =>  'UKSelect',
-                'field'             =>  'action',
-                'label'             =>  'Действие',
-                'list'              =>  $listAction,
-                'grid'              =>  '1-4',
-            ),
-            Array(
-                'type'              =>  'UKSelect',
-                'field'             =>  'user_id',
-                'label'             =>  'Пользователь',
-                'list'              =>  $listUser,
-                'grid'              =>  '1-4',
+                'grid'              =>  '1-1',
             ),
             Array(
                 'type'              =>  'UKSelect',
                 'field'             =>  'group_id',
                 'label'             =>  'Группа',
                 'list'              =>  $listGroup,
-                'grid'              =>  '1-4',
+                'grid'              =>  '1-3',
+            ),
+            Array(
+                'type'              =>  'UKSelect',
+                'field'             =>  'user_id',
+                'label'             =>  'Пользователь',
+                'list'              =>  $listUser,
+                'grid'              =>  '1-3',
+            ),
+
+            Array(
+                'type'              =>  'UKSelect',
+                'field'             =>  'action',
+                'label'             =>  'Действие',
+                'list'              =>  $listAction,
+                'grid'              =>  '1-3',
             ),
             Array(
                 'type'              =>  'UKSelect',

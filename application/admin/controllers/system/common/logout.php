@@ -26,7 +26,9 @@ class logout extends applicationWeb\AControllers implements applicationWeb\ICont
      */
     public function init()
     {
-        authorization\component::logout();
+        /** @var \core\component\authentication\component $auth */
+        $auth    =   self::get('auth');
+        $auth->get('authorization')->logout();
         self::redirect(self::$application['url']);
     }
 }

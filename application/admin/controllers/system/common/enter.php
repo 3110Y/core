@@ -33,7 +33,10 @@ class enter extends applicationWeb\AControllers implements applicationWeb\IContr
             } else {
                 $login          =   $_POST['login'];
                 $password       =   $_POST['password'];
-                self::$content = authorization\component::authorization(self::get('db'), $login, $password);
+                /** @var \core\component\authentication\component $auth */
+                $auth    =   self::get('auth');
+                self::$content = $auth->get('authorization')->login($login, $password);
+
             }
         } else {
             if (isset($_COOKIE['uid'])) {

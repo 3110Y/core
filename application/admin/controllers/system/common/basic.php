@@ -68,6 +68,16 @@ class basic extends applicationWeb\AControllers implements applicationWeb\IContr
 	    $parentURL  =   $parentURL != '/'   ?   $parentURL . '/'  :   $parentURL;
         if ($query->rowCount() > 0) {
             while ($row =  $query->fetch()) {
+                /** @var \core\component\authentication\component $auth */
+                $auth = self::get('auth');
+                $auth->get('authorization')->check();
+                $auth->get('object')->register(
+                    'application_' . self::$application['id'] . '_page_' . $row['id'],
+                    "Отображать пункт меню {$row['name']} Приложение: " . self::$application['name']
+                );
+                if (!$auth->get('rules')->check('application_' . self::$application['id'] . '_page_' . $row['id'])) {
+                    continue;
+                }
                 $class  =   '';
                 $URL    =   $row['url'] == '/'    ?   $parentURL :   $parentURL . $row['url'];
                 if ($row['url'] == self::$page['url'] && $row['parent_id'] == self::$page['parent_id']) {

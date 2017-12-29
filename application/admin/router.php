@@ -10,8 +10,7 @@ namespace application\admin;
 
 
 use \core\component\{
-    authorization as authorization,
-    rules as rules,
+    authentication as authentication,
     application\handler\Web as applicationWeb,
     database\driver\PDO as PDO,
     templateEngine\engine\simpleView as simpleView
@@ -42,6 +41,8 @@ final class router extends applicationWeb\ARouter implements applicationWeb\IRou
         /** @var PDO\component $db */
         $db =   PDO\component::getInstance($config);
         self::set('db', $db);
+        $auth = new authentication\component($db);
+        self::set('auth', $auth);
         self::set('view', new simpleView\component());
         self::get('view')->setExtension('tpl');
         self::$structure = $db->selectRows('admin_page','*', Array( 'status' => '1'), '`order_in_menu` ASC');
@@ -59,15 +60,14 @@ final class router extends applicationWeb\ARouter implements applicationWeb\IRou
      */
     public function run(): router
     {
-        if (!authorization\component::check(self::get('db'))) {
-            authorization\component::logout();
-        }
-        $URL = implode('/', self::$URL);
-        $check = (new rules\component($URL))->setDB(self::get('db'))->setKey(self::$application['name'])
-            ->setAuthorizationURL(self::$application['url'] . '/enter')
-            ->setAuthorizationNoPage(self::$application['url'] . '/404')->check();
-        if ($check !== true) {
-            self::redirect($check);
+        /** @var \core\component\authentication\component $auth */
+        $auth = self::get('auth');
+        $auth->get('authorization')->check();
+        $auth->get('object')->register('application_' . self::$application['id'], 'Вход в приложение: ' . self::$application['name']);
+        if (!$auth->get('rules')->check('application_' . self::$application['id']) && self::$URL[1] !== 'enter') {
+            var_dump($_COOKIE);
+            die('enter');
+            self::redirect(self::$application['url'] . '/enter');
         }
         self::selectPage();
         $controllerBasic    =   'application\\' . self::$application['path'] . '\controllers\\' . self::$application['basicController'];
