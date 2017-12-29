@@ -65,8 +65,6 @@ final class router extends applicationWeb\ARouter implements applicationWeb\IRou
         $auth->get('authorization')->check();
         $auth->get('object')->register('application_' . self::$application['id'], 'Вход в приложение: ' . self::$application['name']);
         if (!$auth->get('rules')->check('application_' . self::$application['id']) && self::$URL[1] !== 'enter') {
-            var_dump($_COOKIE);
-            die('enter');
             self::redirect(self::$application['url'] . '/enter');
         }
         self::selectPage();
