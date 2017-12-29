@@ -171,7 +171,7 @@ class component extends CForm\AField implements CForm\IField
             }
             $this->value =  $array;
         }
-        if ($this->value == '' ) {
+        if ($this->value === '' ) {
             return Array();
         }
         if (is_array($this->value)) {
