@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Дек 27 2017 г., 20:35
+-- Время создания: Дек 29 2017 г., 08:12
 -- Версия сервера: 5.5.50-MariaDB
 -- Версия PHP: 7.0.8
 
@@ -190,15 +190,15 @@ CREATE TABLE IF NOT EXISTS `core_rules` (
   `priority` int(11) DEFAULT '0',
   `date_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `date_insert` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `core_rules`
 --
 
 INSERT INTO `core_rules` (`id`, `parent_id`, `status`, `object_id`, `action`, `user_id`, `group_id`, `priority`, `date_update`, `date_insert`) VALUES
-(1, 0, 1, 1, 1, 0, 0, 10, '2017-06-12 23:15:46', '0000-00-00 00:00:00'),
-(2, 0, 1, 1, 0, 0, 1, 0, '2017-06-13 00:43:15', '0000-00-00 00:00:00');
+(4, 0, 1, 13, 1, 0, 1, 0, '2017-12-29 04:04:32', '2017-12-29 04:04:32'),
+(3, 0, 1, 13, 0, 0, 0, 999, '2017-12-29 03:27:59', '2017-12-29 03:27:59');
 
 -- --------------------------------------------------------
 
@@ -209,18 +209,27 @@ INSERT INTO `core_rules` (`id`, `parent_id`, `status`, `object_id`, `action`, `u
 CREATE TABLE IF NOT EXISTS `core_rules_objects` (
   `id` int(11) NOT NULL,
   `parent_id` int(11) NOT NULL DEFAULT '0',
+  `key` varchar(250) NOT NULL,
   `name` varchar(255) NOT NULL,
   `date_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `date_insert` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `core_rules_objects`
 --
 
-INSERT INTO `core_rules_objects` (`id`, `parent_id`, `name`, `date_update`, `date_insert`) VALUES
-(1, 0, 'Административная панель', '2017-06-12 17:16:01', '0000-00-00 00:00:00'),
-(2, 0, 'Клиентская часть', '2017-06-13 16:14:51', '2017-06-13 16:14:51');
+INSERT INTO `core_rules_objects` (`id`, `parent_id`, `key`, `name`, `date_update`, `date_insert`) VALUES
+(21, 0, 'application_1_page_21', 'Отображать пункт меню Тесты Приложение: Административная панель', '2017-12-29 03:26:28', '0000-00-00 00:00:00'),
+(20, 0, 'application_1_page_10', 'Отображать пункт меню Правила Приложение: Административная панель', '2017-12-29 03:26:28', '0000-00-00 00:00:00'),
+(19, 0, 'application_1_page_9', 'Отображать пункт меню Объекты правил Приложение: Административная панель', '2017-12-29 03:26:28', '0000-00-00 00:00:00'),
+(18, 0, 'application_1_page_8', 'Отображать пункт меню Группы Приложение: Административная панель', '2017-12-29 03:26:28', '0000-00-00 00:00:00'),
+(17, 0, 'application_1_page_7', 'Отображать пункт меню Пользователи Приложение: Административная панель', '2017-12-29 03:26:28', '0000-00-00 00:00:00'),
+(16, 0, 'application_1_page_11', 'Отображать пункт меню Пользователи и Роли Приложение: Административная панель', '2017-12-29 03:26:28', '0000-00-00 00:00:00'),
+(15, 0, 'application_1_page_20', 'Отображать пункт меню Настройки Приложение: Административная панель', '2017-12-29 03:26:28', '0000-00-00 00:00:00'),
+(13, 0, 'application_1', 'Вход в приложение: Административная панель', '2017-12-29 03:26:28', '0000-00-00 00:00:00'),
+(14, 0, 'application_1_page_14', 'Отображать пункт меню Страницы Приложение: Административная панель', '2017-12-29 03:26:28', '0000-00-00 00:00:00'),
+(22, 0, 'application_1_page_22', 'Отображать пункт меню Поля Приложение: Административная панель', '2017-12-29 03:26:28', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -262,17 +271,14 @@ CREATE TABLE IF NOT EXISTS `core_user_group` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL DEFAULT '0',
   `group_id` int(11) NOT NULL DEFAULT '0'
-) ENGINE=MyISAM AUTO_INCREMENT=172 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=173 DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `core_user_group`
 --
 
 INSERT INTO `core_user_group` (`id`, `user_id`, `group_id`) VALUES
-(171, 55, 2),
-(67, 1, 2),
-(66, 1, 1),
-(170, 55, 1);
+(172, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -424,12 +430,12 @@ ALTER TABLE `core_group`
 -- AUTO_INCREMENT для таблицы `core_rules`
 --
 ALTER TABLE `core_rules`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT для таблицы `core_rules_objects`
 --
 ALTER TABLE `core_rules_objects`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=23;
 --
 -- AUTO_INCREMENT для таблицы `core_user`
 --
@@ -439,7 +445,7 @@ ALTER TABLE `core_user`
 -- AUTO_INCREMENT для таблицы `core_user_group`
 --
 ALTER TABLE `core_user_group`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=172;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=173;
 --
 -- AUTO_INCREMENT для таблицы `test_field`
 --
