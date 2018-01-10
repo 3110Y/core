@@ -37,6 +37,8 @@ final class router extends applicationWeb\ARouter implements applicationWeb\IRou
         /** @var PDO\component $db */
         $db =   PDO\component::getInstance($config);
         self::set('db', $db);
+        $auth = new authentication\component($db);
+        self::set('auth', $auth);
         self::set('view', new simpleView\component());
         self::get('view')->setExtension('tpl');
         self::$structure = $db->selectRows('client_page','*', Array( 'status' => '1'), '`order_in_menu` ASC');
