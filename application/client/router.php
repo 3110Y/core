@@ -29,7 +29,6 @@ final class router extends applicationWeb\ARouter implements applicationWeb\IRou
      */
     public function __construct($URL, $application, $isAjaxRequest = false)
     {
-
         self::$isAjaxRequest        =  $isAjaxRequest;
         self::$URL                  =  $URL;
         self::$application          =  $application;
