@@ -32,7 +32,7 @@ class settings extends applicationWeb\AClass
 
     /**
      * @param string $table
-     * @return configuration|null
+     * @return settings|null
      */
     public static function getInstance(string $table = '') {
         if ($table !== '') {
