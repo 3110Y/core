@@ -8,6 +8,7 @@
 
 namespace application\client\controllers;
 
+use \application\client\model as model;
 use \core\component\{
     database                            as database,
     application\handler\Web             as applicationWeb,
@@ -33,16 +34,21 @@ class basic extends applicationWeb\AControllers implements applicationWeb\IContr
         self::$template                 =   self::getTemplate(self::$page['template']);
         self::$content['THEME']         =   "/application/{$path}/theme/{$theme}/";
         self::$content['URL']           =   self::$pageURL;
-	    if (self::$page['meta_title'] != '') {
-		    self::$content['TITLE'] = self::$page['meta_title'];
-	    } else {
-		    self::$content['TITLE'] = 'Детейлинг в Москве';
-	    }
-	    if (self::$page['meta_keywords'] != '') {
-		    self::$content['KEYWORDS'] = self::$page['meta_keywords'];
-	    } else {
-		    self::$content['KEYWORDS'] = 'детейлинг, дейтелинг, детелинг, Москва, полировка, цены';
-	    };
+        if (self::$page['meta_title'] != '') {
+            self::$content['TITLE'] = self::$page['meta_title'];
+        } else {
+            self::$content['TITLE'] = model\settings::getInstance()->getConfiguration('meta_title');
+        }
+        if (self::$page['meta_keywords'] != '') {
+            self::$content['KEYWORDS'] = self::$page['meta_keywords'];
+        } else {
+            self::$content['KEYWORDS'] = model\settings::getInstance()->getConfiguration('meta_keywords');
+        }
+        if (self::$page['meta_description'] != '') {
+            self::$content['DESCRIPTION'] = self::$page['meta_description'];
+        } else {
+            self::$content['DESCRIPTION'] = model\settings::getInstance()->getConfiguration('meta_description');
+        }
         self::$content['DESCRIPTION']   =   self::$page['meta_description'];
         /** @var \core\component\database\driver\PDO\component $db */
         $db                             =   self::get('db');
