@@ -18,7 +18,7 @@ final class core
     /**
      * @const float Версия ядра
      */
-    const VERSION   =   1.5;
+    const VERSION   =   1.6;
     /**
      * @const string Путь до компонентов
      */

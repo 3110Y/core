@@ -44,16 +44,13 @@ class router
     /**
      * router constructor.
      * @param array $structure структура
+     * @param array $URL
      */
-    public function __construct($structure = Array())
+    public function __construct($structure = Array(), array $URL = Array())
     {
         $this->structure    =   $structure;
         $site               =   '';
-        if (isset($_SERVER['SHELL']) && isset($argv)) {
-            $URL    =   $argv;
-            $URL[0] = '/';
-        } else {
-            $URL    =   explode('/', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
+        if (isset($_SERVER['HTTP_HOST'])) {
             $site   =   $_SERVER['HTTP_HOST'];
         }
         $urlFirst   =    $URL;

@@ -21,7 +21,13 @@ $config = \core\core::getConfig('db.common');
 /** @var \core\component\database\driver\PDO\component $db */
 $db =   \core\component\database\driver\PDO\component::getInstance($config);
 $structure  =   $db->selectRows('core_application','*', Array( 'status' => '1'), '`priority` ASC');
-$result = (new \core\router($structure))->run();
+if (isset($_SERVER['SHELL']) && isset($argv)) {
+    $URL    =   $argv;
+    $URL[0] = '/';
+} else {
+    $URL    =   explode('/', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
+}
+$result = (new \core\router($structure, $URL))->run();
 /** @var int Время Конца */
 $timeEnd = microtime(true);
 /** @var int Время Разница*/
