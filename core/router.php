@@ -16,6 +16,7 @@ use core\component\application as application;
  */
 class router
 {
+
     /**
      * @var array структура
      */
