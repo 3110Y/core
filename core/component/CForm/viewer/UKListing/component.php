@@ -26,7 +26,7 @@ class component extends CForm\AViewer implements CForm\IViewer
     /**
      * @const float Версия
      */
-    const VERSION   =   2.0;
+    const VERSION   =   2.2;
 
 
 	public function init()
@@ -253,12 +253,12 @@ class component extends CForm\AViewer implements CForm\IViewer
                 );
             }
 
-        } elseif ($this->totalPage  <= 5) {
+        } elseif ($this->page  <= 5) {
             if ($this->page != 1) {
                 $pagination[] = Array(
                     'CLASS' =>  '',
                     'HREF'  =>  $url . $this->page - 1,
-                    'TEXT'  =>  '<span uk-pagination-previous></span>',
+                    'TEXT'  =>  '<span uk-pagination-previous style="display: block;position:relative;top:7px;"></span>',
                 );
             }
             for ($i = 1, $iMax = 7; $i < $iMax; $i++) {
@@ -281,14 +281,14 @@ class component extends CForm\AViewer implements CForm\IViewer
             $pagination[] = Array(
                 'CLASS' =>  '',
                 'HREF'  =>  $url . ($this->page + 1),
-                'TEXT'  =>  '<span uk-pagination-next></span>',
+                'TEXT'  =>  '<span uk-pagination-next style="display: block;position:relative;top:7px;"></span>',
             );
 
         } elseif ($this->page >=  ($this->totalPage - 4)) {
             $pagination[] = Array(
                 'CLASS' =>  '',
                 'HREF'  =>  $url . ($this->page - 1),
-                'TEXT'  =>  '<span uk-pagination-previous></span>',
+                'TEXT'  =>  '<span uk-pagination-previous  style="display: block;position:relative;top:7px;"></span>',
             );
             $pagination[] = Array(
                 'CLASS' =>  '',
@@ -311,14 +311,14 @@ class component extends CForm\AViewer implements CForm\IViewer
                 $pagination[] = Array(
                     'CLASS' =>  '',
                     'HREF'  =>  $url . ($this->page + 1),
-                    'TEXT'  =>  '<span uk-pagination-next></span>',
+                    'TEXT'  =>  '<span uk-pagination-next style="display: block;position:relative;top:7px;"></span>',
                 );
             }
         } else {
             $pagination[] = Array(
                 'CLASS' =>  '',
                 'HREF'  =>  $url . ($this->page - 1),
-                'TEXT'  =>  '<span uk-pagination-previous></span>',
+                'TEXT'  =>  '<span uk-pagination-previous style="display: block;position:relative;top:7px;"></span>',
             );
             $pagination[] = Array(
                 'CLASS' =>  '',
@@ -350,7 +350,7 @@ class component extends CForm\AViewer implements CForm\IViewer
             $pagination[] = Array(
                 'CLASS' =>  '',
                 'HREF'  =>  $url . ($this->page + 1),
-                'TEXT'  =>  '<span uk-pagination-next></span>',
+                'TEXT'  =>  '<span uk-pagination-next style="display: block;position:relative;top:7px;"></span>',
             );
         }
         return $pagination;
