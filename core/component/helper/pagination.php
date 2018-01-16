@@ -11,7 +11,7 @@ namespace core\component\helper;
 /**
  * Trait pagination
  * @package core\component\helper
- * @version 1.0
+ * @version 1.1
  */
 trait pagination
 {
@@ -25,7 +25,7 @@ trait pagination
      * @param string $right стрелка вправо
      * @param string $left стрелка влево
      *
-     * @example class myClass { use core\component\helper\pagination }
+     * @example class myClass { use \core\component\helper\pagination; }
      *
      * @access public
      * @static

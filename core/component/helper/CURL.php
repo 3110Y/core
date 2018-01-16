@@ -11,7 +11,7 @@ namespace core\component\helper;
 /**
  * Trait CURL
  * @package core\component\helper
- * @version 1.0
+ * @version 1.1
  */
 trait CURL
 {
@@ -23,7 +23,7 @@ trait CURL
      * @param string $method
      * @param array $opt
      *
-     * @example class myClass { use core\component\helper\CURL }
+     * @example class myClass { use \core\component\helper\CURL; }
      *
      * @access public
      * @static
