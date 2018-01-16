@@ -19,7 +19,7 @@ class component extends application\AHandler implements application\IHandler
     /**
      * @const float Версия
      */
-    const VERSION   =   1.6;
+    const VERSION   =   1.7;
 
     /**
      * Отдает экземпляр роутера приложения
@@ -34,7 +34,7 @@ class component extends application\AHandler implements application\IHandler
 	    $application['url']     =   $application['url'] != '/'   ?   '/' . $application['url']   :   $application['url'];
         core::getInstance()->addNamespace($namespace, $path);
         $router = $namespace . '\router';
-        if (file_exists(\core\core::getDR() . $path . '/router.php')) {
+        if (file_exists(core::getDR() . $path . '/router.php')) {
 	        $isAjaxRequest  =   ((isset($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_X_REQUESTED_WITH']) &&
 	        $_SERVER['HTTP_REFERER'] !== '' &&
 	        strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') || (isset($_GET['json']) && $_GET['json'] == 'true'));
