@@ -14,8 +14,4 @@ namespace core\component\database;
  */
 class component
 {
-    /**
-     * @const float Версия
-     */
-    const VERSION   =   2;
 }

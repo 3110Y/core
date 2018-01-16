@@ -18,10 +18,6 @@ use core\component\library as library;
  */
 class component extends library\AVendor implements library\IVendor
 {
-    /**
-     * @const float Версия
-     */
-    const VERSION   =   1.0;
 
 
 

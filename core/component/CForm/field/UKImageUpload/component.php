@@ -24,10 +24,6 @@ use core\core;
  */
 class component extends CForm\AField implements CForm\IField
 {
-    /**
-     * @const float Версия
-     */
-    const VERSION   =   2.0;
 
     /**
      * @var string

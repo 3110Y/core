@@ -21,10 +21,6 @@ use core\core;
  */
 class component extends ACForm
 {
-    /**
-     * @const float Версия
-     */
-    const VERSION   =   2.0;
 
     /**
      * @var array массив для ответа

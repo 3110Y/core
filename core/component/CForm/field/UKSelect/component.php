@@ -21,10 +21,6 @@ use Seld\JsonLint\Lexer;
  */
 class component extends CForm\AField implements CForm\IField
 {
-    /**
-     * @const float Версия
-     */
-    const VERSION   =   2.0;
 
 
     private $multiple   = false;

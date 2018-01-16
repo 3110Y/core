@@ -12,10 +12,6 @@ namespace core\component\templateEngine;
  * Class component
  * @package core\component\templateEngine
  */
-class component extends \core\component
+class component
 {
-    /**
-     * @const float Версия
-     */
-    const VERSION   =   1.0;
 }

@@ -37,10 +37,6 @@ class component
 	 * @var string
 	 */
 	private static $ext         = '';
-	/**
-	 * @const float
-	 */
-	const VERSION   =   1.4;
 
 
 	/**

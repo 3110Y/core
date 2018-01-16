@@ -15,10 +15,6 @@ namespace core\component\library;
  */
 class component
 {
-    /**
-     * @const float Версия
-     */
-    const VERSION   =   1.1;
 
 	/**
 	 * @param $name

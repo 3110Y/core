@@ -16,10 +16,7 @@ use core\component\database as database;
  */
 class component extends database\ADriver implements database\IDriver
 {
-    /**
-     * @const float Версия ядра
-     */
-    const VERSION   =   1.0;
+    
     /**
      * @var null|\PDO соединение
      */

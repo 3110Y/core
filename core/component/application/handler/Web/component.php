@@ -16,10 +16,6 @@ use core\core;
  */
 class component extends application\AHandler implements application\IHandler
 {
-    /**
-     * @const float Версия
-     */
-    const VERSION   =   1.7;
 
     /**
      * Отдает экземпляр роутера приложения

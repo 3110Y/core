@@ -16,11 +16,6 @@ use core\core;
  */
 class component extends templateEngine\AEngine implements templateEngine\IEngine
 {
-    /**
-     * @const float Версия ядра
-     */
-    const VERSION   =   1.5;
-
 
     /**
      * Рендерит данные

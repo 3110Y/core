@@ -18,10 +18,6 @@ use core\core;
  */
 class fileCache
 {
-	/**
-	 * @const float
-	 */
-	const VERSION   =   1.0;
 
 
 	/**

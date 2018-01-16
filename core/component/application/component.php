@@ -14,8 +14,4 @@ namespace core\component\application;
  */
 class component
 {
-    /**
-     * @const float Версия
-     */
-    const VERSION   =   1.0;
 }

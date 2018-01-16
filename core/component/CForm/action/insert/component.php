@@ -20,10 +20,6 @@ use \core\component\{
  */
 class component extends  CForm\AAction implements CForm\IAction
 {
-    /**
-     * @const float Версия
-     */
-    const VERSION   =   2.0;
 
     /**
      * @param int $id
