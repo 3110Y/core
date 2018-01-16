@@ -50,7 +50,7 @@
                     <ul class="uk-nav uk-dropdown-nav">
                         {ON_PAGE_LIST}
                         <li class="{CLASS}">
-                            <a href="{HREF}">{TEXT}</a>
+                            <a href="{URL}">{TEXT}</a>
                         </li>
                         {/ON_PAGE_LIST}
                     </ul>
