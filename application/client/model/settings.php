@@ -9,10 +9,10 @@
 namespace application\client\model;
 
 use \core\component\{
-    application\handler\Web             as applicationWeb
+    application             as application
 };
 
-class settings extends applicationWeb\AClass
+class settings extends application\AClass
 {
     /**
      * @var string

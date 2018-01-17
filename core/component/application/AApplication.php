@@ -6,12 +6,12 @@
  * Time: 18:13
  */
 
-namespace core\component\application\handler\Web;
+namespace core\component\application;
 use core\core;
 
 /**
  * Class AApplication
- * @package core\component\application\handler\Web
+ * @package core\component\application
  */
 abstract class AApplication
 {

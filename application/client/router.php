@@ -8,10 +8,10 @@
 
 namespace application\client;
 
-use \core\component\application\handler\Web as applicationWeb;
+use \core\component\application as application;
 
 
-final class router extends applicationWeb\ARouter implements applicationWeb\IRouter
+final class router extends application\ARouter implements application\IRouter
 {
     /**
      * @var mixed table

@@ -6,15 +6,15 @@
  * Time: 23:24
  */
 
-namespace core\component\application\handler\Web;
+namespace core\component\application;
 use core\component\application as application;
 use core\core;
 
 /**
  * Class component
- * @package core\component\application\handler\Web
+ * @package core\component\application
  */
-class component extends application\AHandler implements application\IHandler
+class component
 {
 
     /**

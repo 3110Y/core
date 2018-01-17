@@ -6,11 +6,11 @@
  * Time: 16:04
  */
 
-namespace core\component\application\handler\Web;
+namespace core\component\application;
 
 /**
  * Class AControllers
- * @package core\component\application\handler\Web
+ * @package core\component\application
  */
 abstract class AControllers extends AApplication
 {

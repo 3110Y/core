@@ -9,14 +9,14 @@
 namespace application\admin\controllers\system\common;
 
 
-use core\component\application\handler\Web as applicationWeb;
+use core\component\application as application;
 
 
 /**
  * Class error
  * @package app\admin\controllers
  */
-class error extends applicationWeb\AControllers implements applicationWeb\IControllers
+class error extends application\AControllers implements application\IControllers
 {
     /**
      * @var mixed|int|false Колличество подуровней

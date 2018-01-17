@@ -9,14 +9,14 @@
 namespace application\admin\controllers\system\test;
 
 use application\admin\model as model;
-use core\component\application\handler\Web as applicationWeb;
+use core\component\application as application;
 
 
 /**
  * Class field
  * @package application\admin\controllers\system\test
  */
-class field extends applicationWeb\AControllers implements applicationWeb\IControllers
+class field extends application\AControllers implements application\IControllers
 {
     /**
      * @var mixed|int|false Колличество подуровней

@@ -2,17 +2,17 @@
 /**
  * Created by PhpStorm.
  * User: Roman
- * Date: 19.4.2017
- * Time: 12:23
+ * Date: 2.5.2017
+ * Time: 18:15
  */
 
 namespace core\component\application;
 
 /**
- * Class AHandler
+ * Class AClass
  * @package core\component\application
  */
-abstract class AHandler
+abstract class AClass extends AApplication
 {
 
 }

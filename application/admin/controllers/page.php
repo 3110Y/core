@@ -10,7 +10,7 @@ namespace application\admin\controllers;
 
 use application\admin\model as model;
 use \core\component\{
-    application\handler\Web as applicationWeb
+    application as application
 };
 
 
@@ -18,7 +18,7 @@ use \core\component\{
  * Class page
  * @package application\admin\controllers
  */
-class page extends applicationWeb\AControllers implements applicationWeb\IControllers
+class page extends application\AControllers implements application\IControllers
 {
     /**
      * @var mixed|int|false Колличество подуровней

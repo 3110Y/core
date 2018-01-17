@@ -10,7 +10,7 @@ namespace application\admin\controllers\system\rules;
 
 use application\admin\model as model;
 use \core\component\{
-    application\handler\Web as applicationWeb,
+    application as application,
     CForm
 };
 
@@ -18,7 +18,7 @@ use \core\component\{
  * Class rules
  * @package application\admin\controllers
  */
-class rules extends applicationWeb\AControllers implements applicationWeb\IControllers
+class rules extends application\AControllers implements application\IControllers
 {
     /**
      * @var mixed|int|false Колличество подуровней

@@ -6,11 +6,11 @@
  * Time: 14:15
  */
 
-namespace core\component\application\handler\Web;
+namespace core\component\application;
 
 /**
  * Interface IControllerBasic
- * @package core\component\application\handler\Web
+ * @package core\component\application
  */
 interface IControllerBasic
 {

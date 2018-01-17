@@ -105,11 +105,7 @@ class router
     public function run()
     {
         if (!empty($this->application)) {
-            $handler    =   $this->application['handler'];
-            $handler    =   "\\core\\component\\application\\handler\\{$handler}\\component";
-            if (new $handler() instanceof application\IHandler) {
-                return $handler::factory($this->application, $this->URL);
-            }
+                return component\application\component::factory($this->application, $this->URL);
         }
         return 'Нет приложения';
     }

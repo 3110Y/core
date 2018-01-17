@@ -7,7 +7,7 @@
  * Time: 14:40
  */
 
-namespace core\component\application\handler\Web;
+namespace core\component\application;
 
 use core\core;
 use \core\component\{
@@ -18,7 +18,7 @@ use \core\component\{
 
 /**
  * Class ARouter
- * @package core\component\application\handler\Web
+ * @package core\component\application
  */
 abstract class ARouter extends AApplication
 {

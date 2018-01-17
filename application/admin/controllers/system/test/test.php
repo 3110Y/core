@@ -8,14 +8,14 @@
 
 namespace application\admin\controllers\system\test;
 
-use core\component\application\handler\Web as applicationWeb;
+use core\component\application as application;
 
 
 /**
  * Class test
  * @package application\admin\controllers
  */
-class test extends applicationWeb\AControllers implements applicationWeb\IControllers
+class test extends application\AControllers implements application\IControllers
 {
     /**
      * @var mixed|int|false Колличество подуровней

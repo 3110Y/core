@@ -11,7 +11,7 @@ namespace application\admin\controllers\system\common;
 
 use application\admin\model as model;
 use \core\component\{
-    application\handler\Web as applicationWeb
+    application as application
 };
 
 
@@ -19,7 +19,7 @@ use \core\component\{
  * Class settings
  * @package application\admin\controllers\system\common
  */
-class settings extends applicationWeb\AControllers implements applicationWeb\IControllers
+class settings extends application\AControllers implements application\IControllers
 {
     /**
      * @var mixed|int|false Колличество подуровней

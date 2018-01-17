@@ -10,7 +10,7 @@ namespace application\admin\model;
 
 
 use \core\component\{
-    application\handler\Web             as applicationWeb,
+    application             as application,
     CForm
 };
 
@@ -19,7 +19,7 @@ use \core\component\{
  * Class CFormOne
  * @package application\admin\model
  */
-class CFormOne extends applicationWeb\AClass
+class CFormOne extends application\AClass
 {
     public static function generation($controller, $table, $caption, $field, $id = 1)
     {

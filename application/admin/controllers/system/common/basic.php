@@ -10,7 +10,7 @@ namespace application\admin\controllers\system\common;
 
 use \core\component\{
     database                            as database,
-    application\handler\Web             as applicationWeb,
+    application             as application,
     templateEngine\engine\simpleView    as simpleView
 };
 
@@ -19,7 +19,7 @@ use \core\component\{
  * Class basic
  * @package application\admin\controllers\system\common
  */
-class basic extends applicationWeb\AControllers implements applicationWeb\IControllers, applicationWeb\IControllerBasic
+class basic extends application\AControllers implements application\IControllers, application\IControllerBasic
 {
 
     /**

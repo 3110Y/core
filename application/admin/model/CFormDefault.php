@@ -10,7 +10,7 @@ namespace application\admin\model;
 
 
 use \core\component\{
-    application\handler\Web             as applicationWeb,
+    application             as application,
     CForm
 };
 
@@ -19,7 +19,7 @@ use \core\component\{
  * Class CFormDefault
  * @package application\admin\model
  */
-class CFormDefault extends applicationWeb\AClass
+class CFormDefault extends application\AClass
 {
     /**
      * @param object $controller

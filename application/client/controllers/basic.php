@@ -11,7 +11,7 @@ namespace application\client\controllers;
 use \application\client\model as model;
 use \core\component\{
     database                            as database,
-    application\handler\Web             as applicationWeb,
+    application             as application,
     templateEngine\engine\simpleView    as simpleView
 };
 
@@ -20,7 +20,7 @@ use \core\component\{
  * Class basic
  * @package application\client\controllers
  */
-class basic extends applicationWeb\AControllers implements applicationWeb\IControllers, applicationWeb\IControllerBasic
+class basic extends application\AControllers implements application\IControllers, application\IControllerBasic
 {
 
     /**

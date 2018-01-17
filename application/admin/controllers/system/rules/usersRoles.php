@@ -8,7 +8,7 @@
 
 namespace application\admin\controllers\system\rules;
 
-use core\component\application\handler\Web as applicationWeb;
+use core\component\application as application;
 
 
 /**
@@ -16,7 +16,7 @@ use core\component\application\handler\Web as applicationWeb;
  *
  * @package application\admin\controllers
  */
-class usersRoles extends applicationWeb\AControllers implements applicationWeb\IControllers
+class usersRoles extends application\AControllers implements application\IControllers
 {
 	/**
 	 * @var mixed|int|false Колличество подуровней

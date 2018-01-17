@@ -146,7 +146,7 @@ class component extends ACForm
         if (!parent::$isWork) {
             return false;
         }
-        /** @var \core\component\application\handler\Web\AApplication $controller */
+        /** @var \core\component\application\AApplication $controller */
         $controller = parent::$controller ;
         if ($controller->isAjaxRequest()) {
             return $this->answer;
