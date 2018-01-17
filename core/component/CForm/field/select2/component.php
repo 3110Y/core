@@ -162,10 +162,17 @@ class component extends CForm\AField implements CForm\IField
                     'as'    => 'id'
                 ),
             );
-            $where = Array(
-                $this->configField['table']['field_id'] => $this->row[$this->configField['table']['field']]
-            );
+
+			$id = 0;
+			if (isset($this->row[$this->configField['table']['field']])) {
+				$id = $this->row[$this->configField['table']['field']];
+			}
+
+			$where = Array(
+				$this->configField['table']['field_id'] => $id
+			);
             $rows = parent::$db->selectRows($this->configField['table']['link'], $field, $where);
+
             $array = Array();
             if ($rows !== false) {
                 foreach ($rows as $row) {
