@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Дек 29 2017 г., 08:12
+-- Время создания: Янв 17 2018 г., 13:59
 -- Версия сервера: 5.5.50-MariaDB
 -- Версия PHP: 7.0.8
 
@@ -138,17 +138,16 @@ CREATE TABLE IF NOT EXISTS `core_application` (
   `url` varchar(50) NOT NULL,
   `path` varchar(50) NOT NULL,
   `priority` int(11) NOT NULL DEFAULT '0',
-  `theme` varchar(50) NOT NULL DEFAULT 'basic',
-  `handler` varchar(50) NOT NULL DEFAULT 'Web'
+  `theme` varchar(50) NOT NULL DEFAULT 'basic'
 ) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `core_application`
 --
 
-INSERT INTO `core_application` (`id`, `parent_id`, `status`, `name`, `site`, `basicController`, `url`, `path`, `priority`, `theme`, `handler`) VALUES
-(1, 0, 1, 'Административная панель', 'core.develop', 'system\\common\\basic', 'admin', 'admin', 0, 'basic', 'Web'),
-(5, 0, 1, 'Административная панель', 'dev.varloc.pw', 'system\\common\\basic', 'admin', 'admin', 0, 'basic', 'Web');
+INSERT INTO `core_application` (`id`, `parent_id`, `status`, `name`, `site`, `basicController`, `url`, `path`, `priority`, `theme`) VALUES
+(1, 0, 1, 'Административная панель', 'core.develop', 'system\\common\\basic', 'admin', 'admin', 0, 'basic'),
+(5, 0, 1, 'Административная панель', 'dev.varloc.pw', 'system\\common\\basic', 'admin', 'admin', 0, 'basic');
 
 -- --------------------------------------------------------
 
