@@ -85,7 +85,7 @@ class router
                 $item['url']    =   $item['path'];
             }
             $replace    =   Array(
-                '*'  =>  '([\w]+)$',
+                '*'  =>  '([\w]+)',
                 '/'  =>  '\/',
             );
             $item['site_regular']   =  '/^' . strtr($item['site'], $replace) . '$/i';
