@@ -12,13 +12,8 @@ namespace core\component\library;
 interface IVendor
 {
 
-    /**
-     * @param object $controller
-     */
-    public function setJS($controller);
 
-    /**
-     * @param object $controller
-     */
-    public function setCss($controller);
+    public function setJS();
+
+    public function setCss();
 }

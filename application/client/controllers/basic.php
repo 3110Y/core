@@ -10,9 +10,11 @@ namespace application\client\controllers;
 
 use \application\client\model as model;
 use \core\component\{
+    registry\registry                   as registry,
     database                            as database,
-    application             as application,
-    templateEngine\engine\simpleView    as simpleView
+    application                         as application,
+    templateEngine\engine\simpleView    as simpleView,
+    resources\resources
 };
 
 
@@ -51,7 +53,7 @@ class basic extends application\AControllers implements application\IControllers
         }
         self::$content['DESCRIPTION']   =   self::$page['meta_description'];
         /** @var \core\component\database\driver\PDO\component $db */
-        $db                             =   self::get('db');
+        $db                             =   registry::get('db');
 
         $data                           =   Array(
             'MENU'  => self::generationMenu($db, self::$application['url'])
@@ -64,22 +66,6 @@ class basic extends application\AControllers implements application\IControllers
 		);
 		$template                       =   self::getTemplate('menu_mobile.tpl');
 		self::$content['MENU_MOBILE']   =   simpleView\component::replace($template,  $data);
-
-        self::setCss(self::getTemplate('css/font-awesome.min.css'));
-        self::setCss(self::getTemplate('css/bootstrap.min.css'));
-        self::setCss(self::getTemplate('css/jquery.fancybox.css'));
-        self::setCss(self::getTemplate('css/jquery.fancybox-buttons.css'));
-        self::setCss(self::getTemplate('css/indins.slider.css'));
-        self::setCss(self::getTemplate('css/style.css'));
-        self::setJs(self::getTemplate('js/jquery.2.1.4.min.js'));
-        self::setJs(self::getTemplate('js/js.cookie.js'));
-        self::setJs(self::getTemplate('js/bootstrap.min.js'));
-        self::setJs(self::getTemplate('js/jquery.animateNumber.min.js'));
-        self::setJs(self::getTemplate('js/modal.js'));
-        self::setJs(self::getTemplate('js/js.js'));
-        self::setJs(self::getTemplate('js/service.js'));
-        self::setJs(self::getTemplate('js/art.js'));
-        self::setJs(self::getTemplate('js/price.js'));
     }
 
     /**
@@ -124,10 +110,10 @@ class basic extends application\AControllers implements application\IControllers
      */
     public function postInit()
     {
-        self::$content['JS_TOP']        =   self::getJS();
-        self::$content['CSS_TOP']       =   self::getCSS();
-        self::$content['JS_BOTTOM']     =   self::getJS(false);
-        self::$content['CSS_BOTTOM']    =   self::getCSS(false);
+        self::$content['JS_TOP']        =   resources::getJS();
+        self::$content['CSS_TOP']       =   resources::getCSS();
+        self::$content['JS_BOTTOM']     =   resources::getJS(false);
+        self::$content['CSS_BOTTOM']    =   resources::getCSS(false);
     }
 
     /**

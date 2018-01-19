@@ -11,7 +11,8 @@ namespace application\admin\model;
 
 use \core\component\{
     application             as application,
-    CForm
+    CForm,
+    registry\registry
 };
 
 
@@ -33,7 +34,7 @@ class CFormDefault extends application\AClass
         $url = implode('/', $controller::getURL());
         $config     =   Array(
             'controller'    =>  $controller,
-            'db'            =>  self::get('db'),
+            'db'            =>  registry::get('db'),
             'table'         =>  $table,
             'caption'       =>  $caption,
             'mode'          =>  'listing',

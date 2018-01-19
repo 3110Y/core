@@ -11,6 +11,7 @@ namespace core\component\application;
 
 use core\core;
 use \core\component\{
+    registry\registry as registry,
     authentication as authentication,
     database\driver\PDO as PDO,
     templateEngine\engine\simpleView as simpleView
@@ -70,11 +71,11 @@ abstract class ARouter extends AApplication
         $config                     =   core::getConfig(self::$configDB);
         /** @var PDO\component $db */
         $db =   PDO\component::getInstance($config);
-        self::set('db', $db);
+        registry::set('db', $db);
         $auth = new authentication\component($db);
-        self::set('auth', $auth);
-        self::set('view', new simpleView\component());
-        self::get('view')->setExtension('tpl');
+        registry::set('auth', $auth);
+        registry::set('view', new simpleView\component());
+        registry::get('view')->setExtension('tpl');
         self::$structure = $db->selectRows(self::$table,self::$fields, self::$where, self::$order);
 
         if (empty(self::$structure)) {
@@ -89,7 +90,7 @@ abstract class ARouter extends AApplication
     public function run()
     {
         /** @var \core\component\authentication\component $auth */
-        $auth = self::get('auth');
+        $auth = registry::get('auth');
         $auth->get('authorization')->check();
         $auth->get('object')->register('application_' . self::$application['id'], 'Вход в приложение: ' . self::$application['name']);
         if (!$auth->get('rules')->check('application_' . self::$application['id']) && self::$URL[1] !== self::$redirectPage) {
@@ -123,10 +124,10 @@ abstract class ARouter extends AApplication
         if (self::$isAjaxRequest ) {
             return json_encode(self::$content);
         }
-        self::get('view')->setTemplate(self::$template);
-        self::get('view')->setData(self::$content);
-        self::get('view')->run();
-        return self::get('view')->get();
+        registry::get('view')->setTemplate(self::$template);
+        registry::get('view')->setData(self::$content);
+        registry::get('view')->run();
+        return registry::get('view')->get();
     }
 
 

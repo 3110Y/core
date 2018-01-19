@@ -10,7 +10,7 @@ namespace application\admin\controllers\system\common;
 
 use \core\component\{
     application as application,
-    authorization as authorization
+    registry\registry
 };
 
 
@@ -27,7 +27,7 @@ class logout extends application\AControllers implements application\IController
     public function init()
     {
         /** @var \core\component\authentication\component $auth */
-        $auth    =   self::get('auth');
+        $auth    =   registry::get('auth');
         $auth->get('authorization')->logout();
         self::redirect(self::$application['url']);
     }

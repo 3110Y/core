@@ -10,7 +10,8 @@ namespace core\component\CForm\field\UKNumber;
 
 use \core\component\{
     CForm,
-    templateEngine\engine\simpleView
+    templateEngine\engine\simpleView,
+    resources\resources
 };
 
 
@@ -25,7 +26,7 @@ class component extends CForm\AField implements CForm\IField
     public function __construct($field)
     {
         parent::__construct($field);
-        self::$controller::setCss(self::getTemplate('css/input.css', __DIR__));
+        resources::setCss(self::getTemplate('css/input.css', __DIR__));
     }
 
     public function init()

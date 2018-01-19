@@ -9,7 +9,8 @@
 namespace application\client\model;
 
 use \core\component\{
-    application             as application
+    application             as application,
+    registry\registry
 };
 
 class settings extends application\AClass
@@ -50,7 +51,7 @@ class settings extends application\AClass
     public function __construct()
     {
         /** @var \core\component\database\driver\PDO\component $db */
-        $db =   self::get('db');
+        $db =   registry::get('db');
         $where = Array(
             'id' => 2
         );

@@ -10,7 +10,8 @@ namespace core\component\CForm\field\UKActionID;
 
 use \core\component\{
     CForm as CForm,
-    templateEngine\engine\simpleView as simpleView
+    templateEngine\engine\simpleView as simpleView,
+    resources\resources
 };
 
 
@@ -33,7 +34,7 @@ class component extends CForm\AField implements CForm\IField
         $this->row                      =   $row;
         $this->labelField['FIELD']      =   $this->idField;
         $this->labelField['TEXT']       =   $this->configField;
-        self::$controller::setJS(self::getTemplate('js/actionID.js', __DIR__));
+        resources::setJS(self::getTemplate('js/actionID.js', __DIR__));
     }
 
     public function init()

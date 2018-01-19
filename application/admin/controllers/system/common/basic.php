@@ -11,7 +11,9 @@ namespace application\admin\controllers\system\common;
 use \core\component\{
     database                            as database,
     application             as application,
-    templateEngine\engine\simpleView    as simpleView
+    templateEngine\engine\simpleView    as simpleView,
+    registry\registry,
+    resources\resources
 };
 
 
@@ -37,7 +39,7 @@ class basic extends application\AControllers implements application\IControllers
         self::$content['KEYWORDS']      =   self::$page['meta_keywords'];
         self::$content['DESCRIPTION']   =   self::$page['meta_description'];
         /** @var \core\component\database\driver\PDO\component $db */
-        $db                             =   self::get('db');
+        $db                             =   registry::get('db');
         $data                           =   Array(
             'MENU'  => self::generationMenu($db, self::$application['url'])['sub'],
         );
@@ -69,7 +71,7 @@ class basic extends application\AControllers implements application\IControllers
         if ($query->rowCount() > 0) {
             while ($row =  $query->fetch()) {
                 /** @var \core\component\authentication\component $auth */
-                $auth = self::get('auth');
+                $auth = registry::get('auth');
                 $auth->get('authorization')->check();
                 $auth->get('object')->register(
                     'application_' . self::$application['id'] . '_page_' . $row['id'],
@@ -119,10 +121,10 @@ class basic extends application\AControllers implements application\IControllers
      */
     public function postInit()
     {
-        self::$content['JS_TOP']        =   self::getJS();
-        self::$content['CSS_TOP']       =   self::getCSS();
-        self::$content['JS_BOTTOM']     =   self::getJS(false);
-        self::$content['CSS_BOTTOM']    =   self::getCSS(false);
+        self::$content['JS_TOP']        =   resources::getJS();
+        self::$content['CSS_TOP']       =   resources::getCSS();
+        self::$content['JS_BOTTOM']     =   resources::getJS(false);
+        self::$content['CSS_BOTTOM']    =   resources::getCSS(false);
     }
 
     /**

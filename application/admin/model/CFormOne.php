@@ -9,9 +9,10 @@
 namespace application\admin\model;
 
 
-use \core\component\{
-    application             as application,
-    CForm
+use core\component\{
+    application as application,
+    CForm,
+    registry\registry
 };
 
 
@@ -25,7 +26,7 @@ class CFormOne extends application\AClass
     {
         $config     =   Array(
             'controller'    =>  $controller,
-            'db'            =>  self::get('db'),
+            'db'            =>  registry::get('db'),
             'table'         =>  $table,
             'caption'       =>  $caption,
             'mode'          =>  'edit',

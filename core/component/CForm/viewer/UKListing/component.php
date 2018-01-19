@@ -11,7 +11,8 @@ namespace core\component\CForm\viewer\UKListing;
 
 use \core\component\{
 	CForm as CForm,
-	templateEngine\engine\simpleView as simpleView
+	templateEngine\engine\simpleView as simpleView,
+    resources\resources
 };
 use core\core;
 
@@ -205,7 +206,7 @@ class component extends CForm\AViewer implements CForm\IViewer
                 }
             }
         }
-        self::$controller::setCss(self::getTemplate('css/list.css', __DIR__));
+        resources::setCss(self::getTemplate('css/list.css', __DIR__));
         $this->answer   =   simpleView\component::replace($template, $this->answer);
 
     }

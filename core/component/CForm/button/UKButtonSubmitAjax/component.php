@@ -11,7 +11,8 @@ namespace core\component\CForm\button\UKButtonSubmitAjax;
 
 use \core\component\{
     CForm as CForm,
-    templateEngine\engine\simpleView
+    templateEngine\engine\simpleView,
+    resources\resources
 };
 
 
@@ -67,7 +68,7 @@ class component extends CForm\AButton implements CForm\IButton
         foreach ($this->row as $key => $value) {
             $data['ROW_' . mb_strtoupper($key)] = $value;
         }
-        self::$controller::setJs(self::getTemplate('js/script.js',__DIR__));
+        resources::setJs(self::getTemplate('js/script.js',__DIR__));
         $this->template     =   self::getTemplate($this->template, __DIR__);
         $this->answer       =   simpleView\component::replace($this->template, $data);
 

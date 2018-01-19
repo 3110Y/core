@@ -11,7 +11,7 @@ namespace application\admin\controllers\system\rules;
 use application\admin\model as model;
 use \core\component\{
     application as application,
-    CForm
+    registry\registry
 };
 
 /**
@@ -31,7 +31,7 @@ class rules extends application\AControllers implements application\IControllers
     public function init()
     {
         /** @var \core\component\database\driver\PDO\component $db */
-        $db         =   self::get('db');
+        $db         =   registry::get('db');
         $where      =   Array(
             'status'    => 1
         );

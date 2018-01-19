@@ -10,7 +10,8 @@ namespace application\admin\controllers\system\common;
 
 use \core\component\{
     application as application,
-    authorization as authorization
+    registry\registry,
+    resources\resources
 };
 
 
@@ -34,7 +35,7 @@ class enter extends application\AControllers implements application\IControllers
                 $login          =   $_POST['login'];
                 $password       =   $_POST['password'];
                 /** @var \core\component\authentication\component $auth */
-                $auth    =   self::get('auth');
+                $auth    =   registry::get('auth');
                 self::$content = $auth->get('authorization')->login($login, $password);
 
             }
@@ -42,8 +43,8 @@ class enter extends application\AControllers implements application\IControllers
             if (isset($_COOKIE['uid'])) {
                 self::redirect(self::$application['url']);
             }
-            self::setCss(self::getTemplate('css/enter.css'));
-            self::setJs(self::getTemplate('js/enter.js'));
+            resources::setCss(self::getTemplate('css/enter.css'));
+            resources::setJs(self::getTemplate('js/enter.js'));
         }
     }
 }

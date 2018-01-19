@@ -8,8 +8,11 @@
 
 namespace core\component\library;
 
-use core\core,
-    core\component\templateEngine\engine\simpleView as simpleView;
+use core\core;
+use \core\component\{
+        resources\resources,
+        templateEngine\engine\simpleView as simpleView
+    };
 
 abstract class AVendor
 {
@@ -35,29 +38,23 @@ abstract class AVendor
     protected $dir;
 
 
-	/**
-	 * @param object $controller
-	 */
-	public function setJS($controller)
+	public function setJS()
 	{
 	    foreach ($this->js['top'] as $js) {
-            $controller::setJS(self::getTemplate($js, $this->dir), true);
+            resources::setJS(self::getTemplate($js, $this->dir), true);
         }
         foreach ($this->js['bottom'] as $js) {
-            $controller::setJS(self::getTemplate($js, $this->dir), false);
+            resources::setJS(self::getTemplate($js, $this->dir), false);
         }
 	}
 
-	/**
-	 * @param object $controller
-	 */
-	public function setCss($controller)
+	public function setCss()
 	{
         foreach ($this->css['top'] as $css) {
-            $controller::setCss(self::getTemplate($css, $this->dir), true);
+            resources::setCss(self::getTemplate($css, $this->dir), true);
         }
         foreach ($this->css['bottom'] as $css) {
-            $controller::setCss(self::getTemplate($css, $this->dir), false);
+            resources::setCss(self::getTemplate($css, $this->dir), false);
         }
 	}
 
