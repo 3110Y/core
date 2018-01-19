@@ -32,7 +32,7 @@ abstract class AControllers extends AApplication
     /**
      * @var string шаблон
      */
-    protected static $template = '';
+    public  $template = 'basic';
 
 
     /**

@@ -55,6 +55,10 @@ abstract class ARouter extends AApplication
      */
     protected static $redirectPage = 'enter';
 
+    /**
+     * @var object шаблон
+     */
+    protected static $controller = null;
 
     /**
      * router constructor.
@@ -104,14 +108,16 @@ abstract class ARouter extends AApplication
         }
         $path               =   self::$application['path'];
         $controller         =   self::$page['controller'];
-        $controller         = "application\\{$path}\\controllers\\{$controller}";
-        $controller         = new $controller();
+        self::$controller         = "application\\{$path}\\controllers\\{$controller}";
+        /** @var \application\admin\controllers\page controller */
+        self::$controller         = new self::$controller();
         if ($controller instanceof IControllers) {
-            $controller->init();
+            self::$controller->init();
         }
         if (!self::$isAjaxRequest && $controllerBasic instanceof IControllerBasic) {
             $controllerBasic->postInit();
         }
+
         return $this;
     }
 
@@ -124,7 +130,7 @@ abstract class ARouter extends AApplication
         if (self::$isAjaxRequest ) {
             return json_encode(self::$content);
         }
-        registry::get('view')->setTemplate(self::$template);
+        registry::get('view')->setTemplate(self::getTemplate(self::$controller->template));
         registry::get('view')->setData(self::$content);
         registry::get('view')->run();
         return registry::get('view')->get();
