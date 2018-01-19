@@ -18,21 +18,15 @@ abstract class AControllers extends AApplication
      * @var string URL путь
      */
     protected static $pageURL   = Array();
-
     /**
      * @var mixed|int|false Колличество подуровней
      */
 	public static $countSubURL  =   0;
-
     /**
      * @var array подуровни
      */
     protected static $subURL  =   Array();
 
-    /**
-     * @var string шаблон
-     */
-    protected static $template = '';
 
 
     /**

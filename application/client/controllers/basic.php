@@ -26,11 +26,6 @@ class basic extends application\AControllers implements application\IControllers
 {
 
     /**
-     * @var string шаблон
-     */
-    protected static $template = 'basic';
-
-    /**
      * Преинициализация
      */
     public function preInit()

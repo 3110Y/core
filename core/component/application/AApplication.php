@@ -43,7 +43,10 @@ abstract class AApplication
      * @var array страница для ошибок
      */
     protected static $pageError = Array();
-
+    /**
+     * @var string шаблон
+     */
+    protected static $template = '';
 
 
     /**
