@@ -1,4 +1,4 @@
 /.idea
-filecache/*
-!filecache/*.html
-!filecache/no.png
+/filecache/*
+!/filecache/*.html
+!/filecache/no.png
