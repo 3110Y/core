@@ -95,7 +95,7 @@ abstract class ARouter extends AApplication
     {
         /** @var \core\component\authentication\component $auth */
         $auth = registry::get('auth');
-        if ($auth->get('authorization')->check()) {
+        if (!$auth->get('authorization')->check()) {
             $auth->get('authorization')->logout();
             self::redirect(self::$application['url']);
         }

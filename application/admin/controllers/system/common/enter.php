@@ -23,6 +23,11 @@ class enter extends application\AControllers implements application\IControllers
     public static $countSubURL  =   0;
 
     /**
+     * @var string шаблон
+     */
+    public  $template = 'enter';
+
+    /**
      * Инициализация
      */
     public function init()
