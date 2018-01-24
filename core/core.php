@@ -25,7 +25,8 @@ final class core
      * 5 версия хотфиксов
      */
     const VERSION   =   1.9194;
-    
+
+
     /**
      * @const string Путь до компонентов
      */
