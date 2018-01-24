@@ -74,7 +74,7 @@ class basic extends application\AControllers implements application\IControllers
                 $auth->get('authorization')->check();
                 $auth->get('object')->register(
                     'application_' . self::$application['id'] . '_page_' . $row['id'],
-                    "Отображать пункт меню {$row['name']} Приложение: " . self::$application['name']
+                    'Приложение: ' . self::$application['name']. " Отображать пункт меню: {$row['name']}"
                 );
                 if (!$auth->get('rules')->check('application_' . self::$application['id'] . '_page_' . $row['id'])) {
                     continue;
