@@ -15,6 +15,7 @@ namespace core;
  */
 final class core
 {
+
     /**
      * @const float Версия ядра
      * 1 версия суммы
