@@ -4,6 +4,7 @@
              data-action="{URL}/{PARENT_URL}/api/field/UKGallaryUploadMultiple/save/{ROW_ID}/{TABLE}/{ID}/{TABLE_LINK}"
              data-action-edit="{URL}/{PARENT_URL}/api/field/UKGallaryUploadMultiple/sort/{ROW_ID}/{TABLE}/{ID}/{TABLE_LINK}"
              data-action-dell="{URL}/{PARENT_URL}/api/field/UKGallaryUploadMultiple/dell/{ROW_ID}/{TABLE}/{ID}/{TABLE_LINK}"
+             style="{READONLY}"
         >
             <span uk-icon="icon: cloud-upload"></span>
             <span class="uk-text-middle">Загрузите файлы, перетащиав их сюда или</span>

@@ -45,6 +45,7 @@ class component extends CForm\AField implements CForm\IField
         $data['TD']                     =   '';
         $data['GRID']                   =   1;
         $data['PLACEHOLDER']            =   '';
+        $data['READONLY']               =   $this->readonly     ?   'display:none;'  :   '';
         foreach ($this->configField as $key =>  $field) {
             $data[mb_strtoupper($key)] =  $field;
         }

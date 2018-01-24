@@ -48,6 +48,7 @@ class component extends CForm\AField implements CForm\IField
         $data['MODE_FIELD']     =   $this->modeField;
         $data['LABEL']          =   $this->labelField['TEXT'];
         $data['REQUIRED']       =   $this->required     ?   '*'  :   '';
+        $data['READONLY']       =   $this->readonly     ?   'disabled'  :   '';
         $data['STYLE']          =   $this->style;
         $data['CLASS']          =   $this->class;
         $data['ID']             =   $this->idField;

@@ -49,6 +49,7 @@ class component extends CForm\AField implements CForm\IField
         fileCache::checkDir($this->path);
         $data['PARENT_URL']             =   parent::$id;
         $data['URL']                    =   self::$controller::getPageURL();
+        $data['READONLY']               =   $this->readonly     ?   'display:none;'  :   '';
         $data['TD']                     =   '';
         $data['GRID']                   =   1;
         $data['PLACEHOLDER']            =   '';

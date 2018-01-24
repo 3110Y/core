@@ -45,6 +45,11 @@ class AField extends ACForm
     protected $required = false;
 
     /**
+     * @var bool
+     */
+    protected $readonly = false;
+
+    /**
      * @var string
      */
     protected $style = '';
@@ -86,6 +91,7 @@ class AField extends ACForm
         $this->value        =   $field['value']         ?? $this->value;
         $this->modeField    =   $field['mode']          ?? $this->modeField;
         $this->required     =   $field['required']      ?? $this->required;
+        $this->readonly     =   $field['readonly']      ?? $this->readonly;
         $this->idField      =   $field['field']         ?? $field['table']['link']  ??  'field_' . __CLASS__ . '_' .  self::$iterator . '_' .  uniqid();
         if (isset($field['class'])) {
            if (!is_array($field['class'])) {
