@@ -24,6 +24,11 @@ class error extends application\AControllers implements application\IControllers
     public static $countSubURL  =   0;
 
     /**
+     * @var string
+     */
+    public $template = 'form';
+
+    /**
      * Инициализация
      */
     public function init()

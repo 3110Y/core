@@ -25,6 +25,7 @@ class page extends application\AControllers implements application\IControllers
      */
     public static $countSubURL  =   false;
 
+
     /**
      * Инициализация
      */

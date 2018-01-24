@@ -27,6 +27,10 @@ abstract class AControllers extends AApplication
      */
     protected static $subURL  =   Array();
 
+    /**
+     * @var string шаблон
+     */
+    public  $template = 'basic';
 
 
     /**
