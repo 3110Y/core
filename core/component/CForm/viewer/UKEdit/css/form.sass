@@ -105,7 +105,10 @@ $width: 1230px
       color: #999
       font-size: 20px
       top: 5px
-    >*:not(label):valid + label, >*:not(label):focus + label, >*:not(label) + label.multiple
+    >*:not(label):valid + label,
+    >*:not(label):read-only + label,
+    >*:not(label):focus + label,
+    >*:not(label) + label.multiple
       color: #333
       font-size: 0.8em
       top: -15px
