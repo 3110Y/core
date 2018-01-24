@@ -24,7 +24,7 @@ final class core
      * 4 версия исправления ошибок или предыдущего
      * 5 версия хотфиксов
      */
-    const VERSION   =   1.9091;
+    const VERSION   =   1.9092;
     
     /**
      * @const string Путь до компонентов
