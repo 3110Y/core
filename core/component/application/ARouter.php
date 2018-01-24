@@ -112,7 +112,7 @@ abstract class ARouter extends AApplication
         self::$controller         = "application\\{$path}\\controllers\\{$controller}";
         /** @var \application\admin\controllers\page controller */
         self::$controller         = new self::$controller();
-        if ($controller instanceof IControllers) {
+        if (self::$controller  instanceof IControllers) {
             self::$controller->init();
         }
         if (!self::$isAjaxRequest && $controllerBasic instanceof IControllerBasic) {
