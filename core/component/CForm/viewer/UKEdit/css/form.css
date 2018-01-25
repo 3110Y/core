@@ -94,6 +94,7 @@
     top: 5px; }
   .cform .cform-field > *:not(label):valid + label,
   .cform .cform-field > *:not(label):read-only + label,
+  .cform .cform-field > *:not(label):disabled + label,
   .cform .cform-field > *:not(label):focus + label,
   .cform .cform-field > *:not(label) + label.multiple {
     color: #333;
