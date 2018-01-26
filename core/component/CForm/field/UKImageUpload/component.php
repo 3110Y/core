@@ -107,7 +107,7 @@ class component extends CForm\AField implements CForm\IField
         parent::$subURLNow++;
         $this->answer = Array();
         foreach ($this->configField as $field) {
-            if ($field['field'] == $fieldName) {
+            if (isset($field['field'])  && $field['field'] == $fieldName) {
                 $this->configField = $field;
                 break;
             }
