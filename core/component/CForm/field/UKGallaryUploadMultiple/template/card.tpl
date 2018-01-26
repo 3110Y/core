@@ -2,7 +2,7 @@
     <div class="uk-card-body" style="padding: 5px">
         <img src="{IMG_IMG}">
     </div>
-    <div class="uk-card-footer uk-text-center">
+    <div class="uk-card-footer uk-text-center" style="{READONLY}">
         <a href="#" data-id="{IMG_ID}" class="{ID}-dell uk-button uk-button-danger">Удалить</a>
     </div>
 </div>
