@@ -49,7 +49,6 @@ class component extends CForm\AField implements CForm\IField
         fileCache::checkDir($this->path);
         $data['PARENT_URL']             =   parent::$id;
         $data['URL']                    =   self::$controller::getPageURL();
-        $data['READONLY']               =   $this->readonly     ?   'display:none;'  :   '';
         $data['TD']                     =   '';
         $data['GRID']                   =   1;
         $data['PLACEHOLDER']            =   '';
@@ -60,6 +59,7 @@ class component extends CForm\AField implements CForm\IField
         foreach ($this->row as $key =>  $field) {
             $data['ROW_' . mb_strtoupper($key)] =  $field;
         }
+        $data['READONLY']               =   $this->readonly     ?   'display:none;'  :   '';
         $data['VALUE']          =   $this->value;
         $data['MODE_FIELD']     =   $this->modeField;
         $data['LABEL']          =   $this->labelField['TEXT'];
