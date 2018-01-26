@@ -132,7 +132,7 @@ trait numToText
      * @param int $num
      * @return string
      */
-    public static function num2str(int $num) : string
+    public static function numToText(int $num) : string
     {
         list($rub,$kop) = explode('.',  sprintf("%015.2f", floatval($num)));
         $out = array();
