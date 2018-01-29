@@ -14,6 +14,6 @@ namespace core\component\application;
  */
 interface IControllers
 {
-
+    public function init();
 
 }
