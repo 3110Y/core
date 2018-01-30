@@ -7,14 +7,13 @@
  */
 
 namespace core\component\application;
-use core\component\application as application;
 use core\core;
 
 /**
  * Class component
  * @package core\component\application
  */
-class component
+class application
 {
 
     /**
@@ -23,7 +22,7 @@ class component
      * @param array $URL URL
      * @return mixed|string результат работы приложения
      */
-    public static function factory(array $application, array $URL)
+    public static function create(array $application, array $URL)
     {
         $namespace              =   'application\\' . $application['path'];
         $path                   =   'application/' . $application['path'];
@@ -31,9 +30,11 @@ class component
         core::getInstance()->addNamespace($namespace, $path);
         $router = $namespace . '\router';
         if (file_exists(core::getDR() . $path . '/router.php')) {
-	        $isAjaxRequest  =   ((isset($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_X_REQUESTED_WITH']) &&
-	        $_SERVER['HTTP_REFERER'] !== '' &&
-	        strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') || (isset($_GET['json']) && $_GET['json'] == 'true'));
+	        $isAjaxRequest  =   (
+	            isset($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_X_REQUESTED_WITH']) &&
+	            $_SERVER['HTTP_REFERER'] !== '' &&
+	            strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest'
+            );
             $router = new $router($URL, $application, $isAjaxRequest);
             $router->run();
             return $router->render();

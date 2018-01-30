@@ -105,7 +105,7 @@ class router
     public function run()
     {
         if (!empty($this->application)) {
-                return component\application\component::factory($this->application, $this->URL);
+            return component\application\application::create($this->application, $this->URL);
         }
         return 'Нет приложения';
     }
