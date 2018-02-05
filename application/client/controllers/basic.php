@@ -28,7 +28,7 @@ class basic extends application\AControllers implements application\IControllers
     /**
      * @var string шаблон
      */
-    protected $template = 'basic';
+    public $template = 'basic';
 
     /**
      * Преинициализация
