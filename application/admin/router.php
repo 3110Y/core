@@ -21,33 +21,33 @@ final class router extends application\ARouter implements application\IRouter
     /**
      * @var mixed table
      */
-    public $table = 'admin_page';
+    protected $table = 'admin_page';
 
     /**
      * @var mixed fields
      */
-    public $fields = '*';
+    protected $fields = '*';
 
     /**
      * @var mixed where
      */
-    public $where = Array(
+    protected $where = Array(
         'status' => '1'
     );
 
     /**
      * @var mixed order
      */
-    public $order = '`order_in_menu` ASC';
+    protected $order = '`order_in_menu` ASC';
 
     /**
      * @var mixed configDB
      */
-    public $configDB = 'db.common';
+    protected $configDB = 'db.common';
 
     /**
      * @var mixed configDB
      */
-    public $redirectPage = 'enter';
+    protected $redirectPage = 'enter';
 
 }
