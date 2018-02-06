@@ -49,7 +49,7 @@ class component extends templateEngine\AEngine implements templateEngine\IEngine
             $content    =   $html;
         }
         $array  =   Array();
-        preg_match_all("/{include ['\"]?([a-z0-9\\/.-_]+)['\"]?}/i", $content, $output);
+        preg_match_all("/{include ['\"]?([a-z0-9\\/.\\-_]+)['\"]?}/i", $content, $output);
         if (!empty($output[1])) {
             $path   = substr($template,0, strrpos($template, '/') + 1);
             for ($i = 0, $iMax = count($output[1]); $i < $iMax; $i++) {
