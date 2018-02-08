@@ -52,8 +52,8 @@ trait pagination
                     'ACTIVE'    =>  $i == $pageNow    ?  'active' :   ''
                 );
             }
-        } elseif ($pageNow < 3) {
-            for ($i=1; $i < 5; $i++) {
+        } elseif ($pageNow <= 4) {
+            for ($i=1; $i <= 5; $i++) {
                 $page[] = Array(
                     'LINK'          =>   $getPageURL . '/' . $i ,
                     'I'             =>  $i,
@@ -75,7 +75,7 @@ trait pagination
                 'I'         =>  $right,
                 'ACTIVE'    =>  ''
             );
-        } elseif ($pageNow >= $totalPage - 5) {
+        } elseif ($pageNow >= $totalPage - 3) {
             $page[] = Array(
                 'LINK'      =>  $getPageURL . '/' . ($pageNow - 1) ,
                 'I'         =>  $left,
@@ -91,7 +91,7 @@ trait pagination
                 'I'             =>  '...',
                 'ACTIVE'        =>  ''
             );
-            for ($i=$totalPage -5; $i <= $totalPage ; $i++) {
+            for ($i=$totalPage -4; $i <= $totalPage ; $i++) {
                 $page[] = Array(
                     'LINK'          =>  $getPageURL . '/' . $i ,
                     'I'             =>  $i,
@@ -114,7 +114,7 @@ trait pagination
                 'I'             =>  '...',
                 'ACTIVE'        =>  ''
             );
-            for ($i=$pageNow - 2; $i < $pageNow + 2; $i++) {
+            for ($i=$pageNow - 2; $i <= $pageNow + 2; $i++) {
                 $page[] = Array(
                     'LINK'          =>  $getPageURL . '/' . $i  ,
                     'I'             =>  $i,
