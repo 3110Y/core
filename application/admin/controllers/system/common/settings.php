@@ -19,7 +19,7 @@ use \core\component\{
  * Class settings
  * @package application\admin\controllers\system\common
  */
-class settings extends application\AControllers implements application\IControllers
+class settings extends application\AControllers
 {
     /**
      * @var mixed|int|false Колличество подуровней
@@ -29,7 +29,7 @@ class settings extends application\AControllers implements application\IControll
     /**
      * Инициализация
      */
-    public function init()
+    public function __construct()
     {
         $field     =   Array(
             Array(

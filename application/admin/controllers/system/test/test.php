@@ -15,7 +15,7 @@ use core\component\application as application;
  * Class test
  * @package application\admin\controllers
  */
-class test extends application\AControllers implements application\IControllers
+class test extends application\AControllers
 {
     /**
      * @var mixed|int|false Колличество подуровней
@@ -25,7 +25,7 @@ class test extends application\AControllers implements application\IControllers
     /**
      * Инициализация
      */
-    public function init()
+    public function __construct()
     {
         self::redirect(self::$pageURL . '/field');
     }

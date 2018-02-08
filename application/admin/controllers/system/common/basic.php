@@ -21,13 +21,13 @@ use \core\component\{
  * Class basic
  * @package application\admin\controllers\system\common
  */
-class basic extends application\AControllers implements application\IControllers, application\IControllerBasic
+class basic extends application\AControllers implements application\IControllerBasic
 {
 
     /**
      * Преинициализация
      */
-    public function preInit()
+    public function pre()
     {
     	//TODO: проверить title
         $path                           =   self::$application['path'];
@@ -44,6 +44,14 @@ class basic extends application\AControllers implements application\IControllers
         );
         $template                       =   self::getTemplate('block/menu/menu.tpl');
         self::$content['MENU']          =   simpleView\component::replace($template,  $data);
+    }
+
+    /**
+     * Преинициализация
+     */
+    public function preAjax()
+    {
+
     }
 
 	/**
@@ -118,7 +126,7 @@ class basic extends application\AControllers implements application\IControllers
     /**
      * Постинициализация
      */
-    public function postInit()
+    public function post()
     {
         self::$content['JS_TOP']        =   resources::getJS();
         self::$content['CSS_TOP']       =   resources::getCSS();
@@ -127,10 +135,11 @@ class basic extends application\AControllers implements application\IControllers
     }
 
     /**
-     * Инициализация
+     * Постинициализация
      */
-    public function init()
+    public function postAjax()
     {
-        // TODO: Implement init() method.
+
     }
+
 }

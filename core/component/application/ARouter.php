@@ -107,19 +107,25 @@ abstract class ARouter extends AApplication
         self::selectPage();
         $controllerBasic    =   'application\\' . self::$application['path'] . '\controllers\\' . self::$application['basicController'];
         $controllerBasic    =   new $controllerBasic();
-        if ($controllerBasic instanceof IControllerBasic) {
-            $controllerBasic->preInit();
+        $issetBasic         =   $controllerBasic instanceof IControllerBasic;
+        if ($issetBasic) {
+            if (!self::$isAjaxRequest) {
+                $controllerBasic->pre();
+            } else {
+                $controllerBasic->preAjax();
+            }
         }
         $path               =   self::$application['path'];
         $controller         =   self::$page['controller'];
         $this->controller         = "application\\{$path}\\controllers\\{$controller}";
         /** @var \application\admin\controllers\page controller */
         $this->controller         = new $this->controller();
-        if ($this->controller  instanceof IControllers) {
-            $this->controller->init();
-        }
-        if (!self::$isAjaxRequest && $controllerBasic instanceof IControllerBasic) {
-            $controllerBasic->postInit();
+        if ($issetBasic) {
+            if (!self::$isAjaxRequest) {
+                $controllerBasic->post();
+            } else {
+                $controllerBasic->postAjax();
+            }
         }
 
         return $this;

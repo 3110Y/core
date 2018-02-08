@@ -9,7 +9,7 @@
 namespace application\admin;
 
 
-use \core\component\application as application;
+use \core\component\application;
 
 
 /**
@@ -18,36 +18,6 @@ use \core\component\application as application;
  */
 final class router extends application\ARouter implements application\IRouter
 {
-    /**
-     * @var mixed table
-     */
-    protected $table = 'admin_page';
 
-    /**
-     * @var mixed fields
-     */
-    protected $fields = '*';
-
-    /**
-     * @var mixed where
-     */
-    protected $where = Array(
-        'status' => '1'
-    );
-
-    /**
-     * @var mixed order
-     */
-    protected $order = '`order_in_menu` ASC';
-
-    /**
-     * @var mixed configDB
-     */
-    protected $configDB = 'db.common';
-
-    /**
-     * @var mixed configDB
-     */
-    protected $redirectPage = 'enter';
 
 }

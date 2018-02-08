@@ -16,7 +16,7 @@ use core\component\application as application;
  * Class field
  * @package application\admin\controllers\system\test
  */
-class field extends application\AControllers implements application\IControllers
+class field extends application\AControllers
 {
     /**
      * @var mixed|int|false Колличество подуровней
@@ -26,7 +26,7 @@ class field extends application\AControllers implements application\IControllers
     /**
      * Инициализация
      */
-    public function init()
+    public function __construct()
     {
         $listStatus =   Array(
             Array(

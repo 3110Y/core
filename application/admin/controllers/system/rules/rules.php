@@ -18,7 +18,7 @@ use \core\component\{
  * Class rules
  * @package application\admin\controllers
  */
-class rules extends application\AControllers implements application\IControllers
+class rules extends application\AControllers
 {
     /**
      * @var mixed|int|false Колличество подуровней
@@ -28,7 +28,7 @@ class rules extends application\AControllers implements application\IControllers
     /**
      * Инициализация
      */
-    public function init()
+    public function __construct()
     {
         /** @var \core\component\database\driver\PDO\component $db */
         $db         =   registry::get('db');

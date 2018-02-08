@@ -37,10 +37,8 @@ CREATE TABLE IF NOT EXISTS `admin_page` (
   `meta_title` varchar(50) NOT NULL,
   `meta_keywords` varchar(250) NOT NULL,
   `meta_description` varchar(200) NOT NULL,
-  `template` varchar(50) NOT NULL DEFAULT 'clear',
   `controller` varchar(250) NOT NULL DEFAULT 'basic',
   `error` tinyint(1) NOT NULL DEFAULT '0',
-  `basic` tinyint(1) NOT NULL DEFAULT '0',
   `order_in_menu` int(11) NOT NULL DEFAULT '10',
   `date_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `date_insert` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
@@ -81,7 +79,6 @@ CREATE TABLE IF NOT EXISTS `client_page` (
   `meta_title` varchar(50) NOT NULL,
   `meta_keywords` varchar(250) NOT NULL,
   `meta_description` varchar(200) NOT NULL,
-  `template` varchar(50) NOT NULL DEFAULT 'basic',
   `controller` varchar(50) NOT NULL DEFAULT 'basic',
   `error` tinyint(1) NOT NULL DEFAULT '0',
   `order_in_menu` int(11) NOT NULL DEFAULT '10',

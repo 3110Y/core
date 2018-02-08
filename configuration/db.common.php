@@ -10,7 +10,7 @@ return Array(
 	'host'              =>  '127.0.0.1',
 	'port'              =>  '3306',
 	'db'                =>  'core',
-	'name'              =>  'root',
-	'pass'              =>  '',
+	'name'              =>  'user',
+	'pass'              =>  'password',
 	'character'         =>  'UTF8',
 );

@@ -22,7 +22,7 @@ use \core\component\{
  * Class basic
  * @package application\client\controllers
  */
-class basic extends application\AControllers implements application\IControllers, application\IControllerBasic
+class basic extends application\AControllers
 {
 
     /**
@@ -64,12 +64,6 @@ class basic extends application\AControllers implements application\IControllers
         );
         $template                       =   self::getTemplate('menu.tpl');
         self::$content['MENU']          =   simpleView\component::replace($template,  $data);
-
-		$data                           =   Array(
-			'MENU_MOBILE'  => self::generationMenu($db, self::$application['url']),
-		);
-		$template                       =   self::getTemplate('menu_mobile.tpl');
-		self::$content['MENU_MOBILE']   =   simpleView\component::replace($template,  $data);
     }
 
     /**
@@ -123,7 +117,7 @@ class basic extends application\AControllers implements application\IControllers
     /**
      * Инициализация
      */
-    public function init()
+    public function __construct()
     {
         foreach (self::$page as $key => $value) {
             self::$content['DATA_' . mb_strtoupper($key)]  =  $value;

@@ -16,7 +16,7 @@ use core\component\application as application;
  * Class front
  * @package application\admin\controllers
  */
-class front extends application\AControllers implements application\IControllers
+class front extends application\AControllers
 {
     /**
      * @var mixed|int|false Колличество подуровней
@@ -32,9 +32,9 @@ class front extends application\AControllers implements application\IControllers
     /**
      * Инициализация
      */
-    public function init()
+    public function __construct()
     {
-    	$url = self::$application['url'] == '/' ?   self::$application['url']   :   self::$application['url'] . '/';
+    	$url = self::$application['url'] === '/' ?   self::$application['url']   :   self::$application['url'] . '/';
         self::redirect($url .'page');
     }
 

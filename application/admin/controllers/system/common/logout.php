@@ -14,7 +14,7 @@ use \core\component\{
 };
 
 
-class logout extends application\AControllers implements application\IControllers
+class logout extends application\AControllers
 {
     /**
      * @var mixed|int|false Колличество подуровней
@@ -24,7 +24,7 @@ class logout extends application\AControllers implements application\IController
     /**
      * Инициализация
      */
-    public function init()
+    public function __construct()
     {
         /** @var \core\component\authentication\component $auth */
         $auth    =   registry::get('auth');

@@ -15,7 +15,7 @@ use \core\component\{
 };
 
 
-class group extends application\AControllers implements application\IControllers
+class group extends application\AControllers
 {
     /**
      * @var mixed|int|false Колличество подуровней
@@ -25,7 +25,7 @@ class group extends application\AControllers implements application\IControllers
     /**
      * Инициализация
      */
-    public function init()
+    public function __construct()
     {
         $listStatus =   Array(
             Array(

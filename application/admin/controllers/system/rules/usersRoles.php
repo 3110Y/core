@@ -16,7 +16,7 @@ use core\component\application as application;
  *
  * @package application\admin\controllers
  */
-class usersRoles extends application\AControllers implements application\IControllers
+class usersRoles extends application\AControllers
 {
 	/**
 	 * @var mixed|int|false Колличество подуровней
@@ -26,7 +26,7 @@ class usersRoles extends application\AControllers implements application\IContro
 	/**
 	 * Инициализация
 	 */
-	public function init()
+	public function __construct()
 	{
 		self::redirect(self::$pageURL . '/user');
 	}

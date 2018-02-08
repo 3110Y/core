@@ -16,7 +16,7 @@ use core\component\application as application;
  * Class error
  * @package app\admin\controllers
  */
-class error extends application\AControllers implements application\IControllers
+class error extends application\AControllers
 {
     /**
      * @var mixed|int|false Колличество подуровней
@@ -31,7 +31,7 @@ class error extends application\AControllers implements application\IControllers
     /**
      * Инициализация
      */
-    public function init()
+    public function __construct()
     {
         header('HTTP/1.0 404 Not Found');
         self::$content['CONTENT']  =    'Ошибка';

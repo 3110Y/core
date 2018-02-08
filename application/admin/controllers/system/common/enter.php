@@ -15,7 +15,7 @@ use \core\component\{
 };
 
 
-class enter extends application\AControllers implements application\IControllers
+class enter extends application\AControllers
 {
     /**
      * @var mixed|int|false Колличество подуровней
@@ -30,7 +30,7 @@ class enter extends application\AControllers implements application\IControllers
     /**
      * Инициализация
      */
-    public function init()
+    public function __construct()
     {
 
         if (self::$isAjaxRequest ) {
