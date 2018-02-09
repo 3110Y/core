@@ -32,9 +32,11 @@ trait pagination
      *
      * @return array|bool array - результат, false - нет такой страницы
      */
-    public static function getPagination(string $getPageURL, int $pageNow = 1, int $count, int $onPage = 10, string $right = '>', string $left = '<')
+    public static function getPagination(string $getPageURL, $pageNow = 1, int $count, int $onPage = 10, string $right = '>', string $left = '<')
     {
         $totalPage   =  ceil($count / $onPage);
+        if (!ctype_digit((string) $pageNow)) return false;
+        $pageNow = (int) $pageNow;
         if ($pageNow < 1) {
             return false;
         }
