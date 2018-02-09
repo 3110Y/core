@@ -6,13 +6,13 @@
  * Time: 19:06
  */
 
-namespace application\client\controllers;
+namespace application\controllers;
 
-use \application\client\model as model;
+use \application\model;
+
 use \core\component\{
-    registry\registry                   as registry,
-    database                            as database,
-    application                         as application,
+    registry\registry,
+    application\AControllers,
     simpleView\simpleView,
     resources\resources
 };
@@ -20,9 +20,9 @@ use \core\component\{
 
 /**
  * Class basic
- * @package application\client\controllers
+ * @package application\controllers
  */
-class basic extends application\AControllers
+class basic extends AControllers
 {
 
     /**

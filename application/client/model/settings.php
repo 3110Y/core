@@ -6,10 +6,10 @@
  * Time: 17:17
  */
 
-namespace application\client\model;
+namespace application\model;
 
 use \core\component\{
-    application             as application,
+    application,
     registry\registry
 };
 
@@ -53,7 +53,7 @@ class settings extends application\AClass
         /** @var \core\component\PDO\PDO $db */
         $db =   registry::get('db');
         $where = Array(
-            'id' => 2
+            'id' => 1
         );
         self::$configuration =   $db->selectRow(self::$table, '*', $where);
     }

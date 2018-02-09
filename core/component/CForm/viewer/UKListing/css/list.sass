@@ -25,6 +25,7 @@ $width: 1230px
   display: block
   position: relative
   background-color: $color3
+  z-index: 1
   box-shadow: 0 14px 25px rgba(0, 0, 0, 0.16)
   &.w-hundred
     width: 100%
@@ -40,7 +41,7 @@ $width: 1230px
     left: 0
     text-align: center
     white-space: nowrap
-    z-index: 1
+    z-index: 999
     &.is-hidden
       display: none
   .cf-caption
@@ -50,10 +51,14 @@ $width: 1230px
     &.is-hidden
       display: none
     &::after
-      clear: both
-      content: " "
+      height: 56px
       width: 100%
-      display: block
+      position: absolute
+      background-color: #3d536f
+      top: 0
+      left: 0
+      content: " "
+      z-index: -1
     &>*
       margin: 0
       color: $color3

@@ -6,16 +6,16 @@
  * Time: 12:24
  */
 
-namespace application\admin\controllers\system\test;
+namespace application\controllers\system\test;
 
-use core\component\application as application;
+use core\component\application\AControllers;
 
 
 /**
  * Class test
- * @package application\admin\controllers
+ * @package application\controllers
  */
-class test extends application\AControllers
+class test extends AControllers
 {
     /**
      * @var mixed|int|false Колличество подуровней

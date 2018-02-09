@@ -6,11 +6,11 @@
  * Time: 13:03
  */
 
-namespace application\admin\model;
+namespace application\model;
 
 
 use core\component\{
-    application as application,
+    application\AClass,
     CForm,
     registry\registry
 };
@@ -18,9 +18,9 @@ use core\component\{
 
 /**
  * Class CFormOne
- * @package application\admin\model
+ * @package application\model
  */
-class CFormOne extends application\AClass
+class CFormOne extends AClass
 {
     public static function generation($controller, $table, $caption, $field, $id = 1)
     {

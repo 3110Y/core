@@ -6,12 +6,15 @@
  * Time: 19:05
  */
 
-namespace application\client;
+namespace application;
 
-use \core\component\application as application;
+use \core\component\application\{
+    ARouter,
+    IRouter
+};
 
 
-final class router extends application\ARouter implements application\IRouter
+final class router extends ARouter implements IRouter
 {
     /**
      * @var mixed table

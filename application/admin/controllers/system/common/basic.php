@@ -6,11 +6,11 @@
  * Time: 13:54
  */
 
-namespace application\admin\controllers\system\common;
+namespace application\controllers\system\common;
 
 use \core\component\{
-    database                            as database,
-    application             as application,
+    application\AControllers,
+    application\IControllerBasic,
     simpleView\simpleView,
     registry\registry,
     resources\resources
@@ -19,9 +19,9 @@ use \core\component\{
 
 /**
  * Class basic
- * @package application\admin\controllers\system\common
+ * @package application\controllers\system\common
  */
-class basic extends application\AControllers implements application\IControllerBasic
+class basic extends AControllers implements IControllerBasic
 {
 
     /**

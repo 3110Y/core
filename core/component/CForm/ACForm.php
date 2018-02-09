@@ -7,7 +7,7 @@
  */
 
 namespace core\component\CForm;
-use core\core;
+use  core\component\dir\dir;
 
 
 /**
@@ -20,7 +20,7 @@ abstract class ACForm
     /** @var \core\component\PDO\PDO */
     protected static $db;
 
-    /** @var \application\admin\controllers\page */
+    /** @var \application\controllers\page */
     protected static $controller;
 
     /** @var string */
@@ -67,7 +67,7 @@ abstract class ACForm
         $dir    =   strtr($dir, Array(
             '\\' =>  '/'
         ));
-        $dr    =   strtr(core::getDR(), Array(
+        $dr    =   strtr(dir::getDR(), Array(
             '\\' =>  '/'
         ));
         return '/' . str_replace($dr,'', $dir) . '/' . $template;

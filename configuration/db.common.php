@@ -5,6 +5,10 @@
  * Date: 21.6.2017
  * Time: 13:55
  */
+
+if (!class_exists(\core\core::class)) {
+    die();
+}
 return Array(
 	'driver'            =>  'mysql',
 	'host'              =>  '127.0.0.1',

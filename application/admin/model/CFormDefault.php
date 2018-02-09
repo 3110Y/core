@@ -6,11 +6,11 @@
  * Time: 4:38
  */
 
-namespace application\admin\model;
+namespace application\model;
 
 
 use \core\component\{
-    application             as application,
+    application\AClass,
     CForm,
     registry\registry
 };
@@ -18,9 +18,9 @@ use \core\component\{
 
 /**
  * Class CFormDefault
- * @package application\admin\model
+ * @package application\model
  */
-class CFormDefault extends application\AClass
+class CFormDefault extends AClass
 {
     /**
      * @param object $controller

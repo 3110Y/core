@@ -8,10 +8,11 @@
 
 namespace core\component\library;
 
-use core\core;
+
 use \core\component\{
         resources\resources,
-        simpleView\simpleView
+        simpleView\simpleView,
+        dir\dir
     };
 
 abstract class AVendor
@@ -70,7 +71,7 @@ abstract class AVendor
         $dir    =   strtr($dir, Array(
             '\\' =>  '/'
         ));
-        $dr    =   strtr(core::getDR(), Array(
+        $dr    =   strtr(dir::getDR(), Array(
             '\\' =>  '/'
         ));
         return '/' . str_replace($dr,'', $dir) . '/' . $template;

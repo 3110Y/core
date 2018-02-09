@@ -6,19 +6,19 @@
  * Time: 8:47
  */
 
-namespace application\admin\controllers;
+namespace application\controllers;
 
-use application\admin\model as model;
+use application\model;
 use \core\component\{
-    application as application
+    application\AControllers
 };
 
 
 /**
  * Class page
- * @package application\admin\controllers
+ * @package application\controllers
  */
-class page extends application\AControllers
+class page extends AControllers
 {
     /**
      * @var mixed|int|false Колличество подуровней

@@ -8,7 +8,7 @@
 
 namespace core\component\fileCache;
 
-use core\core;
+use  core\component\dir\dir;
 
 
 /**
@@ -29,7 +29,7 @@ class fileCache
 	 */
 	public static function getDir(string $dir, $needAbsolute = true): string
 	{
-		$dirAbsolute    =   core::getDirFileCache() . $dir;
+		$dirAbsolute    =   dir::getDirFileCache() . $dir;
 		if (!file_exists($dirAbsolute) && !mkdir($dirAbsolute, 0777, true) && !is_dir($dirAbsolute)) {
 			die('Не могу создать дирректорию ' . $dir);
 		}
@@ -40,9 +40,9 @@ class fileCache
 	 * Проверяет на наличие дирректорию и создает ее в случае необходимости
 	 * @param string $dir дирректория
 	 */
-	public static function checkDir(string $dir)
-	{
-		$dirAbsolute    =   core::getDirFileCache() . $dir;
+	public static function checkDir(string $dir): void
+    {
+		$dirAbsolute    =   dir::getDirFileCache() . $dir;
 		if (!file_exists($dirAbsolute) && !mkdir($dirAbsolute, 0777, true) && !is_dir($dirAbsolute)) {
 			die('Не могу создать дирректорию ' . $dir);
 		}

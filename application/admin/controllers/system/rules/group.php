@@ -6,16 +6,15 @@
  * Time: 0:57
  */
 
-namespace application\admin\controllers\system\rules;
+namespace application\controllers\system\rules;
 
-use application\admin\model as model;
+use application\model;
 use \core\component\{
-    application as application,
-    CForm
+    application\AControllers
 };
 
 
-class group extends application\AControllers
+class group extends AControllers
 {
     /**
      * @var mixed|int|false Колличество подуровней

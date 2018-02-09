@@ -6,15 +6,15 @@
  * Time: 6:28
  */
 
-namespace application\admin\controllers\system\common;
+namespace application\controllers\system\common;
 
 use \core\component\{
-    application as application,
+    application\AControllers,
     registry\registry
 };
 
 
-class logout extends application\AControllers
+class logout extends AControllers
 {
     /**
      * @var mixed|int|false Колличество подуровней

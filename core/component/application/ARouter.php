@@ -9,12 +9,8 @@
 
 namespace core\component\application;
 
-use core\core;
-use \core\component\{
-    registry\registry as registry,
-    authentication as authentication,
-    PDO\PDO,
-    simpleView\simpleView
+use core\component\{
+    config\config, registry\registry as registry, authentication as authentication, PDO\PDO, simpleView\simpleView
 };
 
 /**
@@ -72,7 +68,7 @@ abstract class ARouter extends AApplication
         self::$isAjaxRequest        =  $isAjaxRequest;
         self::$URL                  =  $URL;
         self::$application          =  $application;
-        $config                     =   core::getConfig($this->configDB);
+        $config                     =   config::getConfig($this->configDB);
         /** @var PDO $db */
         $db =   PDO::getInstance($config);
         registry::set('db', $db);
@@ -105,7 +101,7 @@ abstract class ARouter extends AApplication
             self::redirect(self::$application['url'] . '/' . $this->redirectPage);
         }
         self::selectPage();
-        $controllerBasic    =   'application\\' . self::$application['path'] . '\controllers\\' . self::$application['basicController'];
+        $controllerBasic    =   'application\\controllers\\' . self::$application['basicController'];
         $controllerBasic    =   new $controllerBasic();
         $issetBasic         =   $controllerBasic instanceof IControllerBasic;
         if ($issetBasic) {
@@ -117,7 +113,7 @@ abstract class ARouter extends AApplication
         }
         $path               =   self::$application['path'];
         $controller         =   self::$page['controller'];
-        $this->controller         = "application\\{$path}\\controllers\\{$controller}";
+        $this->controller         = "application\\controllers\\{$controller}";
         /** @var \application\admin\controllers\page controller */
         $this->controller         = new $this->controller();
         if ($issetBasic) {
@@ -187,9 +183,9 @@ abstract class ARouter extends AApplication
             $URLLeft = $URLCount - ($URLKey + 1);
             foreach (self::$structure as $item) {
                 if (!isset($item['countSubURL'])) {
-                    /** @var \application\admin\controllers\basic $controller */
+                    /** @var \application\controllers\basic $controller */
                     $controller                 =   $item['controller'];
-                    $controller                 =   "application\\{$path}\\controllers\\{$controller}";
+                    $controller                 =   "application\\controllers\\{$controller}";
                     $item['controllerObject']   =   $controller;
                     $item['countSubURL']        =   $controller::$countSubURL;
                 }

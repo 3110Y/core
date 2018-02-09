@@ -6,16 +6,16 @@
  * Time: 5:25
  */
 
-namespace application\admin\controllers\system\common;
+namespace application\controllers\system\common;
 
 use \core\component\{
-    application as application,
+    application\AControllers,
     registry\registry,
     resources\resources
 };
 
 
-class enter extends application\AControllers
+class enter extends AControllers
 {
     /**
      * @var mixed|int|false Колличество подуровней

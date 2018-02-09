@@ -6,11 +6,11 @@
  * Time: 13:00
  */
 
-namespace application\admin\model;
+namespace application\model;
 
 
 use \core\component\{
-    application             as application,
+    application\AClass,
     CForm,
     registry\registry
 };
@@ -18,9 +18,9 @@ use \core\component\{
 
 /**
  * Class CFormDefaultNoEdit
- * @package application\admin\model
+ * @package application\model
  */
-class CFormDefaultNoEdit extends application\AClass
+class CFormDefaultNoEdit extends AClass
 {
     /**
      * @param object $controller

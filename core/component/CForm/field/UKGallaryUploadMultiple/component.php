@@ -13,9 +13,9 @@ use \core\component\{
     simpleView\simpleView,
     fileCache\fileCache,
     library as library,
-    image\image
+    image\image,
+    dir\dir
 };
-use core\core;
 
 
 /**
@@ -220,9 +220,8 @@ class component extends CForm\AField implements CForm\IField
             $end = '.none';
         }
         fileCache::checkDir($this->path);
-        // chmod(core::getDR(true)  . $thumbnailStore, 0777);
         $thumbnailStore .= '/' . $name . $end;
-        $thumbnail->writeImages(core::getDR(true)  . $thumbnailStore, true);
+        $thumbnail->writeImages(dir::getDR(true)  . $thumbnailStore, true);
 
         $where = Array(
             'parent_id' => $id,
@@ -273,8 +272,8 @@ class component extends CForm\AField implements CForm\IField
 
     public function delete($value)
     {
-        if ($value !== '' && file_exists(core::getDR(true) . $value)) {
-            unlink(core::getDR(true) . $value);
+        if ($value !== '' && file_exists(dir::getDR(true) . $value)) {
+            unlink(dir::getDR(true) . $value);
         }
     }
 

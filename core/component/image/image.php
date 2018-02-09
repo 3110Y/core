@@ -7,8 +7,10 @@
  */
 
 namespace core\component\image;
+
+
 use core\component\fileCache\fileCache;
-use core\core;
+use core\component\dir\dir;
 
 /**
  * Class image
@@ -54,12 +56,12 @@ class image
 		self::$urlImage     =   $urlImage;
 		$tmp                =   explode('.', self::$urlImage);
 		self::$ext          =   end($tmp);
-		self::$urlImageDR   =   core::getDR(true) . $urlImage;
+		self::$urlImageDR   =   dir::getDR(true) . $urlImage;
 		if (!file_exists(self::$urlImageDR)) {
 			return false;
 		}
 		$new_file = '/filecache/cache/' . self::$key . '.' . self::$ext;
-		if (file_exists(core::getDR(true) .  $new_file)) {
+		if (file_exists(dir::getDR(true) .  $new_file)) {
 			return $new_file;
 		}
 		/** @var \Imagick thumbnail */
@@ -76,7 +78,7 @@ class image
 			self::$thumbnail->setImageCompressionQuality(65);
 			self::$thumbnail->stripImage();
 		}
-		self::$thumbnail->writeImages(core::getDR(true) .  $new_file, true);
+		self::$thumbnail->writeImages(dir::getDR(true) .  $new_file, true);
 		return $new_file;
 	}
 

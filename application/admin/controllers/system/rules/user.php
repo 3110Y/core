@@ -6,20 +6,20 @@
  * Time: 11:46
  */
 
-namespace application\admin\controllers\system\rules;
+namespace application\controllers\system\rules;
 
-use application\admin\model as model;
+use application\model;
 use \core\component\{
-    application as application,
+    application\AControllers,
     registry\registry
 };
 
 
 /**
 * Class user
- * @package application\admin\controllers
+ * @package application\controllers
  */
-class user extends application\AControllers
+class user extends AControllers
 {
     /**
      * @var mixed|int|false Колличество подуровней

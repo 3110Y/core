@@ -6,17 +6,17 @@
  * Time: 14:46
  */
 
-namespace application\admin\controllers\system\test;
+namespace application\controllers\system\test;
 
-use application\admin\model as model;
-use core\component\application as application;
+use application\model;
+use core\component\application\AControllers;
 
 
 /**
  * Class field
- * @package application\admin\controllers\system\test
+ * @package application\controllers\system\test
  */
-class field extends application\AControllers
+class field extends AControllers
 {
     /**
      * @var mixed|int|false Колличество подуровней

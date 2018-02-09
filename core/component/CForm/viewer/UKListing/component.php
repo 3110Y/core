@@ -12,9 +12,9 @@ namespace core\component\CForm\viewer\UKListing;
 use \core\component\{
 	CForm as CForm,
     simpleView\simpleView,
-    resources\resources
+    resources\resources,
+    dir\dir
 };
-use core\core;
 
 
 /**
@@ -58,9 +58,9 @@ class component extends CForm\AViewer implements CForm\IViewer
     public function run()
     {
         if ($this->totalRows == 0) {
-            $template = core::getDR(true) . self::getTemplate('template/listNo.tpl', __DIR__);
+            $template = dir::getDR(true) . self::getTemplate('template/listNo.tpl', __DIR__);
         } else {
-            $template = core::getDR(true) . self::getTemplate('template/list.tpl', __DIR__);
+            $template = dir::getDR(true) . self::getTemplate('template/list.tpl', __DIR__);
             $orderAll = self::getOrder();
             foreach ($this->data as $row) {
                 $td = Array(

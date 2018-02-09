@@ -6,17 +6,17 @@
  * Time: 15:33
  */
 
-namespace application\admin\controllers\system\common;
+namespace application\controllers\system\common;
 
 
-use core\component\application as application;
+use core\component\application\AControllers;
 
 
 /**
  * Class front
- * @package application\admin\controllers
+ * @package application\controllers
  */
-class front extends application\AControllers
+class front extends AControllers
 {
     /**
      * @var mixed|int|false Колличество подуровней

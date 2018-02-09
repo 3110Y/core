@@ -6,18 +6,20 @@
  * Time: 14:39
  */
 
-namespace application\admin;
+namespace application;
 
 
-use \core\component\application;
+use \core\component\application\{
+    ARouter,
+    IRouter
+};
 
 
 /**
  * Class router
- * @package application\admin
+ * @package application
  */
-final class router extends application\ARouter implements application\IRouter
+final class router extends ARouter implements IRouter
 {
-
 
 }

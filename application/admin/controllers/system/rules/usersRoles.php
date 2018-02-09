@@ -6,17 +6,17 @@
  * Time: 03:30
  */
 
-namespace application\admin\controllers\system\rules;
+namespace application\controllers\system\rules;
 
-use core\component\application as application;
+use core\component\application\AControllers;
 
 
 /**
  * Class usersRoles
  *
- * @package application\admin\controllers
+ * @package application\controllers
  */
-class usersRoles extends application\AControllers
+class usersRoles extends AControllers
 {
 	/**
 	 * @var mixed|int|false Колличество подуровней

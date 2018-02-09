@@ -12,9 +12,9 @@ namespace core\component\CForm\viewer\UKEdit;
 use \core\component\{
     CForm as CForm,
     simpleView\simpleView,
-    resources\resources
+    resources\resources,
+    dir\dir
 };
-use core\core;
 
 /**
  * Class component
@@ -40,9 +40,9 @@ class component extends CForm\AViewer implements CForm\IViewer
     public function run()
     {
         if (empty($this->data)) {
-            $template = core::getDR(true) . self::getTemplate('template/formNo.tpl', __DIR__);
+            $template = dir::getDR(true) . self::getTemplate('template/formNo.tpl', __DIR__);
         } else {
-            $template = core::getDR(true) . self::getTemplate('template/form.tpl', __DIR__);
+            $template = dir::getDR(true) . self::getTemplate('template/form.tpl', __DIR__);
             $this->answer['FIELDS'] = Array();
             foreach ($this->field as $key => $field) {
 

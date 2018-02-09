@@ -6,20 +6,20 @@
  * Time: 13:13
  */
 
-namespace application\admin\controllers\system\common;
+namespace application\controllers\system\common;
 
 
-use application\admin\model as model;
+use application\model;
 use \core\component\{
-    application as application
+    application\AControllers
 };
 
 
 /**
  * Class settings
- * @package application\admin\controllers\system\common
+ * @package application\controllers\system\common
  */
-class settings extends application\AControllers
+class settings extends AControllers
 {
     /**
      * @var mixed|int|false Колличество подуровней

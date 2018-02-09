@@ -7,7 +7,11 @@
  */
 
 namespace core\component\application;
-use core\core;
+use application\router;
+use core\component\{
+    dir\dir,
+    autoloader\autoloader
+};
 
 /**
  * Class component
@@ -27,9 +31,9 @@ class application
         $namespace              =   'application\\' . $application['path'];
         $path                   =   'application/' . $application['path'];
 	    $application['url']     =   $application['url'] !== '/'   ?   '/' . $application['url']   :   $application['url'];
-        core::getInstance()->addNamespace($namespace, $path);
-        $router = $namespace . '\router';
-        if (file_exists(core::getDR() . $path . '/router.php')) {
+        autoloader::getInstance()->addNamespace('application', $path);
+        $router = router::class;
+        if (file_exists(dir::getDR() . $path . '/router.php')) {
 	        $isAjaxRequest  =   (
 	            isset($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_X_REQUESTED_WITH']) &&
 	            $_SERVER['HTTP_REFERER'] !== '' &&

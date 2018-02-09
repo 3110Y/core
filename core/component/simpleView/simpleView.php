@@ -7,8 +7,8 @@
  */
 
 namespace core\component\simpleView;
-use core\component\templateEngine as templateEngine;
-use core\core;
+
+use  core\component\dir\dir;
 
 /**
  * Class component
@@ -94,8 +94,8 @@ class simpleView
         if ($template !== false) {
             if (file_exists($template)) {
                 $content = file_get_contents($template);
-            } elseif (file_exists(core::getDR() . $template)) {
-                $template   =   core::getDR(true) . $template;
+            } elseif (file_exists(dir::getDR() . $template)) {
+                $template   =   dir::getDR(true) . $template;
                 $content = file_get_contents($template);
             } else {
                 //TODO: Проверка наличия шаблона

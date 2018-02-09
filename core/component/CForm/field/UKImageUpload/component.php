@@ -13,9 +13,9 @@ use \core\component\{
     simpleView\simpleView,
     fileCache\fileCache,
     library as library,
-    image\image
+    image\image,
+    dir\dir
 };
-use core\core;
 
 
 /**
@@ -127,8 +127,8 @@ class component extends CForm\AField implements CForm\IField
         );
         $row    =   parent::$db->selectRow($table, $this->configField['field'], $where);
         $valueOld = $row[$this->configField['field']];
-        if ($valueOld != '' && file_exists(core::getDR(true) . $valueOld)) {
-            unlink(core::getDR(true) .$valueOld);
+        if ($valueOld != '' && file_exists(dir::getDR(true) . $valueOld)) {
+            unlink(dir::getDR(true) .$valueOld);
         }
         $files = $_FILES[$this->configField['field']];
         $thumbnail              =   new \Imagick($files['tmp_name']);
@@ -172,9 +172,8 @@ class component extends CForm\AField implements CForm\IField
             $end = '.none';
         }
         fileCache::checkDir($this->path);
-       // chmod(core::getDR(true)  . $thumbnailStore, 0777);
         $thumbnailStore .= '/' . $name . $end;
-        $thumbnail->writeImages(core::getDR(true)  . $thumbnailStore, true);
+        $thumbnail->writeImages(dir::getDR(true)  . $thumbnailStore, true);
         $option = Array(
             Array(
                 'action'    => 'adapriveResizeMin',
@@ -214,8 +213,8 @@ class component extends CForm\AField implements CForm\IField
 
     public function delete($value)
     {
-        if ($value !== '' && file_exists(core::getDR(true) . $value)) {
-            unlink(core::getDR(true) . $value);
+        if ($value !== '' && file_exists(dir::getDR(true) . $value)) {
+            unlink(dir::getDR(true) . $value);
         }
     }
 

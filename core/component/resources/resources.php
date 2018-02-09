@@ -9,7 +9,7 @@
 namespace core\component\resources;
 
 
-use core\core;
+use  core\component\dir\dir;
 /**
  * Class resources
  * @package core\component\resources
@@ -110,11 +110,11 @@ class resources
             } elseif (file_exists($includeFile . '.css')) {
                 $includeFile    .=  '.css';
                 $location       =  $includeFile . '.css';
-            } elseif (file_exists(core::getDR() . $includeFile)) {
-                $location       =   core::getDR() . $includeFile;
-            } elseif (file_exists(core::getDR() . $includeFile . '.css'))  {
+            } elseif (file_exists(dir::getDR() . $includeFile)) {
+                $location       =   dir::getDR() . $includeFile;
+            } elseif (file_exists(dir::getDR() . $includeFile . '.css'))  {
                 $includeFile    .= '.css';
-                $location       = core::getDR() . $includeFile . '.css';
+                $location       = dir::getDR() . $includeFile . '.css';
             }
             if ($location !== false) {
                 $includeFile .= '?' . date ("YmdHis", filemtime($location));
@@ -145,9 +145,9 @@ class resources
             } elseif (file_exists($includeFile . '.js')) {
                 $includeFile   = $includeFile . '.js';
                 $location   =   $includeFile . '.js';
-            } elseif (file_exists(core::getDR() . $includeFile)) {
-                $location   =   core::getDR() . $includeFile;
-            } elseif (file_exists(core::getDR() . $includeFile . '.js'))  {
+            } elseif (file_exists(dir::getDR() . $includeFile)) {
+                $location   =   dir::getDR() . $includeFile;
+            } elseif (file_exists(dir::getDR() . $includeFile . '.js'))  {
                 $includeFile .= '.js';
             }
             if ($location !== false) {
