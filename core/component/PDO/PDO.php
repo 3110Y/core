@@ -7,7 +7,7 @@
  */
 
 namespace core\component\PDO;
-use core\component\QueryConstructor\{
+use core\component\queryConstructor\{
     AQueryConstructor,
     IQueryConstructor
 };

@@ -6,7 +6,7 @@
  * Time: 15:51
  */
 
-namespace core\component\QueryConstructor;
+namespace core\component\queryConstructor;
 
 
 /**
