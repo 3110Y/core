@@ -30,9 +30,9 @@ dir::setDR(__DIR__);
 dir::setDirConfig('configuration');
 dir::setDirFileCache('filecache');
 
-$config = config::getConfig('db.common');
+$config     = config::getConfig('db.common');
 /** @var \core\component\PDO\PDO $db */
-$db =   PDO::getInstance($config);
+$db         =   PDO::getInstance($config);
 $structure  =   $db->selectRows('core_application','*', Array( 'status' => '1'), '`priority` ASC');
 
 
@@ -42,7 +42,6 @@ if (isset($_SERVER['SHELL'], $argv)) {
 } else {
     $URL    =   explode('/', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
 }
-
 $result = (new router($structure, $URL))->run();
 
 /** @var int Время Конца */
