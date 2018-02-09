@@ -80,7 +80,7 @@ abstract class AApplication
 	 * Проверяет запрос на аяксовость
 	 * @return bool
 	 */
-    public static function isAjaxRequest()
+    public static function isAjaxRequest(): bool
     {
     	return self::$isAjaxRequest;
     }

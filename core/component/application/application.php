@@ -26,7 +26,7 @@ class application
     {
         $namespace              =   'application\\' . $application['path'];
         $path                   =   'application/' . $application['path'];
-	    $application['url']     =   $application['url'] != '/'   ?   '/' . $application['url']   :   $application['url'];
+	    $application['url']     =   $application['url'] !== '/'   ?   '/' . $application['url']   :   $application['url'];
         core::getInstance()->addNamespace($namespace, $path);
         $router = $namespace . '\router';
         if (file_exists(core::getDR() . $path . '/router.php')) {

@@ -10,10 +10,10 @@ namespace core\component\CForm\field\UKImageUpload;
 
 use \core\component\{
     CForm,
-    templateEngine\engine\simpleView,
+    simpleView\simpleView,
     fileCache\fileCache,
     library as library,
-    image\component as image
+    image\image
 };
 use core\core;
 
@@ -67,10 +67,10 @@ class component extends CForm\AField implements CForm\IField
         $data['CLASS']          =   $this->class;
         $data['ID']             =   $this->idField;
         $data['HREF']           =   isset($data['HREF'])        ?  "<a href='{$data['HREF']}'"    :  '<span>';
-        $data['HREF_TWO']       =   $data['HREF'] == '<span>'   ?    '</span>'                    :   '</a>';
-        $data['HREF']           =   simpleView\component::replace(false, $data, $data['HREF']);
+        $data['HREF_TWO']       =   $data['HREF'] === '<span>'   ?    '</span>'                    :   '</a>';
+        $data['HREF']           =   simpleView::replace(false, $data, $data['HREF']);
 
-        $data['IMG']            =   $this->value != ''  ?   image::image($this->value, $this->option)   :   $this->value;
+        $data['IMG']            =   $this->value !== ''  ?   image::image($this->value, $this->option)   :   $this->value;
         $data['IMG_BIG']        =   $this->value;
         $data['PARAM']          =   json_encode($data);
 
@@ -81,8 +81,8 @@ class component extends CForm\AField implements CForm\IField
         $UIkitUpload->setJS(self::$controller);
         $data['INIT']           =   $UIkitUpload->returnInit($data);
 
-        $data['VALUE']          =   simpleView\component::replace(self::getTemplate($this->templatePhoto, __DIR__), $data);
-        $this->answer           =   simpleView\component::replace($this->template, $data);
+        $data['VALUE']          =   simpleView::replace(self::getTemplate($this->templatePhoto, __DIR__), $data);
+        $this->answer           =   simpleView::replace($this->template, $data);
     }
 
     public function view()
@@ -199,7 +199,7 @@ class component extends CForm\AField implements CForm\IField
         parent::$db->update($table, $value, $where);
         $photo              =   self::getTemplate('template/photo.tpl', __DIR__);
         $this->answer['value']     =   $thumbnailStore;
-        $this->answer['content']   =   simpleView\component::replace($photo, $data);
+        $this->answer['content']   =   simpleView::replace($photo, $data);
     }
 
     public function postDelete()

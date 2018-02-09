@@ -6,14 +6,14 @@
  * Time: 15:51
  */
 
-namespace core\component\database;
+namespace core\component\QueryConstructor;
 
 
 /**
  * Interface IDriver
  * @package core\component\database
  */
-interface IDriver
+interface IQueryConstructor
 {
 
     /**

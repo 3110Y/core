@@ -10,7 +10,7 @@ namespace core\component\CForm\field\UKURIName;
 
 use \core\component\{
     CForm,
-    templateEngine\engine\simpleView
+    simpleView\simpleView
 };
 
 
@@ -41,8 +41,8 @@ class component extends CForm\AField implements CForm\IField
         $data['ID']             =   $this->idField;
         $data['HREF']           =   isset($data['HREF'])        ?  "<a href='{$data['HREF']}'"    :  '<span>';
         $data['HREF_TWO']       =   $data['HREF'] == '<span>'   ?    '</span>'                    :   '</a>';
-        $data['HREF']           =   simpleView\component::replace(false, $data, $data['HREF']);
-        $this->answer           =   simpleView\component::replace($this->template, $data);
+        $data['HREF']           =   simpleView::replace(false, $data, $data['HREF']);
+        $this->answer           =   simpleView::replace($this->template, $data);
     }
 
     public function view()

@@ -11,7 +11,7 @@ namespace core\component\CForm\field\JSColor;
 use \core\component\{
     CForm,
     library as library,
-    templateEngine\engine\simpleView
+    simpleView\simpleView
 };
 
 
@@ -48,8 +48,8 @@ class component extends CForm\AField implements CForm\IField
         $select2->setCss(self::$controller);
         $select2->setJS(self::$controller);
 
-        $data['HREF']           =   simpleView\component::replace(false, $data, $data['HREF']);
-        $this->answer           =   simpleView\component::replace($this->template, $data);
+        $data['HREF']           =   simpleView::replace(false, $data, $data['HREF']);
+        $this->answer           =   simpleView::replace($this->template, $data);
     }
 
     public function view()

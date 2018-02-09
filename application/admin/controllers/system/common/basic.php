@@ -11,7 +11,7 @@ namespace application\admin\controllers\system\common;
 use \core\component\{
     database                            as database,
     application             as application,
-    templateEngine\engine\simpleView    as simpleView,
+    simpleView\simpleView,
     registry\registry,
     resources\resources
 };
@@ -37,13 +37,11 @@ class basic extends application\AControllers implements application\IControllerB
         self::$content['TITLE']         =   self::$page['meta_title'];
         self::$content['KEYWORDS']      =   self::$page['meta_keywords'];
         self::$content['DESCRIPTION']   =   self::$page['meta_description'];
-        /** @var \core\component\database\driver\PDO\component $db */
-        $db                             =   registry::get('db');
         $data                           =   Array(
-            'MENU'  => self::generationMenu($db, self::$application['url'])['sub'],
+            'MENU'  => self::generationMenu(self::$application['url'])['sub'],
         );
         $template                       =   self::getTemplate('block/menu/menu.tpl');
-        self::$content['MENU']          =   simpleView\component::replace($template,  $data);
+        self::$content['MENU']          =   simpleView::replace($template,  $data);
     }
 
     /**
@@ -61,8 +59,10 @@ class basic extends application\AControllers implements application\IControllerB
 	 *
 	 * @return array    меню
 	 */
-    private static function generationMenu(database\ADriver $db, $parentURL = '/', $parentID = 0)
+    private static function generationMenu($parentURL = '/', $parentID = 0)
     {
+        /** @var \core\component\PDO\PDO $db */
+        $db = registry::get('db');
         self::getURL(1);
         $where  =   Array(
             'parent_id' => $parentID,
@@ -70,7 +70,7 @@ class basic extends application\AControllers implements application\IControllerB
             '`status` = 1',
             '`error` = 0',
         );
-        /** @var \core\component\database\driver\PDO\component $db */
+        /** @var \core\component\PDO\PDO $db */
         $query  =   $db->select('admin_page', '*', $where, 'order_in_menu');
         $rows   =   Array();
         $parentClass =  '';
@@ -95,11 +95,11 @@ class basic extends application\AControllers implements application\IControllerB
                 }
                 $sub    =   '';
                 $subLink =   '';
-                $children   =   self::generationMenu($db, $URL, $row['id']);
+                $children   =   self::generationMenu($URL, $row['id']);
                 if (!empty($children)) {
                     $sub        =   $children['sub'];
                     $class      .=  $children['class'] . ' ';
-                    $subLink    =  simpleView\component::replace(self::getTemplate('block/menu/subLink.tpl'));
+                    $subLink    =  simpleView::replace(self::getTemplate('block/menu/subLink.tpl'));
                 }
 
 
@@ -116,7 +116,7 @@ class basic extends application\AControllers implements application\IControllerB
         }
         if (!empty($rows)) {
             return Array(
-                    'sub'   =>  simpleView\component::loop('FOR', $rows,'', self::getTemplate('block/menu/subMenu.tpl')),
+                    'sub'   =>  simpleView::loop('FOR', $rows,'', self::getTemplate('block/menu/subMenu.tpl')),
                     'class' =>  $parentClass
                 );
         }

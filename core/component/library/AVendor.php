@@ -11,7 +11,7 @@ namespace core\component\library;
 use core\core;
 use \core\component\{
         resources\resources,
-        templateEngine\engine\simpleView as simpleView
+        simpleView\simpleView
     };
 
 abstract class AVendor
@@ -83,6 +83,6 @@ abstract class AVendor
      */
     public function returnInit($data = Array(), $name = 'init.tpl')
     {
-        return simpleView\component::replace(self::getTemplate('template/' . $name, $this->dir), $data);
+        return simpleView::replace(self::getTemplate('template/' . $name, $this->dir), $data);
     }
 }

@@ -10,7 +10,7 @@ namespace core\component\CForm\field\UKSelect;
 
 use \core\component\{
     CForm,
-    templateEngine\engine\simpleView
+    simpleView\simpleView
 };
 use Seld\JsonLint\Lexer;
 
@@ -87,8 +87,8 @@ class component extends CForm\AField implements CForm\IField
             );
         }
         $data['LIST']           =   $this->list;
-        $data['HREF']           =   simpleView\component::replace(false, $data, $data['HREF']);
-        $this->answer           =   simpleView\component::replace($this->template, $data);
+        $data['HREF']           =   simpleView::replace(false, $data, $data['HREF']);
+        $this->answer           =   simpleView::replace($this->template, $data);
     }
 
     public function view()

@@ -10,11 +10,8 @@ namespace core\component\CForm\viewer\api;
 
 
 use \core\component\{
-    CForm as CForm,
-    templateEngine\engine\simpleView as simpleView
+    CForm
 };
-use core\core;
-
 
 /**
  * Class component
@@ -77,7 +74,7 @@ class component extends CForm\AViewer implements CForm\IViewer
      */
     public function run()
     {
-        if ($this->package == '' || $this->component == '') {
+        if ($this->package === '' || $this->component === '') {
             parent::$isWork = false;
         } else {
             $package    =   $this->package;

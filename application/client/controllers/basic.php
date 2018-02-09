@@ -13,7 +13,7 @@ use \core\component\{
     registry\registry                   as registry,
     database                            as database,
     application                         as application,
-    templateEngine\engine\simpleView    as simpleView,
+    simpleView\simpleView,
     resources\resources
 };
 
@@ -40,41 +40,42 @@ class basic extends application\AControllers
         $theme                          =   self::$application['theme'];
         self::$content['THEME']         =   "/application/{$path}/theme/{$theme}/";
         self::$content['URL']           =   self::$pageURL;
-        if (self::$page['meta_title'] != '') {
+        if (self::$page['meta_title'] !== '') {
             self::$content['TITLE'] = self::$page['meta_title'];
         } else {
             self::$content['TITLE'] = model\settings::getInstance()->getConfiguration('meta_title');
         }
-        if (self::$page['meta_keywords'] != '') {
+        if (self::$page['meta_keywords'] !== '') {
             self::$content['KEYWORDS'] = self::$page['meta_keywords'];
         } else {
             self::$content['KEYWORDS'] = model\settings::getInstance()->getConfiguration('meta_keywords');
         }
-        if (self::$page['meta_description'] != '') {
+        if (self::$page['meta_description'] !== '') {
             self::$content['DESCRIPTION'] = self::$page['meta_description'];
         } else {
             self::$content['DESCRIPTION'] = model\settings::getInstance()->getConfiguration('meta_description');
         }
         self::$content['DESCRIPTION']   =   self::$page['meta_description'];
-        /** @var \core\component\database\driver\PDO\component $db */
+        /** @var \core\component\PDO\PDO $db */
         $db                             =   registry::get('db');
 
         $data                           =   Array(
             'MENU'  => self::generationMenu($db, self::$application['url'])
         );
         $template                       =   self::getTemplate('menu.tpl');
-        self::$content['MENU']          =   simpleView\component::replace($template,  $data);
+        self::$content['MENU']          =   simpleView::replace($template,  $data);
     }
 
     /**
-     * @param database\ADriver $db          Драйвер ДБ
      * @param string           $parentURL   родительский URL
      * @param int              $parentID    родительский уровень
      *
      * @return array    меню
      */
-    private static function generationMenu(database\ADriver $db, $parentURL = '/', $parentID = 0)
+    private static function generationMenu($parentURL = '/', $parentID = 0): array
     {
+        /** @var \core\component\PDO\PDO $db */
+        $db = registry::get('db');
         self::getURL(1);
         $where  =   Array(
             'parent_id' => $parentID,
@@ -82,15 +83,15 @@ class basic extends application\AControllers
             '`status` = 1',
             '`error` = 0',
         );
-        /** @var \core\component\database\driver\PDO\component $db */
+
         $query  =   $db->select('client_page', '*', $where, 'order_in_menu');
         $rows   =   Array();
         $parentURL  =   $parentURL != '/'   ?   $parentURL . '/'  :   $parentURL;
         if ($query->rowCount() > 0) {
             while ($row =  $query->fetch()) {
                 $class  =   '';
-                $URL    =   $row['url'] == '/'    ?   $parentURL :   $parentURL . $row['url'];
-                if ($row['url'] == self::$page['url'] && $row['parent_id'] == self::$page['parent_id']) {
+                $URL    =   $row['url'] === '/'    ?   $parentURL :   $parentURL . $row['url'];
+                if ($row['url'] === self::$page['url'] && $row['parent_id'] == self::$page['parent_id']) {
                     $class          .=  'active ';
                 }
                 $rows[] =   Array(

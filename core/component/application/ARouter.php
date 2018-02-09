@@ -13,8 +13,8 @@ use core\core;
 use \core\component\{
     registry\registry as registry,
     authentication as authentication,
-    database\driver\PDO as PDO,
-    templateEngine\engine\simpleView as simpleView
+    PDO\PDO,
+    simpleView\simpleView
 };
 
 /**
@@ -73,12 +73,12 @@ abstract class ARouter extends AApplication
         self::$URL                  =  $URL;
         self::$application          =  $application;
         $config                     =   core::getConfig($this->configDB);
-        /** @var PDO\component $db */
-        $db =   PDO\component::getInstance($config);
+        /** @var PDO $db */
+        $db =   PDO::getInstance($config);
         registry::set('db', $db);
         $auth = new authentication\component($db);
         registry::set('auth', $auth);
-        registry::set('view', new simpleView\component());
+        registry::set('view', new simpleView());
         registry::get('view')->setExtension('tpl');
         self::$structure = $db->selectRows($this->table,$this->fields, $this->where, $this->order);
 

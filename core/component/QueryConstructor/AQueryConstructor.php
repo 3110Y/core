@@ -6,14 +6,14 @@
  * Time: 15:51
  */
 
-namespace core\component\database;
+namespace core\component\QueryConstructor;
 
 
 /**
  * Class ADriver
  * @package core\component\database
  */
-abstract class ADriver
+abstract class AQueryConstructor
 {
     /**
      * @var array экземпляр
@@ -25,8 +25,9 @@ abstract class ADriver
      * @param array $config конфиг
      * @return object|mixed|null|object
      */
-    public static function getInstance($config = array()) {
-        $class  =   get_called_class();
+    public static function getInstance(array $config = array())
+    {
+        $class  =   \get_called_class();
         $key    =   md5($class. '_' . md5(serialize($config)));
         if (!isset(self::$instance[$key]) || self::$instance[$key] === null) {
             self::$instance[$key] = new $class($config);

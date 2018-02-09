@@ -11,7 +11,7 @@ namespace core\component\CForm\viewer\UKEdit;
 
 use \core\component\{
     CForm as CForm,
-    templateEngine\engine\simpleView,
+    simpleView\simpleView,
     resources\resources
 };
 use core\core;
@@ -93,7 +93,7 @@ class component extends CForm\AViewer implements CForm\IViewer
         }
 
         resources::setCss(self::getTemplate('css/form.css', __DIR__));
-        $this->answer   =   simpleView\component::replace($template, $this->answer);
+        $this->answer   =   simpleView::replace($template, $this->answer);
     }
 
 

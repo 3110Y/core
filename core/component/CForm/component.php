@@ -8,11 +8,6 @@
 
 namespace core\component\CForm;
 
-use \core\component\{
-    templateEngine\engine\simpleView as simpleView
-};
-use core\core;
-
 
 /**
  * Class component
@@ -93,7 +88,7 @@ class component extends ACForm
             parent::$isWork = false;
         } elseif (isset($config['viewer'][parent::$mode])) {
             self::$viewerConfig = $config['viewer'][parent::$mode];
-        }  elseif (parent::$mode == 'api') {
+        }  elseif (parent::$mode === 'api') {
             self::$viewerConfig = Array(
                 'type' => 'api'
             );

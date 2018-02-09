@@ -11,7 +11,7 @@ namespace core\component\CForm\button\UKButtonSubmitAjax;
 
 use \core\component\{
     CForm as CForm,
-    templateEngine\engine\simpleView,
+    simpleView\simpleView,
     resources\resources
 };
 
@@ -70,7 +70,7 @@ class component extends CForm\AButton implements CForm\IButton
         }
         resources::setJs(self::getTemplate('js/script.js',__DIR__));
         $this->template     =   self::getTemplate($this->template, __DIR__);
-        $this->answer       =   simpleView\component::replace($this->template, $data);
+        $this->answer       =   simpleView::replace($this->template, $data);
 
     }
 }

@@ -10,7 +10,7 @@ namespace core\component\CForm\field\UKNumber;
 
 use \core\component\{
     CForm,
-    templateEngine\engine\simpleView,
+    simpleView\simpleView,
     resources\resources
 };
 
@@ -48,8 +48,8 @@ class component extends CForm\AField implements CForm\IField
         $data['ID']             =   $this->idField;
         $data['HREF']           =   isset($data['HREF'])        ?  "<a href='{$data['HREF']}'"    :  '<div class="uk-text-center">';
         $data['HREF_TWO']       =   $data['HREF'] == '<div class="uk-text-center">'   ?    '</div>'                    :   '</a>';
-        $data['HREF']           =   simpleView\component::replace(false, $data, $data['HREF']);
-        $this->answer           =   simpleView\component::replace($this->template, $data);
+        $data['HREF']           =   simpleView::replace(false, $data, $data['HREF']);
+        $this->answer           =   simpleView::replace($this->template, $data);
     }
 
     public function view()

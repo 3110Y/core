@@ -22,7 +22,7 @@ class component extends AAuthentication
 
     /**
      * component constructor.
-     * @param \core\component\database\driver\PDO\component $db
+     * @param \core\component\PDO\PDO $db
      * @param array $config
      */
     public function __construct( $db, array $config = Array())

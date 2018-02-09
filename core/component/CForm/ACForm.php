@@ -17,7 +17,7 @@ use core\core;
  */
 abstract class ACForm
 {
-    /** @var \core\component\database\driver\PDO\component */
+    /** @var \core\component\PDO\PDO */
     protected static $db;
 
     /** @var \application\admin\controllers\page */

@@ -25,22 +25,18 @@ final class core
      * 4 версия исправления ошибок или предыдущего
      * 5 версия хотфиксов
      */
-    const VERSION   =   2.0647;
-    
-    /**
-     * @const string Путь до компонентов
-     */
-    const components = '\core\components\\';
+    public const VERSION   =   2.2447;
+
     /**
      * @var array Ассоциативный массив. Ключи содержат префикс пространства имён,
      * значение — массив базовых директорий для классов в этом пространстве имён.
      */
-    protected $prefixes = array();
+    private $prefixes = array();
     /**
      * экземпляр
-     * @var null
+     * @var core
      */
-    private static $instance = null;
+    private static $instance;
     /**
      * @var string CORE ROOT
      */
@@ -61,7 +57,7 @@ final class core
     /**
      * @return core|null
      */
-    public static function getInstance()
+    public static function getInstance(): core
     {
         if (self::$instance === null) {
             self::$instance = new self();
@@ -79,7 +75,7 @@ final class core
      * Устанавливает CORE ROOT;
      * @param string $DR DOCUMENT ROOT
      */
-    public static function setDR(string $DR = __DIR__)
+    public static function setDR(string $DR = __DIR__): void
     {
         self::$DR  =   str_replace('\\', '/', $DR);
     }
@@ -91,20 +87,20 @@ final class core
 	 *
 	 * @return string CORE ROOT;
 	 */
-    public static function getDR($notSlash = false)
+    public static function getDR($notSlash = false): string
     {
         if (self::$DR !== '') {
         	if ($notSlash) {
-		        return self::$DR;
-	        } else {
-		        return self::$DR . '/';
-	        }
+                return self::$DR;
+            }
+            return self::$DR . '/';
+
         }
         if (isset($_SERVER['DOCUMENT_ROOT'])) {
             return $_SERVER['DOCUMENT_ROOT'];
-        } else {
-            return str_replace('\\', '/', str_replace('\core', '', __DIR__));
         }
+        return str_replace(array('\core', '\\'), array('', '/'), __DIR__);
+
     }
 
     /**
@@ -112,7 +108,7 @@ final class core
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         spl_autoload_register(array($this, 'loadClass'));
     }
@@ -126,7 +122,7 @@ final class core
      * В этом случае она будет проверяться первой.
      * @return void
      */
-    public function addNamespace($prefix, $baseDir = '', $prepend = false)
+    public function addNamespace($prefix, $baseDir = '', $prepend = false): void
     {
         if($baseDir === '') {
             $baseDir = $prefix;
@@ -146,7 +142,7 @@ final class core
         if ($prepend) {
             array_unshift($this->prefixes[$prefix], $base_dir);
         } else {
-            array_push($this->prefixes[$prefix], $base_dir);
+            $this->prefixes[$prefix][] = $base_dir;
         }
     }
 
@@ -192,7 +188,7 @@ final class core
      * @param string $relativeClass Относительное имя класса.
      * @return mixed false если файл не был загружен. Иначе имя загруженного файла.
      */
-    protected function loadMappedFile($prefix, $relativeClass)
+    private function loadMappedFile($prefix, $relativeClass)
     {
         // есть ли у этого префикса пространства имён какие-либо базовые директории?
         if (isset($this->prefixes[$prefix]) === false) {
@@ -227,7 +223,7 @@ final class core
      * @param string $file файл для загрузки.
      * @return bool true, если файл существует, false — если нет.
      */
-    protected function requireFile($file): bool
+    private function requireFile($file): bool
     {
         if (file_exists($file)) {
             require $file;
@@ -244,7 +240,7 @@ final class core
 	 * Устанавливает директорию для файлов и кеша
 	 * @param string $fileCache директория для файлов и кеша
 	 */
-    public static function setDirFileCache(string $fileCache)
+    public static function setDirFileCache(string $fileCache): void
     {
     	self::$fileCache = self::getDR() . $fileCache . DIRECTORY_SEPARATOR;
     }
@@ -263,7 +259,7 @@ final class core
 	 * Устанавливает директорию конфигурации
 	 * @param string $dirConfig директория конфигурации
 	 */
-    public static function setDirConfig(string $dirConfig)
+    public static function setDirConfig(string $dirConfig): void
     {
     	self::$dirConfig = self::getDR() . $dirConfig . DIRECTORY_SEPARATOR;
     }

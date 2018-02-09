@@ -12,7 +12,7 @@ namespace core\component\authentication;
 abstract class AAuthentication
 {
     /**
-     * @var \core\component\database\driver\PDO\component
+     * @var \core\component\PDO\PDO
      */
     protected $db;
 
@@ -34,7 +34,7 @@ abstract class AAuthentication
 
     /**
      * component constructor.
-     * @param \core\component\database\driver\PDO\component $db
+     * @param \core\component\PDO\PDO $db
      * @param array $config
      */
     public function __construct($db, array $config = Array())

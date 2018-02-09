@@ -10,10 +10,10 @@ namespace core\component\CForm\field\UKGallaryUploadMultiple;
 
 use \core\component\{
     CForm,
-    templateEngine\engine\simpleView,
+    simpleView\simpleView,
     fileCache\fileCache,
     library as library,
-    image\component as image
+    image\image
 };
 use core\core;
 
@@ -62,7 +62,7 @@ class component extends CForm\AField implements CForm\IField
         $data['ID']             =   $this->idField;
         $data['HREF']           =   isset($data['HREF'])        ?  "<a href='{$data['HREF']}'"    :  '<span>';
         $data['HREF_TWO']       =   $data['HREF'] == '<span>'   ?    '</span>'                    :   '</a>';
-        $data['HREF']           =   simpleView\component::replace(false, $data, $data['HREF']);
+        $data['HREF']           =   simpleView::replace(false, $data, $data['HREF']);
 
         $data['INIT']           =   '';
 
@@ -79,7 +79,7 @@ class component extends CForm\AField implements CForm\IField
         $UIkitUpload->setCss(self::$controller);
         $UIkitUpload->setJS(self::$controller);
         $data['INIT']           .=   $UIkitUpload->returnInit($data, 'initMultiple.tpl');
-        $data['INIT']           .=   simpleView\component::replace(self::getTemplate('js/init.tpl', __DIR__), $data);
+        $data['INIT']           .=   simpleView::replace(self::getTemplate('js/init.tpl', __DIR__), $data);
 
 
         $where = Array(
@@ -110,7 +110,7 @@ class component extends CForm\AField implements CForm\IField
                 );
             }
         }
-        $this->answer           =   simpleView\component::replace(self::getTemplate($this->template, __DIR__), $data);
+        $this->answer           =   simpleView::replace(self::getTemplate($this->template, __DIR__), $data);
     }
 
     public function view()
@@ -255,7 +255,7 @@ class component extends CForm\AField implements CForm\IField
             'ID'        => $tableLink,
         );
         $photo         =   self::getTemplate('template/card.tpl', __DIR__);
-        $this->answer['content'] =   simpleView\component::replace($photo, $data);
+        $this->answer['content'] =   simpleView::replace($photo, $data);
     }
 
     public function postDelete()

@@ -10,7 +10,7 @@ namespace core\component\CForm\field\UKActionID;
 
 use \core\component\{
     CForm as CForm,
-    templateEngine\engine\simpleView as simpleView,
+    simpleView\simpleView,
     resources\resources
 };
 
@@ -56,11 +56,11 @@ class component extends CForm\AField implements CForm\IField
             $data['ROW_' . mb_strtoupper($key)] = $value;
         }
         $this->template         =   self::getTemplate('template/template.tpl', __DIR__);
-        $this->answer           =   simpleView\component::replace($this->template, $data);
+        $this->answer           =   simpleView::replace($this->template, $data);
         $template               =   self::getTemplate('template/templateCaption.tpl', __DIR__);
         $this->labelField     =   Array(
             'FIELD' =>  Array(),
-            'TEXT'  =>  simpleView\component::replace($template, $data)
+            'TEXT'  =>  simpleView::replace($template, $data)
         );
     }
 }

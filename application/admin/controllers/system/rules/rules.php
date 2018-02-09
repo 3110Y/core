@@ -30,7 +30,7 @@ class rules extends application\AControllers
      */
     public function __construct()
     {
-        /** @var \core\component\database\driver\PDO\component $db */
+        /** @var \core\component\PDO\PDO $db */
         $db         =   registry::get('db');
         $where      =   Array(
             'status'    => 1

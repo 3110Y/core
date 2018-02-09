@@ -18,10 +18,10 @@ include 'core' . DIRECTORY_SEPARATOR . 'core.php';
 \core\core::getInstance()->register();
 \core\core::getInstance()->addNamespace('core', 'core');
 $config = \core\core::getConfig('db.common');
-/** @var \core\component\database\driver\PDO\component $db */
-$db =   \core\component\database\driver\PDO\component::getInstance($config);
+/** @var \core\component\PDO\PDO $db */
+$db =   \core\component\PDO\PDO::getInstance($config);
 $structure  =   $db->selectRows('core_application','*', Array( 'status' => '1'), '`priority` ASC');
-if (isset($_SERVER['SHELL']) && isset($argv)) {
+if (isset($_SERVER['SHELL'], $argv)) {
     $URL    =   $argv;
     $URL[0] = '/';
 } else {

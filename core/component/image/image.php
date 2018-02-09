@@ -11,11 +11,11 @@ use core\component\fileCache\fileCache;
 use core\core;
 
 /**
- * Class component
+ * Class image
  *
  * @package core\component\image
  */
-class component
+class image
 {
 	/**
 	 * @var string

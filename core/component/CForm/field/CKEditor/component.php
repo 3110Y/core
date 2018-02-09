@@ -11,7 +11,7 @@ namespace core\component\CForm\field\CKEditor;
 use \core\component\{
     CForm,
     library as library,
-    templateEngine\engine\simpleView
+    simpleView\simpleView
 };
 
 
@@ -42,7 +42,7 @@ class component extends CForm\AField implements CForm\IField
         $data['ID']             =   $this->idField;
         $data['HREF']           =   isset($data['HREF'])        ?   "<a href='{$data['HREF']}'"     :  '<span>';
         $data['HREF_TWO']       =   $data['HREF'] == '<span>'   ?    '</span>'                      :   '</a>';
-        $data['HREF']           =   simpleView\component::replace(false, $data, $data['HREF']);
+        $data['HREF']           =   simpleView::replace(false, $data, $data['HREF']);
 
         /** @var \core\component\library\vendor\CKEditor\component $CKEditor */
         $CKEditor    =   library\component::connect('CKEditor');
@@ -50,7 +50,7 @@ class component extends CForm\AField implements CForm\IField
         $CKEditor->setJS(self::$controller);
         $data['INIT']           =   $CKEditor->returnInit($data);
 
-        $this->answer           =   simpleView\component::replace($this->template, $data);
+        $this->answer           =   simpleView::replace($this->template, $data);
     }
 
     public function view()

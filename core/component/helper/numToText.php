@@ -138,7 +138,7 @@ trait numToText
         $out = array();
         if ((int)$rub   >   0) {
             foreach(str_split($rub,3) as $uk    =>  $v) {
-                if (!intval($v)) {
+                if (!(int)$v) {
                     continue;
                 }
                 $uk     =   sizeof((self::$unit)-$uk-1); // unit key

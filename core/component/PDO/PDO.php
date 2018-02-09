@@ -6,21 +6,24 @@
  * Time: 15:42
  */
 
-namespace core\component\database\driver\PDO;
-use core\component\database as database;
+namespace core\component\PDO;
+use core\component\QueryConstructor\{
+    AQueryConstructor,
+    IQueryConstructor
+};
 
 
 /**
  * Class component
  * @package core\component\database\driver\PDO
  */
-class component extends database\ADriver implements database\IDriver
+class PDO extends AQueryConstructor implements IQueryConstructor
 {
     
     /**
      * @var null|\PDO соединение
      */
-    private   $connect   =   null;
+    private   $connect;
     /**
      * @var array настройки по умолчанию
      */

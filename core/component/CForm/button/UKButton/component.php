@@ -10,8 +10,8 @@ namespace core\component\CForm\button\UKButton;
 
 
 use \core\component\{
-    CForm as CForm,
-    templateEngine\engine\simpleView
+    CForm,
+    simpleView\simpleView
 };
 
 
@@ -46,7 +46,6 @@ class component extends CForm\AButton implements CForm\IButton
         $array['STYLE']     = $this->style;
         $array['PAGE_URL']  = self::$controller::getPageURL();
         $array['PARENT_ID'] = self::$id;
-        $array['PARENT_ID'] = self::$id;
         $data = Array();
         foreach ($array as $key => $value) {
             $data['{' . mb_strtoupper($key) . '}'] = $value;
@@ -68,7 +67,7 @@ class component extends CForm\AButton implements CForm\IButton
             $data['ROW_' . mb_strtoupper($key)] = $value;
         }
         $this->template     =   self::getTemplate($this->template, __DIR__);
-        $this->answer       =   simpleView\component::replace($this->template, $data);
+        $this->answer       =   simpleView::replace($this->template, $data);
 
     }
 }
