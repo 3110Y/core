@@ -13,19 +13,17 @@ date_default_timezone_set('Europe/Moscow');
 /** @var int Время Старта */
 $timeStart  = microtime(true);
 
-include 'core' . DIRECTORY_SEPARATOR . 'component' . DIRECTORY_SEPARATOR .
-    'autoloader' . DIRECTORY_SEPARATOR .  'autoloader.php';
+include_once 'core' . DIRECTORY_SEPARATOR . 'autoload.php';
+
 use core\{
     core,
     router,
-    component\autoloader\autoloader,
     component\dir\dir,
     component\config\config,
     component\PDO\PDO
 };
 
-autoloader::getInstance()->register();
-autoloader::getInstance()->addNamespace('core', 'core');
+
 dir::setDR(__DIR__);
 dir::setDirConfig('configuration');
 dir::setDirFileCache('filecache');

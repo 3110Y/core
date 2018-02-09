@@ -90,7 +90,7 @@ class router
             );
             $item['site_regular']   =  '/^' . strtr($item['site'], $replace) . '$/i';
             preg_match($item['site_regular'], $site, $output);
-            if (($item['url'] === $url[0] || ($item['url'] == '/' && $url[0] == '')) && isset($output[0])) {
+            if (isset($output[0], $url[0]) && ($item['url'] === $url[0] || ($item['url'] == '/' && $url[0] == ''))) {
                 $this->URL = $url;
                 return $item;
             }
