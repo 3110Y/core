@@ -6,7 +6,7 @@
  * Time: 15:33
  */
 
-namespace application\controllers\system\common;
+namespace application\admin\controllers\system\common;
 
 
 use core\component\application\AControllers;
@@ -14,7 +14,7 @@ use core\component\application\AControllers;
 
 /**
  * Class front
- * @package application\controllers
+ * @package application\admin\controllers
  */
 class front extends AControllers
 {

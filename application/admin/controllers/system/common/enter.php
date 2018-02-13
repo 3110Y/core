@@ -6,7 +6,7 @@
  * Time: 5:25
  */
 
-namespace application\controllers\system\common;
+namespace application\admin\controllers\system\common;
 
 use \core\component\{
     application\AControllers,
@@ -14,7 +14,10 @@ use \core\component\{
     resources\resources
 };
 
-
+/**
+ * Class enter
+ * @package application\admin\controllers\system\common
+ */
 class enter extends AControllers
 {
     /**

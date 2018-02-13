@@ -6,9 +6,9 @@
  * Time: 19:06
  */
 
-namespace application\controllers;
+namespace application\client\controllers;
 
-use \application\model;
+use \application\client\model;
 
 use \core\component\{
     registry\registry,

@@ -7,7 +7,6 @@
  */
 
 namespace core\component\application;
-use application\router;
 use core\component\{
     dir\dir,
     autoloader\autoloader
@@ -31,8 +30,8 @@ class application
         $namespace              =   'application\\' . $application['path'];
         $path                   =   'application/' . $application['path'];
 	    $application['url']     =   $application['url'] !== '/'   ?   '/' . $application['url']   :   $application['url'];
-        autoloader::getInstance()->addNamespace('application', $path);
-        $router = router::class;
+        autoloader::getInstance()->addNamespace($namespace, $path);
+        $router = $namespace . '\router';
         if (file_exists(dir::getDR() . $path . '/router.php')) {
 	        $isAjaxRequest  =   (
 	            isset($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_X_REQUESTED_WITH']) &&

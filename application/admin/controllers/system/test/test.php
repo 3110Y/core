@@ -6,7 +6,7 @@
  * Time: 12:24
  */
 
-namespace application\controllers\system\test;
+namespace application\admin\controllers\system\test;
 
 use core\component\application\AControllers;
 

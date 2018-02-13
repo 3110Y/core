@@ -6,14 +6,17 @@
  * Time: 6:28
  */
 
-namespace application\controllers\system\common;
+namespace application\admin\controllers\system\common;
 
 use \core\component\{
     application\AControllers,
     registry\registry
 };
 
-
+/**
+ * Class logout
+ * @package application\admin\controllers\system\common
+ */
 class logout extends AControllers
 {
     /**

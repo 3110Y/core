@@ -6,10 +6,10 @@
  * Time: 13:13
  */
 
-namespace application\controllers\system\common;
+namespace application\admin\controllers\system\common;
 
 
-use application\model;
+use application\admin\model;
 use \core\component\{
     application\AControllers
 };
@@ -17,7 +17,7 @@ use \core\component\{
 
 /**
  * Class settings
- * @package application\controllers\system\common
+ * @package application\admin\controllers\system\common
  */
 class settings extends AControllers
 {

@@ -6,9 +6,9 @@
  * Time: 8:47
  */
 
-namespace application\controllers;
+namespace application\admin\controllers;
 
-use application\model;
+use application\admin\model;
 use \core\component\{
     application\AControllers
 };

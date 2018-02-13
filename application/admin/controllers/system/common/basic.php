@@ -6,7 +6,7 @@
  * Time: 13:54
  */
 
-namespace application\controllers\system\common;
+namespace application\admin\controllers\system\common;
 
 use \core\component\{
     application\AControllers,
@@ -19,7 +19,7 @@ use \core\component\{
 
 /**
  * Class basic
- * @package application\controllers\system\common
+ * @package application\admin\controllers\system\common
  */
 class basic extends AControllers implements IControllerBasic
 {

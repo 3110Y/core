@@ -6,7 +6,7 @@
  * Time: 03:30
  */
 
-namespace application\controllers\system\rules;
+namespace application\admin\controllers\system\rules;
 
 use core\component\application\AControllers;
 

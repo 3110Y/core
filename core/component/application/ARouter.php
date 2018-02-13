@@ -101,7 +101,8 @@ abstract class ARouter extends AApplication
             self::redirect(self::$application['url'] . '/' . $this->redirectPage);
         }
         self::selectPage();
-        $controllerBasic    =   'application\\controllers\\' . self::$application['basicController'];
+        $path               =   self::$application['path'];
+        $controllerBasic    =   "application\\{$path}\\controllers\\" . self::$application['basicController'];
         $controllerBasic    =   new $controllerBasic();
         $issetBasic         =   $controllerBasic instanceof IControllerBasic;
         if ($issetBasic) {
@@ -111,9 +112,8 @@ abstract class ARouter extends AApplication
                 $controllerBasic->preAjax();
             }
         }
-        $path               =   self::$application['path'];
         $controller         =   self::$page['controller'];
-        $this->controller         = "application\\controllers\\{$controller}";
+        $this->controller         = "application\\{$path}\\controllers\\{$controller}";
         /** @var \application\admin\controllers\page controller */
         $this->controller         = new $this->controller();
         if ($issetBasic) {
@@ -183,9 +183,9 @@ abstract class ARouter extends AApplication
             $URLLeft = $URLCount - ($URLKey + 1);
             foreach (self::$structure as $item) {
                 if (!isset($item['countSubURL'])) {
-                    /** @var \application\controllers\basic $controller */
+                    /** @var \application\client\controllers\basic $controller */
                     $controller                 =   $item['controller'];
-                    $controller                 =   "application\\controllers\\{$controller}";
+                    $controller                 =   "application\\{$path}\\controllers\\{$controller}";
                     $item['controllerObject']   =   $controller;
                     $item['countSubURL']        =   $controller::$countSubURL;
                 }

@@ -6,9 +6,9 @@
  * Time: 11:46
  */
 
-namespace application\controllers\system\rules;
+namespace application\admin\controllers\system\rules;
 
-use application\model;
+use application\admin\model;
 use \core\component\{
     application\AControllers,
     registry\registry

@@ -6,7 +6,7 @@
  * Time: 13:03
  */
 
-namespace application\model;
+namespace application\admin\model;
 
 
 use core\component\{

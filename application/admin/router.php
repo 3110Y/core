@@ -6,7 +6,7 @@
  * Time: 14:39
  */
 
-namespace application;
+namespace application\admin;
 
 
 use \core\component\application\{

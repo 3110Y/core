@@ -6,7 +6,7 @@
  * Time: 19:05
  */
 
-namespace application;
+namespace application\client;
 
 use \core\component\application\{
     ARouter,

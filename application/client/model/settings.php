@@ -6,7 +6,7 @@
  * Time: 17:17
  */
 
-namespace application\model;
+namespace application\client\model;
 
 use \core\component\{
     application,
