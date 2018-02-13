@@ -73,9 +73,11 @@ class component extends CForm\AField implements CForm\IField
                 'NAME'      =>  isset($value['name'])                               ?   $value['name']      :   $value['id'],
                 'DISABLED'  =>  isset($value['disabled'])   &&  $value['disabled']  ?   'disabled'          :   '',
                 'SELECTED'  =>  $selected                       ?   'selected'          :   '',
+                'CLASS'     =>  isset($value['class'])   ?   ' ' . $value['class']    :   ''
             );
             if ($selected) {
                 $data['VALUE_NAME'][] = Array(
+                    'CLASS'  =>  $this->list[$key]['CLASS'],
                     'NAME'  =>  $this->list[$key]['NAME'],
                 );
             }
@@ -83,6 +85,7 @@ class component extends CForm\AField implements CForm\IField
         }
         if (empty($data['VALUE_NAME'])) {
             $data['VALUE_NAME'][] = Array(
+                'CLASS'  =>  '',
                 'NAME'  =>  'Не выбрано',
             );
         }
