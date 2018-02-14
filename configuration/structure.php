@@ -14,13 +14,13 @@ return [
         'uri'       => 'admin',
         'function'  => 'render',
     ],
-    [
-        'controller' => \application\admin\router::class,
+/*    [
+        'controller' => \application\client\router::class,
         'uri'       => '\\',
         'function'  => 'render',
         'site'      => '*.*',
         'theme'     => 'basic',
         'method'    => 'GET',
         'port'      => [80, 443]
-    ],
+    ],*/
 ];

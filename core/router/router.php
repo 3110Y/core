@@ -102,15 +102,31 @@ class router
         /** @var \core\router\route $route */
         foreach (self::$route as $route) {
             if (!self::checkPort($route->getPort())) {
+                echo '<pre>';
+                var_dump('checkPort');
+                var_dump($route->getController());
+                echo '</pre>';
                 continue;
             }
             if (!self::checkSite($route->getSite())) {
+                echo '<pre>';
+                var_dump('checkSite');
+                var_dump($route->getController());
+                echo '</pre>';
                 continue;
             }
             if (!self::checkMethod($route->getMethod())) {
+                echo '<pre>';
+                var_dump('checkMethod');
+                var_dump($route->getController());
+                echo '</pre>';
                 continue;
             }
             if (!self::checkURI($route->getURI())) {
+                echo '<pre>';
+                var_dump('checkURI');
+                var_dump($route->getController());
+                echo '</pre>';
                 continue;
             }
             $controller = $route->getController();
@@ -170,7 +186,18 @@ class router
      */
     private static function checkURI(string $URI): bool
     {
-        return self::$URI === $URI || self::$URI === '' || $URI === '';
+        if ($URI === '' ) {
+            return true;
+        }
+        ['/'];
+        ['/', 'admin'];
+        ['admin'];
+        foreach (self::$URI as $URL) {
+            var_dump($URI, $URL);
+            if (self::$URI === $URL) {
+               return true;
+            }
+        }
     }
 
     /**
