@@ -8,7 +8,7 @@
 
 namespace application\client;
 
-use \core\component\application\{
+use \core\application\{
     ARouter,
     IRouter
 };

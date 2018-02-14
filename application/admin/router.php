@@ -9,7 +9,7 @@
 namespace application\admin;
 
 
-use \core\component\application\{
+use \core\application\{
     ARouter,
     IRouter
 };

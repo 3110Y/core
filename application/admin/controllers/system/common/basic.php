@@ -8,7 +8,7 @@
 
 namespace application\admin\controllers\system\common;
 
-use \core\component\{
+use \core\{
     application\AControllers,
     application\IControllerBasic,
     simpleView\simpleView,
@@ -53,7 +53,6 @@ class basic extends AControllers implements IControllerBasic
     }
 
 	/**
-	 * @param database\ADriver $db          Драйвер ДБ
 	 * @param string           $parentURL   родительский URL
 	 * @param int              $parentID    родительский уровень
 	 *
@@ -61,7 +60,7 @@ class basic extends AControllers implements IControllerBasic
 	 */
     private static function generationMenu($parentURL = '/', $parentID = 0)
     {
-        /** @var \core\component\PDO\PDO $db */
+        /** @var \core\PDO\PDO $db */
         $db = registry::get('db');
         self::getURL(1);
         $where  =   Array(
@@ -70,14 +69,14 @@ class basic extends AControllers implements IControllerBasic
             '`status` = 1',
             '`error` = 0',
         );
-        /** @var \core\component\PDO\PDO $db */
+        /** @var \core\PDO\PDO $db */
         $query  =   $db->select('admin_page', '*', $where, 'order_in_menu');
         $rows   =   Array();
         $parentClass =  '';
 	    $parentURL  =   $parentURL != '/'   ?   $parentURL . '/'  :   $parentURL;
         if ($query->rowCount() > 0) {
             while ($row =  $query->fetch()) {
-                /** @var \core\component\authentication\component $auth */
+                /** @var \core\authentication\component $auth */
                 $auth = registry::get('auth');
                 $auth->get('authorization')->check();
                 $auth->get('object')->register(

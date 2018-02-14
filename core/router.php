@@ -7,7 +7,7 @@
  */
 
 namespace core;
-use core\component\application as application;
+use core\application as application;
 
 
 /**
@@ -105,7 +105,7 @@ class router
     public function run()
     {
         if (!empty($this->application)) {
-            return component\application\application::create($this->application, $this->URL);
+            return application\application::create($this->application, $this->URL);
         }
         return 'Нет приложения';
     }

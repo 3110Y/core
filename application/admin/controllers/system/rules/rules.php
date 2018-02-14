@@ -9,7 +9,7 @@
 namespace application\admin\controllers\system\rules;
 
 use application\admin\model;
-use \core\component\{
+use \core\{
     application\AControllers,
     registry\registry
 };
@@ -30,7 +30,7 @@ class rules extends AControllers
      */
     public function __construct()
     {
-        /** @var \core\component\PDO\PDO $db */
+        /** @var \core\PDO\PDO $db */
         $db         =   registry::get('db');
         $where      =   Array(
             'status'    => 1

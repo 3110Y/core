@@ -10,38 +10,43 @@ error_reporting (E_ALL);
 ini_set('display_errors', 1);
 date_default_timezone_set('Europe/Moscow');
 
+$method = $_SERVER['REQUEST_METHOD'];
+$request = explode("/", substr(@$_SERVER['PATH_INFO'], 1));
+var_dump($_SERVER);
+
 /** @var int Время Старта */
 $timeStart  = microtime(true);
 
-include_once 'core' . DIRECTORY_SEPARATOR . 'autoload.php';
+include_once  'core'. DIRECTORY_SEPARATOR .  'autoloader' . DIRECTORY_SEPARATOR .  'autoloader.php';
 
 use core\{
     core,
-    router,
-    component\dir\dir,
-    component\config\config,
-    component\PDO\PDO
+    router\router,
+    dir\dir,
+    config\config,
+    autoloader\autoloader
 };
 
+/** Подключение */
+autoloader::getInstance()->register();
+autoloader::getInstance()->addNamespace('core', __DIR__ . DIRECTORY_SEPARATOR . 'core');
 
+/** Задание путей */
 dir::setDR(__DIR__);
 dir::setDirConfig('configuration');
 dir::setDirFileCache('filecache');
 
-$config     = config::getConfig('db.common');
-/** @var \core\component\PDO\PDO $db */
-$db         =   PDO::getInstance($config);
-$structure  =   $db->selectRows('core_application','*', Array( 'status' => '1'), '`priority` ASC');
+/** Маршрутизация */
+$scheme = config::getConfig('structure');
+$URI    =   explode('/', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
+router::setURI($URI);
+router::setMethod($_SERVER['REQUEST_METHOD']);
+router::setPort($_SERVER['SERVER_PORT']);
+router::setSite($_SERVER['HTTP_HOST']);
+router::addStructure($scheme);
+$result = router::execute();
 
-
-if (isset($_SERVER['SHELL'], $argv)) {
-    $URL    =   $argv;
-    $URL[0] = '/';
-} else {
-    $URL    =   explode('/', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
-}
-$result = (new router($structure, $URL))->run();
-
+/** Вывод */
 /** @var int Время Конца */
 $timeEnd = microtime(true);
 /** @var int Время Разница*/

@@ -8,7 +8,7 @@
 
 namespace application\admin\controllers\system\rules;
 
-use core\component\application\AControllers;
+use core\application\AControllers;
 
 
 /**

@@ -10,7 +10,7 @@ namespace application\client\controllers;
 
 use \application\client\model;
 
-use \core\component\{
+use \core\{
     registry\registry,
     application\AControllers,
     simpleView\simpleView,
@@ -56,7 +56,7 @@ class basic extends AControllers
             self::$content['DESCRIPTION'] = model\settings::getInstance()->getConfiguration('meta_description');
         }
         self::$content['DESCRIPTION']   =   self::$page['meta_description'];
-        /** @var \core\component\PDO\PDO $db */
+        /** @var \core\PDO\PDO $db */
         $db                             =   registry::get('db');
 
         $data                           =   Array(
@@ -74,7 +74,7 @@ class basic extends AControllers
      */
     private static function generationMenu($parentURL = '/', $parentID = 0): array
     {
-        /** @var \core\component\PDO\PDO $db */
+        /** @var \core\PDO\PDO $db */
         $db = registry::get('db');
         self::getURL(1);
         $where  =   Array(

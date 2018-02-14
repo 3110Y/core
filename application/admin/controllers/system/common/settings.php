@@ -10,7 +10,7 @@ namespace application\admin\controllers\system\common;
 
 
 use application\admin\model;
-use \core\component\{
+use \core\{
     application\AControllers
 };
 

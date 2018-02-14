@@ -9,7 +9,7 @@
 namespace application\admin\controllers\system\common;
 
 
-use core\component\application\AControllers;
+use core\application\AControllers;
 
 
 /**

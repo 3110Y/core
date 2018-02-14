@@ -9,7 +9,7 @@
 namespace application\admin\model;
 
 
-use core\component\{
+use core\{
     application\AClass,
     CForm,
     registry\registry

@@ -9,7 +9,7 @@
 namespace application\admin\controllers;
 
 use application\admin\model;
-use \core\component\{
+use \core\{
     application\AControllers
 };
 
