@@ -17,33 +17,29 @@ class router
     /**
      * @var array
      */
-    private static $route = [];
+    private $route = [];
 
     /**
      * @var int
      */
-    private static $port = 80;
-
-    /**
-     * @var array
-     */
-    private static $URI = [];
+    private $port = 80;
 
     /**
      * @var string
      */
-    private static $method = '';
+    private $method = '';
 
     /**
      * @var string
      */
-    private static $site = '';
+    private $site = '';
 
 
     /**
      * @param array $structure
+     * @return router
      */
-    public static function addStructure(array $structure): void
+    public function addStructure(array $structure): router
     {
         $structureNew = [];
         foreach ($structure as $route) {
@@ -82,51 +78,36 @@ class router
             }
         }
         foreach ($structureNew as $route) {
-            self::add(new route($route));
+            $this->add(new route($route));
         }
+        return $this;
     }
 
     /**
      * @param route $route
      */
-    public static function add(route $route): void
+    public function add(route $route): void
     {
-        self::$route[] = $route;
+        $this->route[] = $route;
     }
 
     /**
      * @return mixed|bool|object
      */
-    public static function execute()
+    public  function execute()
     {
         /** @var \core\router\route $route */
-        foreach (self::$route as $route) {
-            if (!self::checkPort($route->getPort())) {
-                echo '<pre>';
-                var_dump('checkPort');
-                var_dump($route->getController());
-                echo '</pre>';
+        foreach ($this->route as $route) {
+            if (!$this->checkPort($route->getPort())) {
                 continue;
             }
-            if (!self::checkSite($route->getSite())) {
-                echo '<pre>';
-                var_dump('checkSite');
-                var_dump($route->getController());
-                echo '</pre>';
+            if (!$this->checkSite($route->getSite())) {
                 continue;
             }
-            if (!self::checkMethod($route->getMethod())) {
-                echo '<pre>';
-                var_dump('checkMethod');
-                var_dump($route->getController());
-                echo '</pre>';
+            if (!$this->checkMethod($route->getMethod())) {
                 continue;
             }
-            if (!self::checkURI($route->getURI())) {
-                echo '<pre>';
-                var_dump('checkURI');
-                var_dump($route->getController());
-                echo '</pre>';
+            if (!$this->checkURL($route->getURL())) {
                 continue;
             }
             $controller = $route->getController();
@@ -142,117 +123,102 @@ class router
     /**
      * @return int
      */
-    public static function getPort(): int
+    public function getPort(): int
     {
-        return self::$port;
+        return $this->port;
     }
 
     /**
      * @param int $port
+     * @return router
      */
-    public static function setPort(int $port): void
+    public function setPort(int $port): router
     {
-        self::$port = $port;
+        $this->port = $port;
+        return $this;
     }
 
     /**
      * @param int $port
      * @return bool
      */
-    private static function checkPort(int $port): bool
+    private function checkPort(int $port): bool
     {
-        return self::$port === $port || self::$port === '' || $port === '';
+        return $this->port === $port || $this->port === '' || $port === '';
     }
 
-    /**
-     * @return array
-     */
-    public static function getURI(): array
-    {
-        return self::$URI;
-    }
+
 
     /**
-     * @param array $URI
-     */
-    public static function setURI(array $URI): void
-    {
-        self::$URI = $URI;
-    }
-
-    /**
-     * @param string $URI
+     * @param string $URL
      * @return bool
      */
-    private static function checkURI(string $URI): bool
+    private function checkURL(string $URL): bool
     {
-        if ($URI === '' ) {
+        if ($URL === '' ) {
             return true;
         }
-        ['/'];
-        ['/', 'admin'];
-        ['admin'];
-        foreach (self::$URI as $URL) {
-            var_dump($URI, $URL);
-            if (self::$URI === $URL) {
-               return true;
-            }
-        }
+        return URL::getURLPointerNow() === $URL || $URL === '';
+
     }
 
     /**
      * @return string
      */
-    public static function getMethod(): string
+    public function getMethod(): string
     {
-        return self::$method;
+        return $this->method;
     }
 
     /**
      * @param string $method
+     * @return router
      */
-    public static function setMethod(string $method): void
+    public function setMethod(string $method): router
     {
-        self::$method = $method;
+        $this->method = $method;
+        return $this;
     }
 
     /**
      * @param string $method
      * @return bool
      */
-    private static function checkMethod(string $method): bool
+    private function checkMethod(string $method): bool
     {
-        return self::$method === $method || self::$method === '' || $method === '';
+        return $this->method === $method || $this->method === '' || $method === '';
     }
 
     /**
      * @return array
      */
-    public static function getSite(): array
+    public function getSite(): array
     {
-        return self::$site;
+        return $this->site;
     }
 
     /**
      * @param string $site
+     * @return router
      */
-    public static function setSite(string $site): void
+    public function setSite(string $site): router
     {
-        self::$site = $site;
+        $this->site = $site;
+        return $this;
     }
 
     /**
      * @param string $site
      * @return bool
      */
-    private static function checkSite(string $site): bool
+    private  function checkSite(string $site): bool
     {
         $replace    =   Array(
             '*'  =>  '([\w]+)',
             '/'  =>  '\/',
         );
         $siteRegular   =  '/^' . strtr($site, $replace) . '$/i';
-        preg_match($siteRegular, self::$site, $output);
-        return isset($output[0]) ||  $site === '' || self::$site === '';
+        preg_match($siteRegular, $this->site, $output);
+        return isset($output[0]) ||  $site === '' || $this->site === '';
     }
 }

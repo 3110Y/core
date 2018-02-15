@@ -11,7 +11,7 @@ if (!class_exists(\core\core::class)) {
 return [
     [
         'controller' => \application\admin\router::class,
-        'uri'       => 'admin',
+        'url'       => 'admin',
         'function'  => 'render',
     ],
 /*    [

@@ -23,7 +23,7 @@ class route
     /**
      * @var string
      */
-    private $uri;
+    private $URL;
 
     /**
      * @var string
@@ -58,7 +58,7 @@ class route
     public function __construct(array $route)
     {
         $this->controller           =   $route['controller']    ??  '';
-        $this->uri                  =   $route['uri']           ??  '/';
+        $this->URL                  =   $route['url']           ??  '/';
         $this->function             =   $route['function']      ??  '/';
         $this->site                 =   $route['site']          ??  '*.*';
         $this->theme                =   $route['theme']         ??  'basic';
@@ -77,9 +77,9 @@ class route
     /**
      * @return string
      */
-    public function getURI(): string
+    public function getURL(): string
     {
-        return $this->uri;
+        return $this->URL;
     }
 
     /**

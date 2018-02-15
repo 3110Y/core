@@ -21,6 +21,7 @@ include_once  'core'. DIRECTORY_SEPARATOR .  'autoloader' . DIRECTORY_SEPARATOR 
 use core\{
     core,
     router\router,
+    router\URL,
     dir\dir,
     config\config,
     autoloader\autoloader
@@ -29,6 +30,7 @@ use core\{
 /** Подключение */
 autoloader::getInstance()->register();
 autoloader::getInstance()->addNamespace('core', __DIR__ . DIRECTORY_SEPARATOR . 'core');
+autoloader::getInstance()->addNamespace('application', __DIR__ . DIRECTORY_SEPARATOR . 'application');
 
 /** Задание путей */
 dir::setDR(__DIR__);
@@ -37,22 +39,32 @@ dir::setDirFileCache('filecache');
 
 /** Маршрутизация */
 $scheme = config::getConfig('structure');
-$URI    =   explode('/', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
-$URI[0] =   '/';
-$URI    =   array_values($URI);
-router::setURI($URI);
-router::setMethod($_SERVER['REQUEST_METHOD']);
-router::setPort($_SERVER['SERVER_PORT']);
-router::setSite($_SERVER['HTTP_HOST']);
-router::addStructure($scheme);
-$result = router::execute();
-var_dump($result);
-/** Вывод */
-/** @var int Время Конца */
-$timeEnd = microtime(true);
-/** @var int Время Разница*/
-$timeDiff = $timeEnd - $timeStart;
-echo strtr($result, Array(
-    '{time_DIFF}' => $timeDiff,
-    '{core_VERSION}' => core::VERSION,
-));
+$URL    =   explode('/', rtrim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/'));
+$URL[0] =   '/';
+URL::setURI($URL);
+$router  =   new router();
+$result = $router
+    ->setMethod($_SERVER['REQUEST_METHOD'])
+    ->setPort($_SERVER['SERVER_PORT'])
+    ->setSite($_SERVER['HTTP_HOST'])
+    ->addStructure($scheme)
+    ->execute();
+if ($result === false && isset($URL[1])) {
+    unset($URL[0]);
+    $URL    =   array_values($URL);
+    URL::setURI($URL);
+    $result = $router->execute();
+}
+if ($result === false) {
+    echo 'Нет приложения';
+} else {
+    /** Вывод */
+    /** @var int Время Конца */
+    $timeEnd = microtime(true);
+    /** @var int Время Разница */
+    $timeDiff = $timeEnd - $timeStart;
+    echo strtr($result, Array(
+        '{time_DIFF}' => $timeDiff,
+        '{core_VERSION}' => core::VERSION,
+    ));
+}

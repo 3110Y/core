@@ -10,8 +10,15 @@
 namespace core\application;
 
 use core\{
-    config\config, registry\registry as registry, authentication as authentication, PDO\PDO, simpleView\simpleView
+    config\config,
+    registry\registry,
+    authentication,
+    PDO\PDO,
+    simpleView\simpleView,
+    router\URL,
+    router\router
 };
+use application\admin\controllers\system\common\basic;
 
 /**
  * Class ARouter
@@ -19,56 +26,51 @@ use core\{
  */
 abstract class ARouter extends AApplication
 {
-    /**
-     * @var mixed table
-     */
-    protected $table = 'admin_page';
-
-    /**
-     * @var mixed fields
-     */
-    protected $fields = '*';
-
-    /**
-     * @var mixed where
-     */
-    protected $where = Array(
-        'status' => '1'
-    );
-
-    /**
-     * @var mixed order
-     */
-    protected $order = '`order_in_menu` ASC';
 
     /**
      * @var mixed configDB
      */
-    protected $configDB = 'db.common';
+    protected $configDB = 'db';
+
+    /**
+     * @var mixed configDB
+     */
+    protected $configStructure = 'admin.structure';
 
     /**
      * @var mixed configDB
      */
     protected $redirectPage = 'enter';
 
+
+    protected $controller;
+
     /**
-     * @var object шаблон
+     * @var string
      */
-    protected $controller = null;
+    protected $controllerBasic = basic::class;
+
+    /**
+     * @var string
+     */
+    protected $themeCurrent = 'admin\theme\basic';
+
+    /**
+     * @var string
+     */
+    protected $applicationNameCurrent = 'панель';
+
+
 
     /**
      * router constructor.
-     *
-     * @param string $URL           URL приложения
-     * @param array  $application   данные приложения
-     * @param bool   $isAjaxRequest AJAX запрос
      */
-    public function __construct($URL, $application, $isAjaxRequest = false)
+    public function __construct()
     {
-        self::$isAjaxRequest        =  $isAjaxRequest;
-        self::$URL                  =  $URL;
-        self::$application          =  $application;
-        $config                     =   config::getConfig($this->configDB);
+        $config                 =   config::getConfig($this->configDB);
+        self::$theme            = $this->themeCurrent;
+        self::$applicationName  = $this->applicationNameCurrent;
+        self::$applicationURL   = URL::getURLPointerNow();
         /** @var PDO $db */
         $db =   PDO::getInstance($config);
         registry::set('db', $db);
@@ -76,168 +78,65 @@ abstract class ARouter extends AApplication
         registry::set('auth', $auth);
         registry::set('view', new simpleView());
         registry::get('view')->setExtension('tpl');
-        self::$structure = $db->selectRows($this->table,$this->fields, $this->where, $this->order);
-
-        if (empty(self::$structure)) {
-            die('Нет страниц');
-        }
+       // $this->auth();
+        $this->run();
     }
 
 
-    /**
-     * @return $this
-     */
-    public function run()
+    public function auth(): void
     {
         /** @var \core\authentication\component $auth */
         $auth = registry::get('auth');
         if (!$auth->get('authorization')->check()) {
             $auth->get('authorization')->logout();
-            self::redirect(self::$application['url']);
+            self::redirect(self::$applicationURL);
         }
-        $auth->get('object')->register('application_' . self::$application['id'], 'Вход в приложение: ' . self::$application['name']);
+        $auth->get('object')->register('application_' . self::$application['id'], 'Вход в приложение: ' . self::$applicationName);
         if (!$auth->get('rules')->check('application_' . self::$application['id']) && self::$URL[1] !== $this->redirectPage) {
             $auth->get('authorization')->logout();
-            self::redirect(self::$application['url'] . '/' . $this->redirectPage);
+            self::redirect(self::$applicationURL . '/' . $this->redirectPage);
         }
-        self::selectPage();
-        $path               =   self::$application['path'];
-        $controllerBasic    =   "application\\{$path}\\controllers\\" . self::$application['basicController'];
-        $controllerBasic    =   new $controllerBasic();
+    }
+
+
+    public function run(): void
+    {
+        $controllerBasic    =   $this->controllerBasic;
+        $this->controllerBasic    =   new $controllerBasic();
         $issetBasic         =   $controllerBasic instanceof IControllerBasic;
         if ($issetBasic) {
-            if (!self::$isAjaxRequest) {
-                $controllerBasic->pre();
+            if (!self::isAjaxRequest()) {
+                $this->controllerBasic->pre();
             } else {
-                $controllerBasic->preAjax();
+                $this->controllerBasic->preAjax();
             }
         }
-        $controller         =   self::$page['controller'];
-        $this->controller         = "application\\{$path}\\controllers\\{$controller}";
-        /** @var \application\admin\controllers\page controller */
-        $this->controller         = new $this->controller();
+        URL::plusPointer();
+        $scheme = config::getConfig($this->configStructure);
+        $this->controller = (new router())->addStructure($scheme)->execute();
+        var_dump($this->controller);
         if ($issetBasic) {
-            if (!self::$isAjaxRequest) {
-                $controllerBasic->post();
+            if (!self::isAjaxRequest()) {
+                $this->controllerBasic->post();
             } else {
-                $controllerBasic->postAjax();
+                $this->controllerBasic->postAjax();
             }
         }
-
-        return $this;
     }
 
     /**
      *  Запускает роутинг
      * @return string
      */
-    public function render()
+    public function render(): string
     {
-        if (self::$isAjaxRequest ) {
+        if (self::isAjaxRequest()) {
             return json_encode(self::$content);
         }
         registry::get('view')->setTemplate(self::getTemplate($this->controller->template));
         registry::get('view')->setData(self::$content);
         registry::get('view')->run();
         return registry::get('view')->get();
-    }
-
-
-    /**
-     * Задает текущую страницу и страницу Ошибок
-     */
-    protected static function selectPage()
-    {
-        self::$pageError    = self::searchPageError();
-        self::$page         = self::searchPage();
-    }
-
-    /**
-     * Отдает страницу Ошибок
-     * @return array
-     */
-    public static function searchPageError()
-    {
-        foreach (self::$structure as $item) {
-            if ($item['error']) {
-                return $item;
-            }
-        }
-        return self::$structure[0];
-    }
-
-    /**
-     * Отдает текущую
-     *
-     * @return array текущая страница
-     */
-    private static function searchPage(): array
-    {
-        $parentID   = 0;
-        $URLCount   = count(self::$URL) - 1;
-        $path           =   self::$application['path'];
-        foreach (self::$URL as $URLKey => $URLItem) {
-            if ($URLKey === 0) {
-                continue;
-            }
-            $URLLeft = $URLCount - ($URLKey + 1);
-            foreach (self::$structure as $item) {
-                if (!isset($item['countSubURL'])) {
-                    /** @var \application\client\controllers\basic $controller */
-                    $controller                 =   $item['controller'];
-                    $controller                 =   "application\\{$path}\\controllers\\{$controller}";
-                    $item['controllerObject']   =   $controller;
-                    $item['countSubURL']        =   $controller::$countSubURL;
-                }
-                if (
-                    (int)$parentID === (int)$item['parent_id']
-                    && (
-                        $URLCount === $URLKey
-                        || (
-                            $item['countSubURL'] === false
-                            || $item['countSubURL'] >= $URLCount - $URLLeft
-                        )
-                    )
-                    && (
-                        $item['url'] === $URLItem
-                        || (
-                            $item['url'] === '/'
-                            && $URLItem === ''
-                            && (
-                                $item['countSubURL'] === false
-                                || $item['countSubURL'] >= $URLCount + $URLLeft
-                            )
-                        )
-                    )
-                ) {
-                    //нужная страница
-                    $url   =   Array();
-                    for ($i = 0, $iMax = $URLKey + 1; $i < $iMax; $i++) {
-                        $url[] = self::$URL[$i];
-                    }
-                    $item['controllerObject']::setPageURL(implode('/', $url));
-                    $subURL   =   Array();
-                    for ($i = $URLKey + 1; $i <= $URLCount; $i++) {
-                        $subURL[] = self::$URL[$i];
-                    }
-                    $item['controllerObject']::setSubURL($subURL);
-                    return $item;
-                } elseif (
-                    (int)$parentID === (int)$item['parent_id']
-                    && (
-                        $item['url'] === $URLItem
-                        || (
-                            $item['url'] === '/'
-                            && $URLItem === ''
-                        )
-                    )
-                ) {
-                    //ищем подстраницу
-                    $parentID = $item['id'];
-                }
-            }
-        }
-        return self::$pageError;
     }
 
 

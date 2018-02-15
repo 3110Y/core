@@ -14,6 +14,7 @@ include_once  'core'. DIRECTORY_SEPARATOR .  'autoloader' . DIRECTORY_SEPARATOR 
 
 use core\{
     router\router,
+    router\URL,
     dir\dir,
     config\config,
     autoloader\autoloader
@@ -25,6 +26,7 @@ if (isset($_SERVER['SHELL'], $argv)) {
     /** Подключение */
     autoloader::getInstance()->register();
     autoloader::getInstance()->addNamespace('core', __DIR__);
+    autoloader::getInstance()->addNamespace('application', __DIR__ . DIRECTORY_SEPARATOR . 'application');
 
     /** Задание путей */
     dir::setDR(__DIR__);
@@ -33,13 +35,18 @@ if (isset($_SERVER['SHELL'], $argv)) {
 
     /** Маршрутизация */
     $scheme = config::getConfig('structure');
-    $URI    =   $argv;
-    $URI[0] = '/';
-    router::setURI($URI);
-    router::addStructure($scheme);
-    $result = router::execute();
-
+    $URL    =   $argv;
+    $URL[0] = '/';
+    URL::setURI($URL);
+    $router  =   new router();
+    $result = $router->addStructure($scheme)->execute();
+    if ($result === false && isset($URL[1])) {
+        unset($URL[0]);
+        $URL    =   array_values($URL);
+        URL::setURI($URL);
+        $result = $router->execute();
+    }
     /** Вывод */
-    echo $result;
+    echo $result !== false  ?   $result :   'Нет приложения';
 }
 exit(0);
