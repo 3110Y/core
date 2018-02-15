@@ -32,12 +32,15 @@ class basic extends AControllers implements IControllerBasic
         $theme                          =   self::$theme;
         self::$content['THEME']         =   "/application/{$path}/theme/{$theme}/";
         self::$content['URL']           =   URL::getURLPointerNow();
+
+        var_dump(URL::getFullURLPointerNow());
+        die();
         $url = self::$applicationRoute->getURL();
-       /* $data                           =   Array(
+        $data                           =   Array(
             'MENU'  => self::generationMenu($url)['sub'],
-        );*/
+        );
         $template                       =   self::getTemplate('block/menu/menu.tpl');
-      //  self::$content['MENU']          =   simpleView::replace($template,  $data);
+        self::$content['MENU']          =   simpleView::replace($template,  $data);
     }
 
     /**
@@ -69,20 +72,9 @@ class basic extends AControllers implements IControllerBasic
         $query  =   $db->select('admin_page', '*', $where, 'order_in_menu');
         $rows   =   Array();
         $parentClass =  '';
-	    $parentURL  =   $parentURL != '/'   ?   $parentURL . '/'  :   $parentURL;
+	    $parentURL  =   $parentURL !== '/'   ?   $parentURL . '/'  :   $parentURL;
         if ($query->rowCount() > 0) {
             while ($row =  $query->fetch()) {
-                /** @var \core\authentication\component $auth */
-               /* $auth = registry::get('auth');
-                $auth->get('authorization')->check();
-                $auth->get('object')->register(
-                    'application_' . self::$application['id'] . '_page_' . $row['id'],
-                    'Приложение: ' . self::$application['name']. " Отображать пункт меню: {$row['name']}"
-                );
-                if (!$auth->get('rules')->check('application_' . self::$application['id'] . '_page_' . $row['id'])) {
-                    continue;
-                }*/
-
                 $class  =   '';
                 $URL    =   $row['url'] == '/'    ?   $parentURL :   $parentURL . $row['url'];
                 if ($row['url'] == self::$page['url'] && $row['parent_id'] == self::$page['parent_id']) {

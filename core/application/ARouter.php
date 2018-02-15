@@ -98,13 +98,12 @@ abstract class ARouter extends AApplication
 
     public function run(): void
     {
-
+        URL::plusPointer();
         if (!self::isAjaxRequest()) {
             $this->controllerBasic::pre();
         } else {
             $this->controllerBasic::preAjax();
         }
-        URL::plusPointer();
         $scheme = config::getConfig($this->configStructure);
         $this->controller = (new router())->addStructure($scheme)->execute();
         if (!self::isAjaxRequest()) {

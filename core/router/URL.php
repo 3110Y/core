@@ -50,6 +50,18 @@ class URL
     }
 
     /**
+     * @return string
+     */
+    public static function getFullURLPointerNow() : string
+    {
+        $URL = Array();
+        for ($i = 0; $i <= self::$pointer; $i++) {
+            $URL[] = self::$URL[$i];
+        }
+        return implode('/', $URL);
+    }
+
+    /**
      * @param array $URL
      */
     public static function setURI(array $URL): void
