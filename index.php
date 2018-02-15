@@ -33,7 +33,6 @@ $config     = config::getConfig('db.common');
 $db         =   PDO::getInstance($config);
 $structure  =   $db->selectRows('core_application','*', Array( 'status' => '1'), '`priority` ASC');
 
-
 if (isset($_SERVER['SHELL'], $argv)) {
     $URL    =   $argv;
     $URL[0] = '/';
