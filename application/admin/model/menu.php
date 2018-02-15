@@ -16,17 +16,17 @@ use core\{
 
 class menu extends AClass
 {
-    public static function get($where)
+    public static function get($where)  :   array
     {
 
     }
 
-    public static function getList($where)
+    public static function getList($where)  :   array
     {
 
     }
 
-    public static function getMenu($where)
+    public static function getMenu($where)  :   array
     {
 
     }
