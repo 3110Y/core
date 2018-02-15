@@ -28,7 +28,19 @@
         <div class="header-bg"></div>
         <div id="column-left-substrate"> </div>
         <div class="column column-left">
-            {MENU}
+            <div id="general-menu">
+                <ul>
+                    {FOR}
+                        <li class="{CLASS}">
+                            <a href="{URL}"><span uk-icon="icon: {ICON}"></span> {NAME}</a>
+                            {SUB_LINK}
+                            <a href="#"><</a>
+                            {SUB_LINK}
+                            {SUB}
+                        </li>
+                    {/FOR}
+                </ul>
+            </div>
         </div>
         <div class="column column-right no-bg">
             {CONTENT}
