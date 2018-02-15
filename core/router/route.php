@@ -50,6 +50,26 @@ class route
      */
     private $port;
 
+    /**
+     * @var string
+     */
+    private $name;
+
+    /**
+     * @var string
+     */
+    private $accessMode = 'allow';
+
+    /**
+     * @var array
+     */
+    private $accessGroup = [];
+
+    /**
+     * @var array
+     */
+    private $accessUser = [];
+
 
     /**
      * route constructor.
@@ -64,6 +84,12 @@ class route
         $this->theme                =   $route['theme']         ??  'basic';
         $this->method               =   $route['method']        ??  'GET';
         $this->port                 =   $route['port']          ??  80;
+        $this->name                 =   $route['name']          ??  '';
+        if (isset($route['access'])) {
+            $this->accessMode   =   $route['access']['mode']  ??  'allow';
+            $this->accessGroup  =   $route['access']['group'] ??  [];
+            $this->accessUser   =   $route['access']['user']  ??  [];
+        }
     }
 
     /**
@@ -120,5 +146,37 @@ class route
     public function getPort(): int
     {
         return $this->port;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAccessMode(): string
+    {
+        return $this->accessMode;
+    }
+
+    /**
+     * @return array
+     */
+    public function getAccessGroup(): array
+    {
+        return $this->accessGroup;
+    }
+
+    /**
+     * @return array
+     */
+    public function getAccessUser(): array
+    {
+        return $this->accessUser;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
     }
 }

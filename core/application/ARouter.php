@@ -10,13 +10,7 @@
 namespace core\application;
 
 use core\{
-    config\config,
-    registry\registry,
-    authentication,
-    PDO\PDO,
-    simpleView\simpleView,
-    router\URL,
-    router\router
+    config\config, registry\registry, authentication, PDO\PDO, router\route, simpleView\simpleView, router\URL, router\router
 };
 use application\admin\controllers\system\common\basic;
 
@@ -61,12 +55,14 @@ abstract class ARouter extends AApplication
     protected $applicationNameCurrent = 'панель';
 
 
-
     /**
      * router constructor.
+     * @param route $route
      */
-    public function __construct()
+    public function __construct(route $route)
     {
+        var_dump($route);
+        die();
         $config                 =   config::getConfig($this->configDB);
         self::$theme            = $this->themeCurrent;
         self::$applicationName  = $this->applicationNameCurrent;
