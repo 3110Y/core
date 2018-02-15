@@ -9,7 +9,10 @@
 namespace application\admin\controllers\system\common;
 
 
-use core\application\AControllers;
+use \core\{
+    application\AControllers,
+    router\route
+};
 
 
 /**
@@ -30,8 +33,9 @@ class error extends AControllers
 
     /**
      * Инициализация
+     * @param route $route
      */
-    public function __construct()
+    public function __construct(route $route)
     {
         header('HTTP/1.0 404 Not Found');
         self::$content['CONTENT']  =    'Ошибка';

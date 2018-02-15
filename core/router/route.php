@@ -16,6 +16,11 @@ namespace core\router;
 class route
 {
     /**
+     * @var array
+     */
+    private $route;
+
+    /**
      * @var string
      */
     private $controller;
@@ -79,7 +84,7 @@ class route
     {
         $this->controller           =   $route['controller']    ??  '';
         $this->URL                  =   $route['url']           ??  '/';
-        $this->function             =   $route['function']      ??  '/';
+        $this->function             =   $route['function']      ??  '';
         $this->site                 =   $route['site']          ??  '*.*';
         $this->theme                =   $route['theme']         ??  'basic';
         $this->method               =   $route['method']        ??  'GET';
@@ -90,6 +95,7 @@ class route
             $this->accessGroup  =   $route['access']['group'] ??  [];
             $this->accessUser   =   $route['access']['user']  ??  [];
         }
+        $this->route                 =   $route          ??  Array();
     }
 
     /**
@@ -178,5 +184,13 @@ class route
     public function getName(): string
     {
         return $this->name;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRoute(): array
+    {
+        return $this->route;
     }
 }

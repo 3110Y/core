@@ -10,6 +10,7 @@ namespace application\admin\controllers\system\test;
 
 use application\admin\model;
 use core\application\AControllers;
+use core\router\route;
 
 
 /**
@@ -25,8 +26,9 @@ class field extends AControllers
 
     /**
      * Инициализация
+     * @param route $route
      */
-    public function __construct()
+    public function __construct(route $route)
     {
         $listStatus =   Array(
             Array(

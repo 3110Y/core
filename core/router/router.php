@@ -20,16 +20,6 @@ class router
     private $route = [];
 
     /**
-     * @var int
-     */
-    private $port = 80;
-
-    /**
-     * @var string
-     */
-    private $method = '';
-
-    /**
      * @var string
      */
     private $site = '';
@@ -96,6 +86,7 @@ class router
      */
     public  function execute()
     {
+
         /** @var \core\router\route $route */
         foreach ($this->route as $route) {
             if (!$this->checkPort($route->getPort())) {
@@ -110,32 +101,15 @@ class router
             if (!$this->checkURL($route->getURL())) {
                 continue;
             }
+
             $controller = $route->getController();
             $function = $route->getFunction();
             if ($function !== '') {
                 return (new $controller($route))->$function();
             }
-            return $controller;
+            return new $controller($route);
         }
         return false;
-    }
-
-    /**
-     * @return int
-     */
-    public function getPort(): int
-    {
-        return $this->port;
-    }
-
-    /**
-     * @param int $port
-     * @return router
-     */
-    public function setPort(int $port): router
-    {
-        $this->port = $port;
-        return $this;
     }
 
     /**
@@ -144,7 +118,10 @@ class router
      */
     private function checkPort(int $port): bool
     {
-        return $this->port === $port || $this->port === '' || $port === '';
+        return  !isset($_SERVER['SERVER_PORT']) ||
+            $_SERVER['SERVER_PORT'] === '' ||
+            (int)$_SERVER['SERVER_PORT'] === (int)$port ||
+            $port === '';
     }
 
 
@@ -158,26 +135,14 @@ class router
         if ($URL === '' ) {
             return true;
         }
-        return URL::getURLPointerNow() === $URL || $URL === '';
-
-    }
-
-    /**
-     * @return string
-     */
-    public function getMethod(): string
-    {
-        return $this->method;
-    }
-
-    /**
-     * @param string $method
-     * @return router
-     */
-    public function setMethod(string $method): router
-    {
-        $this->method = $method;
-        return $this;
+        $URLPointer =   URL::getURLPointerNow();
+        $replace    =   Array(
+            '*'  =>  '([\w]+)',
+            '/'  =>  '\/',
+        );
+        $URLRegular   =  '/^' . strtr($URL, $replace) . '$/i';
+        preg_match($URLRegular, $URLPointer, $output);
+        return isset($output[0]) || $URLPointer === '';
     }
 
     /**
@@ -186,7 +151,10 @@ class router
      */
     private function checkMethod(string $method): bool
     {
-        return $this->method === $method || $this->method === '' || $method === '';
+        return !isset($_SERVER['REQUEST_METHOD']) ||
+            $_SERVER['REQUEST_METHOD'] === '' ||
+            $_SERVER['REQUEST_METHOD'] === $method ||
+            $method === '';
     }
 
     /**
@@ -213,12 +181,15 @@ class router
      */
     private  function checkSite(string $site): bool
     {
+        if (!isset($_SERVER['HTTP_HOST'])) {
+            return true;
+        }
         $replace    =   Array(
             '*'  =>  '([\w]+)',
             '/'  =>  '\/',
         );
         $siteRegular   =  '/^' . strtr($site, $replace) . '$/i';
-        preg_match($siteRegular, $this->site, $output);
-        return isset($output[0]) ||  $site === '' || $this->site === '';
+        preg_match($siteRegular, $_SERVER['HTTP_HOST'], $output);
+        return isset($output[0]) ||  $site === '' || $_SERVER['HTTP_HOST'] === '';
     }
 }

@@ -9,8 +9,8 @@
 namespace application\admin\controllers\system\rules;
 
 use application\admin\model;
-use \core\{
-    application\AControllers
+use core\{
+    application\AControllers, router\route
 };
 
 
@@ -27,8 +27,9 @@ class rulesObjects extends AControllers
 
     /**
      * Инициализация
+     * @param route $route
      */
-    public function __construct()
+    public function __construct(route $route)
     {
         $field     =   Array(
             Array(

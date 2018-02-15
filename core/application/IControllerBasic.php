@@ -17,20 +17,20 @@ interface IControllerBasic
     /**
      * Преинициализация
      */
-    public function pre();
+    public static function pre();
 
     /**
      * Постинициализация
      */
-    public function post();
+    public static function post();
 
     /**
      * Преинициализация
      */
-    public function preAjax();
+    public static function preAjax();
 
     /**
      * Постинициализация
      */
-    public function postAjax();
+    public static function postAjax();
 }

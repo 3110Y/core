@@ -10,8 +10,8 @@ namespace application\admin\controllers\system\common;
 
 
 use application\admin\model;
-use \core\{
-    application\AControllers
+use core\{
+    application\AControllers, router\route
 };
 
 
@@ -28,8 +28,9 @@ class settings extends AControllers
 
     /**
      * Инициализация
+     * @param route $route
      */
-    public function __construct()
+    public function __construct(route $route)
     {
         $field     =   Array(
             Array(

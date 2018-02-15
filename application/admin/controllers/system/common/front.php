@@ -10,6 +10,7 @@ namespace application\admin\controllers\system\common;
 
 
 use core\application\AControllers;
+use core\router\route;
 
 
 /**
@@ -31,10 +32,11 @@ class front extends AControllers
 
     /**
      * Инициализация
+     * @param route $route
      */
-    public function __construct()
+    public function __construct(route $route)
     {
-    	$url = self::$application['url'] === '/' ?   self::$application['url']   :   self::$application['url'] . '/';
+    	$url = self::$applicationRoute->getURL() === '/' ?   self::$applicationRoute->getURL()   :   self::$applicationRoute->getURL() . '/';
         self::redirect($url .'page');
     }
 

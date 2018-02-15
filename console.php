@@ -36,16 +36,23 @@ if (isset($_SERVER['SHELL'], $argv)) {
     /** Маршрутизация */
     $scheme = config::getConfig('structure');
     $URL    =   $argv;
-    $URL[0] = '/';
-    URL::setURI($URL);
-    $router  =   new router();
-    $result = $router->addStructure($scheme)->execute();
-    if ($result === false && isset($URL[1])) {
+
+    $URLTwo = $URL;
+    $router  =   (new router())->addStructure($scheme);
+
+    $result = false;
+    if (isset($URL[1])) {
         unset($URL[0]);
         $URL    =   array_values($URL);
         URL::setURI($URL);
         $result = $router->execute();
     }
+    if ($result === false) {
+        URL::setURI($URLTwo);
+        $result = $router->execute();
+    }
+
+
     /** Вывод */
     echo $result !== false  ?   $result :   'Нет приложения';
 }

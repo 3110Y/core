@@ -11,7 +11,8 @@ namespace application\admin\controllers\system\common;
 use \core\{
     application\AControllers,
     registry\registry,
-    resources\resources
+    resources\resources,
+    router\route
 };
 
 /**
@@ -32,11 +33,12 @@ class enter extends AControllers
 
     /**
      * Инициализация
+     * @param route $route
      */
-    public function __construct()
+    public function __construct(route $route)
     {
 
-        if (self::$isAjaxRequest ) {
+        if (self::isAjaxRequest() ) {
             if (!isset($_POST['login'], $_POST['password'])) {
                 self::$content = false;
             } else {
@@ -49,7 +51,7 @@ class enter extends AControllers
             }
         } else {
             if (isset($_COOKIE['uid'])) {
-                self::redirect(self::$application['url']);
+                self::redirect(self::$applicationRoute->getURL());
             }
             resources::setCss(self::getTemplate('css/enter.css'));
             resources::setJs(self::getTemplate('js/enter.js'));

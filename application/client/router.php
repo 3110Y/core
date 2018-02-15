@@ -41,11 +41,6 @@ final class router extends ARouter implements IRouter
     /**
      * @var mixed configDB
      */
-    protected $configDB = 'db.common';
-
-    /**
-     * @var mixed configDB
-     */
     protected $redirectPage = '404';
 
 }

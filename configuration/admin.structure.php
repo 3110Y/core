@@ -9,12 +9,12 @@ if (!class_exists(\core\core::class)) {
     die();
 }
 return [
-    [
+/*    [
         'controller' => \application\admin\controllers\system\common\front::class,
         'url' => '/',
-    ],
+    ],*/
     [
         'controller' => \application\admin\controllers\system\common\basic::class,
-        'url' => '*',
+        'url' => '',
     ],
 ];

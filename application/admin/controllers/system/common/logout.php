@@ -8,9 +8,8 @@
 
 namespace application\admin\controllers\system\common;
 
-use \core\{
-    application\AControllers,
-    registry\registry
+use core\{
+    application\AControllers, registry\registry, router\route
 };
 
 /**
@@ -26,12 +25,13 @@ class logout extends AControllers
 
     /**
      * Инициализация
+     * @param route $route
      */
-    public function __construct()
+    public function __construct(route $route)
     {
         /** @var \core\authentication\component $auth */
         $auth    =   registry::get('auth');
         $auth->get('authorization')->logout();
-        self::redirect(self::$application['url']);
+        self::redirect(self::$applicationRoute->getURL());
     }
 }

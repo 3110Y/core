@@ -9,6 +9,7 @@
 namespace application\admin\controllers\system\rules;
 
 use core\application\AControllers;
+use core\router\route;
 
 
 /**
@@ -23,10 +24,11 @@ class usersRoles extends AControllers
 	 */
 	public static $countSubURL  =   0;
 
-	/**
-	 * Инициализация
-	 */
-	public function __construct()
+    /**
+     * Инициализация
+     * @param route $route
+     */
+	public function __construct(route $route)
 	{
 		self::redirect(self::$pageURL . '/user');
 	}

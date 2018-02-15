@@ -9,8 +9,8 @@
 namespace application\admin\controllers;
 
 use application\admin\model;
-use \core\{
-    application\AControllers
+use core\{
+    application\AControllers, router\route
 };
 
 
@@ -28,8 +28,9 @@ class page extends AControllers
 
     /**
      * Инициализация
+     * @param route $route
      */
-    public function __construct()
+    public function __construct(route $route)
     {
         $listStatus =   Array(
             Array(

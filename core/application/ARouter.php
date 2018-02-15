@@ -36,7 +36,9 @@ abstract class ARouter extends AApplication
      */
     protected $redirectPage = 'enter';
 
-
+    /**
+     * @var
+     */
     protected $controller;
 
     /**
@@ -47,12 +49,13 @@ abstract class ARouter extends AApplication
     /**
      * @var string
      */
-    protected $themeCurrent = 'admin\theme\basic';
+    protected $pathCurrent = 'admin';
 
     /**
      * @var string
      */
-    protected $applicationNameCurrent = 'панель';
+    protected $themeCurrent = 'basic';
+
 
 
     /**
@@ -61,12 +64,10 @@ abstract class ARouter extends AApplication
      */
     public function __construct(route $route)
     {
-        var_dump($route);
-        die();
+        self::$applicationRoute =   $route;
+        self::$theme            =   $this->themeCurrent;
+        self::$path             =   $this->pathCurrent;
         $config                 =   config::getConfig($this->configDB);
-        self::$theme            = $this->themeCurrent;
-        self::$applicationName  = $this->applicationNameCurrent;
-        self::$applicationURL   = URL::getURLPointerNow();
         /** @var PDO $db */
         $db =   PDO::getInstance($config);
         registry::set('db', $db);
@@ -97,26 +98,19 @@ abstract class ARouter extends AApplication
 
     public function run(): void
     {
-        $controllerBasic    =   $this->controllerBasic;
-        $this->controllerBasic    =   new $controllerBasic();
-        $issetBasic         =   $controllerBasic instanceof IControllerBasic;
-        if ($issetBasic) {
-            if (!self::isAjaxRequest()) {
-                $this->controllerBasic->pre();
-            } else {
-                $this->controllerBasic->preAjax();
-            }
+
+        if (!self::isAjaxRequest()) {
+            $this->controllerBasic::pre();
+        } else {
+            $this->controllerBasic::preAjax();
         }
         URL::plusPointer();
         $scheme = config::getConfig($this->configStructure);
         $this->controller = (new router())->addStructure($scheme)->execute();
-        var_dump($this->controller);
-        if ($issetBasic) {
-            if (!self::isAjaxRequest()) {
-                $this->controllerBasic->post();
-            } else {
-                $this->controllerBasic->postAjax();
-            }
+        if (!self::isAjaxRequest()) {
+            $this->controllerBasic::post();
+        } else {
+            $this->controllerBasic::postAjax();
         }
     }
 

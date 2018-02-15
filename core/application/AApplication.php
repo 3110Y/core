@@ -30,9 +30,15 @@ abstract class AApplication
      */
     protected static $theme;
 
-    protected static $applicationURL;
+    /**
+     * @var string
+     */
+    protected static $path;
 
-    protected static $applicationName;
+    /**
+     * @var \core\router\route
+     */
+    protected static $applicationRoute;
 
     /**
      * отдает шаблон из темы
@@ -41,8 +47,10 @@ abstract class AApplication
      */
     public static function getTemplate(string $template): string
     {
-        $theme = self::$theme;
-        return "/application/{$theme}/{$template}";
+        $theme  = self::$theme;
+        $path   = self::$path;
+        $DS     =   DIRECTORY_SEPARATOR;
+        return "{$DS}application{$DS}{$path}{$DS}theme{$DS}{$theme}{$DS}{$template}";
     }
 
 

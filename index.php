@@ -41,24 +41,27 @@ dir::setDirFileCache('filecache');
 $scheme = config::getConfig('structure');
 $URL    =   explode('/', rtrim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/'));
 $URL[0] =   '/';
-URL::setURI($URL);
-$router  =   new router();
-$result = $router
-    ->setMethod($_SERVER['REQUEST_METHOD'])
-    ->setPort($_SERVER['SERVER_PORT'])
-    ->setSite($_SERVER['HTTP_HOST'])
-    ->addStructure($scheme)
-    ->execute();
-if ($result === false && isset($URL[1])) {
+
+$URLTwo = $URL;
+$router  =   (new router())->addStructure($scheme);
+
+$result = false;
+if (isset($URL[1])) {
     unset($URL[0]);
     $URL    =   array_values($URL);
     URL::setURI($URL);
     $result = $router->execute();
 }
+
+if ($result === false) {
+    URL::setURI($URLTwo);
+    $result = $router->execute();
+}
+
+/** Вывод */
 if ($result === false) {
     echo 'Нет приложения';
 } else {
-    /** Вывод */
     /** @var int Время Конца */
     $timeEnd = microtime(true);
     /** @var int Время Разница */

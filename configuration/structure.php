@@ -25,7 +25,6 @@ return [
         'uri'       => '\\',
         'function'  => 'render',
         'site'      => '*.*',
-        'theme'     => 'basic',
         'method'    => 'GET',
         'port'      => [80, 443],
         'access'    => [

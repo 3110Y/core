@@ -9,9 +9,8 @@
 namespace application\admin\controllers\system\rules;
 
 use application\admin\model;
-use \core\{
-    application\AControllers,
-    registry\registry
+use core\{
+    application\AControllers, registry\registry, router\route
 };
 
 
@@ -28,8 +27,9 @@ class user extends AControllers
 
     /**
      * Инициализация
+     * @param route $route
      */
-    public function __construct()
+    public function __construct(route $route)
     {
         /** @var \core\PDO\PDO $db */
         $db         =   registry::get('db');

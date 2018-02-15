@@ -9,6 +9,7 @@
 namespace application\admin\controllers\system\test;
 
 use core\application\AControllers;
+use core\router\route;
 
 
 /**
@@ -24,8 +25,9 @@ class test extends AControllers
 
     /**
      * Инициализация
+     * @param route $route
      */
-    public function __construct()
+    public function __construct(route $route)
     {
         self::redirect(self::$pageURL . '/field');
     }
