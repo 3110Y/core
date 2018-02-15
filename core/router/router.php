@@ -113,7 +113,7 @@ class router
             $controller = $route->getController();
             $function = $route->getFunction();
             if ($function !== '') {
-                return (new $controller())->$function();
+                return (new $controller($route))->$function();
             }
             return $controller;
         }

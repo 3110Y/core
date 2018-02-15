@@ -12,6 +12,7 @@ return [
     [
         'controller' => \application\admin\router::class,
         'url'       => 'admin',
+        'name'      => 'admin',
         'function'  => 'render',
         'access'    => [
             'mode'  => 'disallow',
