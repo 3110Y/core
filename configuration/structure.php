@@ -13,14 +13,24 @@ return [
         'controller' => \application\admin\router::class,
         'url'       => 'admin',
         'function'  => 'render',
+        'access'    => [
+            'mode'  => 'disallow',
+            'group' =>  [1],
+            'user'  =>  [1]
+        ]
     ],
-/*    [
+    [
         'controller' => \application\client\router::class,
         'uri'       => '\\',
         'function'  => 'render',
         'site'      => '*.*',
         'theme'     => 'basic',
         'method'    => 'GET',
-        'port'      => [80, 443]
-    ],*/
+        'port'      => [80, 443],
+        'access'    => [
+            'mode'  => 'allow',
+            'group' =>  [],
+            'user'  =>  []
+        ]
+    ],
 ];
