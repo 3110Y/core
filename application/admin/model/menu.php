@@ -23,7 +23,9 @@ class menu extends AClass
 
     public static function getList($where)  :   array
     {
-
+        $db = registry::get('db');
+        /** @var \core\PDO\PDO $db */
+        $query  =   $db->select('admin_page', '*', $where, 'order_in_menu');
     }
 
     public static function getMenu($where)  :   array
