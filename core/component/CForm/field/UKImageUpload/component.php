@@ -70,7 +70,7 @@ class component extends CForm\AField implements CForm\IField
         $data['HREF_TWO']       =   $data['HREF'] === '<span>'   ?    '</span>'                    :   '</a>';
         $data['HREF']           =   simpleView::replace(false, $data, $data['HREF']);
 
-        $data['IMG']            =   $this->value !== ''  ?   image::image($this->value, $this->option)   :   $this->value;
+        $data['IMG']            =   $this->value !== '' &&  $this->value !== null  ?   image::image($this->value, $this->option)   :   $this->value;
         $data['IMG_BIG']        =   $this->value;
         $data['PARAM']          =   json_encode($data);
 
@@ -244,11 +244,11 @@ class component extends CForm\AField implements CForm\IField
 
     public function preInsert()
     {
-        return $this->required && $this->value === '';
+        return $this->required && ($this->value === '' || $this->value === null);
     }
 
     public function preUpdate()
     {
-        return $this->required && $this->value === '';
+        return $this->required && ($this->value === '' || $this->value === null);
     }
 }
