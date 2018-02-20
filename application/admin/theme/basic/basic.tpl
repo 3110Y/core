@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    {include 'block/system/head.tpl'}
+    {include 'block/head.tpl'}
 </head>
 <body>
 <div id="wrapper-hidden">
@@ -29,21 +29,7 @@
         <div id="column-left-substrate"> </div>
         <div class="column column-left">
             <div id="general-menu">
-                <ul>
-                    {FOR}
-                        <li class="{CLASS}">
-                            <a href="{URL}"><span uk-icon="icon: {ICON}"></span> {NAME}</a>
-                            {SUB_LINK}
-                                <a href="#"><</a>
-                            {SUB_LINK}
-                            {SUB}
-                                <li class="{CLASS}">
-                                    <a href="{URL}"><span uk-icon="icon: {ICON}"></span> {NAME}</a>
-                                </li>
-                            {/SUB}
-                        </li>
-                    {/FOR}
-                </ul>
+               {include 'block/menuItem.tpl'}
             </div>
         </div>
         <div class="column column-right no-bg">
