@@ -37,7 +37,9 @@ if (isset($_SERVER['SHELL'], $argv)) {
     $URL    =   $argv;
     $URL[0] = '/';
 } else {
-    $URL    =   explode('/', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
+    $parsedURL = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+    if ($parsedURL === false) die("URL parsing error");
+    $URL    =   explode('/', $parsedURL);
 }
 $result = (new router($structure, $URL))->run();
 
