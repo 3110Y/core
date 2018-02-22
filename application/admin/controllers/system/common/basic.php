@@ -9,8 +9,14 @@
 namespace application\admin\controllers\system\common;
 
 use core\{
-    application\AControllers, application\IControllerBasic, router\URL, simpleView\simpleView, registry\registry, resources\resources
+    application\AControllers,
+    application\IControllerBasic,
+    router\URL,
+    simpleView\simpleView,
+    registry\registry,
+    resources\resources
 };
+use \application\admin\model\menu;
 
 
 /**
@@ -33,7 +39,7 @@ class basic extends AControllers implements IControllerBasic
         self::$content['THEME']         =   "/application/{$path}/theme/{$theme}/";
         self::$content['URL']           =   URL::getURLPointerNow();
 
-        var_dump(URL::getFullURLPointerNow());
+        (new menu('admin_page'))->getMenu();
         die();
         $url = self::$applicationRoute->getURL();
         $data                           =   Array(

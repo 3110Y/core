@@ -9,8 +9,7 @@
 namespace application\admin\model;
 
 use core\{
-    application\AClass,
-    registry\registry
+    application\AClass, registry\registry, router\URL
 };
 
 
@@ -46,6 +45,7 @@ class menu extends AClass
      */
     public function getMenu(string $parentURL = '/', int $parentID = 0)  :   array
     {
+        var_dump(URL::getURL(), URL::getURLPointerNow(), URL::getFullURLPointerNow());
         /** @var \core\PDO\PDO $db */
         $db = registry::get('db');
         $where  =   [
