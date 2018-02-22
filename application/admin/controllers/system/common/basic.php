@@ -38,12 +38,8 @@ class basic extends AControllers implements IControllerBasic
         $theme                          =   self::$theme;
         self::$content['THEME']         =   "/application/{$path}/theme/{$theme}/";
         self::$content['URL']           =   URL::getURLPointerNow();
-
-        (new menu('admin_page'))->getMenu();
-        die();
-        $url = self::$applicationRoute->getURL();
         $data                           =   Array(
-            'MENU'  => self::generationMenu($url)['sub'],
+            'MENU'  => (new menu('admin_page'))->getMenu(URL::getPointer(), URL::getFullURLPointerNow()),
         );
         $template                       =   self::getTemplate('block/menu/menu.tpl');
         self::$content['MENU']          =   simpleView::replace($template,  $data);
