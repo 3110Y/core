@@ -125,7 +125,12 @@ class PDO extends AQueryConstructor implements IQueryConstructor
         $result = self::selectGenerator($table, $fields, $where, $order, $limit, $group, $having);
         $query  =   $this->getConnect()->prepare($result['sql']);
         if ($query === false) {
-        	die("Ошибка SQL: {$result['sql']}, данные:" . print_r($result['execute'], true));
+            $execute = [];
+            foreach ($result['execute'] as $key => $value) {
+                $execute['"' . $key . '"'] = $value;
+            }
+            $sql = strtr($result['sql'], $execute);
+            die("Ошибка SQL: {$sql} \r\n Запрос: {$result['sql']}, \r\n данные:" . print_r($result['execute'], true));
         }
         $query->execute($result['execute']);
         return $query;
