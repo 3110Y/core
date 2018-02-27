@@ -127,7 +127,7 @@ class PDO extends AQueryConstructor implements IQueryConstructor
         if ($query === false) {
             $execute = [];
             foreach ($result['execute'] as $key => $value) {
-                $execute['"' . $key . '"'] = $value;
+                $execute[$key] = '"' . $value . '"';
             }
             $sql = strtr($result['sql'], $execute);
             die("Ошибка SQL: {$sql} \r\n Запрос: {$result['sql']}, \r\n данные:" . print_r($result['execute'], true));
