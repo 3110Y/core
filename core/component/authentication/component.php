@@ -14,9 +14,9 @@ class component extends AAuthentication
 
 
     /**
-     * @var array
+     * @var string
      */
-    private $key = Array();
+    private $key = '';
 
     private static $instance = Array();
 
@@ -34,8 +34,8 @@ class component extends AAuthentication
     public function get(string $key)
     {
         if (!isset(self::$instance[$this->key . $key]) || self::$instance[$this->key . $key] == null) {
-            $key    =   'core\component\authentication\\' . $key;
-            self::$instance[$this->key . $key] = new $key($this->db, $this->config);
+            $className    =   'core\authentication\\' . $key;
+            self::$instance[$this->key . $key] = new $className($this->db, $this->config);
         }
         return self::$instance[$this->key . $key];
     }

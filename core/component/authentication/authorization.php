@@ -47,6 +47,11 @@ class authorization extends AAuthentication
 
     /**
      * Проверка
+     *
+     * Внимание! Данная функция не подходит для проверки авторизации.
+     * Только для проверки подлинности uid в куках.
+     * Используйте после получения user->get() с проверкой на ненулевой user id
+     *
      * @return bool
      */
     public  function check(): bool
