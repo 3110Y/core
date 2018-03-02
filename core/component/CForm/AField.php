@@ -12,6 +12,11 @@ namespace core\component\CForm;
 class AField extends ACForm
 {
     /**
+     * @var string
+     */
+    protected $inputType = 'text';
+
+    /**
      * @var mixed
      */
     protected $value;
@@ -48,6 +53,11 @@ class AField extends ACForm
      * @var bool
      */
     protected $readonly = false;
+
+    /**
+     * @var array
+     */
+    protected $attrs = [];
 
     /**
      * @var string
@@ -88,10 +98,12 @@ class AField extends ACForm
     {
         self::$iterator++;
         $this->row          =   $row;
+        $this->inputType    =   $field['inputType']     ?? $this->inputType;
         $this->value        =   $field['value']         ?? $this->value;
         $this->modeField    =   $field['mode']          ?? $this->modeField;
         $this->required     =   $field['required']      ?? $this->required;
         $this->readonly     =   $field['readonly']      ?? $this->readonly;
+        $this->attrs        =   $field['attrs']         ?? $this->attrs;
         $this->idField      =   $field['field']         ?? $field['table']['link']  ??  'field_' . __CLASS__ . '_' .  self::$iterator . '_' .  uniqid();
         if (isset($field['class'])) {
            if (!is_array($field['class'])) {

@@ -113,3 +113,154 @@ $width: 1230px
       color: #333
       font-size: 0.8em
       top: -15px
+      $color1: #edecec
+$color2: #2a4362
+$color3: #ffffff
+$color4: #b3b3b3
+$color5: #e5e5e5
+$color6: #ffd
+$color7: rgba(42, 67, 98, 0.4)
+$color8: #999
+$color9: #3d536f
+$width: 1230px
+
+
+.cform-after
+  clear: both
+  min-height: 56px
+  padding: 16px 12px
+  content: ' '
+  width: 100%
+  display: block
+  box-sizing: border-box
+  &.is-hidden
+    display: none
+.cform
+  display: block
+  position: relative
+  background-color: $color3
+  box-shadow: 0 14px 25px rgba(0, 0, 0, 0.16)
+  &.w-hundred
+    width: 100%
+    .cf-table
+      width: 100%
+      margin-left: 0
+  .group-action
+    position: fixed
+    width: 100%
+    padding: 16px 12px
+    box-sizing: border-box
+    background: $color7
+    bottom: 0
+    left: 0
+    text-align: center
+    white-space: nowrap
+    z-index: 1
+    &.is-hidden
+      display: none
+  .cf-caption
+    background-color: $color9
+    padding: 16px 12px
+    box-sizing: border-box
+    &.is-hidden
+      display: none
+    &::after
+      clear: both
+      content: " "
+      width: 100%
+      display: block
+    &>*
+      margin: 0
+      color: $color3
+    &>h3
+      float: left
+    &>a
+      float: right
+
+
+.cform
+  form
+    padding: 16px 12px
+  .item-action
+    width: 100%
+    padding: 16px 12px
+    box-sizing: border-box
+    text-align: center
+    white-space: nowrap
+  .cform-field
+    position: relative
+    margin-top: 20px
+    >*:not(label)
+      border: 0
+      border-bottom: 1px solid #eee
+      -moz-box-sizing: border-box
+      box-sizing: border-box
+      padding: 5px
+      background-color: transparent
+      -webkit-transition: border-color .1s linear
+      -moz-transition: border-color .1s linear
+      transition: border-color .1s linear
+      position: relative
+      z-index: 2
+    >*.error:not(label)
+      border-bottom: 1px solid red
+    >*:not(label):focus
+      outline: none
+      border-color: #aaa
+    > label
+      position: absolute
+      left: 15px
+      z-index: 1
+      -webkit-transition: all .1s linear
+      -moz-transition: all .1s linear
+      transition: all .1s linear
+      >span
+        color: red
+    >*:not(label):invalid + label
+      color: #999
+      font-size: 20px
+      top: 5px
+    >*:not(label):valid + label,
+    >*:not(label):read-only + label,
+    >*:not(label):disabled + label,
+    >*:not(label):focus + label,
+    >*:not(label) + label.multiple
+      color: #333
+      font-size: 0.8em
+      top: -15px
+.fileInput
+  display: block
+  text-align: center
+
+  span
+    position: relative
+    display: inline-block
+    min-width: 80px
+    height: 40px
+    margin-bottom: 10px
+    padding: 45px 4px 15px 0
+    border: solid 1px
+    font-size: 28px
+
+    &::before,
+    &::after
+      content: ''
+      position: absolute
+      border-style: solid
+
+    &::before
+      top: -1px
+      left: -1px
+      width: 0
+      height: 0
+      border-width: 16px
+      border-color: inherit
+      border-top-color: white
+      border-left-color: white
+    &::after
+      top: 1px
+      left: 1px
+      width: 1px
+      height: 1px
+      border-width: 14px
+      border-color: transparent white white transparent
