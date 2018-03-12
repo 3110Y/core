@@ -13,6 +13,7 @@ use \application\client\model;
 use \core\component\{
     registry\registry,
     application\AControllers,
+    application\IControllerBasic,
     simpleView\simpleView,
     resources\resources
 };
@@ -22,7 +23,7 @@ use \core\component\{
  * Class basic
  * @package application\controllers
  */
-class basic extends AControllers
+class basic extends AControllers implements IControllerBasic
 {
 
     /**
@@ -33,7 +34,7 @@ class basic extends AControllers
     /**
      * Преинициализация
      */
-    public function preInit()
+    public function pre()
     {
         //TODO: проверить title
         $path                           =   self::$application['path'];
@@ -107,7 +108,7 @@ class basic extends AControllers
     /**
      * Постинициализация
      */
-    public function postInit()
+    public function post()
     {
         self::$content['JS_TOP']        =   resources::getJS();
         self::$content['CSS_TOP']       =   resources::getCSS();
@@ -124,5 +125,21 @@ class basic extends AControllers
             self::$content['DATA_' . mb_strtoupper($key)]  =  $value;
         }
 
+    }
+
+    /**
+     * Преинициализация
+     */
+    public function preAjax()
+    {
+        // TODO: Implement preAjax() method.
+    }
+
+    /**
+     * Постинициализация
+     */
+    public function postAjax()
+    {
+        // TODO: Implement postAjax() method.
     }
 }
