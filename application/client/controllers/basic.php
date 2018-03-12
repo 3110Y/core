@@ -57,11 +57,8 @@ class basic extends AControllers implements IControllerBasic
             self::$content['DESCRIPTION'] = model\settings::getInstance()->getConfiguration('meta_description');
         }
         self::$content['DESCRIPTION']   =   self::$page['meta_description'];
-        /** @var \core\component\PDO\PDO $db */
-        $db                             =   registry::get('db');
-
         $data                           =   Array(
-            'MENU'  => self::generationMenu($db, self::$application['url'])
+            'MENU'  => self::generationMenu(self::$application['url'])
         );
         $template                       =   self::getTemplate('menu.tpl');
         self::$content['MENU']          =   simpleView::replace($template,  $data);
