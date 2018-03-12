@@ -1,0 +1,106 @@
+.cform .cf-caption span {
+    padding-left: 15px;
+}
+html body #wrapper header {
+    padding: 0 calc(2% - 15px);
+}
+
+@media (min-width: 1231px) {
+
+    html body #wrapper .column.column-left {
+        width: 20%;
+        margin-left: 2%;
+        margin-bottom: 50px;
+    }
+
+    html body #wrapper .column.column-right {
+        width: 74%;
+        padding: 0;
+    }
+
+}
+@media (max-width: 1230px) {
+    html body #wrapper header {
+        padding: 0px 44px 0 38px;
+    }
+
+    html body #wrapper .column.column-left {
+        margin-left: -310px;
+        width: 310px;
+        max-width: 310px;
+    }
+    html body #wrapper.slide-left {
+        margin-left: 310px;
+    }
+}
+html body #wrapper .column.column-left #general-menu ul li a .uk-icon {
+    position: relative;
+    top: -.1em;
+    margin: 0 8px 0 2px;
+}
+
+.uk-button .uk-icon {
+    position: relative;
+    top: -.1em;
+}
+
+@media (max-width: 640px) {
+    html body #wrapper header {
+        padding: 0px 16px 0 11px;;
+    }
+    html body #wrapper .column.column-right {
+        margin: 0;
+        padding: 0;
+        max-width: none;
+    }
+    html body #wrapper header > a.uk-logo {
+        display: none;
+    }
+
+}
+
+html body #wrapper header > a.uk-logo {
+    margin-bottom: 5px;
+    margin-top: -5px;
+}
+.cform.w-hundred .cf-table {
+    box-sizing: border-box;
+    padding-right: 18px;
+}
+*+.uk-placeholder.uk-navbar {
+    margin-top: 0;
+}
+img.listing-fileUpload {
+    max-height: 80px;
+}
+.uk-table th {
+    font-size: 1em;
+}
+div#pagination_table {
+    padding: 30px 25px;
+}
+
+.uk-table tr > *:first-child {
+    padding-left: 25px;
+}
+.uk-table tr > *:last-child {
+    padding-right: 25px;
+}
+html body #wrapper .column.column-left #general-menu ul li > a + a {
+    margin-right: 3%;
+}
+html body #wrapper .column.column-left #general-menu ul li.parent > a {
+    width: 87%;
+}
+form > h2.uk-text-center {
+    font-size: 1em;
+    font-weight: bold;
+    margin: 20px 0 0;
+}
+.select2-container .select2-selection--multiple {
+    min-height: 40px;
+}
+.select2-container {
+    display: block;
+    max-width: 100%;
+}
