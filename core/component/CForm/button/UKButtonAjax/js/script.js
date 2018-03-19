@@ -60,9 +60,16 @@ $(document).ready(function () {
                     pos: 'top-center'
                 });
                 console.log(data.errorData);
-                if (data.errorData != undefined) {
-                    for (var name in data.errorData) {
-                        $('#' + name).addClass('error');
+                if (data.errorData !== undefined) {
+                    for (var errorDataName in data.errorData) {
+                        if (errorDataName !== true) {
+                            UIkit.notification(data.errorData[errorDataName], {
+                                status: 'danger',
+                                timeout: 50000,
+                                pos: 'top-center'
+                            });
+                        }
+                        $('#' + errorDataName).addClass('error');
                     }
                 }
             }

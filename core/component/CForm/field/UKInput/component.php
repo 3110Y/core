@@ -70,13 +70,22 @@ class component extends CForm\AField implements CForm\IField
 
     public function uniqueTable()
     {
-        if (isset($this->configField['uniqueTable'])) {
+        if (isset($this->configField['uniqueTable'], $this->configField['uniqueMess'])) {
             $field  = $this->configField['field'];
             $table  = $this->configField['uniqueTable'];
             $where  =   [
-                $field  =>    $this->value
+                $field  =>    $this->value,
+                [
+                    'f' =>  'id',
+                    'c' =>  '!=',
+                    'v' =>  $this->row['id']
+                ]
             ];
-            return parent::$db->selectCount($table,$field,$where) > 1;
+            $result =   parent::$db->selectCount($table,$field,$where) > 0;
+            if ($result) {
+                $this->errorMess = $this->configField['uniqueMess'];
+            }
+            return $result;
         }
         return false;
     }

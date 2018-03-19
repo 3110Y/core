@@ -14,6 +14,11 @@ class AField extends ACForm
     /**
      * @var string
      */
+    protected $errorMess = '';
+
+    /**
+     * @var string
+     */
     protected $inputType = 'text';
 
     /**
@@ -235,5 +240,10 @@ class AField extends ACForm
     public function getPositionLabel()
     {
         return $this->positionLabel;
+    }
+
+    public function getErrorMess()
+    {
+        return $this->errorMess;
     }
 }
