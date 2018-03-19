@@ -3,10 +3,7 @@
         <label for="{ID}" class="uk-form-label">{LABEL} <span>{REQUIRED}</span></label>
         <script>
             $(document).ready(function () {
-                alert('dsgsdg');
-                $("#{ID}").inputmask("{MASK}", {
-                    colorMask: true
-                });
+                $("#{ID}").inputmask("{MASK}");
             });
 
         </script>
