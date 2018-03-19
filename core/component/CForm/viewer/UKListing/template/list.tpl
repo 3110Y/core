@@ -8,7 +8,7 @@
                 <thead>
                     <tr>
                         {TH}
-                        <th class="uk-text-center">
+                        <th <th class="{POSITION}">
                             <a href="{HREF}" {ICON}>
                                 {TEXT}
                             </a>

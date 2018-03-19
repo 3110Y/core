@@ -112,6 +112,15 @@ class component extends CForm\AViewer implements CForm\IViewer
                                 if (isset($this->answer['TH'][$key]['FIELD'])) {
                                     $order = $orderAll;
                                     /**
+                                     * Позиция
+                                     */
+                                    $this->answer['TH'][$key]['POSITION'] = $fieldComponent->getPositionLabel();
+                                    if (!isset($this->answer['TH'][$key]['POSITION']) || $this->answer['TH'][$key]['POSITION'] === '') {
+                                        $this->answer['TH'][$key]['POSITION'] = 'uk-text-center';
+                                    }
+
+
+                                    /**
                                      * icon
                                      */
                                     if (!isset($order[$this->answer['TH'][$key]['FIELD']])) {
