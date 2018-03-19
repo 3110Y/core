@@ -69,9 +69,26 @@ class component extends AField implements IField
 
     public function preUpdate()
     {
+        $this->generationValue();
         return $this->required && $this->value === '';
     }
 
 
+    /**
+     * Генерирует значение
+     */
+    public function generationValue()
+    {
+        if ($this->value !== '' && isset($this->configField['mask']) && $this->configField['mask'] === 'phone') {
+            $this->value = strtr($this->value, [
+                '(' => '',
+                ')' => '',
+                '-' => '',
+                '-' => '',
+                '+' => '',
+                ' ' => '',
+            ]);
+        }
+    }
 
 }
