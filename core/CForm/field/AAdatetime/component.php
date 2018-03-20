@@ -6,14 +6,14 @@
  * Time: 16:48
  */
 
-namespace core\component\CForm\field\AAdatetime;
+namespace core\CForm\field\AAdatetime;
 
-use \core\component\{
+use \core\{
     CForm,
     simpleView\simpleView
 };
 
-use core\component\resources\resources;
+use core\resources\resources;
 
 /**
  * Class component

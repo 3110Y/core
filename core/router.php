@@ -1,4 +1,6 @@
 <?php
+$method = $_SERVER['REQUEST_METHOD'];
+$request = explode("/", substr(@$_SERVER['PATH_INFO'], 1));
 /**
  * Created by IntelliJ IDEA.
  * User: Guy

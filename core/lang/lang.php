@@ -9,7 +9,7 @@
 namespace core\lang;
 
 
-use core\component\registry\registry;
+use core\registry\registry;
 
 class lang
 {

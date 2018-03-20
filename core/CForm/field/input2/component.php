@@ -6,9 +6,9 @@
  * Time: 16:48
  */
 
-namespace core\component\CForm\field\file;
+namespace core\CForm\field\file;
 
-use \core\component\{
+use \core\{
     CForm,
     simpleView\simpleView
 };

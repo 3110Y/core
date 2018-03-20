@@ -6,9 +6,9 @@
  * Time: 19:28
  */
 
-namespace core\component\CForm\field\inputMask;
+namespace core\CForm\field\inputMask;
 
-use core\component\{
+use core\{
     CForm\AField, CForm\IField, resources\resources, simpleView\simpleView
 };
 

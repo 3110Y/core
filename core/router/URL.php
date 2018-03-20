@@ -56,6 +56,9 @@ class URL
     {
         $URL = Array();
         for ($i = 0; $i <= self::$pointer; $i++) {
+            if (!isset(self::$URL[$i])) {
+                break;
+            }
             $URL[] = self::$URL[$i];
         }
         return implode('/', $URL);
