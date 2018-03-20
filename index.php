@@ -38,7 +38,7 @@ dir::setDirConfig('configuration');
 dir::setDirFileCache('filecache');
 
 /** Маршрутизация */
-$scheme = config::getConfig('structure');
+$scheme =   config::getConfig('structure');
 $URL    =   explode('/', rtrim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/'));
 $URL[0] =   '/';
 

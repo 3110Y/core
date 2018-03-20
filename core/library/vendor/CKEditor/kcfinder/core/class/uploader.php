@@ -764,7 +764,7 @@ class uploader {
     protected function callBack_ckeditor($url, $message) {
         $CKfuncNum = isset($this->opener['CKEditor']['funcNum']) ? $this->opener['CKEditor']['funcNum'] : 0;
         if (!$CKfuncNum) $CKfuncNum = 0;
-        return "<script type='text/javascript'>
+        return "<script>
 var par = window.parent,
     op = window.opener,
     o = (par && par.CKEDITOR) ? par : ((op && op.CKEDITOR) ? op : false);
@@ -780,7 +780,7 @@ if (o !== false) {
 
     protected function callBack_fckeditor($url, $message) {
         $n = strlen($message) ? 1 : 0;
-        return "<script type='text/javascript'>
+        return "<script>
 var par = window.parent,
     op = window.opener,
     o = (op && op.OnUploadCompleted) ? op.OnUploadCompleted : ((par && par.OnUploadCompleted) ? par.OnUploadCompleted : false);
@@ -803,7 +803,7 @@ if (o !== false) {
     }
 
     protected function callBack_default($url, $message) {
-        return "<script type='text/javascript'>
+        return "<script>
 alert('$message');
 if (window.opener) window.close();
 </script>";

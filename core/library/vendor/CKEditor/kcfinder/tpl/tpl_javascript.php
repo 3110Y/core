@@ -16,7 +16,7 @@
 <?php
     ENDIF;
 ?>
-<script type="text/javascript">
+<script>
 _.version = "<?php echo self::VERSION ?>";
 _.support.zip = <?php echo (class_exists('ZipArchive') && !$this->config['denyZipDownload']) ? "true" : "false" ?>;
 _.support.check4Update = <?php echo ((!isset($this->config['denyUpdateCheck']) || !$this->config['denyUpdateCheck']) && (ini_get("allow_url_fopen") || function_exists("http_get") || function_exists("curl_init") || function_exists('socket_create'))) ? "true" : "false" ?>;

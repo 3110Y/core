@@ -9,7 +9,7 @@
             <span uk-icon="icon: cloud-upload"></span>
             <span class="uk-text-middle">Загрузите файлы, перетащив их сюда или</span>
             <div uk-form-custom>
-                <input type="file" multiple  name="{ID}[]"  class="{CLASS}" placeholder="{PLACEHOLDER}" style="{STYLE}">
+                <input type="file" multiple  name="{ID}[]"  class="{CLASS}" placeholder="{PLACEHOLDER}" style="{STYLE}"  accept="image/jpeg,image/png,image/gif">
                 <span class="uk-link" style="color: #5897fb; border-bottom: 1px dotted #5897fb; ">нажмите для выбора</span>
             </div>
         </div>

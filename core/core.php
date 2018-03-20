@@ -25,6 +25,6 @@ final class core
      * 4 версия исправления ошибок или предыдущего
      * 5 версия хотфиксов
      */
-    public const VERSION   =   2.5061;
+    public const VERSION   =   2.6268;
 
 }

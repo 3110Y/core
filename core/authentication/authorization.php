@@ -28,9 +28,9 @@ class authorization extends AAuthentication
         if ($select->rowCount() > 0) {
             $row = $select->fetch();
             $time   =   time() + 2592000;
-            setcookie($this->config['uid'], $row['id'], $time);
+            setcookie($this->config['uid'], $row['id'], $time, '/');
             $hash = hash($this->config['alg'], $row['id'] . $row['password']);
-            setcookie($this->config['hash'], $hash, $time);
+            setcookie($this->config['hash'], $hash, $time, '/');
             $where = Array(
                 'user_id'     => $row['id'],
             );
@@ -39,7 +39,7 @@ class authorization extends AAuthentication
             foreach ($rows as  $row) {
                 $group_id[] = $row['group_id'];
             }
-            setcookie('gid', implode(',', $group_id), $time);
+            setcookie('gid', implode(',', $group_id), $time, '/');
             return true;
         }
         return false;
@@ -47,6 +47,11 @@ class authorization extends AAuthentication
 
     /**
      * Проверка
+     *
+     * Внимание! Данная функция не подходит для проверки авторизации.
+     * Только для проверки подлинности uid в куках.
+     * Используйте после получения user->get() с проверкой на ненулевой user id
+     *
      * @return bool
      */
     public  function check(): bool
@@ -72,9 +77,9 @@ class authorization extends AAuthentication
     public  function logout()
     {
         $time   =   time() - 100;
-        setcookie($this->config['uid'], 0, $time);
-        setcookie($this->config['gid'], 0, $time);
-        setcookie($this->config['hash'], '', $time);
+        setcookie($this->config['uid'], 0, $time, '/');
+        setcookie($this->config['gid'], 0, $time, '/');
+        setcookie($this->config['hash'], '', $time, '/');
         unset($_COOKIE[$this->config['uid']], $_COOKIE[$this->config['gid']], $_COOKIE[$this->config['hash']]);
     }
 }

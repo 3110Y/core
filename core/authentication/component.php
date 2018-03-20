@@ -14,9 +14,9 @@ class component extends AAuthentication
 
 
     /**
-     * @var array
+     * @var string
      */
-    private $key = Array();
+    private $key = '';
 
     private static $instance = Array();
 
@@ -28,7 +28,7 @@ class component extends AAuthentication
     public function __construct( $db, array $config = Array())
     {
         parent::__construct($db, $config);
-        $this->key = md5(implode(',', $this->config));
+        $this->key = md5(json_encode($this->config));
     }
 
     public function get(string $key)

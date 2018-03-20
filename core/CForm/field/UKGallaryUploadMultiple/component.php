@@ -310,11 +310,11 @@ class component extends CForm\AField implements CForm\IField
 
     public function preInsert()
     {
-        return $this->required && $this->value === '';
+        return $this->required && ($this->value === '' || $this->value === null);
     }
 
     public function preUpdate()
     {
-        return $this->required && $this->value === '';
+        return $this->required && ($this->value === '' || $this->value === null);
     }
 }

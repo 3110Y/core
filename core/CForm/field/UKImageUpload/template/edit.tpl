@@ -6,7 +6,7 @@
         <div id="{ID}" data-action="{URL}/{PARENT_URL}/api/field/UKImageUpload/save/{ROW_ID}/{TABLE}/{ID}" class="test-upload uk-placeholder uk-text-center"  style="margin-top: 0;{READONLY}" >
             <span uk-icon="icon: cloud-upload"></span>
             <div uk-form-custom>
-                <input type="file" multiple  name="{ID}"  class="{CLASS}" placeholder="{PLACEHOLDER}" style="{STYLE}">
+                <input type="file" multiple  name="{ID}"  class="{CLASS}" placeholder="{PLACEHOLDER}" style="{STYLE}" accept="image/jpeg,image/png,image/gif">
                 <span class="uk-link" style="color: #5897fb; border-bottom: 1px dotted #5897fb; ">Загрузка</span>
             </div>
         </div>
