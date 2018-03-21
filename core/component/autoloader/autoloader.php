@@ -8,7 +8,7 @@
 namespace core\component\autoloader;
 
 
-use core\component\config\config;
+use core\component\dir\dir;
 
 /**
  * Class autoloader
@@ -172,8 +172,8 @@ class autoloader
             require $file;
             return true;
         }
-        if (file_exists(config::getDR() . $file)) {
-            require config::getDR() . $file;
+        if (file_exists(dir::getDR() . $file)) {
+            require dir::getDR() . $file;
             return true;
         }
         return false;

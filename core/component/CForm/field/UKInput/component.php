@@ -64,9 +64,31 @@ class component extends CForm\AField implements CForm\IField
 
     public function preUpdate()
     {
-        return $this->required && $this->value === '';
+
+        return ($this->required && $this->value === '') || $this->uniqueTable();
     }
 
+    public function uniqueTable()
+    {
+        if (isset($this->configField['uniqueTable'], $this->configField['uniqueMess'])) {
+            $field  = $this->configField['field'];
+            $table  = $this->configField['uniqueTable'];
+            $where  =   [
+                $field  =>    $this->value,
+                [
+                    'f' =>  'id',
+                    'c' =>  '!=',
+                    'v' =>  $this->row['id']
+                ]
+            ];
+            $result =   parent::$db->selectCount($table,$field,$where) > 0;
+            if ($result) {
+                $this->errorMess = $this->configField['uniqueMess'];
+            }
+            return $result;
+        }
+        return false;
+    }
 
 
 }

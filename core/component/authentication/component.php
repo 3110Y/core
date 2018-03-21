@@ -34,7 +34,7 @@ class component extends AAuthentication
     public function get(string $key)
     {
         if (!isset(self::$instance[$this->key . $key]) || self::$instance[$this->key . $key] == null) {
-            $className    =   'core\authentication\\' . $key;
+            $className    =   'core\\component\\authentication\\' . $key;
             self::$instance[$this->key . $key] = new $className($this->db, $this->config);
         }
         return self::$instance[$this->key . $key];

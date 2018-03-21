@@ -14,6 +14,11 @@ class AField extends ACForm
     /**
      * @var string
      */
+    protected $errorMess = '';
+
+    /**
+     * @var string
+     */
     protected $inputType = 'text';
 
     /**
@@ -90,6 +95,12 @@ class AField extends ACForm
     protected $row = Array();
 
     /**
+     * @var string
+     */
+    protected $positionLabel = '';
+
+
+    /**
      * AField constructor.
      * @param $field
      * @param array $row
@@ -97,14 +108,15 @@ class AField extends ACForm
     public function __construct($field, $row = Array())
     {
         self::$iterator++;
-        $this->row          =   $row;
-        $this->inputType    =   $field['inputType']     ?? $this->inputType;
-        $this->value        =   $field['value']         ?? $this->value;
-        $this->modeField    =   $field['mode']          ?? $this->modeField;
-        $this->required     =   $field['required']      ?? $this->required;
-        $this->readonly     =   $field['readonly']      ?? $this->readonly;
-        $this->attrs        =   $field['attrs']         ?? $this->attrs;
-        $this->idField      =   $field['field']         ?? $field['table']['link']  ??  'field_' . __CLASS__ . '_' .  self::$iterator . '_' .  uniqid();
+        $this->row              =   $row;
+        $this->inputType        =   $field['inputType']     ?? $this->inputType;
+        $this->value            =   $field['value']         ?? $this->value;
+        $this->modeField        =   $field['mode']          ?? $this->modeField;
+        $this->required         =   $field['required']      ?? $this->required;
+        $this->readonly         =   $field['readonly']      ?? $this->readonly;
+        $this->attrs            =   $field['attrs']         ?? $this->attrs;
+        $this->positionLabel    =   $field['positionLabel'] ?? $this->positionLabel;
+        $this->idField          =   $field['field']         ?? $field['table']['link']  ??  'field_' . __CLASS__ . '_' .  self::$iterator . '_' .  uniqid();
         if (isset($field['class'])) {
            if (!is_array($field['class'])) {
                $this->class        =   $field['class'];
@@ -225,5 +237,13 @@ class AField extends ACForm
         return false;
     }
 
+    public function getPositionLabel()
+    {
+        return $this->positionLabel;
+    }
 
+    public function getErrorMess()
+    {
+        return $this->errorMess;
+    }
 }
