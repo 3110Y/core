@@ -272,7 +272,7 @@ class component extends CForm\AField implements CForm\IField
 
     public function delete($value)
     {
-        if ($value !== '' && file_exists(dir::getDR(true) . $value)) {
+        if ($value !== '' && file_exists(dir::getDR(true) . $value) && !is_dir(dir::getDR(true) . $value)) {
             unlink(dir::getDR(true) . $value);
         }
     }
