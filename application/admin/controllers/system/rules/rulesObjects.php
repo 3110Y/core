@@ -10,7 +10,8 @@ namespace application\admin\controllers\system\rules;
 
 use application\admin\model;
 use core\{
-    application\AControllers, router\route
+    application\controller\AController,
+    router\route
 };
 
 
@@ -18,7 +19,7 @@ use core\{
  * Class rulesObjects
  * @package application\controllers
  */
-class rulesObjects extends AControllers
+class rulesObjects extends AController
 {
     /**
      * @var mixed|int|false Колличество подуровней

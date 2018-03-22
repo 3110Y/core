@@ -11,7 +11,8 @@ namespace application\admin\controllers\system\common;
 
 use application\admin\model;
 use core\{
-    application\AControllers, router\route
+    application\controller\AController,
+    router\route
 };
 
 
@@ -19,7 +20,7 @@ use core\{
  * Class settings
  * @package application\admin\controllers\system\common
  */
-class settings extends AControllers
+class settings extends AController
 {
     /**
      * @var mixed|int|false Колличество подуровней

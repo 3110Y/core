@@ -57,14 +57,15 @@ if ($result === false) {
 
 /** Вывод */
 if ($result === false) {
-    echo 'Нет приложения';
-} else {
-    /** @var int Время Конца */
-    $timeEnd = microtime(true);
-    /** @var int Время Разница */
-    $timeDiff = $timeEnd - $timeStart;
-    echo strtr($result, Array(
+    $result = 'Нет приложения';
+}
+
+/** @var int Время Конца */
+$timeEnd = microtime(true);
+/** @var int Время Разница */
+$timeDiff = $timeEnd - $timeStart;
+echo strtr($result, Array(
         '{time_DIFF}' => $timeDiff,
         '{core_VERSION}' => core::VERSION,
-    ));
-}
+));
+

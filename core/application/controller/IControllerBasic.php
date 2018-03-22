@@ -6,7 +6,7 @@
  * Time: 14:15
  */
 
-namespace core\application;
+namespace core\application\controller;
 
 /**
  * Interface IControllerBasic

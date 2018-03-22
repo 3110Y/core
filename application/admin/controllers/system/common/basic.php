@@ -8,22 +8,23 @@
 
 namespace application\admin\controllers\system\common;
 
+use \application\admin\model\menu;
 use core\{
-    application\AControllers,
-    application\IControllerBasic,
+    application\controller\AController,
+    application\controller\IControllerBasic,
     router\URL,
     simpleView\simpleView,
     registry\registry,
     resources\resources
 };
-use \application\admin\model\menu;
+
 
 
 /**
  * Class basic
  * @package application\admin\controllers\system\common
  */
-class basic extends AControllers implements IControllerBasic
+class basic extends AController implements IControllerBasic
 {
 
     /**

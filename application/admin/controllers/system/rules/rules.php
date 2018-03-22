@@ -10,14 +10,16 @@ namespace application\admin\controllers\system\rules;
 
 use application\admin\model;
 use core\{
-    application\AControllers, registry\registry, router\route
+    application\controller\AController,
+    registry\registry,
+    router\route
 };
 
 /**
  * Class rules
  * @package application\controllers
  */
-class rules extends AControllers
+class rules extends AController
 {
     /**
      * @var mixed|int|false Колличество подуровней

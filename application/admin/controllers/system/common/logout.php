@@ -9,14 +9,16 @@
 namespace application\admin\controllers\system\common;
 
 use core\{
-    application\AControllers, registry\registry, router\route
+    application\controller\AController,
+    registry\registry,
+    router\route
 };
 
 /**
  * Class logout
  * @package application\admin\controllers\system\common
  */
-class logout extends AControllers
+class logout extends AController
 {
     /**
      * @var mixed|int|false Колличество подуровней

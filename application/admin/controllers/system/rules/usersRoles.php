@@ -8,8 +8,11 @@
 
 namespace application\admin\controllers\system\rules;
 
-use core\application\AControllers;
-use core\router\route;
+use core\{
+    application\controller\AController,
+    router\route
+};
+
 
 
 /**
@@ -17,7 +20,7 @@ use core\router\route;
  *
  * @package application\controllers
  */
-class usersRoles extends AControllers
+class usersRoles extends AController
 {
 	/**
 	 * @var mixed|int|false Колличество подуровней

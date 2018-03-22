@@ -8,15 +8,17 @@
 
 namespace application\admin\controllers\system\test;
 
-use core\application\AControllers;
-use core\router\route;
+use core\{
+    application\controller\AController,
+    router\route
+};
 
 
 /**
  * Class test
  * @package application\controllers
  */
-class test extends AControllers
+class test extends AController
 {
     /**
      * @var mixed|int|false Колличество подуровней

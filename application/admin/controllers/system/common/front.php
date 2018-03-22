@@ -9,15 +9,17 @@
 namespace application\admin\controllers\system\common;
 
 
-use core\application\AControllers;
-use core\router\route;
+use core\{
+    application\controller\AController,
+    router\route
+};
 
 
 /**
  * Class front
  * @package application\admin\controllers
  */
-class front extends AControllers
+class front extends AController
 {
     /**
      * @var mixed|int|false Колличество подуровней

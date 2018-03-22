@@ -10,7 +10,7 @@ namespace application\admin\controllers\system\common;
 
 
 use \core\{
-    application\AControllers,
+    application\controller\AController,
     router\route
 };
 
@@ -19,7 +19,7 @@ use \core\{
  * Class error
  * @package application\admin\controllers
  */
-class error extends AControllers
+class error extends AController
 {
     /**
      * @var mixed|int|false Колличество подуровней

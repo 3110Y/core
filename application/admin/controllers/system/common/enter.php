@@ -9,7 +9,7 @@
 namespace application\admin\controllers\system\common;
 
 use \core\{
-    application\AControllers,
+    application\controller\AController,
     registry\registry,
     resources\resources,
     router\route
@@ -19,7 +19,7 @@ use \core\{
  * Class enter
  * @package application\admin\controllers\system\common
  */
-class enter extends AControllers
+class enter extends AController
 {
     /**
      * @var mixed|int|false Колличество подуровней

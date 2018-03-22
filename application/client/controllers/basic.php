@@ -12,8 +12,8 @@ use \application\client\model;
 
 use \core\{
     registry\registry,
-    application\AControllers,
-    application\IControllerBasic,
+    application\controller\AController,
+    application\controller\IControllerBasic,
     simpleView\simpleView,
     resources\resources
 };
@@ -23,7 +23,7 @@ use \core\{
  * Class basic
  * @package application\controllers
  */
-class basic extends AControllers implements IControllerBasic
+class basic extends AController implements IControllerBasic
 {
 
     /**

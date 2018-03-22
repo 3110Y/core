@@ -47,8 +47,8 @@ abstract class AApplication
      */
     public static function getTemplate(string $template): string
     {
-        $theme  = self::$theme;
-        $path   = self::$path;
+        $theme  =   self::$theme;
+        $path   =   self::$path;
         $DS     =   DIRECTORY_SEPARATOR;
         return "{$DS}application{$DS}{$path}{$DS}theme{$DS}{$theme}{$DS}{$template}";
     }
@@ -63,7 +63,7 @@ abstract class AApplication
     protected static function redirect($url, $isExternal = false) : void
     {
         if ($isExternal === false && isset($_SERVER['HTTP_HOST'])) {
-            $protocol   =   isset($_SERVER['HTTP_X_FORWARDED_PROTO'])   ?   $_SERVER['HTTP_X_FORWARDED_PROTO']  :   'http';
+            $protocol   = $_SERVER['HTTP_X_FORWARDED_PROTO'] ?? 'http';
             $url        =   $protocol . '://' .$_SERVER['HTTP_HOST'] . $url;
         }
         header("Location: {$url}");

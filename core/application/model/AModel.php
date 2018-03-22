@@ -6,13 +6,14 @@
  * Time: 18:15
  */
 
-namespace core\application;
+namespace core\application\model;
 
+use \core\application\AApplication;
 /**
  * Class AClass
  * @package core\application
  */
-abstract class AClass extends AApplication
+abstract class AModel extends AApplication
 {
 
 }

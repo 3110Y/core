@@ -9,11 +9,11 @@
 namespace application\client\model;
 
 use \core\{
-    application,
+    application\model\AModel,
     registry\registry
 };
 
-class settings extends application\AClass
+class settings extends AModel
 {
     /**
      * @var string

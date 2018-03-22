@@ -9,15 +9,18 @@
 namespace application\admin\controllers\system\test;
 
 use application\admin\model;
-use core\application\AControllers;
-use core\router\route;
+use core\{
+    application\controller\AController,
+    router\route
+};
+
 
 
 /**
  * Class field
  * @package application\controllers\system\test
  */
-class field extends AControllers
+class field extends AController
 {
     /**
      * @var mixed|int|false Колличество подуровней

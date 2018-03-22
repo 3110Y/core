@@ -9,7 +9,7 @@
 namespace application\admin\model;
 
 use core\{
-    application\AClass,
+    application\model\AModel,
     registry\registry,
     router\URL,
     helper\lowToUpper
@@ -20,7 +20,7 @@ use core\{
  * Class menu
  * @package application\admin\model
  */
-class menu extends AClass
+class menu extends AModel
 {
 
     use lowToUpper;

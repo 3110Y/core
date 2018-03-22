@@ -10,7 +10,7 @@ namespace application\admin\model;
 
 
 use \core\{
-    application\AClass,
+    application\model\AModel,
     CForm,
     registry\registry
 };
@@ -20,7 +20,7 @@ use \core\{
  * Class CFormDefaultNoEdit
  * @package application\model
  */
-class CFormDefaultNoEdit extends AClass
+class CFormDefaultNoEdit extends AModel
 {
     /**
      * @param object $controller

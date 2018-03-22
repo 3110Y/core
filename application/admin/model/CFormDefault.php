@@ -10,7 +10,7 @@ namespace application\admin\model;
 
 
 use \core\{
-    application\AClass,
+    application\model\AModel,
     CForm,
     registry\registry
 };
@@ -20,7 +20,7 @@ use \core\{
  * Class CFormDefault
  * @package application\model
  */
-class CFormDefault extends AClass
+class CFormDefault extends AModel
 {
     /**
      * @param object $controller

@@ -10,11 +10,12 @@ namespace application\admin\controllers\system\rules;
 
 use application\admin\model;
 use core\{
-    application\AControllers, router\route
+    application\controller\AController,
+    router\route
 };
 
 
-class group extends AControllers
+class group extends AController
 {
     /**
      * @var mixed|int|false Колличество подуровней

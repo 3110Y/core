@@ -10,7 +10,8 @@ namespace application\admin\controllers;
 
 use application\admin\model;
 use core\{
-    application\AControllers, router\route
+    application\controller\AController,
+    router\route
 };
 
 
@@ -18,7 +19,7 @@ use core\{
  * Class page
  * @package application\controllers
  */
-class page extends AControllers
+class page extends AController
 {
     /**
      * @var mixed|int|false Колличество подуровней

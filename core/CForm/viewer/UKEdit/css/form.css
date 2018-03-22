@@ -90,7 +90,7 @@
       color: red; }
   .cform .cform-field > *:not(label):invalid + label {
     color: #999;
-    font-size: 20px;
+    font-size: 16px;
     top: 5px; }
   .cform .cform-field > *:not(label):valid + label,
   .cform .cform-field > *:not(label):read-only + label,
@@ -98,7 +98,7 @@
   .cform .cform-field > *:not(label):focus + label,
   .cform .cform-field > *:not(label) + label.multiple {
     color: #333;
-    font-size: 0.8em;
+    font-size: 0.9em;
     top: -15px; }
 
 .cform-after {
