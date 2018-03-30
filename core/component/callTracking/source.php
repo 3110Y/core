@@ -40,6 +40,9 @@ class source
     public static function set($name): void
     {
         self::$name =  parse_url($name, PHP_URL_HOST);
+        if (self::$name === false) {
+            self::$name = '';
+        }
         self::load();
     }
 
@@ -60,10 +63,11 @@ class source
             self::$count_visit  =   $row['count_visit'];
         } else {
             $value = [
-                'name'  => self::$name
+                'name'          =>  self::$name,
+                'date_insert'   =>  date('Y-m-d H:i:s')
             ];
             $db->inset('callTracking_source', $value);
-            self::$id   =   $db->getLastID();
+            self::$id           =   $db->getLastID();
             self::$count_visit  =   0;
         }
         self::$count_visit++;

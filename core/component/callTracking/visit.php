@@ -184,7 +184,8 @@ class visit
             'utm_campaign'  =>  self::$utm_campaign,
             'utm_term'      =>  self::$utm_term,
             'utm_fastlink'  =>  self::$utm_fastlink,
-            'previous_id'   =>  self::$previous_id
+            'previous_id'   =>  self::$previous_id,
+            'date_insert'   =>  date('Y-m-d H:i:s')
         ];
         $db->inset('callTracking_visit', $value);
         self::$id   =   $db->getLastID();
