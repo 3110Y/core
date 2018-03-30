@@ -28,7 +28,7 @@ class callTracking
      * @param mixed $text
      * @return string
      */
-    public function replace($text)   :   string
+    public function replace($text)
     {
         if (is_array($text)) {
             foreach ($text as $key  =>  $value) {
