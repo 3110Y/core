@@ -25,15 +25,23 @@ class callTracking
 
     /**
      * Подменяет номер
-     * @param string $text
+     * @param mixed $text
      * @return string
      */
     public function replace($text)   :   string
     {
-        $array  =   [
-            phone::getRedirection() => phone::getShown()
-        ];
-        return strtr($text, $array);
+        if (is_array($text)) {
+            foreach ($text as $key  =>  $value) {
+                $text[$key] = $this->replace($value);
+            }
+        } else {
+            $array  =   [
+                phone::getRedirection() => phone::getShown()
+            ];
+            $text   =   strtr($text, $array);
+        }
+
+        return $text;
     }
 
     public static function call($data): void
