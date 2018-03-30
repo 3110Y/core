@@ -18,6 +18,7 @@ class callTracking
     {
         try {
             visit::set();
+            visit::save();
         } catch (\Exception $e) {
             die($e->getMessage());
         }
