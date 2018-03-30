@@ -90,7 +90,7 @@ class callTracking
     /**
      * @param array $data
      */
-    private static function downloadRecord(array $data = array())    :   void
+    public static function downloadRecord(array $data = array())    :   void
     {
         call::downloadRecord();
     }
