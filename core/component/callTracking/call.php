@@ -101,20 +101,22 @@ class call
             'record_is_downloaded' => 0
         ];
         $row    =   $db->selectRow('callTracking_call', '*', $where, 'date_update ASC', '0,1');
-        $file = file_get_contents($row['record']);
-        if ($file) {
-            $name           =   uniqid($row['id'] . '_' . date('Y-m-d') . '_', true) . '.mp3';
-            $dirAbsolute    =   fileCache::getDir('record', false);
-            $dir            =   fileCache::getDir('record');
-            file_put_contents("{$dirAbsolute}/{$name}", $file);
-            $where = [
-                'id'    =>  $row['id']
-            ];
-            $value  =  [
-                'record_is_downloaded' => 1,
-                'record'               => "{$dirAbsolute}/{$name}"
-            ];
-            $db->update('callTracking_call', $value, $where);
+        if (isset($row['record'])) {
+            $file = file_get_contents($row['record']);
+            if ($file) {
+                $name = uniqid($row['id'] . '_' . date('Y-m-d') . '_', true) . '.mp3';
+                $dirAbsolute = fileCache::getDir('record', false);
+                $dir = fileCache::getDir('record');
+                file_put_contents("{$dirAbsolute}/{$name}", $file);
+                $where = [
+                    'id' => $row['id']
+                ];
+                $value = [
+                    'record_is_downloaded' => 1,
+                    'record' => "{$dirAbsolute}/{$name}"
+                ];
+                $db->update('callTracking_call', $value, $where);
+            }
         }
     }
 }
