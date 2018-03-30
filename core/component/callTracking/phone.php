@@ -90,7 +90,7 @@ class phone
     /**
      * @return string
      */
-    public static function getRedirection(): string
+    public static function getRedirection()
     {
         return self::$redirection;
     }
