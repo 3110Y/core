@@ -122,7 +122,7 @@ class visit
         }
         phone::set(self::loadLastPhoneID(), isset($_GET['utm_source']));
         source::set($_SERVER['REQUEST_URI']);
-        self::$referer          =   $_SERVER['HTTP_REFERER'];
+        self::$referer          =   $_SERVER['HTTP_REFERER']    ??  '';
         self::$url              =   $_SERVER['REQUEST_URI'];
         self::$phone_id         =   phone::getID();
         self::$source_id        =   source::getID();
