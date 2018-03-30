@@ -74,7 +74,7 @@ class phone
     /**
      * @return string
      */
-    public static function getIncoming(): string
+    public static function getIncoming()
     {
         return self::$incoming;
     }
@@ -82,7 +82,7 @@ class phone
     /**
      * @return string
      */
-    public static function getShown(): string
+    public static function getShown()
     {
         return self::$shown;
     }
