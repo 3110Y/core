@@ -38,9 +38,11 @@ class phone
         $db =   registry::get('db');
         if ($needSubstitution) {
             $where  =   [
-                'f' =>  'basic',
-                'c' =>  '!=',
-                'v' =>  1
+                [
+                    'f' =>  'basic',
+                    'c' =>  '!=',
+                    'v' =>  1
+                ]
             ];
             $order  =   '`count_call` ASC';
         } else {
