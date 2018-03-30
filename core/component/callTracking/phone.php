@@ -56,18 +56,20 @@ class phone
             $order  =   null;
         }
         $row                =   $db->selectRow('callTracking_phone', '*', $where, $order, '0, 1');
-        self::$id           =   $row['id'];
-        self::$incoming     =   $row['incoming'];
-        self::$shown        =   $row['shown'];
-        self::$redirection  =   $row['redirection'];
-        if ($needSubstitution) {
-            $where =    [
-                'id'  => self::$id
-            ];
-            $value  =   [
-                'count_call' => $row['id'] + 1
-            ];
-            $db->update('callTracking_phone', $value, $where);
+        if (isset($row['id'], $row['incoming'], $row['shown'], $row['redirection'])) {
+            self::$id = $row['id'];
+            self::$incoming = $row['incoming'];
+            self::$shown = $row['shown'];
+            self::$redirection = $row['redirection'];
+            if ($needSubstitution) {
+                $where = [
+                    'id' => self::$id
+                ];
+                $value = [
+                    'count_call' => $row['id'] + 1
+                ];
+                $db->update('callTracking_phone', $value, $where);
+            }
         }
     }
 

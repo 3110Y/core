@@ -14,11 +14,13 @@ use core\component\registry\registry;
 class callTracking
 {
 
-    public function __construct()
+    public function __construct($saveVisit = true)
     {
         try {
             visit::set();
-            visit::save();
+            if ($saveVisit) {
+                visit::save();
+            }
         } catch (\Exception $e) {
             die($e->getMessage());
         }

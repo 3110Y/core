@@ -40,7 +40,7 @@ class source
     public static function set($name): void
     {
         self::$name =  parse_url($name, PHP_URL_HOST);
-        if (self::$name === false) {
+        if (!self::$name) {
             self::$name = '';
         }
         self::load();
