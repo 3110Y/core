@@ -8,6 +8,9 @@
 
 namespace core\router;
 
+
+use core\URI\URL;
+
 /**
  * Class router
  * @package core\router

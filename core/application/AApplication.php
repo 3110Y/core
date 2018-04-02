@@ -15,15 +15,16 @@ namespace core\application;
  */
 abstract class AApplication
 {
-    /**
-     * @var array структура контента
-     */
-    protected static $content = Array();
 
-	/**
-	 * @var mixed|bool|null AJAX запрос
-	 */
-    private static $isAjaxRequest;
+    /**
+     * @var string
+     */
+    protected static $applicationURL;
+
+    /**
+     * @var int
+     */
+    protected static $applicationPointer;
 
     /**
      * @var string
@@ -50,41 +51,13 @@ abstract class AApplication
         $theme  =   self::$theme;
         $path   =   self::$path;
         $DS     =   DIRECTORY_SEPARATOR;
-        return "{$DS}application{$DS}{$path}{$DS}theme{$DS}{$theme}{$DS}{$template}";
+        return "{$DS}{$path}{$DS}theme{$DS}{$theme}{$DS}{$template}";
     }
 
 
 
-    /**
-     * переадресация
-     * @param string $url URL
-     * @param boolean $isExternal внешний адресс
-     */
-    protected static function redirect($url, $isExternal = false) : void
-    {
-        if ($isExternal === false && isset($_SERVER['HTTP_HOST'])) {
-            $protocol   = $_SERVER['HTTP_X_FORWARDED_PROTO'] ?? 'http';
-            $url        =   $protocol . '://' .$_SERVER['HTTP_HOST'] . $url;
-        }
-        header("Location: {$url}");
-        exit;
-    }
 
 
-	/**
-	 * Проверяет запрос на аяксовость
-	 * @return bool
-	 */
-    public static function isAjaxRequest(): bool
-    {
-        if (self::$isAjaxRequest === null) {
-            self::$isAjaxRequest = (
-                isset($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_X_REQUESTED_WITH']) &&
-                $_SERVER['HTTP_REFERER'] !== '' &&
-                strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest'
-            );
-        }
-    	return self::$isAjaxRequest;
-    }
+
 
 }

@@ -10,7 +10,15 @@
 namespace core\application;
 
 use core\{
-    config\config, registry\registry, authentication, PDO\PDO, router\route, simpleView\simpleView, router\URL, router\router
+    config\config,
+    registry\registry,
+    authentication,
+    PDO\PDO,
+    router\route,
+    simpleView\simpleView,
+    URI\URL,
+    URI\URI,
+    router\router
 };
 use application\admin\controllers\system\common\basic;
 
@@ -46,27 +54,27 @@ abstract class ARouter extends AApplication
      */
     protected $controllerBasic = basic::class;
 
-    /**
-     * @var string
-     */
-    protected $pathCurrent = 'admin';
-
-    /**
-     * @var string
-     */
-    protected $themeCurrent = 'basic';
-
-
 
     /**
      * router constructor.
      * @param route $route
+     * @throws \Exception
      */
     public function __construct(route $route)
     {
-        self::$applicationRoute =   $route;
-        self::$theme            =   $this->themeCurrent;
-        self::$path             =   $this->pathCurrent;
+        self::$applicationRoute     =   $route;
+        self::$applicationURL       =   URL::getURLPointerNow();
+        self::$applicationPointer   =   URL::getPointer();
+        self::$theme                =   $route->getTheme();
+        self::$path                 =   strrev($route->getController());
+        self::$path                 =   strstr(self::$path, '\\');
+        if (false === self::$path) {
+            throw new \RuntimeException('Немогу поянть пространство');
+        }
+        self::$path                 =   strrev(self::$path);
+        self::$path                 =   strtr(self::$path , [
+            '\\' =>  DIRECTORY_SEPARATOR
+        ]);
         $config                 =   config::getConfig($this->configDB);
         /** @var PDO $db */
         $db =   PDO::getInstance($config);
@@ -86,12 +94,12 @@ abstract class ARouter extends AApplication
         $auth = registry::get('auth');
         if (!$auth->get('authorization')->check()) {
             $auth->get('authorization')->logout();
-            self::redirect(self::$applicationURL);
+            URI::redirect(self::$applicationURL);
         }
         $auth->get('object')->register('application_' . self::$application['id'], 'Вход в приложение: ' . self::$applicationName);
         if (!$auth->get('rules')->check('application_' . self::$application['id']) && self::$URL[1] !== $this->redirectPage) {
             $auth->get('authorization')->logout();
-            self::redirect(self::$applicationURL . '/' . $this->redirectPage);
+            URI::redirect(self::$applicationURL . '/' . $this->redirectPage);
         }
     }
 
@@ -99,14 +107,14 @@ abstract class ARouter extends AApplication
     public function run(): void
     {
         URL::plusPointer();
-        if (!self::isAjaxRequest()) {
+        if (!URI::isAjaxRequest()) {
             $this->controllerBasic::pre();
         } else {
             $this->controllerBasic::preAjax();
         }
         $scheme = config::getConfig($this->configStructure);
         $this->controller = (new router())->addStructure($scheme)->execute();
-        if (!self::isAjaxRequest()) {
+        if (!URI::isAjaxRequest()) {
             $this->controllerBasic::post();
         } else {
             $this->controllerBasic::postAjax();
@@ -119,7 +127,7 @@ abstract class ARouter extends AApplication
      */
     public function render(): string
     {
-        if (self::isAjaxRequest()) {
+        if (URI::isAjaxRequest()) {
             return json_encode(self::$content);
         }
         registry::get('view')->setTemplate(self::getTemplate($this->controller->template));

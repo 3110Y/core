@@ -14,7 +14,7 @@ include_once  'core'. DIRECTORY_SEPARATOR .  'autoloader' . DIRECTORY_SEPARATOR 
 
 use core\{
     router\router,
-    router\URL,
+    URI\URL,
     dir\dir,
     config\config,
     autoloader\autoloader
@@ -52,6 +52,10 @@ if (isset($_SERVER['SHELL'], $argv)) {
         $result = $router->execute();
     }
 
+    /** Вывод */
+    if ($result === false) {
+        $result = 'Нет приложения';
+    }
 
     /** Вывод */
     echo $result !== false  ?   $result :   'Нет приложения';

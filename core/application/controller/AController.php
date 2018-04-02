@@ -26,4 +26,8 @@ abstract class AController extends AApplication
      */
     public  $template = 'basic';
 
+    /**
+     * @var array структура контента
+     */
+    protected static $content = Array();
 }

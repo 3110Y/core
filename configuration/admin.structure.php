@@ -16,23 +16,23 @@ return [
     ],
     [
         'controller' => controllers\system\rules\user::class,
-        'url' => 'users-and-roles\user',
+        'url' => 'users-and-roles/user',
     ],
     [
         'controller' => controllers\system\rules\group::class,
-        'url' => 'users-and-roles\group',
+        'url' => 'users-and-roles/group',
     ],
     [
         'controller' => controllers\system\rules\rulesObjects::class,
-        'url' => 'users-and-roles\rules-objects',
+        'url' => 'users-and-roles/rules-objects',
     ],
     [
         'controller' => controllers\system\rules\rules::class,
-        'url' => 'users-and-roles\rules',
+        'url' => 'users-and-roles/rules',
     ],
     [
         'controller' => controllers\system\rules\usersRoles::class,
-        'url' => 'users-and-roles\users-and-roles',
+        'url' => 'users-and-roles/users-and-roles',
     ],
     [
         'controller' => controllers\system\common\enter::class,
@@ -56,10 +56,10 @@ return [
     ],
     [
         'controller' => controllers\system\test\field::class,
-        'url' => 'test\field',
+        'url' => 'test/field',
     ],
     [
         'controller' => controllers\system\common\error::class,
-        'url' => '.*',
+        'url' => '*',
     ],
 ];

@@ -18,7 +18,7 @@ include_once 'core' . DIRECTORY_SEPARATOR . 'autoload.php';
 use core\{
     core,
     router\router,
-    router\URL,
+    URI\URL,
     dir\dir,
     config\config,
     autoloader\autoloader

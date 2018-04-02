@@ -12,8 +12,6 @@ return [
     [
         'controller' => \application\admin\router::class,
         'url'       => 'admin',
-        'name'      => 'admin',
-        'function'  => 'render',
         'access'    => [
             'mode'  => 'disallow',
             'group' =>  [1],
@@ -24,7 +22,7 @@ return [
         'controller' => \application\client\router::class,
         'uri'       => '\\',
         'function'  => 'render',
-        'site'      => '*.*',
+        'site'      => '*',
         'method'    => 'GET',
         'port'      => [80, 443],
         'access'    => [

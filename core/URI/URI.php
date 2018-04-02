@@ -55,6 +55,11 @@ class URI
     private $fragment;
 
     /**
+     * @var mixed|bool|null AJAX запрос
+     */
+    private static $isAjaxRequest;
+
+    /**
      * @var array
      */
     private static $instance = [];
@@ -97,14 +102,6 @@ class URI
         $this->fragment = $URI['fragment']  ??  '';
     }
 
-    /**
-     * @param int $pointer
-     * @return bool|mixed
-     */
-    public static function getURLPointer(int $pointer = 0)
-    {
-        return self::$URL[$pointer] ?? false;
-    }
 
     /**
      * @return string
@@ -170,5 +167,35 @@ class URI
         return $this->fragment;
     }
 
+    /**
+     * Проверяет запрос на аяксовость
+     * @return bool
+     */
+    public static function isAjaxRequest(): bool
+    {
+        if (self::$isAjaxRequest === null) {
+            self::$isAjaxRequest = (
+                isset($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_X_REQUESTED_WITH']) &&
+                $_SERVER['HTTP_REFERER'] !== '' &&
+                strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest'
+            );
+        }
+        return self::$isAjaxRequest;
+    }
+
+    /**
+     * переадресация
+     * @param string $url URL
+     * @param boolean $isExternal внешний адресс
+     */
+    public static function redirect($url, $isExternal = false) : void
+    {
+        if ($isExternal === false && isset($_SERVER['HTTP_HOST'])) {
+            $protocol   = $_SERVER['HTTP_X_FORWARDED_PROTO'] ?? 'http';
+            $url        =   $protocol . '://' .$_SERVER['HTTP_HOST'] . $url;
+        }
+        header("Location: {$url}");
+        exit;
+    }
 
 }

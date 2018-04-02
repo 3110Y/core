@@ -51,6 +51,23 @@ class URL
     }
 
     /**
+     * @param int $pointer
+     * @return string
+     */
+    public static function getFullURLPointer(int $pointer = 0) : string
+    {
+        $URL = Array();
+        for ($i = 0; $i <= $pointer; $i++) {
+            if (!isset(self::$URL[$i])) {
+                break;
+            }
+            $URL[] = self::$URL[$i];
+        }
+        return implode('/', $URL);
+    }
+
+
+    /**
      * @return string
      */
     public static function getFullURLPointerNow() : string
@@ -96,5 +113,8 @@ class URL
     {
         return self::$pointer;
     }
+
+
+
 
 }

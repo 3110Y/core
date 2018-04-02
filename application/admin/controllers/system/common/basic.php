@@ -12,7 +12,7 @@ use \application\admin\model\menu;
 use core\{
     application\controller\AController,
     application\controller\IControllerBasic,
-    router\URL,
+    URI\URL,
     simpleView\simpleView,
     registry\registry,
     resources\resources
@@ -39,9 +39,14 @@ class basic extends AController implements IControllerBasic
         $theme                          =   self::$theme;
         self::$content['THEME']         =   "/application/{$path}/theme/{$theme}/";
         self::$content['URL']           =   URL::getURLPointerNow();
-        $data                           =   Array(
-            'MENU'  => (new menu('admin_page'))->getMenu(URL::getPointer(), URL::getFullURLPointerNow()),
+        self::$content['MENU']          = (new menu('admin_page'))->getMenu(
+            self::$applicationPointer,
+            self::$applicationURL
         );
+        echo '<pre>';
+        var_dump(self::$content['MENU']);
+        echo '</pre>';
+        die();
         $template                       =   self::getTemplate('block/menu/menu.tpl');
         self::$content['MENU']          =   simpleView::replace($template,  $data);
     }
@@ -119,7 +124,7 @@ class basic extends AController implements IControllerBasic
      */
     public static function post() : void
     {
-        resources::setCSS(self::getTemplate('css/ui-kit-fix.css'));
+        resources::setCss(self::getTemplate('css/ui-kit-fix.css'));
         self::$content['JS_TOP']        =   resources::getJS();
         self::$content['CSS_TOP']       =   resources::getCSS();
         self::$content['JS_BOTTOM']     =   resources::getJS(false);
