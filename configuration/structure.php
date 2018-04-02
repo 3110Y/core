@@ -20,7 +20,7 @@ return [
     ],
     [
         'controller' => \application\client\router::class,
-        'uri'       => '\\',
+        'uri'       => '/',
         'function'  => 'render',
         'site'      => '*',
         'method'    => 'GET',

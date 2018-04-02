@@ -92,7 +92,7 @@ abstract class AMenu extends AModel
             ++$pointerNow;
             while ($row =  $query->fetch()) {
                 $item               =   $row;
-                $item[$this->url]   =   $item[$this->url] === '/'   ?   $item[$this->url]   :  '';
+                $item[$this->url]   =   $item[$this->url] !== '/'   ?   $item[$this->url]   :  '';
                 $item[$this->url]   =   $parentURL . $item[$this->url];
                 $item['active']     =   $URLNow === $item[$this->url];
                 $item['sub']        =   $this->getMenu($pointerNow, $item[$this->url], $row['id']);
