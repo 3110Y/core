@@ -7,15 +7,15 @@
  */
 
 
-namespace core\component\callTracking;
+namespace core\callTracking;
 
 
-use core\component\registry\registry;
+use core\registry\registry;
 
 
 /**
  * Class source
- * @package core\component\callTracking
+ * @package core\callTracking
  */
 class source
 {
@@ -51,7 +51,7 @@ class source
      */
     private static function load(): void
     {
-        /** @var \core\component\PDO\PDO $db */
+        /** @var \core\PDO\PDO $db */
         $db     =   registry::get('db');
         $where  =   [
             'name'  =>  self::$name

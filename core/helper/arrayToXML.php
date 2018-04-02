@@ -6,7 +6,7 @@
  * Time: 19:38
  */
 
-namespace core\component\helper;
+namespace core\helper;
 
 
 trait arrayToXML

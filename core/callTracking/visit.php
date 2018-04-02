@@ -6,14 +6,14 @@
  * Time: 13:36
  */
 
-namespace core\component\callTracking;
+namespace core\callTracking;
 
 
-use core\component\registry\registry;
+use core\registry\registry;
 
 /**
  * Class visit
- * @package core\component\callTracking
+ * @package core\callTracking
  */
 class visit
 {
@@ -89,7 +89,7 @@ class visit
 
     public static function get(array $where = Array())
     {
-        /** @var \core\component\PDO\PDO $db */
+        /** @var \core\PDO\PDO $db */
         $db     =   registry::get('db');
         $row    =   $db->selectRow('callTracking_visit','*', $where);
         self::$id               =   $row['id'];
@@ -140,7 +140,7 @@ class visit
      */
     private static function loadLastPhoneID(): int
     {
-        /** @var \core\component\PDO\PDO $db */
+        /** @var \core\PDO\PDO $db */
         $db =   registry::get('db');
         $where  =   [
             [

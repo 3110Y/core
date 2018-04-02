@@ -6,15 +6,15 @@
  * Time: 13:21
  */
 
-namespace core\component\callTracking;
+namespace core\callTracking;
 
 
-use core\component\registry\registry;
+use core\registry\registry;
 
 
 /**
  * Class callOrder
- * @package core\component\callTracking
+ * @package core\callTracking
  */
 class callOrder
 {
@@ -44,7 +44,7 @@ class callOrder
      */
     public function save(): void
     {
-        /** @var \core\component\PDO\PDO $db */
+        /** @var \core\PDO\PDO $db */
         $db =   registry::get('db');
         $value  =   [
             'visit_id'      =>  $this->visit_id,

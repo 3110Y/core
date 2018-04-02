@@ -6,15 +6,15 @@
  * Time: 14:45
  */
 
-namespace core\component\callTracking;
+namespace core\callTracking;
 
 
-use core\component\registry\registry;
+use core\registry\registry;
 
 
 /**
  * Class phone
- * @package core\component\callTracking
+ * @package core\callTracking
  */
 class phone
 {
@@ -34,7 +34,7 @@ class phone
      */
     public static function set($id  =   0,  bool $needSubstitution = false, $key =  'id'): void
     {
-        /** @var \core\component\PDO\PDO $db */
+        /** @var \core\PDO\PDO $db */
         $db =   registry::get('db');
         if ($needSubstitution) {
             $where  =   [

@@ -6,11 +6,11 @@
  * Time: 13:20
  */
 
-namespace core\component\callTracking;
+namespace core\callTracking;
 
 
-use core\component\fileCache\fileCache;
-use core\component\registry\registry;
+use core\fileCache\fileCache;
+use core\registry\registry;
 
 
 /**
@@ -68,7 +68,7 @@ class call
      */
     public function save(): void
     {
-        /** @var \core\component\PDO\PDO $db */
+        /** @var \core\PDO\PDO $db */
         $db     =   registry::get('db');
         $where  = [
             'external_id'   =>  $this->external_id
@@ -95,7 +95,7 @@ class call
      */
     public static function downloadRecord() : void
     {
-        /** @var \core\component\PDO\PDO $db */
+        /** @var \core\PDO\PDO $db */
         $db     =   registry::get('db');
         $where  =   [
             'record_is_downloaded' => 0

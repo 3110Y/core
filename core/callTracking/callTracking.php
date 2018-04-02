@@ -6,10 +6,10 @@
  * Time: 19:01
  */
 
-namespace core\component\callTracking;
+namespace core\callTracking;
 
 
-use core\component\registry\registry;
+use core\registry\registry;
 
 class callTracking
 {
@@ -50,7 +50,7 @@ class callTracking
     public static function call($data): void
     {
         if (isset($data['id'])) {
-            /** @var \core\component\PDO\PDO $db */
+            /** @var \core\PDO\PDO $db */
             $db = registry::get('db');
             $where = [
                 'external_id' => $data['id']
