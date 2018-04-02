@@ -85,7 +85,7 @@ class route
         $this->controller           =   $route['controller']    ??  '';
         $this->URL                  =   $route['url']           ??  '/';
         $this->function             =   $route['function']      ??  '';
-        $this->site                 =   $route['site']          ??  '*.*';
+        $this->site                 =   $route['site']          ??  '*';
         $this->theme                =   $route['theme']         ??  'basic';
         $this->method               =   $route['method']        ??  'GET';
         $this->port                 =   $route['port']          ??  80;

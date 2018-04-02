@@ -12,6 +12,7 @@ return [
     [
         'controller' => \application\admin\router::class,
         'url'       => 'admin',
+        'name'      =>  'Административная панель',
         'access'    => [
             'mode'  => 'disallow',
             'group' =>  [1],
@@ -21,6 +22,7 @@ return [
     [
         'controller' => \application\client\router::class,
         'uri'       => '/',
+        'name'      =>  'Клиентская часть',
         'function'  => 'render',
         'site'      => '*',
         'method'    => 'GET',

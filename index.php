@@ -36,7 +36,11 @@ dir::setDirFileCache('filecache');
 
 /** Маршрутизация */
 $scheme =   config::getConfig('structure');
-$URL    =   explode('/', rtrim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/'));
+$URL    =   parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+if (false === $URL) {
+    throw new RuntimeException('Не возможно разобрать URL');
+}
+$URL    =   explode('/', rtrim($URL, '/'));
 $URL[0] =   '/';
 
 $URLTwo = $URL;

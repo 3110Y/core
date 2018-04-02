@@ -75,7 +75,7 @@ class URI
             $url = $_SERVER['REQUEST_URI'];
         }
         $key    =   md5($url);
-        if (self::$instance[$key] === null) {
+        if (!isset(self::$instance[$key])) {
             self::$instance[$key] = new self($url);
         }
         return self::$instance[$key];

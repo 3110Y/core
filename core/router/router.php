@@ -9,6 +9,7 @@
 namespace core\router;
 
 
+use core\URI\URI;
 use core\URI\URL;
 
 /**
@@ -38,7 +39,7 @@ class router
         foreach ($structure as $route) {
             if (isset($route['site']) && \is_array($route['site'])) {
                 foreach ($route['site'] as $site) {
-                    $routeClone             =    $route;
+                    $routeClone             = $route;
                     $routeClone['site']     = $site;
                     $structureNew[]         = $routeClone;
                 }
@@ -49,9 +50,9 @@ class router
         $structure = [];
         foreach ($structureNew as $route) {
             if (isset($route['port']) && \is_array($route['port'])) {
-                foreach ($route['port'] as $site) {
-                    $routeClone             =    $route;
-                    $routeClone['port']     = $site;
+                foreach ($route['port'] as $port) {
+                    $routeClone             = $route;
+                    $routeClone['port']     = $port;
                     $structure[]            = $routeClone;
                 }
             } else {
@@ -61,10 +62,10 @@ class router
         $structureNew = [];
         foreach ($structure as $route) {
             if (isset($route['method']) && \is_array($route['method'])) {
-                foreach ($route['method'] as $site) {
-                    $routeClone                 =    $route;
-                    $routeClone['method']     =  $site;
-                    $structureNew[]             = $routeClone;
+                foreach ($route['method'] as $method) {
+                    $routeClone                 =   $route;
+                    $routeClone['method']       =   $method;
+                    $structureNew[]             =   $routeClone;
                 }
             } else {
                 $structureNew[] = $route;
@@ -87,7 +88,7 @@ class router
     /**
      * @return mixed|bool|object
      */
-    public  function execute()
+    public function execute()
     {
 
         /** @var \core\router\route $route */
@@ -104,7 +105,6 @@ class router
             if (!$this->checkURL($route->getURL())) {
                 continue;
             }
-
             $controller = $route->getController();
             $function = $route->getFunction();
             if ($function !== '') {
@@ -121,10 +121,10 @@ class router
      */
     private function checkPort(int $port): bool
     {
-        return  !isset($_SERVER['SERVER_PORT']) ||
-            $_SERVER['SERVER_PORT'] === '' ||
-            (int)$_SERVER['SERVER_PORT'] === (int)$port ||
-            $port === '';
+        $URIPort  =   URI::getInstance()->getPort();
+        return  $URIPort === 0 ||
+                $URIPort === $port ||
+                $port === '';
     }
 
 
@@ -140,7 +140,8 @@ class router
         }
         $URLPointer =   URL::getURLPointerNow();
         $replace    =   Array(
-            '*'  =>  '([\w]+)',
+            '*'  =>  '(.*)',
+            '?'  =>  '([\w]+)',
             '/'  =>  '\/',
         );
         $URLRegular   =  '/^' . strtr($URL, $replace) . '$/i';
@@ -160,23 +161,6 @@ class router
             $method === '';
     }
 
-    /**
-     * @return array
-     */
-    public function getSite(): array
-    {
-        return $this->site;
-    }
-
-    /**
-     * @param string $site
-     * @return router
-     */
-    public function setSite(string $site): router
-    {
-        $this->site = $site;
-        return $this;
-    }
 
     /**
      * @param string $site
@@ -184,15 +168,14 @@ class router
      */
     private  function checkSite(string $site): bool
     {
-        if (!isset($_SERVER['HTTP_HOST'])) {
-            return true;
-        }
+        $host  =   URI::getInstance()->getHost();
         $replace    =   Array(
-            '*'  =>  '([\w]+)',
+            '*'  =>  '(.*)',
+            '?'  =>  '([\w]+)',
             '/'  =>  '\/',
         );
         $siteRegular   =  '/^' . strtr($site, $replace) . '$/i';
-        preg_match($siteRegular, $_SERVER['HTTP_HOST'], $output);
-        return isset($output[0]) ||  $site === '' || $_SERVER['HTTP_HOST'] === '';
+        preg_match($siteRegular, $host, $output);
+        return isset($output[0]) ||  $site === '' || $host === '';
     }
 }
