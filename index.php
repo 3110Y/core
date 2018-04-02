@@ -13,7 +13,7 @@ date_default_timezone_set('Europe/Moscow');
 /** @var int Время Старта */
 $timeStart  = microtime(true);
 
-include_once  'core'. DIRECTORY_SEPARATOR .  'autoloader' . DIRECTORY_SEPARATOR .  'autoloader.php';
+include_once 'core' . DIRECTORY_SEPARATOR . 'autoload.php';
 
 use core\{
     core,
@@ -65,7 +65,6 @@ $timeEnd = microtime(true);
 /** @var int Время Разница */
 $timeDiff = $timeEnd - $timeStart;
 echo strtr($result, Array(
-        '{time_DIFF}' => $timeDiff,
-        '{core_VERSION}' => core::VERSION,
+    '{time_DIFF}' => $timeDiff,
+    '{core_VERSION}' => core::VERSION,
 ));
-

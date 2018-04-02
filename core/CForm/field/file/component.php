@@ -110,7 +110,7 @@ class component extends CForm\AField
         );
         $row    =   parent::$db->selectRow($table, $this->configField['field'], $where);
         $valueOld = $row[$this->configField['field']];
-        if ($valueOld != '' && file_exists(dir::getDR(true) . $valueOld)) {
+        if ($valueOld != '' && file_exists(dir::getDR(true) . $valueOld) && !is_dir(dir::getDR(true) . $valueOld)) {
             unlink(dir::getDR(true) .$valueOld);
         }
         $files = $_FILES[$this->configField['field']];
@@ -191,7 +191,7 @@ class component extends CForm\AField
 
     public function delete($value)
     {
-        if ($value !== '' && file_exists(dir::getDR(true) . $value)) {
+        if ($value !== '' && file_exists(dir::getDR(true) . $value) && !is_dir(dir::getDR(true) . $value)) {
             unlink(dir::getDR(true) . $value);
         }
     }

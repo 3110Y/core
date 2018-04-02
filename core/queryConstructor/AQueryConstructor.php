@@ -616,7 +616,7 @@ abstract class AQueryConstructor
             }
             $f = implode(',', $f);
             $v = implode(',', $v);
-            $result['value'] = "({$f})VALUE({$v})";
+            $result['value'] = "({$f})VALUES({$v})";
         }
         return $result;
     }
