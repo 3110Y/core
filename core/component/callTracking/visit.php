@@ -143,11 +143,6 @@ class visit
         /** @var \core\component\PDO\PDO $db */
         $db =   registry::get('db');
         $where  =   [
-            [
-                'f' =>  'utm_source',
-                'c' =>  '!=',
-                'v' =>  ''
-            ],
             'UNIX_TIMESTAMP(`date_update`) > UNIX_TIMESTAMP(DATE_SUB(NOW(), INTERVAL 30 DAY))',
             'session_id'  =>  self::$session_id
         ];
