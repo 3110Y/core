@@ -170,7 +170,7 @@ class visit
      */
     public static function save(): void
     {
-        /** @var \core\component\PDO\PDO $db */
+        /** @var \core\PDO\PDO $db */
         $db =   registry::get('db');
         $value  =   [
             'session_id'    =>  self::$session_id,
