@@ -115,10 +115,10 @@ class visit
     {
         $random             =   strtr(uniqid(random_int(0, 999), true), ['.' => random_int(0, 9)]);
         if (!isset($_COOKIE['callTracking_session_id'])) {
-            self::$session_id   =    (int)$random;
+            self::$session_id   =    $random;
             setcookie('callTracking_session_id', self::$session_id, time() + 2592000, '/');
         } else {
-            self::$session_id   = (int)$_COOKIE['callTracking_session_id'];
+            self::$session_id   = $_COOKIE['callTracking_session_id'];
         }
         phone::set(self::loadLastPhoneID(), isset($_GET['utm_source']));
         source::set($_SERVER['REQUEST_URI']);
