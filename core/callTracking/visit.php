@@ -148,7 +148,8 @@ class visit
                 'c' =>  '!=',
                 'v' =>  ''
             ],
-            'UNIX_TIMESTAMP(`date_update`) < UNIX_TIMESTAMP(DATE_SUB(NOW(), INTERVAL 30 DAY))'
+            'UNIX_TIMESTAMP(`date_update`) > UNIX_TIMESTAMP(DATE_SUB(NOW(), INTERVAL 30 DAY))',
+            'session_id'  =>  self::$session_id
         ];
         $row    =   $db->selectRow(
             'callTracking_visit',
