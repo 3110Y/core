@@ -17,7 +17,7 @@ use core\{
  * Class AMenu
  * @package core\application
  */
-abstract class AMenu extends AModel
+abstract class AMenu
 {
 
     use lowToUpper;

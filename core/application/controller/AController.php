@@ -8,16 +8,15 @@
 
 namespace core\application\controller;
 
-use \core\application\AApplication;
 
 /**
  * Class AControllers
  * @package core\application
  */
-abstract class AController extends AApplication
+abstract class AController
 {
     /**
-     * @var mixed|int|false Колличество подуровней
+     * @var bool Колличество подуровней
      */
 	public static $isSetSubURL  =   false;
 

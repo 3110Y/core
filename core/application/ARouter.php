@@ -26,8 +26,14 @@ use application\admin\controllers\system\common\basic;
  * Class ARouter
  * @package core\application
  */
-abstract class ARouter extends AApplication
+abstract class ARouter
 {
+
+
+    /**
+     * @var \core\router\route
+     */
+    protected static $applicationRoute;
 
     /**
      * @var mixed configDB
@@ -63,18 +69,19 @@ abstract class ARouter extends AApplication
     public function __construct(route $route)
     {
         self::$applicationRoute     =   $route;
-        self::$applicationURL       =   URL::getURLPointerNow();
-        self::$applicationPointer   =   URL::getPointer();
-        self::$theme                =   $route->getTheme();
-        self::$path                 =   strrev($route->getController());
-        self::$path                 =   strstr(self::$path, '\\');
-        if (false === self::$path) {
+        application::setApplicationPointer(URL::getPointer());
+        application::setApplicationURL(URL::getURLPointerNow());
+        application::setPath($route->getTheme());
+        $path                 =   strrev($route->getController());
+        $path                 =   strstr($path, '\\');
+        if (false === $path) {
             throw new \RuntimeException('Немогу поянть пространство');
         }
-        self::$path                 =   strrev(self::$path);
-        self::$path                 =   strtr(self::$path , [
+        $path                 =   strrev($path);
+        $path                 =   strtr($path , [
             '\\' =>  DIRECTORY_SEPARATOR
         ]);
+        application::setTheme($path);
         $config                 =   config::getConfig($this->configDB);
         /** @var PDO $db */
         $db =   PDO::getInstance($config);
@@ -128,10 +135,10 @@ abstract class ARouter extends AApplication
     public function render(): string
     {
         if (URI::isAjaxRequest()) {
-            return json_encode(self::$content);
+            return json_encode($this->controller->getData());
         }
-        registry::get('view')->setTemplate(self::getTemplate($this->controller->template));
-        registry::get('view')->setData(self::$content);
+        registry::get('view')->setTemplate(application::getTemplate($this->controller->template));
+        registry::get('view')->setData($this->controller->getData());
         registry::get('view')->run();
         return registry::get('view')->get();
     }

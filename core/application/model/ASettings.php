@@ -9,7 +9,7 @@
 namespace core\application\model;
 
 
-class ASettings extends AModel
+class ASettings
 {
 
 }

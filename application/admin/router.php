@@ -9,17 +9,14 @@
 namespace application\admin;
 
 
-use \core\application\{
-    ARouter,
-    IRouter
-};
+use \core\application\ARouter;
 
 
 /**
  * Class router
  * @package application
  */
-final class router extends ARouter implements IRouter
+final class router extends ARouter
 {
 
 }
