@@ -34,11 +34,8 @@
                 </tbody>
             </table>
         <div class="group-action ">
-            <div class="uk-button-group">
-                {ROWS}
-                    {COMPONENT}
-                {/ROWS}
-            </div>
+            <!-- don't add spaces to next tag. It's important for :empty selector -->
+            <div class="uk-button-group">{ROWS}{COMPONENT}{/ROWS}</div>
         </div>
     </form>
     </div>

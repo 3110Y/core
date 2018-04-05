@@ -23,30 +23,36 @@ use \core\component\{
 class CFormDefault extends AClass
 {
     /**
-     * @param object $controller
-     * @param string $table
-     * @param string $caption
-     * @param array $field
-     * @return array|bool|mixed
+     * @var array CForm configuration
      */
-    public static function generation($controller, $table, $caption, $field)
-    {
+    public static $config = [];
+
+    /**
+     * @param $controller
+     * @param $table
+     * @param $caption
+     * @param $field
+     * @param array $condition
+     */
+    public static function config($controller, $table, $caption, $field, $condition = array()) {
         $url = implode('/', $controller::getURL());
-        $config     =   Array(
+        self::$config = Array(
             'controller'    =>  $controller,
             'db'            =>  registry::get('db'),
             'table'         =>  $table,
             'caption'       =>  $caption,
-            'mode'          =>  'listing',
             'field'         =>  $field,
+            'mode'          =>  'listing',
             'viewer'        =>  Array(
                 'listing' => Array(
+                    'where'     => $condition,
                     'type'      => 'UKListing',
                     'multi'     =>  'UKActionID',
                     'search'    =>  true,
                     'button'    =>  Array(
                         'row'   =>  Array(
                             Array(
+                                'action'    => 'edit',
                                 'type'      => 'UKButton',
                                 'url'       => '{PAGE_URL}/{PARENT_ID}/edit/{ROW_ID}',
                                 'title'     => 'Редактировать',
@@ -54,15 +60,18 @@ class CFormDefault extends AClass
                                 'class'     => 'uk-button-primary uk-button-small',
                             ),
                             Array(
-                                'type'  => 'UKButton',
-                                'url'  => '{PAGE_URL}/{PARENT_ID}/api/action/delete/run/{ROW_ID}?redirect=' . $url,
+                                'action'    => 'delete',
+                                'type'      => 'UKButtonSubmitAjax',
+                                'url'       => '{PAGE_URL}/{PARENT_ID}/api/action/delete/run/{ROW_ID}?redirect=' . $url,
                                 'title'     => 'Удалить',
+                                'form'      => '#form-listing',
                                 'icon'      => 'close',
                                 'class'     => 'uk-button-danger  uk-button-small',
                             )
                         ),
                         'rows'  =>  Array(
                             Array(
+                                'action'    => 'insert',
                                 'type'      => 'UKButton',
                                 'url'       => '{PAGE_URL}/{PARENT_ID}/api/action/insert?040&redirect={PAGE_URL}/{PARENT_ID}/edit/',
                                 'text'      => 'Добавить',
@@ -70,11 +79,12 @@ class CFormDefault extends AClass
                                 'class'     => 'uk-button-primary',
                             ),
                             Array(
+                                'action'    => 'delete',
                                 'type'      => 'UKButtonSubmitAjax',
                                 'url'       => '{PAGE_URL}/{PARENT_ID}/api/action/delete/many?redirect=' . $url,
                                 'text'      => 'Удалить',
                                 'icon'      => 'close',
-                                'form'      =>  '#form-listing',
+                                'form'      => '#form-listing',
                                 'class'     => 'uk-button-danger',
                             ),
                         ),
@@ -86,6 +96,7 @@ class CFormDefault extends AClass
                     'button'    =>  Array(
                         'rows'  =>  Array(
                             Array(
+                                'action'    => 'goBack',
                                 'type'      => 'UKButton',
                                 'url'       => '{PAGE_URL}/{PARENT_ID}/listing',
                                 'text'      => 'Вернуться',
@@ -93,6 +104,7 @@ class CFormDefault extends AClass
                                 'class'     => 'uk-button-default',
                             ),
                             Array(
+                                'action'    => 'update',
                                 'type'      => 'UKButtonAjax',
                                 'url'       => '{PAGE_URL}/{PARENT_ID}/api/action/update/run/{ROW_ID}',
                                 'text'      => 'Сохранить',
@@ -106,8 +118,78 @@ class CFormDefault extends AClass
                 ),
             )
         );
+    }
+
+    /**
+     * @param string $action
+     * @param string $location ''|'row'|'rows'|'edit'
+     */
+    public static function removeButton (string $action, string $location = '') : void
+    {
+
+        switch ($location) {
+            case 'row':
+                $buttons = &self::$config['viewer']['listing']['button']['row'];
+                break;
+            case 'rows':
+                $buttons = &self::$config['viewer']['listing']['button']['rows'];
+                break;
+            case 'edit':
+                $buttons = &self::$config['viewer']['edit']['button']['rows'];
+                break;
+            case '':
+                self::removeButton($action,'row');
+                self::removeButton($action,'rows');
+                self::removeButton($action,'edit');
+            default:
+                $buttons = [];
+        }
+
+        foreach ($buttons as $key => $button) {
+            if (isset($button['action']) && $button['action'] === $action) {
+                array_splice($buttons,$key,1);
+            }
+        }
+    }
+
+    /**
+     * @param array $button
+     * @param string $location ''|'row'|'rows'|'edit'
+     */
+    public static function addButton (array $button, string $location) : void
+    {
+        switch ($location) {
+            case 'row':
+                $buttons = &self::$config['viewer']['listing']['button']['row'];
+                break;
+            case 'rows':
+                $buttons = &self::$config['viewer']['listing']['button']['rows'];
+                break;
+            case 'edit':
+                $buttons = &self::$config['viewer']['edit']['button']['rows'];
+                break;
+            default:
+                $buttons = [];
+        }
+
+        $buttons[] = $button;
+    }
+
+    /**
+     * @param $controller
+     * @param null $table
+     * @param null $caption
+     * @param null $field
+     * @param array $condition
+     * @return array|bool|mixed
+     */
+    public static function generation($controller, $table = null, $caption = null, $field = null, $condition = array())
+    {
+        if (!self::$config) {
+            self::config($controller, $table, $caption, $field, $condition);
+        }
         $CForm  =   new CForm\component($controller::$content, 'CONTENT');
-        $CForm->setConfig($config);
+        $CForm->setConfig(self::$config);
         $CForm->run();
         return $CForm->getIncomingArray();
     }

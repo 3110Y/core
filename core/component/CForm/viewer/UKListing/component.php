@@ -198,6 +198,7 @@ class component extends CForm\AViewer implements CForm\IViewer
         /**
          * Кнопки
          */
+        $this->answer['ROWS'] = [];
         if (isset($this->button['rows']) && !empty($this->button['rows'])) {
             foreach ($this->button['rows'] as $key => $button) {
                 if (isset($button['type'])) {
