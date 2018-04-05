@@ -216,6 +216,10 @@ class component extends CForm\AViewer implements CForm\IViewer
                 }
             }
         }
+        if ([] === $this->answer['ROWS']) {
+            $this->answer['CLASS_ROWS'] = 'is-hidden';
+        }
+
         resources::setCss(self::getTemplate('css/list.css', __DIR__));
         $this->answer   =   simpleView::replace($template, $this->answer);
 
