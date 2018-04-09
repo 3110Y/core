@@ -7,6 +7,7 @@
  */
 
 namespace core\application\controller;
+use core\application\application;
 
 
 /**
@@ -15,18 +16,20 @@ namespace core\application\controller;
  */
 abstract class AController
 {
-    /**
-     * @var bool Колличество подуровней
-     */
-	public static $isSetSubURL  =   false;
 
     /**
      * @var string шаблон
      */
-    public  $template = 'basic';
+    protected  $template = 'basic';
+
 
     /**
-     * @var array структура контента
+     * @return string
      */
-    protected static $content = Array();
+    public function getTemplate(): string
+    {
+        return application::getTemplate($this->template);
+    }
+
+
 }

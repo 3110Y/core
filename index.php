@@ -23,10 +23,6 @@ use core\{
     config\config,
     autoloader\autoloader
 };
-
-/** Подключение */
-autoloader::getInstance()->register();
-autoloader::getInstance()->addNamespace('core', __DIR__ . DIRECTORY_SEPARATOR . 'core');
 autoloader::getInstance()->addNamespace('application', __DIR__ . DIRECTORY_SEPARATOR . 'application');
 
 /** Задание путей */
@@ -53,22 +49,20 @@ if (isset($URL[1])) {
     URL::setURI($URL);
     $result = $router->execute();
 }
-
-if ($result === false) {
+if ($result === false || !isset($URL[1])) {
     URL::setURI($URLTwo);
     $result = $router->execute();
 }
-
-/** Вывод */
 if ($result === false) {
     $result = 'Нет приложения';
 }
 
+/** Вывод */
 /** @var int Время Конца */
 $timeEnd = microtime(true);
 /** @var int Время Разница */
 $timeDiff = $timeEnd - $timeStart;
-echo strtr($result, Array(
+echo strtr($result->render(), Array(
     '{time_DIFF}' => $timeDiff,
     '{core_VERSION}' => core::VERSION,
 ));

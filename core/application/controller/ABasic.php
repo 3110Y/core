@@ -9,11 +9,10 @@
 namespace core\application\controller;
 
 use core\{
-    URI\URL,
-    resources\resources
+    application\application, URI\URL, resources\resources
 };
 
-class ABasic extends AController
+abstract class ABasic extends AController
 {
 
     /**
@@ -21,10 +20,10 @@ class ABasic extends AController
      */
     public static function pre() : void
     {
-        $path                           =   self::$path;
-        $theme                          =   self::$theme;
-        self::$content['THEME']         =   "/application/{$path}/theme/{$theme}/";
-        self::$content['URL']           =   URL::getURLPointerNow();
+        $path                           =   application::getPath();
+        $theme                          =   application::getTheme();
+        application::setDataKey('theme', "/application/{$path}/theme/{$theme}/");
+        application::setDataKey('url', URL::getURLPointerNow());
     }
 
     /**
@@ -37,10 +36,10 @@ class ABasic extends AController
      */
     public static function post() : void
     {
-        self::$content['JS_TOP']        =   resources::getJS();
-        self::$content['CSS_TOP']       =   resources::getCSS();
-        self::$content['JS_BOTTOM']     =   resources::getJS(false);
-        self::$content['CSS_BOTTOM']    =   resources::getCSS(false);
+        application::setDataKey('js_top', resources::getJS());
+        application::setDataKey('css_top', resources::getCSS());
+        application::setDataKey('js_bottom', resources::getJS(false));
+        application::setDataKey('css_bottom', resources::getCSS(false));
     }
 
     /**

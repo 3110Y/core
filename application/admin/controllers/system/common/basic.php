@@ -10,8 +10,7 @@ namespace application\admin\controllers\system\common;
 
 use \application\admin\model\menu;
 use core\{
-    application\controller\ABasic,
-    resources\resources
+    application\application, application\controller\ABasic, resources\resources
 };
 
 
@@ -29,14 +28,13 @@ class basic extends ABasic
     public static function pre() : void
     {
         parent::pre();
-        self::$content['MENU']          = (new menu('admin_page'))->getMenu(
-            self::$applicationPointer,
-            self::$applicationURL
+        application::setDataKey(
+            'MENU',
+            (new menu('admin_page'))->getMenu(
+                application::getApplicationPointer(),
+                application::getApplicationURL()
+            )
         );
-        echo '<pre>';
-        var_dump(self::$content['MENU']);
-        echo '</pre>';
-        die();
     }
 
     /**
@@ -52,7 +50,7 @@ class basic extends ABasic
      */
     public static function post() : void
     {
-        resources::setCss(self::getTemplate('css/ui-kit-fix.css'));
+        resources::setCss(application::getTemplate('css/ui-kit-fix.css'));
         parent::post();
     }
 

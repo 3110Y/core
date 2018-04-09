@@ -71,7 +71,7 @@ abstract class ARouter
         self::$applicationRoute     =   $route;
         application::setApplicationPointer(URL::getPointer());
         application::setApplicationURL(URL::getURLPointerNow());
-        application::setPath($route->getTheme());
+        application::setTheme($route->getTheme());
         $path                 =   strrev($route->getController());
         $path                 =   strstr($path, '\\');
         if (false === $path) {
@@ -81,7 +81,7 @@ abstract class ARouter
         $path                 =   strtr($path , [
             '\\' =>  DIRECTORY_SEPARATOR
         ]);
-        application::setTheme($path);
+        application::setPath($path);
         $config                 =   config::getConfig($this->configDB);
         /** @var PDO $db */
         $db =   PDO::getInstance($config);
@@ -135,10 +135,10 @@ abstract class ARouter
     public function render(): string
     {
         if (URI::isAjaxRequest()) {
-            return json_encode($this->controller->getData());
+            return json_encode(application::getData());
         }
-        registry::get('view')->setTemplate(application::getTemplate($this->controller->template));
-        registry::get('view')->setData($this->controller->getData());
+        registry::get('view')->setTemplate($this->controller->getTemplate());
+        registry::get('view')->setData(application::getData());
         registry::get('view')->run();
         return registry::get('view')->get();
     }

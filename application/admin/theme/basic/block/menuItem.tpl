@@ -6,7 +6,7 @@
                 <a href="#"><</a>
             {SUB_LINK}
             {SUB}
-                {include 'block/menuItem.tpl'}
+                {include 'menuItem.tpl'}
             {/SUB}
         </li>
     {/FOR}

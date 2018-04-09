@@ -23,7 +23,6 @@ return [
         'controller' => \application\client\router::class,
         'uri'       => '/',
         'name'      =>  'Клиентская часть',
-        'function'  => 'render',
         'site'      => '*',
         'method'    => 'GET',
         'port'      => [80, 443],

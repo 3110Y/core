@@ -10,7 +10,6 @@ namespace application\admin\model;
 
 
 use core\{
-    application\model\AModel,
     CForm,
     registry\registry
 };
@@ -20,7 +19,7 @@ use core\{
  * Class CFormOne
  * @package application\model
  */
-class CFormOne extends AModel
+class CFormOne
 {
     public static function generation($controller, $table, $caption, $field, $id = 1)
     {

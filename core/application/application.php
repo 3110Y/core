@@ -31,6 +31,11 @@ class application
      */
     private static $path;
 
+    /**
+     * @var array
+     */
+    private static $data = [];
+
 
     /**
      * отдает шаблон из темы
@@ -42,7 +47,7 @@ class application
         $theme  =   self::$theme;
         $path   =   self::$path;
         $DS     =   DIRECTORY_SEPARATOR;
-        return "{$DS}{$path}{$DS}theme{$DS}{$theme}{$DS}{$template}";
+        return "{$DS}{$path}theme{$DS}{$theme}{$DS}{$template}";
     }
 
     /**
@@ -108,4 +113,58 @@ class application
     {
         self::$path = $path;
     }
+
+    /**
+     * @return array
+     */
+    public static function getData(): array
+    {
+        return self::$data;
+    }
+
+    /**
+     * @param array $data
+     */
+    public static function setData(array $data): void
+    {
+        self::$data = $data;
+    }
+
+
+    /**
+     * @param mixed|string|int $key
+     * @param mixed $data
+     */
+    public static function setDataKey($key, $data): void
+    {
+        self::$data[$key] = $data;
+    }
+
+    /**
+     * @param mixed|string|int $key
+     * @return array
+     */
+    public static function getDataKey($key): array
+    {
+        return self::$data[$key];
+    }
+
+    /**
+     * @param mixed|string|int $key
+     * @return bool
+     */
+    public static function hasDataKey($key): bool
+    {
+        return isset(self::$data[$key]);
+    }
+
+    /**
+     * @param mixed|string|int $key
+     * @return void
+     */
+    public static function dellDataKey($key): void
+    {
+        unset(self::$data[$key]);
+    }
+
 }
