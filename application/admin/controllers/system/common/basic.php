@@ -29,7 +29,7 @@ class basic extends ABasic
     {
         parent::pre();
         application::setDataKey(
-            'MENU',
+            'menu',
             (new menu('admin_page'))->getMenu(
                 application::getApplicationPointer(),
                 application::getApplicationURL()

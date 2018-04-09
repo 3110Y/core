@@ -117,7 +117,7 @@ class page extends AController
 
             /**/
         );
-        self::$content['CONTENT']  =    'hi';
+
         //self::$content  =    model\CFormDefault::generation($this, 'client_page', 'Страницы', $field);
 
     }
