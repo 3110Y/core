@@ -194,4 +194,100 @@ class visit
     {
         return self::$id;
     }
+
+    /**
+     * @return int
+     */
+    public static function getSessionId(): int
+    {
+        return self::$session_id;
+    }
+
+    /**
+     * @return int
+     */
+    public static function getPhoneId(): int
+    {
+        return self::$phone_id;
+    }
+
+    /**
+     * @return string
+     */
+    public static function getReferer(): string
+    {
+        return self::$referer;
+    }
+
+    /**
+     * @return int
+     */
+    public static function getUrl(): int
+    {
+        return self::$url;
+    }
+
+    /**
+     * @return string
+     */
+    public static function getUtmSource(): string
+    {
+        return self::$utm_source;
+    }
+
+    /**
+     * @return string
+     */
+    public static function getUtmKeyword(): string
+    {
+        return self::$utm_keyword;
+    }
+
+    /**
+     * @return string
+     */
+    public static function getUtmContent(): string
+    {
+        return self::$utm_content;
+    }
+
+    /**
+     * @return string
+     */
+    public static function getUtmMedium(): string
+    {
+        return self::$utm_medium;
+    }
+
+    /**
+     * @return string
+     */
+    public static function getUtmCampaign(): string
+    {
+        return self::$utm_campaign;
+    }
+
+    /**
+     * @return string
+     */
+    public static function getUtmTerm(): string
+    {
+        return self::$utm_term;
+    }
+
+    /**
+     * @return string
+     */
+    public static function getUtmFastlink(): string
+    {
+        return self::$utm_fastlink;
+    }
+
+    /**
+     * @return int
+     */
+    public static function getPreviousId(): int
+    {
+        return self::$previous_id;
+    }
 }
