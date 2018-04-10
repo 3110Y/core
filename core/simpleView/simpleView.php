@@ -104,6 +104,45 @@ class simpleView
         } else {
             $content    =   $html;
         }
+
+        $content    =   self::includeTemplate($content, $template, $data);
+	    $array['{DEBUG}']   =   '<pre>' . print_r($data, true) . '</pre>';
+        foreach ($data as $key => $value) {
+            if (\is_array($value)) {
+                $content = self::loop($key, $value, $content);
+            } elseif (\is_bool($value)) {
+
+
+            } else {
+                $array["{{$key}}"] =  $value;
+            }
+        }
+        return strtr($content, $array);
+    }
+
+    /**
+     * @param $key
+     * @param $value
+     * @return string
+     */
+    public static function condition($key, $value, $content): string
+    {
+        $tagEach    =   "if {$key}";
+        $cuteFragment = self::cut($tagEach, $content);
+        if (!$value) {
+            $cuteFragment = '';
+        }
+        return preg_replace("/{if{$key}}.*?{\\/{$key}}/is", $cuteFragment, $content);
+    }
+
+    /**
+     * @param $content
+     * @param bool $template
+     * @param array $data
+     * @return string
+     */
+    public static function includeTemplate($content, $template = false, array $data = Array()): string
+    {
         $array  =   Array();
         preg_match_all("/{include ['\"]?([a-z0-9\\/.\\-_]+)['\"]?}/i", $content, $output);
         if (!empty($output[1])) {
@@ -114,24 +153,17 @@ class simpleView
             }
             $content    =   strtr($content, $array);
         }
-	    $array['{DEBUG}']   =   '<pre>' . print_r($data, true) . '</pre>';
-        foreach ($data as $key => $value) {
-            if (\is_array($value)) {
-                $content = self::loop("{$key}", $value, $content);
-            } else {
-                $array["{{$key}}"] =  $value;
-            }
-        }
-        return strtr($content, $array);
+        return  $content;
     }
 
     /**
      * Переберает шаблоны
-     * @param string $tagEach тег
-     * @param array $array массив значений
-     * @param string $html хтмл
-     * @param mixed|string $template шаблон
-     * @return string хтмл
+     *
+     * @param $tagEach
+     * @param array $array
+     * @param string $html
+     * @param bool $template
+     * @return string
      */
     public static function loop($tagEach, array $array, $html = '', $template = false): string
     {
@@ -139,7 +171,24 @@ class simpleView
             $html   =   self::replace($template);
         }
         $cuteFragment = self::cut($tagEach, $html);
+        if (self::isAssoc($array)) {
+            $cuteResult = self::loopAssoc($array, $cuteFragment);
+        } else {
+            $cuteResult = self::loopSequential($array, $cuteFragment);
+        }
+        $cuteResult =   implode(PHP_EOL, $cuteResult);
+        $reTemplate = preg_replace("/{{$tagEach}}.*?{\\/{$tagEach}}/is", $cuteResult, $html);
+        return $reTemplate;
+    }
 
+    /**
+     * Переберает шаблоны
+     * @param array $array массив значений
+     * @param string $cuteFragment
+     * @return array
+     */
+    public static function loopSequential(array $array, $cuteFragment = ''): array
+    {
         $cuteResult = array();
         if (\count($array) > 0) {
             foreach ($array as $key => $value) {
@@ -148,9 +197,32 @@ class simpleView
                 }
             }
         }
-        $cuteResult =   implode(PHP_EOL, $cuteResult);
-        $reTemplate = preg_replace("/{{$tagEach}}.*?{\\/{$tagEach}}/is", $cuteResult, $html);
-        return $reTemplate;
+        return $cuteResult;
+    }
+
+    /**
+     * @param array $array
+     * @param string $cuteFragment
+     * @return array
+     */
+    public static function loopAssoc(array $array, $cuteFragment = ''): array
+    {
+        $cuteResult = array();
+        if (\count($array) > 0) {
+           $cuteResult[] = self::replace(false, $array, $cuteFragment);
+        }
+        return $cuteResult;
+    }
+
+    /**
+     * Отдает фрагмент
+     * @param $array
+     * @return bool результат
+     */
+    public static function isAssoc($array): bool
+    {
+        $key    =   array_keys($array);
+        return array_keys($key) !== $key;
     }
 
     /**
