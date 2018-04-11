@@ -1,1 +1,1 @@
-<a href="{URL}" class="uk-button {CLASS} " title="{TITLE}" {TOOLTIP}>{ICON} {TEXT}</a>
+<a href="{URL}" class="uk-button {CLASS} " title="{TITLE}" {TOOLTIP} {DATA}>{ICON} {TEXT}</a>
