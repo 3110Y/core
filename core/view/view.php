@@ -146,7 +146,7 @@ class view
                 $class       =   new $class($this->content, $this->data, $this->template);
                 $class->prepareData();
                 $class->prepareTemplate();
-                $class->run();
+                $class->render();
                 $this->data     =   $class->getData();
                 $this->content  =   $class->getContent();
             }
@@ -156,3 +156,4 @@ class view
     }
 
 }
+
