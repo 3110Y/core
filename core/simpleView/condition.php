@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: gaevoy
+ * User: Roman Gaevoy
  * Date: 10.04.18
  * Time: 18:34
  */
@@ -19,8 +19,8 @@ class condition
      */
     public static function render($key, $value, $content): string
     {
-        $tagEach    =   "if {$key}";
-        $cuteFragment = self::cut($tagEach, $content);
+        $tagEach = "if {$key}";
+        $cuteFragment = template::cut($tagEach, $content);
         if (!$value) {
             $cuteFragment = '';
         }

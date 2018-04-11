@@ -28,12 +28,13 @@ class simpleView
     /**
      * @var array данные
      */
-    protected $data   =   Array();
+    protected $data = Array();
 
     /**
      * @var string результат
      */
-    protected $result   =   '';
+    protected $result = '';
+
 
     /**
      * Отдает результат
@@ -50,7 +51,7 @@ class simpleView
      */
     public function setTemplate($template): void
     {
-        $this->template =   $template;
+        $this->template = $template;
     }
 
     /**
@@ -59,7 +60,7 @@ class simpleView
      */
     public function setExtension($extension = 'tpl'): void
     {
-        $this->extension    =   $extension;
+        $this->extension = $extension;
     }
 
     /**
@@ -68,7 +69,7 @@ class simpleView
      */
     public function setData(array $data = Array()): void
     {
-        $this->data =   $data;
+        $this->data = $data;
     }
 
 
@@ -77,29 +78,24 @@ class simpleView
      */
     public function run(): void
     {
-        $this->result   =   self::replace($this->template . '.' .$this->extension, $this->data);
+        $this->result = self::replace($this->template . '.' . $this->extension, $this->data, $this->template);
     }
 
-    public static function replace($html, $data): string
+    public static function replace(string $html, array $data, string $template): string
     {
-
-        $content    =   self::includeTemplate($content, $template, $data);
-        $array['{DEBUG}']   =   '<pre>' . print_r($data, true) . '</pre>';
+        $array = [];
         foreach ($data as $key => $value) {
             if (\is_array($value)) {
-                $content    =   self::loop($key, $value, $content);
+                $html = loop::render($html, $key, $value, $template);
             } elseif (\is_bool($value)) {
-                $content    =   self::condition($key, $value, $content);
+                $html = condition::render($key, $value, $html);
             } else {
-                $array["{{$key}}"] =  $value;
+                $array["{{$key}}"] = $value;
             }
         }
+        $content = template::include($html, $array, $template);
         return strtr($content, $array);
     }
-
-
-
-
 
 
 }

@@ -8,7 +8,7 @@
 
 namespace core\simpleView;
 
-use  core\dir\dir;
+use core\dir\dir;
 
 
 class template
@@ -21,8 +21,8 @@ class template
      */
     public static function cut($section, $html)
     {
-        $pattern    =   "/{{$section}}(.*?){\\/{$section}}/is";
-        preg_match($pattern , $html , $result);
+        $pattern = "/{{$section}}(.*?){\\/{$section}}/is";
+        preg_match($pattern, $html, $result);
         return $result[1] ?? false;
     }
 
@@ -34,42 +34,52 @@ class template
      */
     public static function cutAll($section, $html)
     {
-        $pattern    =   "/{{$section}}(.*?){\\/{$section}}/is";
-        preg_match_all($pattern , $html , $result, PREG_PATTERN_ORDER);
+        $pattern = "/{{$section}}(.*?){\\/{$section}}/is";
+        preg_match_all($pattern, $html, $result, PREG_PATTERN_ORDER);
         return $result[1] ?? false;
     }
 
 
-    public static function toHTML($template)
+    /**
+     * @param string $template
+     * @return bool|string
+     */
+    public static function toHTML(string $template): string
     {
         if (file_exists($template)) {
-            return file_get_contents($template);
+            $html = file_get_contents($template);
+            if (false === $html) {
+                return $html;
+            }
         }
         if (file_exists(dir::getDR() . $template)) {
-            $template   =   dir::getDR(true) . $template;
-            return file_get_contents($template);
+            $template = dir::getDR(true) . $template;
+            $html = file_get_contents($template);
+            if (false === $html) {
+                return $html;
+            }
         }
         die('Нет шаблона: ' . $template);
     }
 
     /**
      * @param $content
-     * @param bool $template
      * @param array $data
+     * @param string $template
      * @return string
      */
-    public static function include($content, $template = false, array $data = Array()): string
+    public static function include($content, array $data = Array(), string $template = ''): string
     {
-        $array  =   Array();
+        $path = substr($template, 0, strrpos($template, '/') + 1);
+        $array = Array();
         preg_match_all("/{include ['\"]?([a-z0-9\\/.\\-_]+)['\"]?}/i", $content, $output);
         if (!empty($output[1])) {
-            $path   = substr($template,0, strrpos($template, '/') + 1);
             for ($i = 0, $iMax = \count($output[1]); $i < $iMax; $i++) {
-                $file   =   $path . $output[1][$i];
-                $array[$output[0][$i]]  =   self::replace($file, $data);
+                $file = $path . $output[1][$i];
+                $array[$output[0][$i]] = simpleView::replace($file, $data, $template);
             }
-            $content    =   strtr($content, $array);
+            $content = strtr($content, $array);
         }
-        return  $content;
+        return $content;
     }
 }
