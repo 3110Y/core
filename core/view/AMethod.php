@@ -9,7 +9,7 @@
 namespace core\view;
 
 
-class AMethod
+abstract class AMethod
 {
     /** @var string */
     protected $content = '';
