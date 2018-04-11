@@ -32,13 +32,13 @@ class condition extends AMethod implements IMethod
 
 
     /**
-     * @return mixed
+     * @return void
      */
     public function prepareData(): void
     {}
 
     /**
-     * @return mixed
+     * @return void
      */
     public function prepareTemplate(): void
     {}

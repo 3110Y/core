@@ -20,12 +20,12 @@ interface IMethod
     public function __construct(string $content, array $data, string $template);
 
     /**
-     * @return mixed
+     * @return void
      */
     public function prepareData(): void;
 
     /**
-     * @return mixed
+     * @return void
      */
     public function prepareTemplate(): void;
 
