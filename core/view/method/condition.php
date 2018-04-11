@@ -10,8 +10,7 @@ namespace core\view\method;
 
 
 use core\view\{
-    AMethod,
-    IMethod
+    AMethod, IMethod, view
 };
 
 
@@ -53,7 +52,7 @@ class condition extends AMethod implements IMethod
     {
         if(preg_match(self::$regularIf, $content,$match)) {
 
-            $textIsYes = self::if($match['post'], $data);
+            $textIsYes = view::view('', $data, $match['post'])->render();
             $pos = strpos($textIsYes, '{endif}');
             if ($pos === false){
                 print('Syntax error endif not found for ...');

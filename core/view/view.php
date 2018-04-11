@@ -9,7 +9,6 @@
 namespace core\view;
 
 
-use core\dir\dir;
 
 /**
  * Class view
@@ -46,23 +45,26 @@ class view
     /**
      * @param string $template
      * @param array $data
+     * @param string $content
      * @return view
      */
-    public static function view(string $template = '', array $data = []): view
+    public static function view(string $template = '', array $data = [], string $content = ''): view
     {
-        return new self($template, $data);
+        return new self($template, $data, $content);
     }
 
     /**
      * view constructor.
      * @param string $template
      * @param array $data
+     * @param string $content
      */
-    public function __construct(string $template = '', array $data = [])
+    public function __construct(string $template = '', array $data = [], string $content = '')
     {
         $this->template =   $template;
+        $this->content  =   $content;
         $this->data     =   $data;
-        if ($this->template !== '') {
+        if ($this->template !== '' && $this->content === '') {
             $this->content = template::toHTML($this->template);
         }
     }
