@@ -59,6 +59,18 @@ class component extends CForm\AButton implements CForm\IButton
         $array['TITLE']     = $this->title;
         $array['TOOLTIP']   = $array['TITLE'] != '' ?   'uk-tooltip'    :   '';
         $array['TEXT']      = $this->text;
+
+        $dataAttr = '';
+        if (isset($array['DATA']) && \is_array($array['DATA'])) {
+            foreach ($array['DATA'] as $key => $value) {
+                $dataAttr .= " data-{$key}='{$value}' ";
+
+            }
+            $array['DATA'] = $dataAttr;
+        } else {
+            $array['DATA'] = '';
+        }
+
         $data = Array();
         foreach ($array as $key => $value) {
             $data[mb_strtoupper($key)] = $value;
