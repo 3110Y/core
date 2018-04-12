@@ -11,7 +11,8 @@ namespace core\view\method;
 
 use core\view\{
     AMethod,
-    IMethod
+    IMethod,
+    data
 };
 
 
@@ -29,7 +30,15 @@ class replace extends AMethod implements IMethod
     {
         $array = [];
         foreach ($this->data as $key => $value) {
-            if (\is_string($value) || \is_int($value) || \is_float($value)) {
+            if (\is_array($value)) {
+                if (data::isAssoc($value)) {
+                    foreach ($value as $k => $v) {
+                        $newKey =   "{$key}.{$k}";
+                        $array["{\${$newKey}}"] = $v;
+                        $array["{{$newKey}}"] = $v;
+                    }
+                }
+            } else {
                 $array["{\${$key}}"] = $value;
                 $array["{{$key}}"] = $value;
             }

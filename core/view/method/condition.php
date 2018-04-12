@@ -67,53 +67,77 @@ class condition extends AMethod implements IMethod
             }
             // Обрабатываем параметры, обработка конечно должна быть более развернутой, с проверкой
             // на существование переменных, на то а переменные ли это или константы
-            $p1 = $data[$match['var1']] ?? $match['var1'];
-            $p2 = $data[$match['var2']] ?? $match['var2'];
+            $var1 = self::prepareVariable($data[$match['var1']] ?? $match['var1']);
+            $var2 = self::prepareVariable($data[$match['var2']] ?? $match['var2']);
             switch ($match['cond']) {
                 // Если условие не прошло, то заменяем текст $textIsYes на блок {else}, если был или пустоту
                 case '===':
-                    if ($p1 !== $p2) {
+                    if ($var1 !== $var2) {
                         $textIsYes = $textIsNo;
                     }
                     break;
                 case '==':
-                    if ($p1 != $p2) {
+                    if ($var1 != $var2) {
                         $textIsYes = $textIsNo;
                     }
                     break;
                 case '!=':
-                    if ($p1 == $p2) {
+                    if ($var1 == $var2) {
                         $textIsYes = $textIsNo;
                     }
                     break;
                 case '!==':
-                    if ($p1 !== $p2) {
+                    if ($var1 !== $var2) {
                         $textIsYes = $textIsNo;
                     }
                     break;
                 case '<':
-                    if ($p1 < $p2) {
+                    if ($var1 < $var2) {
                         $textIsYes = $textIsNo;
                     }
                     break;
                 case '>':
-                    if ($p1 > $p2) {
+                    if ($var1 > $var2) {
                         $textIsYes = $textIsNo;
                     }
                     break;
                 case '<=':
-                    if ($p1 <= $p2) {
+                    if ($var1 <= $var2) {
                         $textIsYes = $textIsNo;
                     }
                     break;
                 case '>=':
-                    if ($p1 >= $p2) {
+                    if ($var1 >= $var2) {
                         $textIsYes = $textIsNo;
                     }
                     break;
             }
-            return $match['pre'] . $textIsYes . $post;
+            return view::view('', $data, $match['pre'] . $textIsYes . $post)->render();
         }
         return $content;
     }
+
+    /**
+     * @param mixed $variable
+     * @return array|bool|string
+     */
+    private static function prepareVariable($variable)
+    {
+        switch ($variable) {
+            case 'true':
+                $variable   =   true;
+                break;
+            case 'false':
+                $variable   =   false;
+                break;
+            case 'null':
+                $variable   =   '';
+                break;
+            case '[]':
+                $variable   =   [];
+                break;
+        }
+        return $variable;
+    }
+
 }

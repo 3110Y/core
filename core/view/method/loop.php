@@ -12,7 +12,8 @@ namespace core\view\method;
 use core\view\{
     AMethod,
     IMethod,
-    view
+    view,
+    data
 };
 
 
@@ -44,12 +45,22 @@ class loop extends AMethod implements IMethod
         // TODO: Implement prepareTemplate() method.
     }
 
-    private static function foreach($content, $data)
+    private static function foreach(string $content,array $data): string
     {
+        $variable   =   [];
         if(preg_match(self::$regularIf, $content,$match)) {
-
-            foreach ($data as $key  =>  $value) {
-
+            if (isset($data[$match['variable']])) {
+                $variable = $data[$match['variable']];
+                if (\is_array($variable) && !data::isAssoc($variable)) {
+                    foreach ($variable as $key => $value) {
+                        foreach ($value as $k => $v) {
+                            if (\is_array($value) && !data::isAssoc($value)) {
+                                $newKey = "{$match['variable']}.{$k}";
+                                $data[$newKey] = $value;
+                            }
+                        }
+                    }
+                }
             }
             $body = view::view('', $data, $match['post'])->render();
             $pos = strpos($body, '{endforeach}');
@@ -65,7 +76,7 @@ class loop extends AMethod implements IMethod
                 $variable   = $data[$match['variable']] ?? $match['variable'];
                 if (\is_array($variable)) {
 
-                    if (self::isAssoc($variable)) {
+                    if (data::isAssoc($variable)) {
                         foreach ($variable as $k => $value) {
                             $newKey = "{$match['variable']}.{$k}";
                             $data[$newKey] = self::arrayToVariable($newKey, $value);
@@ -107,7 +118,7 @@ class loop extends AMethod implements IMethod
         if (\is_array($array)) {
             return $array;
         }
-        if (self::isAssoc($array)) {
+        if (data::isAssoc($array)) {
             foreach ($array as $k => $value) {
                 $newKey = "{$key}.{$k}";
                 $data[$newKey] = self::arrayToVariable($newKey, $value);
@@ -120,14 +131,4 @@ class loop extends AMethod implements IMethod
         return $data;
     }
 
-    /**
-     * Отдает фрагмент
-     * @param $array
-     * @return bool результат
-     */
-    private static function isAssoc($array): bool
-    {
-        $key    =   array_keys($array);
-        return array_keys($key) !== $key;
-    }
 }
