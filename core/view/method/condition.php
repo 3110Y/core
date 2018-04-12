@@ -23,7 +23,7 @@ class condition extends AMethod implements IMethod
     /**
      * @var string
      */
-    private static $regularIf =   '/(?<pre>.*?)\{if +(?<p1>[\D][\w]*) *(?<op>[=!><]+) *(?<p2>.*?) *\}(?<post>.*)/s';
+    private static $regularIf =   '/(?<pre>.*?)\{if +(?<var1>[\D][\w]*) *(?<cond>[=!><]+) *(?<var2>.*?) *\}(?<post>.*)/s';
 
     /**
      * @var string
@@ -67,9 +67,9 @@ class condition extends AMethod implements IMethod
             }
             // Обрабатываем параметры, обработка конечно должна быть более развернутой, с проверкой
             // на существование переменных, на то а переменные ли это или константы
-            $p1 = $data[$match['p1']] ?? $match['p1'];
-            $p2 = $data[$match['p2']] ?? $match['p2'];
-            switch ($match['op']) {
+            $p1 = $data[$match['var1']] ?? $match['var1'];
+            $p2 = $data[$match['var2']] ?? $match['var2'];
+            switch ($match['cond']) {
                 // Если условие не прошло, то заменяем текст $textIsYes на блок {else}, если был или пустоту
                 case '===':
                     if ($p1 !== $p2) {

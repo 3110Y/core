@@ -11,7 +11,8 @@ namespace core\view\method;
 
 use core\view\{
     AMethod,
-    IMethod
+    IMethod,
+    view
 };
 
 
@@ -24,7 +25,7 @@ class loop extends AMethod implements IMethod
     /**
      * @var string
      */
-    private static $regularIf =   '/(?<pre>.*?)\{foreach +(?<p1>[\D][\w]*) *(?<op>[=!><]+) *(?<p2>.*?) *\}(?<post>.*)/s';
+    private static $regularIf =   '/(?<pre>.*?)\{foreach +(?<variable>[\D][\w]*) *\}(?<post>.*)/s';
 
 
     /**
@@ -47,65 +48,86 @@ class loop extends AMethod implements IMethod
     {
         if(preg_match(self::$regularIf, $content,$match)) {
 
-            $textIsYes = view::view('', $data, $match['post'])->render();
-            $pos = strpos($textIsYes, '{endif}');
+            foreach ($data as $key  =>  $value) {
+
+            }
+            $body = view::view('', $data, $match['post'])->render();
+            $pos = strpos($body, '{endforeach}');
             if ($pos === false){
                 print('Syntax error endif not found for ...');
                 die();
             }
-            $post = substr($textIsYes, $pos + 7); // $post - текст после endif
-            $textIsYes = substr($textIsYes, 0, $pos);    // Внутренний блок if
+            $post = substr($body, $pos + 7);
+            $body = substr($body, 0, $pos);
 
 
-            // Обрабатываем параметры, обработка конечно должна быть более развернутой, с проверкой
-            // на существование переменных, на то а переменные ли это или константы
-            $p1 = $data[$match['p1']] ?? $match['p1'];
-            $p2 = $data[$match['p2']] ?? $match['p2'];
-            switch ($match['op']) {
-                // Если условие не прошло, то заменяем текст $textIsYes на блок {else}, если был или пустоту
-                case '===':
-                    if ($p1 !== $p2) {
-                        $textIsYes = $textIsNo;
+            if (isset($data[$match['variable']])) {
+                $variable   = $data[$match['variable']] ?? $match['variable'];
+                if (\is_array($variable)) {
+
+                    if (self::isAssoc($variable)) {
+                        foreach ($variable as $k => $value) {
+                            $newKey = "{$match['variable']}.{$k}";
+                            $data[$newKey] = self::arrayToVariable($newKey, $value);
+                        }
+                    } else {
+
                     }
-                    break;
-                case '==':
-                    if ($p1 != $p2) {
-                        $textIsYes = $textIsNo;
-                    }
-                    break;
-                case '!=':
-                    if ($p1 == $p2) {
-                        $textIsYes = $textIsNo;
-                    }
-                    break;
-                case '!==':
-                    if ($p1 !== $p2) {
-                        $textIsYes = $textIsNo;
-                    }
-                    break;
-                case '<':
-                    if ($p1 < $p2) {
-                        $textIsYes = $textIsNo;
-                    }
-                    break;
-                case '>':
-                    if ($p1 > $p2) {
-                        $textIsYes = $textIsNo;
-                    }
-                    break;
-                case '<=':
-                    if ($p1 <= $p2) {
-                        $textIsYes = $textIsNo;
-                    }
-                    break;
-                case '>=':
-                    if ($p1 >= $p2) {
-                        $textIsYes = $textIsNo;
-                    }
-                    break;
+                }
+
+
+                $array      =   self::arrayToVariable($match['variable'], $variable);
+                if (\is_array($array)) {
+                    $array = array_merge($data, $array);
+                } else {
+                    $array = $data;
+                }
+
+                $textIsYes = view::view('', $array, $match['post'])->render();
+
+            } else {
+                $textIsYes = '';
             }
+
+
+
             return $match['pre'] . $textIsYes . $post;
         }
         return $content;
+    }
+
+    /**
+     * @param string $key
+     * @param array $array
+     * @return mixed
+     */
+    private static function arrayToVariable(string $key, $array)
+    {
+        $data = [];
+        if (\is_array($array)) {
+            return $array;
+        }
+        if (self::isAssoc($array)) {
+            foreach ($array as $k => $value) {
+                $newKey = "{$key}.{$k}";
+                $data[$newKey] = self::arrayToVariable($newKey, $value);
+            }
+            return $data;
+        }
+        foreach ($array as $k => $value) {
+            $data[$key] = self::arrayToVariable($key, $value);
+        }
+        return $data;
+    }
+
+    /**
+     * Отдает фрагмент
+     * @param $array
+     * @return bool результат
+     */
+    private static function isAssoc($array): bool
+    {
+        $key    =   array_keys($array);
+        return array_keys($key) !== $key;
     }
 }
