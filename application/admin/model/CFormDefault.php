@@ -26,6 +26,14 @@ class CFormDefault extends AClass
      * @var array CForm configuration
      */
     public static $config = [];
+    /**
+     * @var array
+     */
+    private static $deleteHiddenID = [];
+    /**
+     * @var array
+     */
+    private static $editHiddenID = [];
 
     /**
      * @param $controller
@@ -58,6 +66,7 @@ class CFormDefault extends AClass
                                 'title'     => 'Редактировать',
                                 'icon'      => 'pencil',
                                 'class'     => 'uk-button-primary uk-button-small',
+                                'hidden'    =>  self::$editHiddenID
                             ),
                             Array(
                                 'action'    => 'delete',
@@ -67,6 +76,7 @@ class CFormDefault extends AClass
                                 'form'      => '#form-listing',
                                 'icon'      => 'close',
                                 'class'     => 'uk-button-danger  uk-button-small',
+                                'hidden'    =>  self::$deleteHiddenID
                             )
                         ),
                         'rows'  =>  Array(
@@ -192,5 +202,21 @@ class CFormDefault extends AClass
         $CForm->setConfig(self::$config);
         $CForm->run();
         return $CForm->getIncomingArray();
+    }
+
+    /**
+     * @param array $editHiddenID
+     */
+    public static function setEditHiddenID(array $editHiddenID): void
+    {
+        self::$editHiddenID = $editHiddenID;
+    }
+
+    /**
+     * @param array $deleteHiddenID
+     */
+    public static function setDeleteHiddenID(array $deleteHiddenID): void
+    {
+        self::$deleteHiddenID = $deleteHiddenID;
     }
 }
