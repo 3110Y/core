@@ -127,7 +127,7 @@ class component extends CForm\AField implements CForm\IField
         );
         $row    =   parent::$db->selectRow($table, $this->configField['field'], $where);
         $valueOld = $row[$this->configField['field']];
-        if ($valueOld != '' && file_exists(dir::getDR(true) . $valueOld) && !is_dir(dir::getDR(true) . $value)) {
+        if ($valueOld != '' && file_exists(dir::getDR(true) . $valueOld) && !is_dir(dir::getDR(true) . $this->value)) {
             unlink(dir::getDR(true) .$valueOld);
         }
         $files = $_FILES[$this->configField['field']];

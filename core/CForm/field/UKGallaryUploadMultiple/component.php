@@ -83,7 +83,7 @@ class component extends CForm\AField implements CForm\IField
 
 
         $where = Array(
-            'parent_id' => $this->row['id'],
+            'parent_id' => $this->row['id'] ?? 0,
         );
         $rows    =   parent::$db->selectRows($this->configField['table']['link'], '*', $where, '`order_in_img` ASC');
         $data['VALUE'] =  Array();

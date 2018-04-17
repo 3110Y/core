@@ -198,6 +198,7 @@ class component extends CForm\AViewer implements CForm\IViewer
         /**
          * Кнопки
          */
+        $this->answer['ROWS'] = [];
         if (isset($this->button['rows']) && !empty($this->button['rows'])) {
             foreach ($this->button['rows'] as $key => $button) {
                 if (isset($button['type'])) {
@@ -215,6 +216,10 @@ class component extends CForm\AViewer implements CForm\IViewer
                 }
             }
         }
+        if ([] === $this->answer['ROWS']) {
+            $this->answer['CLASS_ROWS'] = 'is-hidden';
+        }
+
         resources::setCss(self::getTemplate('css/list.css', __DIR__));
         $this->answer   =   simpleView::replace($template, $this->answer);
 

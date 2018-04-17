@@ -1,8 +1,22 @@
+html body {
+    min-height: 100%;
+    height: auto;
+}
+.uk-notification-message-success {
+    color: #2a4362;
+}
 .cform .cf-caption span {
     padding-left: 15px;
 }
+.cform .cform-field > input {
+    /* Mozilla invalid input outline hide */
+    box-shadow: none!important;
+}
 html body #wrapper header {
     padding: 0 calc(2% - 15px);
+}
+input[type=number] {
+    -moz-appearance: textfield;
 }
 
 @media (min-width: 1231px) {
@@ -39,9 +53,17 @@ html body #wrapper .column.column-left #general-menu ul li a .uk-icon {
     margin: 0 8px 0 2px;
 }
 
+.uk-button {
+    text-transform: none;
+    font-size: inherit;
+}
 .uk-button .uk-icon {
     position: relative;
     top: -.1em;
+}
+.uk-navbar-nav>li>a {
+    text-transform: none;
+    font-size: 1em;
 }
 
 @media (max-width: 640px) {
@@ -75,7 +97,15 @@ img.listing-fileUpload {
 }
 .uk-table th {
     font-size: 1em;
+    text-transform: none;
 }
+.uk-table td b {
+    font-weight: normal;
+}
+.uk-table td .uk-text-center {
+    display: block;
+}
+
 div#pagination_table {
     padding: 30px 25px;
 }
@@ -104,3 +134,51 @@ form > h2.uk-text-center {
     display: block;
     max-width: 100%;
 }
+.uk-label[data-value="0"] {
+    background: #ab122f;
+}
+.uk-button-group {
+    margin: 16px 12px;
+}
+
+.cform .group-action {
+    padding: 0;
+}
+
+.uk-button-group:empty {
+    display: none;
+}
+
+/***** datepicker *****/
+.xdsoft_datetimepicker .xdsoft_label > .xdsoft_select > div > .xdsoft_option.xdsoft_current,
+.xdsoft_datetimepicker .xdsoft_calendar td.xdsoft_today,
+.xdsoft_datetimepicker .xdsoft_calendar td.xdsoft_default, .xdsoft_datetimepicker .xdsoft_calendar td.xdsoft_current, .xdsoft_datetimepicker .xdsoft_timepicker .xdsoft_time_box > div > div.xdsoft_current,
+.xdsoft_datetimepicker .xdsoft_calendar td.xdsoft_current.xdsoft_disabled:hover, .xdsoft_datetimepicker .xdsoft_timepicker .xdsoft_time_box > div > div.xdsoft_current.xdsoft_disabled:hover {
+    background: #2a4362;
+}
+.xdsoft_datetimepicker .xdsoft_label > .xdsoft_select > div > .xdsoft_option:hover,
+.xdsoft_datetimepicker .xdsoft_calendar td:hover, .xdsoft_datetimepicker .xdsoft_timepicker .xdsoft_time_box > div > div:hover {
+    background: #ab122f!important;
+}
+
+
+/***************************************************
+    DISABLE BROWSER APPEARANCE
+ */
+
+input, textarea {outline:none;}
+input:active, textarea:active {outline:none;}
+:focus {
+    outline:none;
+    outline-style: none;
+    outline-width: 0 !important;
+    outline-color: transparent !important;
+}
+a:active, a:focus { outline: none; }
+button:active, button:focus {
+    outline: none;
+}
+button::-moz-focus-inner {
+    border: 0;
+}
+

@@ -7,11 +7,8 @@
             <h2 class="uk-text-center">К сожалению, нет данных</h2>
             <br>
             <div class="group-action {CLASS_ROWS}">
-                <div class="uk-button-group">
-                    {ROWS}
-                     {COMPONENT}
-                    {/ROWS}
-                </div>
+                <!-- don't add spaces to next tag. It's important for :empty selector -->
+                <div class="uk-button-group">{ROWS}{COMPONENT}{/ROWS}</div>
             </div>
         </form>
     </div>

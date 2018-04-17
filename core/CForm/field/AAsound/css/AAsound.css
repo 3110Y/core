@@ -1,0 +1,30 @@
+.AAsound-waveform canvas {
+    max-width:none !important;
+}
+
+.AAsound-call {
+
+}
+
+.AAsound-preloader-svg {
+  display: block;
+  text-indent: -9999px;
+  width: 100px;
+  margin:0 auto;
+  height: 100px;
+  background: url(preloader.svg);
+  background-size: 100px 100px;
+}
+
+.AAsound-preloader {
+    padding:10px 0 10px 0;
+    text-align:center;
+    font-size:18px;
+}
+
+.AAsound-preloader svg {
+  width: 100px;
+  height: 100px;
+  margin: 20px;
+  display: inline-block;
+}

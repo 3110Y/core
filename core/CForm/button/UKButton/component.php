@@ -59,6 +59,18 @@ class component extends CForm\AButton implements CForm\IButton
         $array['TITLE']     = $this->title;
         $array['TOOLTIP']   = $array['TITLE'] != '' ?   'uk-tooltip'    :   '';
         $array['TEXT']      = $this->text;
+
+        $dataAttr = '';
+        if (isset($array['DATA']) && \is_array($array['DATA'])) {
+            foreach ($array['DATA'] as $key => $value) {
+                $dataAttr .= " data-{$key}='{$value}' ";
+
+            }
+            $array['DATA'] = $dataAttr;
+        } else {
+            $array['DATA'] = '';
+        }
+
         $data = Array();
         foreach ($array as $key => $value) {
             $data[mb_strtoupper($key)] = $value;
@@ -67,7 +79,22 @@ class component extends CForm\AButton implements CForm\IButton
             $data['ROW_' . mb_strtoupper($key)] = $value;
         }
         $this->template     =   self::getTemplate($this->template, __DIR__);
-        $this->answer       =   simpleView::replace($this->template, $data);
+
+        $isHide = false;
+        if (isset($this->row['id'], $this->configButton['hidden'])) {
+            if (!\is_array($this->configButton['hidden'])) {
+                $this->configButton['hidden'] = [
+                    $this->configButton['hidden']
+                ];
+            }
+            $this->configButton['hidden']   = array_flip($this->configButton['hidden']);
+            if (isset($this->configButton['hidden'][$this->row['id']])) {
+                $isHide   =   true;
+            }
+        }
+        if (!$isHide) {
+            $this->answer = simpleView::replace($this->template, $data);
+        }
 
     }
 }
