@@ -106,7 +106,7 @@ abstract class AViewer extends ACForm
         $this->onPage();
         $this->data         =   self::$viewerConfig['data']             ?? $this->fillData();
         foreach ($this->config as $key =>  $value) {
-            $this->answer[mb_strtoupper($key)] =  $value;
+            $this->answer[\mb_strtoupper($key)] =  $value;
         }
     }
 

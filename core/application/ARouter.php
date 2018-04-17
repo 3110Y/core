@@ -103,7 +103,7 @@ abstract class ARouter
             $auth->get('authorization')->logout();
             URI::redirect(self::$applicationURL);
         }
-        $auth->get('object')->register('application_' . self::$application['id'], 'Вход в приложение: ' . self::$applicationName);
+        $auth->get('objectRules')->register('application_' . self::$application['id'], 'Вход в приложение: ' . self::$applicationName);
         if (!$auth->get('rules')->check('application_' . self::$application['id']) && self::$URL[1] !== $this->redirectPage) {
             $auth->get('authorization')->logout();
             URI::redirect(self::$applicationURL . '/' . $this->redirectPage);
