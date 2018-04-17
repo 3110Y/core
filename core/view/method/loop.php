@@ -26,7 +26,7 @@ class loop extends AMethod implements IMethod
     /**
      * @var string
      */
-    private static $regularIf =   '/(?<pre>.*?)\{foreach +(?<variable>[\D][\w]*) *\}(?<post>.*)/s';
+    private static $regularForEach =   '/(?<pre>.*?)\{foreach +(?<variable>[\D][\w]*) *\}(?<post>.*)/s';
 
 
     /**
@@ -43,6 +43,21 @@ class loop extends AMethod implements IMethod
     public function prepareTemplate(): void
     {
         // TODO: Implement prepareTemplate() method.
+
+    }
+
+    private static function template(string $content): string
+    {
+        if(preg_match(self::$regularForEach, $content,$match)) {
+            $body = self::template($match['post']);
+            $pos = strpos($body, '{endforeach}');
+            if ($pos === false){
+                print('Syntax error endif not found for ...');
+                die();
+            }
+        }
+        $post = substr($body, $pos + 7);
+        $body = substr($body, 0, $pos);
     }
 
     private static function foreach(string $content,array $data): string

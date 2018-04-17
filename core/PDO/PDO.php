@@ -59,10 +59,6 @@ class PDO extends AQueryConstructor implements IQueryConstructor
             $params = array(
                 \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION
             );
-            if ($this->config['driver'] == 'mysql')
-            {
-                $params[\PDO::MYSQL_ATTR_INIT_COMMAND] = "SET NAMES '{$this->config['character']}'";
-            }
             $params[\PDO::ATTR_PERSISTENT] = true;
             $dns = $this->config['driver'] . ':host=' . $this->config['host'] .
                 ((!empty($this->config['port'])) ? (';port=' . $this->config['port']) : '') .
