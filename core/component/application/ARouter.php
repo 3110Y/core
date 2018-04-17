@@ -95,7 +95,7 @@ abstract class ARouter extends AApplication
             $auth->get('authorization')->logout();
             self::redirect(self::$application['url']);
         }
-        $auth->get('object')->register('application_' . self::$application['id'], 'Вход в приложение: ' . self::$application['name']);
+        $auth->get('objectRules')->register('application_' . self::$application['id'], 'Вход в приложение: ' . self::$application['name']);
         if (!$auth->get('rules')->check('application_' . self::$application['id']) && self::$URL[1] !== $this->redirectPage) {
             $auth->get('authorization')->logout();
             self::redirect(self::$application['url'] . '/' . $this->redirectPage);

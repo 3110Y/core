@@ -9,7 +9,7 @@
 namespace core\component\authentication;
 
 
-class object extends component
+class objectRules extends component
 {
     /**
      * @param string $key

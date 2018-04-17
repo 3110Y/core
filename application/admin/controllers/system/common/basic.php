@@ -80,7 +80,7 @@ class basic extends AControllers implements IControllerBasic
                 /** @var \core\component\authentication\component $auth */
                 $auth = registry::get('auth');
                 $auth->get('authorization')->check();
-                $auth->get('object')->register(
+                $auth->get('objectRules')->register(
                     'application_' . self::$application['id'] . '_page_' . $row['id'],
                     'Приложение: ' . self::$application['name']. " Отображать пункт меню: {$row['name']}"
                 );
