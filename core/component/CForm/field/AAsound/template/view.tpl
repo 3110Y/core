@@ -1,0 +1,1 @@
+<td class="{TD}" style="text-align:center;"><a class="AAsound-call" data-sound="{VALUE}">Открыть</a></td>
