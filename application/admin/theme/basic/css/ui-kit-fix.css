@@ -140,6 +140,9 @@ form > h2.uk-text-center {
 .uk-button-group {
     margin: 16px 12px;
 }
+.uk-table-shrink .uk-button-group {
+    margin: 0;
+}
 
 .cform .group-action {
     padding: 0;
