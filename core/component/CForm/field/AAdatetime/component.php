@@ -53,13 +53,11 @@ class component extends CForm\AField implements CForm\IField
         $this->answer           =   simpleView::replace($this->template, $data);
     }
 
-    public function view()
-    {
-        $this->template     =   self::getTemplate('template/view.tpl', __DIR__);
-    }
-
     public function edit()
     {
+        if (isset($this->configField['format'])) {
+            $this->value = date($this->configField['format'], strtotime($this->value));
+        }
         $this->template     =   self::getTemplate('template/edit.tpl', __DIR__);
     }
 
@@ -70,9 +68,9 @@ class component extends CForm\AField implements CForm\IField
 
     public function preUpdate()
     {
+        $this->value = date('Y-m-d H:i:s', strtotime($this->value));
         return $this->required && $this->value === '';
     }
-
 
 
 }
