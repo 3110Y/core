@@ -135,6 +135,7 @@ html {
               overflow-y: auto;
               height: 100%; } }
         html body #wrapper .column.column-right {
+          position: relative;
           width: 1500px;
           max-width: 75%;
           margin: 0 auto;
