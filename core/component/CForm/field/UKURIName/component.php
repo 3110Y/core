@@ -84,12 +84,12 @@ class component extends CForm\AField implements CForm\IField
             // Переводим нижний регистр
             $this->value = mb_strtolower($this->value);
             // Транслитерируем в латиницу
-            $rus = array('ё','ж','ц','ч','ш','щ','ю','я');
-            $lat = array('yo','zh','tc','ch','sh','sh','yu','ya');
+            $rus = array('ё','ж','ц','ч','ш','щ','ю','я','ь','ъ');
+            $lat = array('yo','zh','tc','ch','sh','sh','yu','ya','','');
             $this->value = str_replace($rus,$lat,$this->value);
-            $this->value = strtr($this->value,
-                "абвгдезийклмнопрстуфхъыьэ",
-                "abvgdezijklmnoprstufh_i_e");
+            $from = preg_split('~~u', "абвгдезийклмнопрстуфхыэ", null, PREG_SPLIT_NO_EMPTY);
+            $to = preg_split('~~u', "abvgdezijklmnoprstufhie", null, PREG_SPLIT_NO_EMPTY);
+            $this->value =  str_replace($from, $to, $this->value);
             // Заменяем всё кроме цифр и латинских букв на `-` (дефис)
             // Используем жадный поиск что бы убрать дублирующиеся `-` (дефисы)
             $this->value = preg_replace('/[^0-9a-z]+/','-', $this->value);
