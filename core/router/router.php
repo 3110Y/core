@@ -170,9 +170,12 @@ class router
     {
         $host  =   URI::getInstance()->getHost();
         $replace    =   Array(
-            '*'  =>  '(.*)',
-            '?'  =>  '([\w]+)',
-            '/'  =>  '\/',
+            '*'         =>  '(.*)',
+            '?'         =>  '([\w]+)',
+            '[1-9]'     =>  '([0-9]+)',
+            '[a-z]'     =>  '([a-z]+)',
+            '[a-z1-9]'  =>  '([a-z0-9]+)',
+            '/'         =>  '\/',
         );
         $siteRegular   =  '/^' . strtr($site, $replace) . '$/i';
         preg_match($siteRegular, $host, $output);
