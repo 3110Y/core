@@ -9,8 +9,8 @@
 namespace application\admin\model;
 
 
-use \core\{
-    CForm,
+use \Core\{
+    _CForm,
     registry\registry
 };
 
@@ -49,7 +49,7 @@ class CFormDefaultNoEdit
                 ),
             )
         );
-        $CForm  =   new CForm\component($controller::$content, 'CONTENT');
+        $CForm  =   new _CForm\component($controller::$content, 'CONTENT');
         $CForm->setConfig($config);
         $CForm->run();
         return $CForm->getIncomingArray();

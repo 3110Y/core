@@ -8,7 +8,7 @@
 
 namespace application\admin\controllers\system\common;
 
-use \core\{
+use \Core\{
     application\controller\AController,
     registry\registry,
     resources\resources,
@@ -44,7 +44,7 @@ class enter extends AController
             } else {
                 $login          =   $_POST['login'];
                 $password       =   $_POST['password'];
-                /** @var \core\authentication\component $auth */
+                /** @var \Core\_authentication\component $auth */
                 $auth    =   registry::get('auth');
                 self::$content = $auth->get('authorization')->login($login, $password);
 

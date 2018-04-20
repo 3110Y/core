@@ -8,7 +8,7 @@
 
 namespace application\admin\model;
 
-use core\application\model\AMenu;
+use Core\_application\model\AMenu;
 
 
 /**

@@ -10,9 +10,9 @@ error_reporting (E_ALL);
 ini_set('display_errors', 1);
 date_default_timezone_set('Europe/Moscow');
 
-include_once  'core'. DIRECTORY_SEPARATOR .  'autoloader' . DIRECTORY_SEPARATOR .  'autoloader.php';
+include_once 'core' . DIRECTORY_SEPARATOR . 'autoloader' . DIRECTORY_SEPARATOR . 'Autoloader.php';
 
-use core\{
+use Core\{
     router\router,
     URI\URL,
     dir\dir,

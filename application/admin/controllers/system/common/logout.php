@@ -8,9 +8,9 @@
 
 namespace application\admin\controllers\system\common;
 
-use core\{
-    application\controller\AController,
-    registry\registry,
+use Core\{
+    _application\controller\AController,
+    _registry\registry,
     router\route
 };
 
@@ -31,7 +31,7 @@ class logout extends AController
      */
     public function __construct(route $route)
     {
-        /** @var \core\authentication\component $auth */
+        /** @var \Core\_authentication\component $auth */
         $auth    =   registry::get('auth');
         $auth->get('authorization')->logout();
         self::redirect(self::$applicationRoute->getURL());

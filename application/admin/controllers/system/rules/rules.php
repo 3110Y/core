@@ -9,9 +9,9 @@
 namespace application\admin\controllers\system\rules;
 
 use application\admin\model;
-use core\{
-    application\controller\AController,
-    registry\registry,
+use Core\{
+    _application\controller\AController,
+    _registry\registry,
     router\route
 };
 
@@ -32,7 +32,7 @@ class rules extends AController
      */
     public function __construct(route $route)
     {
-        /** @var \core\PDO\PDO $db */
+        /** @var \Core\PDO\PDO $db */
         $db         =   registry::get('db');
         $where      =   Array(
             'status'    => 1

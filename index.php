@@ -14,17 +14,17 @@ date_default_timezone_set('Europe/Moscow');
 /** @var int Время Старта */
 $timeStart  = microtime(true);
 
-include_once 'core' . DIRECTORY_SEPARATOR . 'autoload.php';
+include_once 'Core' . DIRECTORY_SEPARATOR . 'autoload.php';
 
-use core\{
+use Core\{
     core,
     router\router,
     URI\URL,
     dir\dir,
     config\config,
-    autoloader\autoloader
+    Autoloader\Autoloader
 };
-autoloader::getInstance()->addNamespace('application', __DIR__ . DIRECTORY_SEPARATOR . 'application');
+Autoloader::getInstance()->addNamespace('application', __DIR__ . DIRECTORY_SEPARATOR . 'application');
 
 /** Задание путей */
 dir::setDR(__DIR__);

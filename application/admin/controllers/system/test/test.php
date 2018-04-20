@@ -8,8 +8,8 @@
 
 namespace application\admin\controllers\system\test;
 
-use core\{
-    application\controller\AController,
+use Core\{
+    _application\controller\AController,
     router\route
 };
 

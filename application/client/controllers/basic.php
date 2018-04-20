@@ -10,7 +10,7 @@ namespace application\client\controllers;
 
 use \application\client\model;
 
-use \core\{
+use \Core\{
     registry\registry,
     application\controller\AController,
     application\controller\IControllerBasic,
@@ -72,7 +72,7 @@ class basic extends AController implements IControllerBasic
      */
     private static function generationMenu($parentURL = '/', $parentID = 0): array
     {
-        /** @var \core\PDO\PDO $db */
+        /** @var \Core\PDO\PDO $db */
         $db = registry::get('db');
         self::getURL(1);
         $where  =   Array(

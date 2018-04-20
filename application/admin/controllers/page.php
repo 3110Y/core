@@ -9,8 +9,8 @@
 namespace application\admin\controllers;
 
 use application\admin\model;
-use core\{
-    application\controller\AController,
+use Core\{
+    _application\controller\AController,
     router\route
 };
 

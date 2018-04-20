@@ -9,7 +9,7 @@
 namespace application\admin;
 
 
-use \core\application\ARouter;
+use \Core\_application\ARouter;
 
 
 /**

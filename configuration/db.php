@@ -6,7 +6,7 @@
  * Time: 13:55
  */
 
-if (!class_exists(\core\core::class)) {
+if (!class_exists(\Core\core::class)) {
     die();
 }
 return Array(

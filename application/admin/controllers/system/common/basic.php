@@ -9,8 +9,8 @@
 namespace application\admin\controllers\system\common;
 
 use \application\admin\model\menu;
-use core\{
-    application\application, application\controller\ABasic, resources\resources
+use Core\{
+    _application\application, _application\controller\ABasic, _resources\resources
 };
 
 

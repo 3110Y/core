@@ -8,7 +8,7 @@
 
 namespace application\client\model;
 
-use \core\{
+use \Core\{
     application\model\AModel,
     registry\registry
 };
@@ -50,7 +50,7 @@ class settings extends AModel
      */
     public function __construct()
     {
-        /** @var \core\PDO\PDO $db */
+        /** @var \Core\PDO\PDO $db */
         $db =   registry::get('db');
         $where = Array(
             'id' => 1

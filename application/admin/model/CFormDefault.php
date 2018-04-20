@@ -9,8 +9,8 @@
 namespace application\admin\model;
 
 
-use \core\{
-    CForm,
+use \Core\{
+    _CForm,
     registry\registry
 };
 
@@ -197,7 +197,7 @@ class CFormDefault
         if (!self::$config) {
             self::config($controller, $table, $caption, $field, $condition);
         }
-        $CForm  =   new CForm\component($controller::$content, 'CONTENT');
+        $CForm  =   new _CForm\component($controller::$content, 'CONTENT');
         $CForm->setConfig(self::$config);
         $CForm->run();
         return $CForm->getIncomingArray();

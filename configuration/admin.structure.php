@@ -5,7 +5,7 @@
  * Date: 14.02.18
  * Time: 15:30
  */
-if (!class_exists(\core\core::class)) {
+if (!class_exists(\Core\core::class)) {
     die();
 }
 use \application\admin\controllers;

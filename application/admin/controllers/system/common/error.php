@@ -9,7 +9,7 @@
 namespace application\admin\controllers\system\common;
 
 
-use \core\{
+use \Core\{
     application\controller\AController,
     router\route
 };

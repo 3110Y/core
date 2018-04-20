@@ -10,8 +10,8 @@ namespace application\admin\controllers\system\common;
 
 
 use application\admin\model;
-use core\{
-    application\controller\AController,
+use Core\{
+    _application\controller\AController,
     router\route
 };
 
