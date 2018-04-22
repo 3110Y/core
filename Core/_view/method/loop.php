@@ -54,10 +54,12 @@ class loop extends AMethod implements IMethod
                 print('Syntax error endif not found for ...');
                 die();
             }
+            $block = substr($body, 0, $pos);
+            $post = substr($body, $pos + 11);
+            return $match['pre'] . $block . ' ' . $match['variable'] . $post;
         }
-        $post = substr($body, $pos + 11);
-        $block = substr($body, 0, $pos);    // Внутренний блок if
-        return $match['pre'] . $block . ' ' . $match['output'] . $post;
+        return $content;
+
     }
 
     private static function foreach(string $content,array $data): string
