@@ -11,7 +11,13 @@ $(document).ready(function () {
        console.log(data);
        jqXHR.done(function(data) {
            console.log(data);
-           if (data !== 'true') {
+           if (data === 'null') {
+               window.UIkit.notification("Доступ запрещён", {
+                   status: 'danger',
+                   timeout: 1000,
+                   pos: 'top-center'
+               });
+           } else if (data !== 'true') {
                UIkit.notification("Не верный логин или пароль", {
                    status: 'danger',
                    timeout: 1000,

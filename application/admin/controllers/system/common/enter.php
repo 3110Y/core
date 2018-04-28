@@ -44,12 +44,28 @@ class enter extends AControllers
                 $password       =   $_POST['password'];
                 /** @var \core\component\authentication\component $auth */
                 $auth    =   registry::get('auth');
-                self::$content = $auth->get('authorization')->login($login, $password);
+                $result = $auth->get('authorization')->login($login, $password);
 
+                if ($result) {
+                    $result = $auth->get('rules')->check('application_' . self::$application['id']);
+                    if (!$result) {
+                        $auth->get('authorization')->logout();
+                        $result = null;
+                    }
+                }
+                self::$content = $result;
             }
         } else {
             if (isset($_COOKIE['uid'])) {
-                self::redirect(self::$application['url']);
+                /** @var \core\component\authentication\component $auth */
+                $auth    =   registry::get('auth');
+                $result = $auth->get('rules')->check('application_' . self::$application['id']);
+                if (!$result) {
+                    $auth->get('authorization')->logout();
+                }
+                else {
+                    self::redirect(self::$application['url']);
+                }
             }
             resources::setCss(self::getTemplate('css/enter.css'));
             resources::setJs(self::getTemplate('js/enter.js'));
