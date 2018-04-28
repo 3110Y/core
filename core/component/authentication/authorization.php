@@ -29,8 +29,10 @@ class authorization extends AAuthentication
             $row = $select->fetch();
             $time   =   time() + 2592000;
             setcookie($this->config['uid'], $row['id'], $time, '/');
+            $_COOKIE[$this->config['uid']]  = $row['id'];
             $hash = hash($this->config['alg'], $row['id'] . $row['password']);
             setcookie($this->config['hash'], $hash, $time, '/');
+            $_COOKIE[$this->config['hash']] = $hash;
             $where = Array(
                 'user_id'     => $row['id'],
             );
@@ -40,6 +42,7 @@ class authorization extends AAuthentication
                 $group_id[] = $row['group_id'];
             }
             setcookie('gid', implode(',', $group_id), $time, '/');
+            $_COOKIE[$this->config['gid']]  = implode(',', $group_id);
             return true;
         }
         return false;
