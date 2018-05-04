@@ -53,8 +53,8 @@ class CFormDefault extends AClass
             'mode'          =>  'listing',
             'viewer'        =>  Array(
                 'listing' => Array(
-                    'where'     => $condition,
-                    'type'      => 'UKListing',
+                    'where'     =>  $condition,
+                    'type'      =>  'UKListing',
                     'multi'     =>  'UKActionID',
                     'search'    =>  true,
                     'button'    =>  Array(
@@ -195,7 +195,7 @@ class CFormDefault extends AClass
      */
     public static function generation($controller, $table = null, $caption = null, $field = null, $condition = array())
     {
-        if (!self::$config) {
+        if ([] === self::$config) {
             self::config($controller, $table, $caption, $field, $condition);
         }
         $CForm  =   new CForm\component($controller::$content, 'CONTENT');
@@ -218,5 +218,38 @@ class CFormDefault extends AClass
     public static function setDeleteHiddenID(array $deleteHiddenID): void
     {
         self::$deleteHiddenID = $deleteHiddenID;
+    }
+
+    /**
+     * Редактирование только одной записи по id (Напрмер настройки)
+     *
+     * @param int $id
+     */
+    public static function setOne(int $id = 1): void
+    {
+        if ([] === self::$config) {
+            return;
+        }
+        self::$config['mode'] = 'edit';
+        self::$config['viewer']['edit']['caption'] = str_replace(': Редактирование','',self::$config['viewer']['edit']['caption']);
+        self::$config['viewer']['edit']['where'] = [
+            'id' => $id
+        ];
+        self::removeButton('goBack','edit');
+
+    }
+
+    /**
+     * Только просмотр списка
+     */
+    public static function setNoEdit(): void
+    {
+        if ([] === self::$config) {
+            return;
+        }
+        unset(self::$config['viewer']['listing']['multi']);
+        self::removeButton('delete');
+        self::removeButton('insert');
+        self::removeButton('edit');
     }
 }

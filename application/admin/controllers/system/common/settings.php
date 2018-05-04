@@ -61,6 +61,8 @@ class settings extends AControllers
             ),
 
         );
-        self::$content  =    model\CFormOne::generation($this, 'client_settings', 'Настройки', $field);
+        model\CFormDefault::config($this, 'client_settings', 'Настройки', $field);
+        model\CFormDefault::setOne();
+        self::$content  =   model\CFormDefault::generation($this);
     }
 }
