@@ -183,13 +183,16 @@ class component extends CForm\AField implements CForm\IField
         $original_size          =   getimagesize($files['tmp_name']);
         $original_width 		=   $original_size[0];
         $original_height 		=   $original_size[1];
-        if ($original_width > 1920 || $original_height > 1080) {
-            $x_ratio = 1920 / $original_width;
-            $y_ratio = 1080 / $original_height;
+        $maxWidth               =   1920 * (!empty($this->configField['retina']) ? 2 : 1);
+        $maxHeight              =   1080 * (!empty($this->configField['retina']) ? 2 : 1);
+
+        if ($original_width > $maxWidth || $original_height > $maxHeight) {
+            $x_ratio = $maxWidth / $original_width;
+            $y_ratio = $maxHeight / $original_height;
             $ratio = min($x_ratio, $y_ratio);
             $use_x_ratio = ($x_ratio === $ratio);
-            $new_width = $use_x_ratio ? 1920 : floor($original_width * $ratio);
-            $new_height = !$use_x_ratio ? 1080 : floor($original_height * $ratio);
+            $new_width = $use_x_ratio ? $maxWidth : floor($original_width * $ratio);
+            $new_height = !$use_x_ratio ? $maxHeight : floor($original_height * $ratio);
             $thumbnail->resizeImage($new_width, $new_height, \Imagick::FILTER_LANCZOS, 1);
         }
         $thumbnailStore = '/filecache/' . $this->path;
