@@ -1,9 +1,9 @@
 <div class="uk-width-{GRID}@m">
     <label for="{ID}" class="uk-form-label">{LABEL}</label>
         <div id="{ID}" class="test-upload uk-placeholder uk-text-center"
-             data-action="{URL}/{PARENT_URL}/api/field/UKGallaryUploadMultiple/save/{ROW_ID}/{TABLE}/{ID}/{TABLE_LINK}"
-             data-action-edit="{URL}/{PARENT_URL}/api/field/UKGallaryUploadMultiple/sort/{ROW_ID}/{TABLE}/{ID}/{TABLE_LINK}"
-             data-action-dell="{URL}/{PARENT_URL}/api/field/UKGallaryUploadMultiple/dell/{ROW_ID}/{TABLE}/{ID}/{TABLE_LINK}"
+             data-action="{URL}/{PARENT_URL}/api/field/UKGalleryUploadMultiple/save/{ROW_ID}/{TABLE}/{ID}/{TABLE_LINK}"
+             data-action-edit="{URL}/{PARENT_URL}/api/field/UKGalleryUploadMultiple/sort/{ROW_ID}/{TABLE}/{ID}/{TABLE_LINK}"
+             data-action-dell="{URL}/{PARENT_URL}/api/field/UKGalleryUploadMultiple/dell/{ROW_ID}/{TABLE}/{ID}/{TABLE_LINK}"
              style="{READONLY}"
         >
             <span uk-icon="icon: cloud-upload"></span>

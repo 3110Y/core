@@ -6,7 +6,7 @@
  * Time: 19:12
  */
 
-namespace core\component\CForm\field\UKGallaryUploadMultiple;
+namespace core\component\CForm\field\UKGalleryUploadMultiple;
 
 use \core\component\{
     CForm,
@@ -20,7 +20,7 @@ use \core\component\{
 
 /**
  * Class component
- * @package core\component\CForm\field\UKGallaryUploadMultiple
+ * @package core\component\CForm\field\UKGalleryUploadMultiple
  */
 class component extends CForm\AField implements CForm\IField
 {

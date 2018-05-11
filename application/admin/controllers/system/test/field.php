@@ -135,11 +135,11 @@ class field extends AControllers
                 'path'              =>  'field_one'
             ),
             Array(
-                'type'              =>  'UKGallaryUploadMultiple',
+                'type'              =>  'UKGalleryUploadMultiple',
                 'table'             =>  Array(
                     'link'      =>  'test_field_photo',
                 ),
-                'label'             =>  'UKGallaryUploadMultiple',
+                'label'             =>  'UKGalleryUploadMultiple',
                 'grid'              =>  '1-1',
                 'path'              =>  'field_more'
             ),
