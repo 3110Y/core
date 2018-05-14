@@ -64,6 +64,7 @@ var minus = "<svg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" xmlns=\"http:
 var more = "<svg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"3\" cy=\"10\" r=\"2\"></circle><circle cx=\"10\" cy=\"10\" r=\"2\"></circle><circle cx=\"17\" cy=\"10\" r=\"2\"></circle></svg>";
 var move = "<svg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" xmlns=\"http://www.w3.org/2000/svg\"><polygon points=\"4,5 1,5 1,9 2,9 2,6 4,6 \"></polygon><polygon points=\"1,16 2,16 2,18 4,18 4,19 1,19 \"></polygon><polygon points=\"14,16 14,19 11,19 11,18 13,18 13,16 \"></polygon><rect fill=\"none\" stroke=\"#000\" x=\"5.5\" y=\"1.5\" width=\"13\" height=\"13\"></rect><rect x=\"1\" y=\"11\" width=\"1\" height=\"3\"></rect><rect x=\"6\" y=\"18\" width=\"3\" height=\"1\"></rect></svg>";
 var nut = "<svg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" xmlns=\"http://www.w3.org/2000/svg\"><polygon fill=\"none\" stroke=\"#000\" points=\"2.5,5.7 10,1.3 17.5,5.7 17.5,14.3 10,18.7 2.5,14.3\"></polygon><circle fill=\"none\" stroke=\"#000\" cx=\"10\" cy=\"10\" r=\"3.5\"></circle></svg>";
+var news = "<svg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" xmlns=\"http://www.w3.org/2000/svg\"><g transform=\"matrix(0.8,0,0,0.8,0.4,0.4)\"><path d=\"m 2,2 v 17 c 0,1.644531 1.355469,3 3,3 h 14 c 1.644531,0 3,-1.355469 3,-3 V 6 H 18 V 2 Z m 2,2 h 12 v 15 c 0,0.386719 0.269531,0.660156 0.40625,1 H 5 C 4.433594,20 4,19.566406 4,19 Z m 2,3 v 3 h 8 V 7 Z m 12,1 h 2 v 11 c 0,0.566406 -0.433594,1 -1,1 -0.566406,0 -1,-0.433594 -1,-1 z M 6,12 v 2 h 8 v -2 z m 0,3 v 2 h 8 v -2 z\" /></g></svg>";
 var pagekit = "<svg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" xmlns=\"http://www.w3.org/2000/svg\"><polygon points=\"3,1 17,1 17,16 10,16 10,13 14,13 14,4 6,4 6,16 10,16 10,19 3,19 \"></polygon></svg>";
 var pencil = "<svg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" xmlns=\"http://www.w3.org/2000/svg\"><path fill=\"none\" stroke=\"#000\" d=\"M17.25,6.01 L7.12,16.1 L3.82,17.2 L5.02,13.9 L15.12,3.88 C15.71,3.29 16.66,3.29 17.25,3.88 C17.83,4.47 17.83,5.42 17.25,6.01 L17.25,6.01 Z\"></path><path fill=\"none\" stroke=\"#000\" d=\"M15.98,7.268 L13.851,5.148\"></path></svg>";
 var phone = "<svg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" xmlns=\"http://www.w3.org/2000/svg\"><path fill=\"none\" stroke=\"#000\" d=\"M15.5,17 C15.5,17.8 14.8,18.5 14,18.5 L7,18.5 C6.2,18.5 5.5,17.8 5.5,17 L5.5,3 C5.5,2.2 6.2,1.5 7,1.5 L14,1.5 C14.8,1.5 15.5,2.2 15.5,3 L15.5,17 L15.5,17 L15.5,17 Z\"></path><circle cx=\"10.5\" cy=\"16.5\" r=\"0.8\"></circle></svg>";
@@ -166,6 +167,7 @@ var Icons = {
 	more: more,
 	move: move,
 	nut: nut,
+	news: news,
 	pagekit: pagekit,
 	pencil: pencil,
 	phone: phone,
