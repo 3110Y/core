@@ -171,17 +171,24 @@ abstract class ARouter extends AApplication
      *
      * @return array текущая страница
      */
-    private static function searchPage(): array
+    private static function searchPage()
     {
         $parentID   = 0;
         $URLCount   = count(self::$URL) - 1;
         $path           =   self::$application['path'];
+        /** @var \core\component\authentication\component $auth */
+        $auth = registry::get('auth');
+        $auth->get('authorization')->check();
         foreach (self::$URL as $URLKey => $URLItem) {
             if ($URLKey === 0) {
                 continue;
             }
             $URLLeft = $URLCount - ($URLKey + 1);
             foreach (self::$structure as $item) {
+                $auth->get('objectRules')->register(
+                    'application_' . self::$application['id'] . '_page_' . $item['id'],
+                    'Приложение: ' . self::$application['name']. " Отображать пункт меню: {$item['name']}"
+                );
                 if (!isset($item['countSubURL'])) {
                     /** @var \application\client\controllers\basic $controller */
                     $controller                 =   $item['controller'];
@@ -221,6 +228,11 @@ abstract class ARouter extends AApplication
                         $subURL[] = self::$URL[$i];
                     }
                     $item['controllerObject']::setSubURL($subURL);
+
+
+                    if (!$auth->get('rules')->check('application_' . self::$application['id'] . '_page_' . $item['id'])) {
+                        return self::$pageError;
+                    }
                     return $item;
                 } elseif (
                     (int)$parentID === (int)$item['parent_id']
@@ -232,8 +244,11 @@ abstract class ARouter extends AApplication
                         )
                     )
                 ) {
+                    if ($auth->get('rules')->check('application_' . self::$application['id'] . '_page_' . $item['id'])) {
+                        $parentID = $item['id'];
+                    }
                     //ищем подстраницу
-                    $parentID = $item['id'];
+
                 }
             }
         }
