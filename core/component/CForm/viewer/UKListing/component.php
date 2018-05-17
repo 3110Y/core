@@ -85,6 +85,7 @@ class component extends CForm\AViewer implements CForm\IViewer
                             'COMPONENT' => $multiComponent->getAnswer()
                         );
                     }
+                    $this->answer['TH']['field']['HREF'] = '#';
                 }
 
                 /**
