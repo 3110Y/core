@@ -144,12 +144,16 @@ class component extends CForm\AViewer implements CForm\IViewer
                                     } else {
                                         $order[$this->answer['TH'][$key]['FIELD']] = 'ASC';
                                     }
-                                    $link = Array();
-                                    foreach ($order as $k => $v) {
-                                        $link["order[{$k}]"] = $v;
+                                    if ($fieldComponent->getField()['sortable'] ?? true) {
+                                        $link = Array();
+                                        foreach ($order as $k => $v) {
+                                            $link["order[{$k}]"] = $v;
+                                        }
+                                        $link = http_build_query($link);
+                                        $this->answer['TH'][$key]['HREF'] = "?{$link}";
+                                    } else {
+                                        $this->answer['TH'][$key]['HREF'] = '#';
                                     }
-                                    $link = http_build_query($link);
-                                    $this->answer['TH'][$key]['HREF'] = "?{$link}";
                                 } else {
                                     $this->answer['TH'][$key]['HREF'] = '#';
                                 }
