@@ -65,10 +65,8 @@ class PDO extends AQueryConstructor implements IQueryConstructor
                 ';dbname=' . $this->config['db'];
             $this->connect = new \PDO($dns, $this->config['name'], $this->config['pass'], $params);
             $this->connect->exec('SET NAMES '.$this->config['character'] );
-            $this->connect->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_SILENT);
             $this->connect->setAttribute(\PDO::ATTR_DEFAULT_FETCH_MODE, \PDO::FETCH_ASSOC);
             $this->connect->setAttribute(\PDO::ATTR_EMULATE_PREPARES,false);
-            $this->connect->query("SET character_setconnection = {$this->config['character']};" );
             $this->connect->query("SET character_set_client = {$this->config['character']};" );
             $this->connect->query("SET character_set_results = {$this->config['character']};" );
             $this->connect->query('SET NAMES ' . $this->config['character']);;

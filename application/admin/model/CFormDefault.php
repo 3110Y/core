@@ -83,7 +83,7 @@ class CFormDefault extends AClass
                             Array(
                                 'action'    => 'insert',
                                 'type'      => 'UKButton',
-                                'url'       => '{PAGE_URL}/{PARENT_ID}/api/action/insert?040&redirect={PAGE_URL}/{PARENT_ID}/edit/',
+                                'url'       => '{PAGE_URL}/{PARENT_ID}/api/action/insert?' . uniqid() . '&redirect={PAGE_URL}/{PARENT_ID}/edit/',
                                 'text'      => 'Добавить',
                                 'icon'      => 'plus',
                                 'class'     => 'uk-button-primary',

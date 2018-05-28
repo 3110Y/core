@@ -85,7 +85,7 @@ class AAction extends ACForm
                             $this->answer['errorData'][$field['field']]  = $errorMess;
                         }
                     }
-                    if (isset($field['field'], $this->data[$field['field']])) {
+                    if (isset($field['field'], $field['define']) || isset($field['field'], $this->data[$field['field']])) {
                         $this->data[$field['field']] = $fieldComponent->getValue();
                         $_POST[$field['field']]         =   $this->data[$field['field']];
                         if ($this->data[$field['field']] === false) {
