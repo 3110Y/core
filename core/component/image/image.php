@@ -57,9 +57,13 @@ class image
 		$tmp                =   explode('.', self::$urlImage);
 		self::$ext          =   end($tmp);
 		self::$urlImageDR   =   dir::getDR(true) . $urlImage;
-		if (!file_exists(self::$urlImageDR)) {
-			return false;
-		}
+        if (!file_exists(self::$urlImageDR)) {
+            self::$urlImageDR   =   dir::getDR(false) . $urlImage;
+
+            if (!file_exists(self::$urlImageDR)) {
+                return false;
+            }
+        }
 		$new_file = '/filecache/cache/' . self::$key . '.' . self::$ext;
 		if (file_exists(dir::getDR(true) .  $new_file)) {
 			return $new_file;
