@@ -37,6 +37,8 @@ class CFormDefault extends AClass
 
     /**
      * Установка сортировки по умолчанию
+     *  $order - ассоциативный массив ['поле' => 'ASC|DESC']
+     *  например ['status' => 'ASC'] - сортировка по id статусов по возрастанию
      *
      * @param $order
      */
