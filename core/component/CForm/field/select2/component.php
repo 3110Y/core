@@ -57,6 +57,7 @@ class component extends CForm\AField implements CForm\IField
         $data['HREF_TWO']       =   $data['HREF'] == '<span class="uk-text-center">'   ?    '</span>'                    :   '</a>';
         $data['VALUE_NAME']     =   Array();
         $this->value            =   $this->getFieldValue();
+        $globalSelected = false;
         foreach ($list as $key => $value) {
             if (!isset($value['id'])) {
                 $value['id'] = $key;
@@ -65,6 +66,7 @@ class component extends CForm\AField implements CForm\IField
             foreach ($this->value as $v) {
                 if ($v == $value['id']) {
                     $selected = true;
+                    $globalSelected = $selected;
                     break;
                 }
             }
@@ -87,6 +89,9 @@ class component extends CForm\AField implements CForm\IField
             );
         }
         $data['LIST']           =   $this->list;
+        if ($globalSelected === false && isset($data['VALUE'])) {
+            $this->value = $data['VALUE'];
+        }
 
         /** @var \core\component\library\vendor\select2\component $select2 */
         $select2 = library\component::connect('select2');
@@ -114,9 +119,10 @@ class component extends CForm\AField implements CForm\IField
     {
         if (isset($this->configField['table'])) {
             return false;
-        } else {
-            return implode(',', $this->value);
+        } elseif(is_array($this->value)) {
+            $this->value =  implode(',', $this->value);
         }
+        return false;
     }
 
     public function preUpdate()
