@@ -36,6 +36,19 @@ class CFormDefault extends AClass
     private static $editHiddenID = [];
 
     /**
+     * Установка сортировки по умолчанию
+     *
+     * @param $order
+     */
+    public static function setDefaultOrder(array $order) : void
+    {
+        $orderKey = 'order' . self::$config['controller']::getPageURL() . '/listing';
+        if (!isset($_GET['order']) && !isset($_COOKIE[$orderKey])) {
+            $_GET['order'] = $order;
+        }
+    }
+
+    /**
      * @param $controller
      * @param $table
      * @param $caption
