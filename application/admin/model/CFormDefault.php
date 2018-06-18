@@ -50,14 +50,16 @@ class CFormDefault extends AClass
         }
     }
 
-    /**
+    /** @noinspection MoreThanThreeArgumentsInspection
      * @param $controller
      * @param $table
      * @param $caption
      * @param $field
-     * @param array $condition
+     * @param mixed $condition
      */
-    public static function config($controller, $table, $caption, $field, $condition = array()) {
+    public static function config($controller, $table, $caption, $field, $condition = null): void
+    {
+        /** @var \core\component\application\AControllers $controller */
         $url = implode('/', $controller::getURL());
         self::$config = Array(
             'controller'    =>  $controller,
@@ -68,7 +70,7 @@ class CFormDefault extends AClass
             'mode'          =>  'listing',
             'viewer'        =>  Array(
                 'listing' => Array(
-                    'where'     =>  $condition,
+                    'where'     =>  $condition ?? [],
                     'type'      =>  'UKListing',
                     'multi'     =>  'UKActionID',
                     'search'    =>  true,
@@ -98,7 +100,7 @@ class CFormDefault extends AClass
                             Array(
                                 'action'    => 'insert',
                                 'type'      => 'UKButton',
-                                'url'       => '{PAGE_URL}/{PARENT_ID}/api/action/insert?' . uniqid() . '&redirect={PAGE_URL}/{PARENT_ID}/edit/',
+                                'url'       => '{PAGE_URL}/{PARENT_ID}/api/action/insert?' . uniqid('', true) . '&redirect={PAGE_URL}/{PARENT_ID}/edit/',
                                 'text'      => 'Добавить',
                                 'icon'      => 'plus',
                                 'class'     => 'uk-button-primary',
@@ -162,6 +164,7 @@ class CFormDefault extends AClass
             case 'edit':
                 $buttons = &self::$config['viewer']['edit']['button']['rows'];
                 break;
+            /** @noinspection PhpMissingBreakStatementInspection */
             case '':
                 self::removeButton($action,'row');
                 self::removeButton($action,'rows');
@@ -200,15 +203,15 @@ class CFormDefault extends AClass
         $buttons[] = $button;
     }
 
-    /**
+    /** @noinspection MoreThanThreeArgumentsInspection
      * @param $controller
-     * @param null $table
-     * @param null $caption
-     * @param null $field
-     * @param array $condition
+     * @param mixed $table
+     * @param mixed $caption
+     * @param mixed $field
+     * @param mixed $condition
      * @return array|bool|mixed
      */
-    public static function generation($controller, $table = null, $caption = null, $field = null, $condition = array())
+    public static function generation($controller, $table = null, $caption = null, $field = null, $condition = null)
     {
         if ([] === self::$config) {
             self::config($controller, $table, $caption, $field, $condition);
