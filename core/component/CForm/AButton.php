@@ -114,13 +114,28 @@ class AButton extends ACForm
         $this->configButton         =   $button;
     }
 
-
     /**
      * @return mixed|string
      */
     public function getAnswer()
     {
         return $this->answer;
+    }
+
+    /**
+     * @param string $answer
+     */
+    public function setAnswer(string $answer): void
+    {
+        $this->answer = $answer;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRow(): array
+    {
+        return $this->row;
     }
 
     public function getButton()

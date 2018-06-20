@@ -113,7 +113,7 @@ abstract class AViewer extends ACForm
     /**
      * Устанавливает текущую страницы
      */
-    protected function pageNow()
+    protected function pageNow(): void
     {
         if (isset(parent::$subURL[parent::$subURLNow])) {
             $this->page  = parent::$subURL[parent::$subURLNow];
@@ -124,7 +124,7 @@ abstract class AViewer extends ACForm
     /**
      * Устанавливает на странице всего
      */
-    protected function onPage()
+    protected function onPage(): void
     {
         $paginationKey   =   'pagination' . self::$controller::getPageURL() . '/' . self::$mode;
         if (isset($_GET['onPage'])) {
@@ -139,7 +139,7 @@ abstract class AViewer extends ACForm
     /**
      * @return array
      */
-    protected static function getOrder()
+    protected static function getOrder(): array
     {
         $array = Array();
         $orderKey   =   'order' . self::$controller::getPageURL() . '/' . self::$mode;
@@ -147,10 +147,10 @@ abstract class AViewer extends ACForm
             setcookie($orderKey, serialize($_GET['order']), time() + 2592000, '/');
             $array =  $_GET['order'];
         } elseif (isset($_COOKIE[$orderKey])) {
-            $array = unserialize($_COOKIE[$orderKey]);
+            $array = unserialize($_COOKIE[$orderKey], []);
         }
         foreach ($array as $key => $value) {
-            if ($value == 'NONE') {
+            if ($value === 'NONE') {
                 unset($array[$key]);
             }
         }
@@ -173,16 +173,24 @@ abstract class AViewer extends ACForm
         }
         array_unique($fields);
         $order = self::getOrder();
-        $this->totalRows = self::$db->selectCount(self::$table, $fields, $where, $order);
+        if (\is_callable($this->config['orderFunction'] ?? null)) {
+            $this->totalRows = \call_user_func($this->config['orderFunction'],self::$table, '1', $where, [], []);
+        }
+        else {
+            $this->totalRows = self::$db->selectCount(self::$table, '1', $where);
+        }
         $this->totalPage = (int)ceil ($this->totalRows / $this->onPage);
         if (0 !== $this->totalPage && $this->page >  $this->totalPage) {
             $urlBack = self::$controller::getPageURL() . '/' . self::$id . '/' . parent::$mode;
             self::redirect($urlBack);
         }
         $limit = Array(
-            (($this->onPage * $this->page) - $this->onPage),
+            ($this->onPage * $this->page) - $this->onPage,
             $this->onPage
         );
+        if (\is_callable($this->config['selectFunction'] ?? null)) {
+            return \call_user_func($this->config['selectFunction'],self::$table, $fields, $where, $order, $limit);
+        }
         return self::$db->selectRows(self::$table, $fields, $where, $order, $limit);
     }
 

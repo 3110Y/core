@@ -10,7 +10,7 @@ namespace core\component\CForm\viewer\UKListing;
 
 
 use \core\component\{
-	CForm as CForm,
+	CForm,
     simpleView\simpleView,
     resources\resources,
     dir\dir
@@ -176,10 +176,14 @@ class component extends CForm\AViewer implements CForm\IViewer
                             $buttonName = $button['type'];
                             $buttonObject = "core\component\CForm\\button\\{$buttonName}\component";
                             if (class_exists($buttonObject)) {
-                                /** @var \core\component\CForm\button\UKButton\component $fieldComponent */
+                                /** @var \core\component\CForm\button\UKButton\component $buttonComponent */
                                 $buttonComponent = new $buttonObject($button, $row);
                                 $buttonComponent->init();
                                 $buttonComponent->run();
+                                if (\is_callable($this->config['rowController'] ?? null)) {
+                                    $controller = $this->config['rowController'];
+                                    $buttonComponent = $controller($buttonComponent);
+                                }
                                 if (!isset($this->answer['TH']['button'])) {
                                     $this->answer['TH']['button'] = Array(
                                         'HREF' => '#',

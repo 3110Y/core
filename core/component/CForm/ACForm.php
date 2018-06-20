@@ -7,6 +7,7 @@
  */
 
 namespace core\component\CForm;
+use core\component\application\AControllers;
 use  core\component\dir\dir;
 
 
@@ -20,7 +21,7 @@ abstract class ACForm
     /** @var \core\component\PDO\PDO */
     protected static $db;
 
-    /** @var \application\controllers\page */
+    /** @var AControllers */
     protected static $controller;
 
     /** @var string */
