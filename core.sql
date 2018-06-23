@@ -140,7 +140,7 @@ CREATE TABLE IF NOT EXISTS `core_application` (
   `priority` int(11) NOT NULL DEFAULT '0',
   `theme` varchar(50) NOT NULL DEFAULT 'basic',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Дамп данных таблицы `core_application`
@@ -148,7 +148,8 @@ CREATE TABLE IF NOT EXISTS `core_application` (
 
 INSERT INTO `core_application` (`id`, `parent_id`, `status`, `name`, `site`, `basicController`, `url`, `path`, `priority`, `theme`) VALUES
 (1, 0, 1, 'Административная панель', 'core.develop', 'system\\common\\basic', 'admin', 'admin', 0, 'basic'),
-(2, 0, 1, 'Cron', '', 'basic', 'cron', 'cron', 0, 'basic');
+(2, 0, 1, 'Cron', '', 'basic', 'cron', 'cron', 0, 'basic'),
+(3, 0, 1, 'Клиентская часть', 'core.develop', 'basic', '/', 'client', 0, 'basic');
 
 -- --------------------------------------------------------
 
