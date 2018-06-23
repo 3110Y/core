@@ -140,7 +140,7 @@ CREATE TABLE IF NOT EXISTS `core_application` (
   `priority` int(11) NOT NULL DEFAULT '0',
   `theme` varchar(50) NOT NULL DEFAULT 'basic',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- Дамп данных таблицы `core_application`
@@ -148,7 +148,7 @@ CREATE TABLE IF NOT EXISTS `core_application` (
 
 INSERT INTO `core_application` (`id`, `parent_id`, `status`, `name`, `site`, `basicController`, `url`, `path`, `priority`, `theme`) VALUES
 (1, 0, 1, 'Административная панель', 'core.develop', 'system\\common\\basic', 'admin', 'admin', 0, 'basic'),
-(5, 0, 1, 'Административная панель', 'dev.varloc.pw', 'system\\common\\basic', 'admin', 'admin', 0, 'basic');
+(2, 0, 1, 'Cron', '', 'basic', 'cron', 'cron', 0, 'basic');
 
 -- --------------------------------------------------------
 
@@ -284,6 +284,38 @@ CREATE TABLE IF NOT EXISTS `core_user_group` (
 
 INSERT INTO `core_user_group` (`id`, `user_id`, `group_id`) VALUES
 (172, 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `cron_page`
+--
+
+CREATE TABLE IF NOT EXISTS `cron_page` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `parent_id` int(11) NOT NULL DEFAULT '0',
+  `status` tinyint(1) DEFAULT '3',
+  `name` varchar(255) NOT NULL,
+  `text` longtext NOT NULL,
+  `url` varchar(255) NOT NULL,
+  `icon` varchar(15) NOT NULL,
+  `meta_title` varchar(50) NOT NULL,
+  `meta_keywords` varchar(250) NOT NULL,
+  `meta_description` varchar(200) NOT NULL,
+  `controller` varchar(250) NOT NULL DEFAULT 'basic',
+  `error` tinyint(1) NOT NULL DEFAULT '0',
+  `order_in_menu` int(11) NOT NULL DEFAULT '10',
+  `date_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `date_insert` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Дамп данных таблицы `admin_page`
+--
+
+INSERT INTO `admin_page` (`id`, `parent_id`, `status`, `name`, `text`, `url`, `icon`, `meta_title`, `meta_keywords`, `meta_description`, `controller`, `error`, `order_in_menu`, `date_update`, `date_insert`) VALUES
+  (1, 0, 1, 'Ошибка', '', 'error', '', '', '', '', 'system\\common\\error', 1, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 

@@ -1,0 +1,50 @@
+[hidden] {
+  display: none; }
+
+canvas {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none; }
+
+.analytic-container {
+  background-color: white;
+  padding: 20px; }
+
+.cform .cf-caption {
+  background-color: #3d536f;
+  padding: 16px 12px;
+  box-sizing: border-box;
+  color: white; }
+
+.decorator-rule {
+  margin: 20px 0 20px 0;
+  height: 1px;
+  background: gainsboro; }
+
+.analytic-summary {
+  border-collapse: collapse; }
+  .analytic-summary td {
+    border: 1px solid #ddd;
+    padding: 4px 12px 4px 12px; }
+
+#callRecordPlayer .waveform canvas {
+  max-width: none !important; }
+#callRecordPlayer .preloader {
+  padding: 10px 0 10px 0;
+  text-align: center;
+  font-size: 18px; }
+  #callRecordPlayer .preloader .icon {
+    display: block;
+    text-indent: -9999px;
+    width: 100px;
+    margin: 0 auto;
+    height: 100px;
+    background: url(../img/preloader.svg);
+    background-size: 100px 100px; }
+    #callRecordPlayer .preloader .icon svg {
+      width: 100px;
+      height: 100px;
+      margin: 20px;
+      display: inline-block; }
+
+/*# sourceMappingURL=analytic.css.map */

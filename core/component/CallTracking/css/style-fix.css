@@ -1,0 +1,6 @@
+.cform .cform-field > *:not(label)[placeholder] ~ label[for] {
+  color: #333;
+  font-size: 0.8em;
+  top: -15px; }
+
+/*# sourceMappingURL=style-fix.css.map */

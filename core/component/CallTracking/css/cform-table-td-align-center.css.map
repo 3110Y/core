@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AACE,iCAAmB;EACjB,UAAU,EAAE,MAAM;AACpB,2BAAa;EACX,UAAU,EAAE,KAAK",
+"sources": ["cform-table-td-align-center.sass"],
+"names": [],
+"file": "cform-table-td-align-center.css"
+}

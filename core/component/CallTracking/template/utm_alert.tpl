@@ -1,0 +1,36 @@
+<div hidden>
+    <table class="uk-table uk-table-divider uk-table-striped">
+        <tr>
+            <td>REFERER</td>
+            <td>{REFERER}</td>
+        </tr>
+        <tr>
+            <td>UTM_SOURCE</td>
+            <td>{UTM_SOURCE}</td>
+        </tr>
+        <tr>
+            <td>UTM_CONTENT</td>
+            <td>{UTM_CONTENT}</td>
+        </tr>
+        <tr>
+            <td>UTM_MEDIUM</td>
+            <td>{UTM_MEDIUM}</td>
+        </tr>
+        <tr>
+            <td>UTM_CAMPAIGN</td>
+            <td>{UTM_CAMPAIGN}</td>
+        </tr>
+        <tr>
+            <td>UTM_TERM</td>
+            <td>{UTM_TERM}</td>
+        </tr>
+        <tr>
+            <td>UTM_KEYWORD</td>
+            <td>{UTM_KEYWORD}</td>
+        </tr>
+        <tr>
+            <td>UTM_FASTLINK</td>
+            <td>{UTM_FASTLINK}</td>
+        </tr>
+    </table>
+</div>

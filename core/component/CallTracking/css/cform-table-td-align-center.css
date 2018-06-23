@@ -1,0 +1,6 @@
+#form-listing td:not(:last-child) {
+  text-align: center; }
+#form-listing td:last-child {
+  text-align: right; }
+
+/*# sourceMappingURL=cform-table-td-align-center.css.map */
