@@ -39,9 +39,13 @@ class image
 	 * @var string
 	 */
 	private static $ext         = '';
+    /**
+     * @var
+     */
+    private static $quality     = 65;
 
 
-	/**
+    /** @noinspection DeprecatedConstructorStyleInspection
 	 * @param string $urlImage
 	 * @param array  $option
 	 *
@@ -49,9 +53,12 @@ class image
 	 */
 	public static function image(string $urlImage, array $option = Array())
 	{
-		if ($urlImage == '') {
+		if ($urlImage === '') {
 			$urlImage   =   'filecache/no.png';
 		}
+        if (!\extension_loaded('imagick')) {
+            return $urlImage;
+        }
 		self::$key          =   md5($urlImage . base64_encode(serialize($option)));
 		self::$urlImage     =   $urlImage;
 		$tmp                =   explode('.', self::$urlImage);
@@ -77,20 +84,20 @@ class image
 			}
 		}
 		fileCache::checkDir('cache');
-		if (self::$ext == 'jpg' || self::$ext == 'jpeg' || self::$ext == 'JPG' || self::$ext == 'JPEG') {
+		if (self::$ext === 'jpg' || self::$ext === 'jpeg' || self::$ext === 'JPG' || self::$ext === 'JPEG') {
 			self::$thumbnail->setImageCompression(\Imagick::COMPRESSION_JPEG);
-			self::$thumbnail->setImageCompressionQuality(65);
+			self::$thumbnail->setImageCompressionQuality(self::$quality);
 			self::$thumbnail->stripImage();
 		}
 		self::$thumbnail->writeImages(dir::getDR(true) .  $new_file, true);
 		return $new_file;
 	}
 
-	/**
+    /**
 	 * @param array $option
 	 */
-	private static function resize(array $option = Array())
-	{
+	protected static function resize(array $option = Array()): void
+    {
 		$width  = $option['width'] ?? 0;
 		$height = $option['height'] ?? 0;
 		self::$thumbnail->resizeImage($width, $height, \Imagick::FILTER_LANCZOS, 1);
@@ -99,46 +106,62 @@ class image
 	/**
 	 * @param array $option
 	 */
-	private static function adapriveResizeMax(array $option = Array())
-	{
-		$width  = $option['width'] ?? 0;
-		$height = $option['height'] ?? 0;
-		$original_size          =   getimagesize(self::$urlImageDR);
-		$original_width 		=   $original_size[0];
-		$original_height 		=   $original_size[1];
-		$x_ratio 		        =   $width / $original_width;
-		$y_ratio 		        =   $height / $original_height;
-		$ratio       	        =   min($x_ratio, $y_ratio);
-		$use_x_ratio 	        =   ($x_ratio === $ratio);
-		$new_width   = $use_x_ratio  ? $width     : floor($original_width * $ratio);
-		$new_height  = !$use_x_ratio ? $height     : floor($original_height * $ratio);
-		self::$thumbnail->resizeImage($new_width, $new_height, \Imagick::FILTER_LANCZOS,1);
+    protected static function quality(array $option = Array()): void
+    {
+		self::$quality  = $option['quality'] ?? self::$quality;
+	}
+
+	private static function adaptiveResize(array $options, callable $ratioFunction): void
+    {
+        $width  = $option['width'] ?? 0;
+        $height = $option['height'] ?? 0;
+        [$original_width,$original_height] = getimagesize(self::$urlImageDR);
+        $x_ratio 		        =   $width / $original_width;
+        $y_ratio 		        =   $height / $original_height;
+        $ratio       	        =   $ratioFunction($x_ratio, $y_ratio);
+        $use_x_ratio 	        =   ($x_ratio === $ratio);
+        $new_width   = $use_x_ratio  ? $width     : floor($original_width * $ratio);
+        $new_height  = !$use_x_ratio ? $height     : floor($original_height * $ratio);
+        self::$thumbnail->resizeImage($new_width, $new_height, \Imagick::FILTER_LANCZOS,1);
+    }
+
+	/**
+	 * @param array $option
+	 */
+    protected static function adapriveResizeMax(array $option = Array()): void
+    {
+		self::adaptiveResize($option,'min');
 	}
 
 	/**
 	 * @param array $option
 	 */
-	private static function adapriveResizeMin(array $option = Array())
-	{
-		$width  = $option['width'] ?? 0;
-		$height = $option['height'] ?? 0;
-		$original_size          =   getimagesize(self::$urlImageDR);
-		$original_width 		=   $original_size[0];
-		$original_height 		=   $original_size[1];
-		$x_ratio 		        =   $width / $original_width;
-		$y_ratio 		        =   $height / $original_height;
-		$ratio       	        =   max($x_ratio, $y_ratio);
-		$use_x_ratio 	        =   ($x_ratio === $ratio);
-		$new_width   = $use_x_ratio  ? $width     : floor($original_width * $ratio);
-		$new_height  = !$use_x_ratio ? $height     : floor($original_height * $ratio);
-		self::$thumbnail->resizeImage($new_width, $new_height, \Imagick::FILTER_LANCZOS,1);
+    protected static function adapriveResizeMin(array $option = Array()): void
+    {
+        self::adaptiveResize($option,'max');
 	}
 
 	/**
 	 * @param array $option
 	 */
-	private static function crop(array $option = Array())
-	{
+    protected static function contain(array $option = Array()): void
+    {
+		self::adaptiveResize($option,'min');
+	}
+
+	/**
+	 * @param array $option
+	 */
+    protected static function cover(array $option = Array()): void
+    {
+        self::adaptiveResize($option,'max');
+	}
+
+	/**
+	 * @param array $option
+	 */
+    protected static function crop(array $option = Array()): void
+    {
         $width  = $option['width'] ?? 0;
         $height = $option['height'] ?? 0;
         if (isset($option['x'])) {
