@@ -312,10 +312,10 @@ CREATE TABLE IF NOT EXISTS `cron_page` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
--- Дамп данных таблицы `admin_page`
+-- Дамп данных таблицы `cron_page`
 --
 
-INSERT INTO `admin_page` (`id`, `parent_id`, `status`, `name`, `text`, `url`, `icon`, `meta_title`, `meta_keywords`, `meta_description`, `controller`, `error`, `order_in_menu`, `date_update`, `date_insert`) VALUES
+INSERT INTO `cron_page` (`id`, `parent_id`, `status`, `name`, `text`, `url`, `icon`, `meta_title`, `meta_keywords`, `meta_description`, `controller`, `error`, `order_in_menu`, `date_update`, `date_insert`) VALUES
   (1, 0, 1, 'Ошибка', '', 'error', '', '', '', '', 'system\\common\\error', 1, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
