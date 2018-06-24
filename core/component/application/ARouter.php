@@ -10,7 +10,7 @@
 namespace core\component\application;
 
 use core\component\{
-    config\config, registry\registry as registry, authentication as authentication, PDO\PDO, simpleView\simpleView
+    config\config, registry\registry, authentication, PDO\PDO, simpleView\simpleView
 };
 
 /**
@@ -52,14 +52,14 @@ abstract class ARouter extends AApplication
     protected $redirectPage = 'enter';
 
     /**
-     * @var object шаблон
+     * @var AControllers шаблон
      */
-    protected $controller = null;
+    protected $controller;
 
     /**
      * router constructor.
      *
-     * @param string $URL           URL приложения
+     * @param array  $URL           URL приложения
      * @param array  $application   данные приложения
      * @param bool   $isAjaxRequest AJAX запрос
      */
@@ -75,7 +75,8 @@ abstract class ARouter extends AApplication
         $auth = new authentication\component($db);
         registry::set('auth', $auth);
         registry::set('view', new simpleView());
-        registry::get('view')->setExtension('tpl');
+        $view = registry::get('view');
+        $view->setExtension('tpl');
         self::$structure = $db->selectRows($this->table,$this->fields, $this->where, $this->order);
 
         if (empty(self::$structure)) {
@@ -87,7 +88,7 @@ abstract class ARouter extends AApplication
     /**
      * @return $this
      */
-    public function run()
+    public function run(): self
     {
         /** @var \core\component\authentication\component $auth */
         $auth = registry::get('auth');
@@ -96,13 +97,14 @@ abstract class ARouter extends AApplication
             self::redirect(self::$application['url']);
         }
         $auth->get('objectRules')->register('application_' . self::$application['id'], 'Вход в приложение: ' . self::$application['name']);
-        if (!$auth->get('rules')->check('application_' . self::$application['id']) && isset(self::$URL[1]) && self::$URL[1] !== $this->redirectPage) {
+        if (isset(self::$URL[1]) && $this->redirectPage !== self::$URL[1] && !$auth->get('rules')->check('application_' . self::$application['id'])) {
             $auth->get('authorization')->logout();
             $url = (self::$application['url'] === '' ? '' : self::$application['url'] . '/') . $this->redirectPage;
             self::redirect($url);
         }
         self::selectPage();
         $path               =   self::$application['path'];
+        /** @var IControllerBasic $controllerBasic */
         $controllerBasic    =   "application\\{$path}\\controllers\\" . self::$application['basicController'];
         $controllerBasic    =   new $controllerBasic();
         $issetBasic         =   $controllerBasic instanceof IControllerBasic;
@@ -132,22 +134,23 @@ abstract class ARouter extends AApplication
      *  Запускает роутинг
      * @return string
      */
-    public function render()
+    public function render(): string
     {
         if (self::$isAjaxRequest ) {
             return json_encode(self::$content);
         }
-        registry::get('view')->setTemplate(self::getTemplate($this->controller->template));
-        registry::get('view')->setData(self::$content);
-        registry::get('view')->run();
-        return registry::get('view')->get();
+        $view = registry::get('view');
+        $view->setTemplate(self::getTemplate($this->controller->template));
+        $view->setData(self::$content);
+        $view->run();
+        return $view->get();
     }
 
 
     /**
      * Задает текущую страницу и страницу Ошибок
      */
-    protected static function selectPage()
+    protected static function selectPage(): void
     {
         self::$pageError    = self::searchPageError();
         self::$page         = self::searchPage();
@@ -157,7 +160,7 @@ abstract class ARouter extends AApplication
      * Отдает страницу Ошибок
      * @return array
      */
-    public static function searchPageError()
+    public static function searchPageError(): array
     {
         foreach (self::$structure as $item) {
             if ($item['error']) {
@@ -172,10 +175,10 @@ abstract class ARouter extends AApplication
      *
      * @return array текущая страница
      */
-    private static function searchPage()
+    private static function searchPage(): array
     {
         $parentID   = 0;
-        $URLCount   = count(self::$URL) - 1;
+        $URLCount   = \count(self::$URL) - 1;
         $path           =   self::$application['path'];
         /** @var \core\component\authentication\component $auth */
         $auth = registry::get('auth');
@@ -191,14 +194,14 @@ abstract class ARouter extends AApplication
                     'Приложение: ' . self::$application['name']. " Отображать пункт меню: {$item['name']}"
                 );
                 if (!isset($item['countSubURL'])) {
-                    /** @var \application\client\controllers\basic $controller */
+                    /** @var AControllers $controller */
                     $controller                 =   $item['controller'];
                     $controller                 =   "application\\{$path}\\controllers\\{$controller}";
                     $item['controllerObject']   =   $controller;
                     $item['countSubURL']        =   $controller::$countSubURL;
                 }
                 if (
-                    (int)$parentID === (int)$item['parent_id']
+                    $parentID === (int)$item['parent_id']
                     && (
                         $URLCount === $URLKey
                         || (
@@ -220,6 +223,7 @@ abstract class ARouter extends AApplication
                 ) {
                     //нужная страница
                     $url   =   Array();
+                    /** @noinspection ForeachInvariantsInspection */
                     for ($i = 0, $iMax = $URLKey + 1; $i < $iMax; $i++) {
                         $url[] = self::$URL[$i];
                     }
@@ -235,21 +239,19 @@ abstract class ARouter extends AApplication
                         return self::$pageError;
                     }
                     return $item;
-                } elseif (
-                    (int)$parentID === (int)$item['parent_id']
+                }
+
+                if (
+                    $parentID === (int)$item['parent_id']
                     && (
                         $item['url'] === $URLItem
                         || (
                             $item['url'] === '/'
                             && $URLItem === ''
                         )
-                    )
+                    ) && $auth->get('rules')->check('application_' . self::$application['id'] . '_page_' . $item['id'])
                 ) {
-                    if ($auth->get('rules')->check('application_' . self::$application['id'] . '_page_' . $item['id'])) {
-                        $parentID = $item['id'];
-                    }
-                    //ищем подстраницу
-
+                    $parentID = (int) $item['id'];
                 }
             }
         }
