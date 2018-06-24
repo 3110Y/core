@@ -20,7 +20,7 @@
                     <div class="uk-navbar-right">
                         <ul class="uk-navbar-nav">
                             <li>
-                                <a href="/admin/logout"><span class="uk-icon uk-margin-small-right" uk-icon="icon: sign-out"></span> Выход</a>
+                                <a href="{APPLICATION_URL}/logout"><span class="uk-icon uk-margin-small-right" uk-icon="icon: sign-out"></span> Выход</a>
                             </li>
                         </ul>
                     </div>

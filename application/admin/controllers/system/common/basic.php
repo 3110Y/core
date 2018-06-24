@@ -29,18 +29,19 @@ class basic extends AControllers implements IControllerBasic
      */
     public function pre(): void
     {
-        $path                           =   self::$application['path'];
-        $theme                          =   self::$application['theme'];
-        self::$content['THEME']         =   "/application/{$path}/theme/{$theme}/";
-        self::$content['URL']           =   self::$pageURL;
-        self::$content['TITLE']         =   self::$page['meta_title'] ?: self::$page['name'];
-        self::$content['KEYWORDS']      =   self::$page['meta_keywords'];
-        self::$content['DESCRIPTION']   =   self::$page['meta_description'];
-        $data                           =   Array(
+        $path                               =   self::$application['path'];
+        $theme                              =   self::$application['theme'];
+        self::$content['APPLICATION_URL']   =   self::$application['url'] === '/' ? '' : self::$application['url'];
+        self::$content['THEME']             =   "/application/{$path}/theme/{$theme}/";
+        self::$content['URL']               =   self::$pageURL;
+        self::$content['TITLE']             =   self::$page['meta_title'] ?: self::$page['name'];
+        self::$content['KEYWORDS']          =   self::$page['meta_keywords'];
+        self::$content['DESCRIPTION']       =   self::$page['meta_description'];
+        $data                               =   [
             'MENU'  => self::generationMenu(self::$application['url'])['sub'],
-        );
-        $template                       =   self::getTemplate('block/menu/menu.tpl');
-        self::$content['MENU']          =   simpleView::replace($template,  $data);
+        ];
+        $template                           =   self::getTemplate('block/menu/menu.tpl');
+        self::$content['MENU']              =   simpleView::replace($template,  $data);
     }
 
     /**
@@ -62,15 +63,15 @@ class basic extends AControllers implements IControllerBasic
         /** @var \core\component\PDO\PDO $db */
         $db = registry::get('db');
         self::getURL(1);
-        $where  =   Array(
+        $where  =   [
             'parent_id' => $parentID,
             '`order_in_menu` != 0',
             '`status` = 1',
             '`error` = 0',
-        );
+        ];
         /** @var \core\component\PDO\PDO $db */
         $query  =   $db->select('admin_page', '*', $where, 'order_in_menu');
-        $rows   =   Array();
+        $rows   =   [];
         $parentClass =  '';
 	    $parentURL  =   $parentURL !== '/'   ?   $parentURL . '/'  :   $parentURL;
         if ($query->rowCount() > 0) {
@@ -101,24 +102,24 @@ class basic extends AControllers implements IControllerBasic
                 }
 
 
-                $rows[] =   Array(
+                $rows[] =   [
                     'URL'           =>  $URL,
                     'NAME'          =>  $row['name'],
                     'ICON'          =>  $row['icon'],
                     'CLASS'         =>  $class,
                     'SUB'           =>  $sub,
                     'SUB_LINK'      =>  $subLink,
-                );
+                ];
             }
             $parentClass    .=  'parent ';
         }
         if (!empty($rows)) {
-            return Array(
+            return [
                     'sub'   =>  simpleView::loop('FOR', $rows,'', self::getTemplate('block/menu/subMenu.tpl')),
                     'class' =>  $parentClass
-                );
+            ];
         }
-        return  Array();
+        return  [];
     }
 
     /**

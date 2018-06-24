@@ -97,9 +97,10 @@ abstract class ARouter extends AApplication
             self::redirect(self::$application['url']);
         }
         $auth->get('objectRules')->register('application_' . self::$application['id'], 'Вход в приложение: ' . self::$application['name']);
-        if (isset(self::$URL[1]) && $this->redirectPage !== self::$URL[1] && !$auth->get('rules')->check('application_' . self::$application['id'])) {
+        if ((!isset(self::$URL[1]) || $this->redirectPage !== self::$URL[1]) && !$auth->get('rules')->check('application_' . self::$application['id'])) {
+            # Нужна авторизация и путь не совпадает со страницей авторизации
             $auth->get('authorization')->logout();
-            $url = (self::$application['url'] === '' ? '' : self::$application['url'] . '/') . $this->redirectPage;
+            $url = (self::$application['url'] === '/' ? '' : self::$application['url'] ) . '/' . $this->redirectPage;
             self::redirect($url);
         }
         self::selectPage();
