@@ -27,14 +27,13 @@ class basic extends AControllers implements IControllerBasic
     /**
      * Преинициализация
      */
-    public function pre()
+    public function pre(): void
     {
-    	//TODO: проверить title
         $path                           =   self::$application['path'];
         $theme                          =   self::$application['theme'];
         self::$content['THEME']         =   "/application/{$path}/theme/{$theme}/";
         self::$content['URL']           =   self::$pageURL;
-        self::$content['TITLE']         =   self::$page['meta_title'];
+        self::$content['TITLE']         =   self::$page['meta_title'] ?: self::$page['name'];
         self::$content['KEYWORDS']      =   self::$page['meta_keywords'];
         self::$content['DESCRIPTION']   =   self::$page['meta_description'];
         $data                           =   Array(
@@ -47,19 +46,18 @@ class basic extends AControllers implements IControllerBasic
     /**
      * Преинициализация
      */
-    public function preAjax()
+    public function preAjax(): void
     {
 
     }
 
 	/**
-	 * @param database\ADriver $db          Драйвер ДБ
 	 * @param string           $parentURL   родительский URL
 	 * @param int              $parentID    родительский уровень
 	 *
 	 * @return array    меню
 	 */
-    private static function generationMenu($parentURL = '/', $parentID = 0)
+    private static function generationMenu($parentURL = '/', $parentID = 0): array
     {
         /** @var \core\component\PDO\PDO $db */
         $db = registry::get('db');
@@ -74,7 +72,7 @@ class basic extends AControllers implements IControllerBasic
         $query  =   $db->select('admin_page', '*', $where, 'order_in_menu');
         $rows   =   Array();
         $parentClass =  '';
-	    $parentURL  =   $parentURL != '/'   ?   $parentURL . '/'  :   $parentURL;
+	    $parentURL  =   $parentURL !== '/'   ?   $parentURL . '/'  :   $parentURL;
         if ($query->rowCount() > 0) {
             while ($row =  $query->fetch()) {
                 /** @var \core\component\authentication\component $auth */
@@ -88,8 +86,8 @@ class basic extends AControllers implements IControllerBasic
                     continue;
                 }
                 $class  =   '';
-                $URL    =   $row['url'] == '/'    ?   $parentURL :   $parentURL . $row['url'];
-                if ($row['url'] == self::$page['url'] && $row['parent_id'] == self::$page['parent_id']) {
+                $URL    =   $row['url'] === '/'    ?   $parentURL :   $parentURL . $row['url'];
+                if ($row['url'] === self::$page['url'] && $row['parent_id'] === self::$page['parent_id']) {
                     $class          .=  'active ';
                     $parentClass    =   'open ';
                 }
@@ -126,7 +124,7 @@ class basic extends AControllers implements IControllerBasic
     /**
      * Постинициализация
      */
-    public function post()
+    public function post(): void
     {
         resources::setCss(self::getTemplate('css/ui-kit-fix.css'));
         self::$content['JS_TOP']        =   resources::getJS();
@@ -138,7 +136,7 @@ class basic extends AControllers implements IControllerBasic
     /**
      * Постинициализация
      */
-    public function postAjax()
+    public function postAjax(): void
     {
 
     }

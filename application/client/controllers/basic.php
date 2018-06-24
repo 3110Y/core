@@ -25,38 +25,29 @@ use \core\component\{
  */
 class basic extends AControllers implements IControllerBasic
 {
-
     /**
      * @var string шаблон
      */
-    public $template = 'basic';
+    #public $template = 'basic';
 
     /**
      * Преинициализация
      */
-    public function pre()
+    public function pre(): void
     {
-        //TODO: проверить title
+        /** @var model\settings $settings */
+        $settings = model\settings::getInstance();
         $path                           =   self::$application['path'];
         $theme                          =   self::$application['theme'];
         self::$content['THEME']         =   "/application/{$path}/theme/{$theme}/";
         self::$content['URL']           =   self::$pageURL;
-        if (self::$page['meta_title'] !== '') {
-            self::$content['TITLE'] = self::$page['meta_title'];
-        } else {
-            self::$content['TITLE'] = model\settings::getInstance()->getConfiguration('meta_title');
-        }
-        if (self::$page['meta_keywords'] !== '') {
-            self::$content['KEYWORDS'] = self::$page['meta_keywords'];
-        } else {
-            self::$content['KEYWORDS'] = model\settings::getInstance()->getConfiguration('meta_keywords');
-        }
-        if (self::$page['meta_description'] !== '') {
-            self::$content['DESCRIPTION'] = self::$page['meta_description'];
-        } else {
-            self::$content['DESCRIPTION'] = model\settings::getInstance()->getConfiguration('meta_description');
-        }
-        self::$content['DESCRIPTION']   =   self::$page['meta_description'];
+        self::$content['TITLE']         =
+            self::$page['meta_title']
+                ?:  $settings->getConfiguration('meta_title')
+                ?:  self::$page['name'];
+        self::$content['KEYWORDS']      =   self::$page['meta_keywords']    ?: $settings->getConfiguration('meta_keywords');
+        self::$content['DESCRIPTION']   =   self::$page['meta_description'] ?: $settings->getConfiguration('meta_description');
+
         $data                           =   Array(
             'MENU'  => self::generationMenu(self::$application['url'])
         );
@@ -84,12 +75,12 @@ class basic extends AControllers implements IControllerBasic
 
         $query  =   $db->select('client_page', '*', $where, 'order_in_menu');
         $rows   =   Array();
-        $parentURL  =   $parentURL != '/'   ?   $parentURL . '/'  :   $parentURL;
+        $parentURL  =   $parentURL !== '/'   ?   $parentURL . '/'  :   $parentURL;
         if ($query->rowCount() > 0) {
             while ($row =  $query->fetch()) {
                 $class  =   '';
                 $URL    =   $row['url'] === '/'    ?   $parentURL :   $parentURL . $row['url'];
-                if ($row['url'] === self::$page['url'] && $row['parent_id'] == self::$page['parent_id']) {
+                if ($row['url'] === self::$page['url'] && $row['parent_id'] === self::$page['parent_id']) {
                     $class          .=  'active ';
                 }
                 $rows[] =   Array(
@@ -105,7 +96,7 @@ class basic extends AControllers implements IControllerBasic
     /**
      * Постинициализация
      */
-    public function post()
+    public function post(): void
     {
         self::$content['JS_TOP']        =   resources::getJS();
         self::$content['CSS_TOP']       =   resources::getCSS();
@@ -127,16 +118,14 @@ class basic extends AControllers implements IControllerBasic
     /**
      * Преинициализация
      */
-    public function preAjax()
+    public function preAjax(): void
     {
-        // TODO: Implement preAjax() method.
     }
 
     /**
      * Постинициализация
      */
-    public function postAjax()
+    public function postAjax(): void
     {
-        // TODO: Implement postAjax() method.
     }
 }

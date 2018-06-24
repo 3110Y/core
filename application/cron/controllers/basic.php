@@ -11,32 +11,29 @@ class basic extends AControllers implements IControllerBasic
     /**
      * Преинициализация
      */
-    public function pre()
+    public function pre(): void
     {
-        // TODO: Implement pre() method.
     }
 
     /**
      * Постинициализация
      */
-    public function post()
+    public function post(): void
     {
-        // TODO: Implement post() method.
     }
 
     /**
      * Преинициализация
      */
-    public function preAjax()
+    public function preAjax(): void
     {
-        // TODO: Implement preAjax() method.
     }
 
     /**
      * Постинициализация
      */
-    public function postAjax()
+    public function postAjax(): void
     {
-        // TODO: Implement postAjax() method.
+
     }
 }
