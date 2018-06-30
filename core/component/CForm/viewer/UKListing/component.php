@@ -277,7 +277,7 @@ class component extends CForm\AViewer implements CForm\IViewer
             if ($this->page != 1) {
                 $pagination[] = Array(
                     'CLASS' =>  '',
-                    'HREF'  =>  $url . $this->page - 1,
+                    'HREF'  =>  $url . ($this->page - 1),
                     'TEXT'  =>  '<span uk-pagination-previous style="display: block;position:relative;top:7px;"></span>',
                 );
             }
