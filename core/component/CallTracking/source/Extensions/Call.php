@@ -9,9 +9,8 @@
 namespace core\component\CallTracking\source\Extensions;
 
 
-use core\component\ {
-    fileCache\fileCache,
-    registry\registry
+use core\component\{
+    fileCache\fileCache, PDO\PDO, registry\registry
 };
 use core\component\CallTracking\source\{
     Action, AExtension, Phones, Substitutions
@@ -41,7 +40,7 @@ class Call extends AExtension
      */
     protected function downloadRecord(): void
     {
-        /** @var \core\component\database\driver\PDO\component $db */
+        /** @var PDO $db */
         $db     =   registry::get('db');
         $where = [
             'record_is_downloaded'  => 0,
@@ -81,7 +80,7 @@ class Call extends AExtension
      */
     public function registry(Action $action): bool
     {
-        /** @var \core\component\database\driver\PDO\component $db */
+        /** @var PDO $db */
         $db     =   registry::get('db');
         $this->setActionData([
             'external_id'   =>  $this->requestData->get('callID'),

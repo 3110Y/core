@@ -10,6 +10,7 @@ namespace core\component\CallTracking\source;
 
 
 use core\component\fileCache\fileCache;
+use core\component\PDO\PDO;
 use core\component\registry\registry;
 use DateInterval;
 
@@ -142,7 +143,7 @@ class Action extends AAction
      */
     public static function analyticsDataActions(\DateTime $dateStart,\DateTime $dateEnd, bool $uniqueVisits): array
     {
-        /** @var \core\component\database\driver\PDO\component $db */
+        /** @var PDO $db */
         $db = registry::get('db');
         $data = $db->selectRows(self::$tableName,'*', null, null, null, 'action_key');
         foreach ($data as $key => $datum) {
@@ -202,7 +203,7 @@ class Action extends AAction
      */
     public static function analyticsDataSources(\DateTime $dateStart,\DateTime $dateEnd, bool $uniqueVisits): array
     {
-        /** @var \core\component\database\driver\PDO\component $db */
+        /** @var PDO $db */
         $db = registry::get('db');
         $data = Source::getList();
         foreach ($data as $key => $datum) {
@@ -275,6 +276,7 @@ class Action extends AAction
 
 
         foreach (glob(__DIR__.'/Extensions/*.php') as $file) {
+            /** @var IExtension $class */
             $class = __NAMESPACE__.'\\Extensions\\'.basename($file, '.php');
             if (class_exists($class) && is_subclass_of($class,AExtension::class)) {
                 $queryList[] = $class::getInstallQuery();

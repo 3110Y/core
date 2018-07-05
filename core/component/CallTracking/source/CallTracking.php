@@ -9,6 +9,7 @@
 namespace core\component\CallTracking\source;
 
 
+use core\component\PDO\PDO;
 use core\component\registry\registry;
 
 abstract class CallTracking implements ICallTracking
@@ -111,7 +112,7 @@ abstract class CallTracking implements ICallTracking
      */
     public static function install(): bool
     {
-        /** @var \core\component\database\driver\PDO\component $db */
+        /** @var PDO $db */
         $db = registry::get('db');
         $queryList = Action::getInstallQuery();
         $queryList[] = Phones::getInstallQuery();

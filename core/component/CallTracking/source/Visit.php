@@ -9,6 +9,7 @@
 namespace core\component\CallTracking\source;
 
 
+use core\component\PDO\PDO;
 use core\component\registry\registry;
 
 class Visit
@@ -32,10 +33,23 @@ class Visit
      */
     private function insert(): bool
     {
-        /** @var \core\component\database\driver\PDO\component $db */
+        /** @var PDO $db */
         $db = registry::get('db');
 
-        $db->inset(self::$tableName,$this->visitData);
+        $db->inset(self::$tableName, $this->visitData);
+/*        if (isset($_GET['testro']) && $_GET['testro'] == 'testro') {
+            echo '<pre>';
+            print_r(self::$tableName);
+            echo '<br>';
+            echo '<hr>';
+            echo '<br>';
+            print_r($this->visitData);
+            echo '<br>';
+            echo '<hr>';
+            echo '<br>';
+            print_r($db->insetGenerator(self::$tableName, $this->visitData));
+            echo '</pre>';
+        }*/
         $this->visitData['id'] = $db->getLastID();
 
         return true;
@@ -97,7 +111,7 @@ class Visit
      */
     public static function getActionsInfo(array $actions): array
     {
-        /** @var \core\component\database\driver\PDO\component $db */
+        /** @var PDO $db */
         $db = registry::get('db');
         $idList = array_column($actions,'visitor_id');
         $query = /** @lang text */
@@ -140,13 +154,13 @@ class Visit
               `referer` varchar(255) NOT NULL COMMENT \'Источник входа (referer)\',
               `url` varchar(255) NOT NULL COMMENT \'Посещаемая страница (внутренний url)\',
               `source_id` int(11) NOT NULL DEFAULT \'0\' COMMENT \'Идентификатор источника\',
-              `utm_source` text NOT NULL,
-              `utm_content` text NOT NULL,
-              `utm_medium` text NOT NULL,
-              `utm_campaign` text NOT NULL,
-              `utm_term` text NOT NULL,
-              `utm_keyword` text NOT NULL,
-              `utm_fastlink` text NOT NULL,
+              `utm_source` text,
+              `utm_content` text,
+              `utm_medium` text,
+              `utm_campaign` text,
+              `utm_term` text,
+              `utm_keyword` text,
+              `utm_fastlink` text,
               `date_insert` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
               PRIMARY KEY (`id`)
             ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;';

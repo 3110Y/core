@@ -9,6 +9,7 @@
 namespace core\component\CallTracking\source;
 
 
+use core\component\PDO\PDO;
 use core\component\registry\registry;
 
 abstract class AExtension extends AAction implements IExtension
@@ -58,7 +59,7 @@ abstract class AExtension extends AAction implements IExtension
      */
     public function getExtensionData(Action $action): array
     {
-        /** @var \core\component\database\driver\PDO\component $db */
+        /** @var PDO $db */
         $db     =   registry::get('db');
         if (!static::$tableName) {
             return [];

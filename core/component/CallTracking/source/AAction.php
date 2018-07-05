@@ -9,6 +9,7 @@
 namespace core\component\CallTracking\source;
 
 
+use core\component\PDO\PDO;
 use core\component\registry\registry;
 
 abstract class AAction
@@ -53,7 +54,7 @@ abstract class AAction
      */
     protected function insert(): int
     {
-        /** @var \core\component\database\driver\PDO\component $db */
+        /** @var PDO $db */
         $db     =   registry::get('db');
         $db->inset(static::$tableName, $this->data);
         $this->data['id'] = $db->getLastID();
@@ -66,7 +67,7 @@ abstract class AAction
      */
     protected function update(?int $id = null): bool
     {
-        /** @var \core\component\database\driver\PDO\component $db */
+        /** @var PDO $db */
         $db     =   registry::get('db');
         $result = $db->update(static::$tableName, $this->data, ['id' => $id ?? $this->data['id']]);
         return (bool) $result->rowCount();

@@ -12,9 +12,8 @@ namespace core\component\CallTracking;
 use core\component\CallTracking\source\ {
     CallTracking, RequestData, Visit, Phones, Action
 };
-use core\core;
 use core\component\{
-    CForm\IButton, registry\registry, resources\resources, application\AControllers, templateEngine\engine\simpleView
+    CForm\IButton, dir\dir, PDO\PDO, registry\registry, resources\resources, application\AControllers, simpleView\simpleView
 };
 use DateTime;
 use DomainException;
@@ -315,7 +314,7 @@ class CallTrackingAdapter extends CallTracking
         resources::setCss(self::getTemplate('css/analytic.css'));
         resources::setCss(self::getTemplate('css/cform-table-td-align-center.css'));
 
-        /** @var \core\component\database\driver\PDO\component $db */
+        /** @var PDO $db */
         $db = registry::get('db');
 
         /** @var \application\admin\model\CFormDefault $CFormDefault */
@@ -419,7 +418,7 @@ class CallTrackingAdapter extends CallTracking
                     'UTM_FASTLINK' => $record['utm_fastlink'],
                 ];
                 $template = self::getTemplate('template/utm_alert.tpl');
-                $alertHTML = simpleView\component::replace($template,$data);
+                $alertHTML = simpleView::replace($template,$data);
                 $button->setAnswer($button->getAnswer() . $alertHTML);
             }
             return $button;
@@ -446,7 +445,7 @@ class CallTrackingAdapter extends CallTracking
         $dir    =   strtr($dir, Array(
             '\\' =>  '/'
         ));
-        $dr    =   strtr(core::getDR(), Array(
+        $dr    =   strtr(dir::getDR(), Array(
             '\\' =>  '/'
         ));
         return '/' . str_replace($dr,'', $dir) . '/' . $template;
@@ -594,7 +593,7 @@ class CallTrackingAdapter extends CallTracking
         resources::setCss(self::getTemplate('css/analytic.css'));
         $template = self::getTemplate('template/chart.tpl');
 
-        return simpleView\component::replace($template,$result);
+        return simpleView::replace($template,$result);
     }
 
     /**

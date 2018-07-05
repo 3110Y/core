@@ -9,6 +9,7 @@
 namespace core\component\CallTracking\source;
 
 
+use core\component\PDO\PDO;
 use core\component\registry\registry;
 
 class Substitutions
@@ -32,7 +33,7 @@ class Substitutions
      */
     private function registry(int $number_id): void
     {
-        /** @var \core\component\database\driver\PDO\component $db */
+        /** @var PDO $db */
         $db     =   registry::get('db');
         $data = [
             'phone_id'      => $number_id,
@@ -43,7 +44,7 @@ class Substitutions
 
     private function visitorPhones(): array
     {
-        /** @var \core\component\database\driver\PDO\component $db */
+        /** @var PDO $db */
         $db     =   registry::get('db');
         $where = [
             'visitor_id' => $this->visitor->getID()
@@ -117,7 +118,7 @@ class Substitutions
      */
     public static function getRecordByPhoneID(int $phoneID): ?array
     {
-        /** @var \core\component\database\driver\PDO\component $db */
+        /** @var PDO $db */
         $db = registry::get('db');
         $where = [
             'phone_id' => $phoneID

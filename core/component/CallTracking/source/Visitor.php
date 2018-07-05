@@ -9,6 +9,7 @@
 namespace core\component\CallTracking\source;
 
 
+use core\component\PDO\PDO;
 use core\component\registry\registry;
 
 class Visitor
@@ -29,7 +30,7 @@ class Visitor
      */
     private function insert(): void
     {
-        /** @var \core\component\database\driver\PDO\component $db */
+        /** @var PDO $db */
         $db = registry::get('db');
         $db->inset(self::$tableName, $this->visitorData);
         $this->visitorData['id'] = $db->getLastID();
@@ -42,7 +43,7 @@ class Visitor
      */
     private function load(): void
     {
-        /** @var \core\component\database\driver\PDO\component $db */
+        /** @var PDO $db */
         $db = registry::get('db');
 
         $visitor = $db->selectRow(self::$tableName,'id',$this->visitorData);

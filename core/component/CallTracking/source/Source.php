@@ -9,6 +9,7 @@
 namespace core\component\CallTracking\source;
 
 
+use core\component\PDO\PDO;
 use core\component\registry\registry;
 
 class Source
@@ -22,7 +23,7 @@ class Source
      */
     public static function getID(string $sourceName): int
     {
-        /** @var \core\component\database\driver\PDO\component $db */
+        /** @var PDO $db */
         $db = registry::get('db');
         $data = [
             'name'  => $sourceName
@@ -44,7 +45,7 @@ class Source
      */
     public static function getList(): array
     {
-        /** @var \core\component\database\driver\PDO\component $db */
+        /** @var PDO $db */
         $db = registry::get('db');
         $where = [
             [
@@ -62,7 +63,7 @@ class Source
      */
     public static function getByID(int $sourceID): string
     {
-        /** @var \core\component\database\driver\PDO\component $db */
+        /** @var PDO $db */
         $db = registry::get('db');
         $data = [
             'id'  => $sourceID

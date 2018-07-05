@@ -9,6 +9,7 @@
 namespace core\component\CallTracking\source;
 
 
+use core\component\PDO\PDO;
 use core\component\registry\registry;
 
 class Phones
@@ -43,12 +44,12 @@ class Phones
                 $pattern[$starPosition-1] = '.';
             }
         }
-        return (bool) preg_match($pattern,$requestParam);
+        return (bool) preg_match($pattern, $requestParam);
     }
 
     public function getLatest(): array
     {
-        /** @var \core\component\database\driver\PDO\component $db */
+        /** @var PDO $db */
         $db = registry::get('db');
         $where = [
             'status'    => 1,
@@ -86,7 +87,7 @@ class Phones
 
     public function getUsed(array $idList): array
     {
-        /** @var \core\component\database\driver\PDO\component $db */
+        /** @var PDO $db */
         $db = registry::get('db');
         $where = [
             'status'    => 1,
@@ -110,7 +111,7 @@ class Phones
      */
     public function getVirtualID(?string $phone = null): ?int
     {
-        /** @var \core\component\database\driver\PDO\component $db */
+        /** @var PDO $db */
         $db = registry::get('db');
         if (null === $phone) {
             $phone = $this->requestData->getVirtualPhone();
