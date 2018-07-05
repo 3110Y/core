@@ -691,7 +691,7 @@ class CallTrackingAdapter extends CallTracking
             return self::getChart('Аналитика по типу', 'type', $data);
         }
         $excelData = self::getExcelData($data);
-        self::outputExcel($excelData, 'gala-sport-action-analytics', 'Аналитика по типу');
+        self::outputExcel($excelData, $_SERVER['HTTP_HOST'] . ' - Аналитика по типу', 'Аналитика по типу');
         exit;
     }
 
@@ -709,7 +709,7 @@ class CallTrackingAdapter extends CallTracking
             return self::getChart('Аналитика по источникам', 'type', $data);
         }
         $excelData = self::getExcelData($data);
-        self::outputExcel($excelData, 'gala-sport-source-analytics', 'Аналитика по источникам');
+        self::outputExcel($excelData, $_SERVER['HTTP_HOST'] . ' - Аналитика по источникам', 'Аналитика по источникам');
         exit;
     }
 }
