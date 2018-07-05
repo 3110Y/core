@@ -33,12 +33,13 @@
              */
             public function render()
             {
+                $result = parent::render();
                 /** @var \core\component\CallTracking\callTrackingAdapter $callTracking */
                 $callTracking =   registry::get('CallTracking');
                 if ($callTracking !== false) {
-                    self::$content = $callTracking->replace(self::$content);
+                    $result = $callTracking->replace($result);
                 }
-                return parent::render();
+                return $result;
             }
 
         б. Либо непосредственно в месте вывода номера
