@@ -106,7 +106,7 @@ $width: 1230px
       font-size: 16px
       top: 5px
     >*:not(label):valid + label,
-    >*:not(label):read-only + label,
+    >*:not(label)[readonly] + label,
     >*:not(label):disabled + label,
     >*:not(label):focus + label,
     >*:not(label) + label.multiple
@@ -221,7 +221,7 @@ $width: 1230px
       font-size: 16px
       top: 5px
     >*:not(label):valid + label,
-    >*:not(label):read-only + label,
+    >*:not(label)[readonly] + label,
     >*:not(label):disabled + label,
     >*:not(label):focus + label,
     >*:not(label) + label.multiple

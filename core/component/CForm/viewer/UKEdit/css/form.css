@@ -93,7 +93,7 @@
     font-size: 16px;
     top: 5px; }
   .cform .cform-field > *:not(label):valid + label,
-  .cform .cform-field > *:not(label):read-only + label,
+  .cform .cform-field > *:not(label)[readonly] + label,
   .cform .cform-field > *:not(label):disabled + label,
   .cform .cform-field > *:not(label):focus + label,
   .cform .cform-field > *:not(label) + label.multiple {
@@ -196,7 +196,7 @@
     font-size: 16px;
     top: 5px; }
   .cform .cform-field > *:not(label):valid + label,
-  .cform .cform-field > *:not(label):read-only + label,
+  .cform .cform-field > *:not(label)[readonly] + label,
   .cform .cform-field > *:not(label):disabled + label,
   .cform .cform-field > *:not(label):focus + label,
   .cform .cform-field > *:not(label) + label.multiple {
