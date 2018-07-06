@@ -104,6 +104,9 @@ abstract class ARouter extends AApplication
             self::redirect($url);
         }
         self::selectPage();
+        if ((int) self::$page['error'] === 1) {
+            header('HTTP/1.0 404 Not Found');
+        }
         $path               =   self::$application['path'];
         /** @var IControllerBasic $controllerBasic */
         $controllerBasic    =   "application\\{$path}\\controllers\\" . self::$application['basicController'];
