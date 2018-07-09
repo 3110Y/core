@@ -35,7 +35,7 @@ class Settings extends application\AClass
         if (null === $table) {
             $table = self::TABLE;
         }
-        if (null === self::$instance[$table]) {
+        if (!isset(self::$instance[$table])) {
             self::$instance[$table] = new self($table, $rowId);
         }
         return self::$instance[$table];
