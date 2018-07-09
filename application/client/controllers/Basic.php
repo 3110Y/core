@@ -23,7 +23,7 @@ use \core\component\{
  * Class basic
  * @package application\controllers
  */
-class basic extends AControllers implements IControllerBasic
+class Basic extends AControllers implements IControllerBasic
 {
     /**
      * @var string шаблон
