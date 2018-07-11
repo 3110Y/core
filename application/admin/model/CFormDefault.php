@@ -245,7 +245,8 @@ class CFormDefault extends AClass
         if ([] === self::$config) {
             self::config(null, $table, $caption, $field, $condition);
         }
-        $CForm  =   new CForm\component(self::$controller::$content, 'CONTENT');
+        $controller = self::$controller;
+        $CForm  =   new CForm\component($controller::$content, 'CONTENT');
         $CForm->setConfig(self::$config);
         $CForm->run();
         return $CForm->getIncomingArray();
@@ -302,9 +303,7 @@ class CFormDefault extends AClass
         }
         self::$config['mode'] = 'edit';
         self::$config['viewer']['edit']['caption'] = str_replace(': Редактирование','',self::$config['viewer']['edit']['caption']);
-        self::$config['viewer']['edit']['where'] = [
-            'id' => $id
-        ];
+        self::$config['viewer']['edit']['page'] = $id;
         self::removeButton('goBack','edit');
 
     }
