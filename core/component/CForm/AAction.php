@@ -78,7 +78,7 @@ class AAction extends ACForm
                     $fieldComponent = new $fieldObject($field, $this->data);
                     $fieldComponent->init();
                     $this->answer[$key] =   $fieldComponent->$method();
-                    if (isset($field['field']) &&  $this->answer[$key]) {
+                    if (isset($field['field']) && $this->answer[$key] === true) {
                         $this->answer['errorData'][$field['field']] = true;
                         $errorMess    =   $fieldComponent->getErrorMess();
                         if ($errorMess !== '') {
@@ -100,7 +100,7 @@ class AAction extends ACForm
                             unset($this->data[$field['table']['link']]);
                         }
                     }
-                    if ($this->answer[$key]) {
+                    if ($this->answer[$key] === true) {
                         $this->isError = true;
                     }
                 }
