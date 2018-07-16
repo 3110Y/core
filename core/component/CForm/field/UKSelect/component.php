@@ -117,11 +117,17 @@ class component extends CForm\AField implements CForm\IField
 
     public function getValue()
     {
-        if (isset($this->configField['table'])) {
-            return false;
+        $result = false;
+
+        if (!isset($this->configField['table'])) {
+            if (\is_array($this->value)) {
+                $result = implode(',', $this->value);
+            } else {
+                $result = $this->value;
+            }
         }
 
-        return implode(',', $this->value);
+        return $result;
     }
 
     public function preUpdate()
