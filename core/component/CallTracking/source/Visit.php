@@ -37,19 +37,6 @@ class Visit
         $db = registry::get('db');
 
         $db->inset(self::$tableName, $this->visitData);
-/*        if (isset($_GET['testro']) && $_GET['testro'] == 'testro') {
-            echo '<pre>';
-            print_r(self::$tableName);
-            echo '<br>';
-            echo '<hr>';
-            echo '<br>';
-            print_r($this->visitData);
-            echo '<br>';
-            echo '<hr>';
-            echo '<br>';
-            print_r($db->insetGenerator(self::$tableName, $this->visitData));
-            echo '</pre>';
-        }*/
         $this->visitData['id'] = $db->getLastID();
 
         return true;
@@ -139,6 +126,30 @@ class Visit
         return $result ? $result->fetchAll() : [];
     }
 
+    /**
+     * @return null|array
+     */
+    public static function getLastWithoutSubstitution(): ?array
+    {
+        /** @var PDO $db */
+        $db = registry::get('db');
+        $query = '
+            SELECT 
+              `visit`.* 
+            FROM 
+              `' . self::$tableName . '` `visit`
+                LEFT JOIN `' . Substitutions::getTableName() . '` `substitution`
+                  ON (`visit`.`visitor_id` = `substitution`.`visitor_id`) 
+            WHERE 
+                `substitution`.`id` IS NULL 
+            ORDER BY 
+                `visit`.`date_insert` DESC 
+            LIMIT 
+                1';
+
+        $result = $db->query($query);
+        return $result ? $result->fetch() : null;
+    }
     /**
      * Запрос на создание таблицы
      *

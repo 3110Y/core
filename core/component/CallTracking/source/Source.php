@@ -47,14 +47,13 @@ class Source
     {
         /** @var PDO $db */
         $db = registry::get('db');
-        $where = [
-            [
-                'field' => 'name',
-                'cond' => '!=',
-                'value' => '',
-            ]
-        ];
-        return $db->selectRows(self::$tableName, '*', $where);
+        $result = $db->selectRows(self::$tableName, '*');
+        return array_map(function($value){
+            if ('' === $value['name']) {
+                $value['name'] = 'Без источника';
+            }
+            return $value;
+        },$result);
     }
 
     /**

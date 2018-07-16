@@ -33,7 +33,8 @@ class Phones
         $pattern = '/^' . preg_quote($pattern, '/') . '$/is';
 
         $starPosition = 0;
-        while (false !== $starPosition = strpos($pattern, '*', ++$starPosition)) {
+        /** @noinspection ReturnFalseInspection */
+        while (false !== ($starPosition = strpos($pattern, '*', ++$starPosition))) {
             $slashesPosition = $starPosition;
             /** Он и должен быть пустым =)) */
             /** @noinspection LoopWhichDoesNotLoopInspection */
@@ -59,7 +60,7 @@ class Phones
         $realPhones = [];
 
         foreach ($phones as $index => $phone) {
-            $available = !\in_array($phone['real_phone_number'], $realPhones, true);
+            $available = true;
             $available &= $this->requestCondition($phone['referer'],        $this->requestData->getReferer());
             $available &= $this->requestCondition($phone['url'],            $this->requestData->getURLPath());
             $available &= $this->requestCondition($phone['utm_source'],     $this->requestData->getSource());
@@ -69,15 +70,25 @@ class Phones
             $available &= $this->requestCondition($phone['utm_term'],       $this->requestData->getTerm());
             $available &= $this->requestCondition($phone['utm_keyword'],    $this->requestData->get('utm_keyword') ?? '');
             $available &= $this->requestCondition($phone['utm_fastlink'],   $this->requestData->get('utm_fastlink') ?? '');
+            $isset = isset($realPhones[$phone['real_phone_number']]);
             if ($available) {
-                $realPhones[] = $phone['real_phone_number'];
-            } else {
+                if ($isset) {
+                    $realPhones[$phone['real_phone_number']]++;
+                } else {
+                    $realPhones[$phone['real_phone_number']] = 1;
+                }
+            }
+            if (!$available || $isset) {
                 unset($phones[$index]);
             }
+        }
+        foreach ($phones as $index => $phone) {
+            $phones[$index]['count'] = $realPhones[$phone['real_phone_number']] ?? 0;
         }
         $where = [
             'FIND_IN_SET(`id`,"' . implode(',', array_column($phones,'id')) . '")'
         ];
+        /** @noinspection ReturnFalseInspection */
         $fields = [
             'date_update' => date('Y-m-d H:i:s')
         ];
@@ -96,6 +107,7 @@ class Phones
         $fields = '`real_phone_number`,`real_phone_text`,`virtual_phone_number`,`virtual_phone_text`';
         $phones = $db->selectRows(self::$tableName, $fields, $where);
 
+        /** @noinspection ReturnFalseInspection */
         $fields = [
             'date_update' => date('Y-m-d H:i:s')
         ];
@@ -132,6 +144,25 @@ class Phones
     public function __construct(RequestData $data)
     {
         $this->requestData = $data;
+    }
+
+    /**
+     * Получаем телефон по его ID
+     *
+     * @param int $phoneID
+     * @return array|null
+     */
+    public static function getRecordByID(int $phoneID): ?array
+    {
+        /** @var PDO $db */
+        $db = registry::get('db');
+
+        $where = [
+            'id'    => $phoneID,
+        ];
+        $result = $db->selectRow(self::$tableName,'*',$where,'date_insert DESC');
+        return $result ?: null;
+
     }
 
     /**

@@ -27,17 +27,27 @@ class Substitutions
     private $numbers;
 
     /**
+     * @return string
+     */
+    public static function getTableName(): string
+    {
+        return self::$tableName;
+    }
+
+    /**
      * Регистрация присвоения телефона посетителю
      *
      * @param int $number_id
+     * @param int $availableCount
      */
-    private function registry(int $number_id): void
+    private function registry(int $number_id, int $availableCount): void
     {
         /** @var PDO $db */
         $db     =   registry::get('db');
         $data = [
-            'phone_id'      => $number_id,
-            'visitor_id'    => $this->visitor->getID()
+            'phone_id'                  => $number_id,
+            'visitor_id'                => $this->visitor->getID(),
+            'available_phones_count'    =>  $availableCount,
         ];
         $db->inset(self::$tableName, $data);
     }
@@ -62,7 +72,10 @@ class Substitutions
             else {
                 $this->numbers = $this->phone->getLatest();
                 foreach ((array) $this->numbers as $number) {
-                    $this->registry($number['id']);
+                    $this->registry($number['id'],$number['count']);
+                }
+                if (\count($this->numbers) === 0) {
+                    $this->registry(0,0);
                 }
             }
         }
@@ -111,6 +124,20 @@ class Substitutions
     }
 
     /**
+     * Получаем запись из БД
+     *
+     * @param array $where
+     * @return array|null
+     */
+    private static function getRecord(array $where = []): ?array
+    {
+        /** @var PDO $db */
+        $db = registry::get('db');
+        $result = $db->selectRow(self::$tableName,'*',$where,'date_insert DESC');
+        return $result ?: null;
+    }
+
+    /**
      * Получаем запись по ID телефона
      *
      * @param int $phoneID
@@ -118,18 +145,25 @@ class Substitutions
      */
     public static function getRecordByPhoneID(int $phoneID): ?array
     {
-        /** @var PDO $db */
-        $db = registry::get('db');
-        $where = [
-            'phone_id' => $phoneID
-        ];
-
-        $result = $db->selectRow(self::$tableName,'*',$where,'date_insert DESC');
-
-        return $result ?: null;
+        return static::getRecord(['phone_id' => $phoneID]);
     }
 
+    /**
+     * Получаем запись по ID телефона
+     *
+     * @param int $visitorID
+     * @return array|null
+     */
+    public static function getRecordByVisitorID(int $visitorID): ?array
+    {
+        return static::getRecord(['visitor_id' => $visitorID]);
+    }
 
+    /**
+     * Запрос на создание таблицы
+     *
+     * @return string
+     */
     public static function getInstallQuery(): string
     {
         return '
@@ -138,6 +172,7 @@ class Substitutions
               `parent_id` int(11) NOT NULL DEFAULT \'0\',
               `visitor_id` int(11) NOT NULL DEFAULT \'0\' COMMENT \'Идентификатор посетителя\',
               `phone_id` int(11) NOT NULL DEFAULT \'0\'  COMMENT \'Идентификатор телефона\',
+              `available_phones_count` tinyint(3) NOT NULL DEFAULT \'0\'  COMMENT \'Кол-во доступных телефонов в ротации\',
               `date_insert` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
               PRIMARY KEY (`id`)
             ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;';

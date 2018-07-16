@@ -370,27 +370,26 @@ class CallTrackingAdapter extends CallTracking
             $field = '*, NULL AS `phone`, NULL AS `source`, NULL AS `record`';
             /** @var array $actions */
             $actions = \call_user_func_array([$db,'selectRows'],\func_get_args());
-            $visitors = Visit::getActionsInfo($actions);
-            $visitors = array_column($visitors, null, 'visitor_id');
+            $visits = Visit::getActionsInfo($actions);
+            $visits = array_column($visits, null, 'visitor_id');
             $requestData = new RequestData();
 
             foreach ($actions as &$action) {
                 $actionObject = new Action($requestData);
                 $extensionData = $actionObject->getExtensionData($action['action_key'],$action['id']);
-                $visitor = $visitors[$action['visitor_id']] ?? [];
-
                 $action['phone']        = $extensionData['phone'] ?? '';
                 $action['record']       = $extensionData['record_store'] ?? '';
-                $action['source']       = $visitor['utm_source'] ?? '';
-                $action['url']          = $visitor['url'] ?? '';
-                $action['referer']      = $visitor['referer'] ?? '';
-                $action['utm_source']   = $visitor['utm_source'] ?? '';
-                $action['utm_term']     = $visitor['utm_term'] ?? '';
-                $action['utm_content']  = $visitor['utm_content'] ?? '';
-                $action['utm_medium']   = $visitor['utm_medium'] ?? '';
-                $action['utm_campaign'] = $visitor['utm_campaign'] ?? '';
-                $action['utm_keyword']  = $visitor['utm_keyword'] ?? '';
-                $action['utm_fastlink'] = $visitor['utm_fastlink'] ?? '';
+                $visit = $actionObject->getVisitData($action['action_key'],$action['id'], $visits[$action['visitor_id']] ?? []);
+                $action['source']       = $visit['utm_source'] ?? '';
+                $action['url']          = $visit['url'] ?? '';
+                $action['referer']      = $visit['referer'] ?? '';
+                $action['utm_source']   = $visit['utm_source'] ?? '';
+                $action['utm_term']     = $visit['utm_term'] ?? '';
+                $action['utm_content']  = $visit['utm_content'] ?? '';
+                $action['utm_medium']   = $visit['utm_medium'] ?? '';
+                $action['utm_campaign'] = $visit['utm_campaign'] ?? '';
+                $action['utm_keyword']  = $visit['utm_keyword'] ?? '';
+                $action['utm_fastlink'] = $visit['utm_fastlink'] ?? '';
             }
 
             return $actions;

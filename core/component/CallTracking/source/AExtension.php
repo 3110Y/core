@@ -87,4 +87,15 @@ abstract class AExtension extends AAction implements IExtension
             ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;';
     }
 
+    /**
+     * Получение данных о посещении.
+     *
+     * @param Action $action
+     * @param array|null $visitData - массив данных о посещении
+     * @return array|null
+     */
+    public function getVisitData(Action $action, ?array $visitData = null): ?array
+    {
+        return $visitData;
+    }
 }

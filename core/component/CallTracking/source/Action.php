@@ -60,22 +60,39 @@ class Action extends AAction
      */
     public function setActionData(array $data): void
     {
+        /** @noinspection ReturnFalseInspection */
         $data['date_update'] = date('Y-m-d H:i:s');
         parent::setActionData($data);
     }
 
-    private static function log(RequestData $requestData): void
+    /**
+     * @param RequestData $requestData
+     * @param string $actionName
+     */
+    private static function log(RequestData $requestData, string $actionName): void
     {
         $name           =   'logs.txt';
-
         $dirAbsolute    =   fileCache::getDir('calltracking');
+        $filePath = $dirAbsolute . '/' . $name;
 
         $data = null;
-        if(file_exists("{$dirAbsolute}/{$name}")) {
-            $data = file_get_contents("{$dirAbsolute}/{$name}");
+        if(file_exists($filePath)) {
+            /** @noinspection ReturnFalseInspection */
+            $data = file_get_contents($filePath);
+        } else {
+            try {
+                /** @noinspection ReturnFalseInspection */
+                file_put_contents($filePath,'');
+                chmod($filePath, 0770);
+            } catch (\Exception $exception) {}
         }
-        $data .=  $requestData . "\r\n---------------------------------------\r\n";
-        file_put_contents("{$dirAbsolute}/{$name}", $data);
+        $data .= 'Action: ' . $actionName . PHP_EOL;
+        $data .= 'Date: ' . (new \DateTime())->format('Y-m-d H:i:s') . PHP_EOL;
+        $data .= 'Request Data: ' . $requestData .  PHP_EOL;
+        $data .= 'Post Data: ' . $requestData .  PHP_EOL;
+        $data .= '---------------------------------------' . PHP_EOL;
+        /** @noinspection ReturnFalseInspection */
+        file_put_contents($filePath, $data);
     }
 
     private function extension($key): ?IExtension
@@ -92,7 +109,7 @@ class Action extends AAction
      */
     public function registryAction(): bool
     {
-        self::log($this->requestData);
+        self::log($this->requestData, $this->data['action_key'] ?? 'Default');
         $extension = $this->extension($this->data['action_key'] ?? 'Default');
         if (null === $extension) {
             $extension = $this->extension('Default');
@@ -116,6 +133,23 @@ class Action extends AAction
             return null;
         }
         return $extension->getExtensionData($this);
+    }
+
+    /**
+     * @param string $actionKey
+     * @param int $actionID
+     * @param array $visitData
+     * @return array|null
+     */
+    public function getVisitData(string $actionKey, int $actionID, array $visitData): ?array
+    {
+        $this->data['id'] = $actionID;
+        $this->data['visitor_id'] = $visitData['visitor_id'];
+        $extension = $this->extension($actionKey);
+        if (null === $extension) {
+            return null;
+        }
+        return $extension->getVisitData($this,$visitData);
     }
 
     /**
@@ -156,34 +190,40 @@ class Action extends AAction
         if ($dateStart > $dateEnd) {
             [$dateStart,$dateEnd] = [$dateEnd,$dateStart];
         }
-        $fields = '`visitor_id`,`action_key`, COUNT(`id`) AS `count`, DATE(`date_insert`) AS `date`';
+        $fields = '`visitor_id`,`action_key`, DATE(`date_insert`) AS `date`';
         $where = '"' . $dateStart->format('Y-m-d') . '" <= DATE(`date_update`) && DATE(`date_update`) <= "' . $dateEnd->format('Y-m-d') . '"';
-        $group = ['date','action_key'];
-
-        $actions = $db->selectRows(self::$tableName,$fields,$where, null, null, $group);
+        $actions = $db->selectRows(self::$tableName,$fields,$where);
         $days = [];
         $visitors = [];
         foreach ($actions as $action) {
             if (!isset($days[$action['date']])) {
                 $days[$action['date']] = [];
             }
+            if (!isset($days[$action['date']][$action['action_key']])) {
+                $days[$action['date']][$action['action_key']] = [
+                    'action_key'    => $action['action_key'],
+                    'count_unique'  => 0,
+                    'count'         => 0
+                ];
+            }
+            $days[$action['date']][$action['action_key']]['count']++;
             if ($uniqueVisits && isset($visitors[$action['visitor_id']])) {
                 continue;
             }
             $visitors[$action['visitor_id']] = true;
-            $days[$action['date']][] = $action;
+            $days[$action['date']][$action['action_key']]['count_unique']++;
         }
 
         $oneDay = new DateInterval('P1D');
         $curDate = clone $dateStart;
         for (;$curDate <= $dateEnd;$curDate->add($oneDay)){
             $curDateFormatted = $curDate->format('Y-m-d');
-            $dayActions = array_column($days[$curDateFormatted] ?? [],null,'action_key');
+            $dayActions = $days[$curDateFormatted] ?? [];
 
             foreach ($data as &$datum) {
                 $datum['points'][] = [
                     'x' => clone $curDate,
-                    'y' => $dayActions[$datum['action_key']]['count'] ?? 0,
+                    'y' => $dayActions[$datum['action_key']]['count_unique'] ?? 0,
                 ];
                 $datum['summary'] += $dayActions[$datum['action_key']]['count'] ?? 0;
             }
@@ -228,14 +268,18 @@ class Action extends AAction
             if (!isset($data[$sourceID])) {
                 continue;
             }
+            if (empty($data[$sourceID]['actions'][$action['date']])) {
+                $data[$sourceID]['actions'][$action['date']] = [
+                    'count'         => 0,
+                    'count_unique'  => 0
+                ];
+            }
+            $data[$sourceID]['actions'][$action['date']]['count']++;
             if ($uniqueVisits && isset($visitors[$action['visitor_id']])) {
                 continue;
             }
             $visitors[$action['visitor_id']] = true;
-            if (empty($data[$sourceID]['actions'][$action['date']])) {
-                $data[$sourceID]['actions'][$action['date']] = 0;
-            }
-            $data[$sourceID]['actions'][$action['date']]++;
+            $data[$sourceID]['actions'][$action['date']]['count_unique']++;
         }
         unset($action);
         $oneDay = new DateInterval('P1D');
@@ -246,12 +290,17 @@ class Action extends AAction
             foreach ($data as &$datum) {
                 $datum['points'][] = [
                     'x' => clone $curDate,
-                    'y' => $datum['actions'][$curDateFormatted] ?? 0,
+                    'y' => $datum['actions'][$curDateFormatted]['count_unique'] ?? 0,
                 ];
-                $datum['summary'] += $datum['actions'][$curDateFormatted] ?? 0;
+                $datum['summary'] += $datum['actions'][$curDateFormatted]['count'] ?? 0;
             }
         }
-
+        unset($datum);
+        foreach ($data as $index => $datum) {
+            if ($datum['summary'] === 0) {
+                unset($data[$index]);
+            }
+        }
         return $data;
     }
 

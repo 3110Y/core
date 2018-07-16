@@ -54,4 +54,13 @@ interface IExtension
      * @return mixed
      */
     public function getExtensionData(Action $action);
+
+    /**
+     * Получение данных о посещении.
+     *
+     * @param Action $action
+     * @param array|null $visitData - массив данных о посещении
+     * @return array|null
+     */
+    public function getVisitData(Action $action, ?array $visitData = null): ?array;
 }

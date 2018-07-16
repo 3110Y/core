@@ -15,7 +15,7 @@
                 </div>
             </div>
             <div class="uk-margin" uk-margin>
-                <label><input class="uk-checkbox" type="checkbox" name="unique_visits" value="true" {UNIQUE_VISITORS}> Уникальные номера </label>
+                <label><input class="uk-checkbox" type="checkbox" name="unique_visits" value="true" {UNIQUE_VISITORS}> Уникальные посетители </label>
             </div>
             <div class="uk-margin" uk-margin>
                 <button type='submit' class="uk-button uk-button-default period-submit">Применить</button>

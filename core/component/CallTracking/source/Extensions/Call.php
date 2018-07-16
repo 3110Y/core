@@ -13,7 +13,7 @@ use core\component\{
     fileCache\fileCache, PDO\PDO, registry\registry
 };
 use core\component\CallTracking\source\{
-    Action, AExtension, Phones, Substitutions
+    Action, AExtension, Phones, Substitutions, Visit
 };
 
 class Call extends AExtension
@@ -51,6 +51,7 @@ class Call extends AExtension
             if (!$this->data['id'] || $this->data['record_is_downloaded'] || !$this->data['record']) {
                 return;
             }
+            /** @noinspection ReturnFalseInspection */
             $file = file_get_contents($this->data['record']);
             if ($file)
             {
@@ -97,17 +98,17 @@ class Call extends AExtension
             }
         }
         $phones = new Phones($this->requestData);
-        $phoneID = $phones->getVirtualID();
-        if (null === $phoneID) {
-            return false;
-        }
-        $substitution = Substitutions::getRecordByPhoneID($phoneID);
-        if (null === $substitution) {
-            return false;
-        }
+        $phoneID = $phones->getVirtualID() ?? 0;
 
+        if (null !== ($substitution = Substitutions::getRecordByPhoneID($phoneID))) {
+            $visitorID = $substitution['visitor_id'];
+        } elseif (null !== ($visit = Visit::getLastWithoutSubstitution())) {
+            $visitorID = $visit['visitor_id']; #
+        } else {
+            $visitorID = 0;
+        }
         $action->setActionData([
-            'visitor_id'    => $substitution['visitor_id'],
+            'visitor_id'    => $visitorID,
         ]);
         $action->registry();
         $this->setActionData([
@@ -117,6 +118,28 @@ class Call extends AExtension
             'record'        =>  $this->requestData->get('callRecord'),
         ]);
         return (bool) $this->insert();
+    }
+
+    /**
+     * Получение данных о посещении.
+     *
+     * @param Action $action
+     * @param array|null $visitData - массив данных о посещении
+     * @return array|null
+     */
+    public function getVisitData(Action $action, ?array $visitData = null): ?array
+    {
+        $substitution = Substitutions::getRecordByVisitorID($visitData['visitor_id'] ?? 0);
+        /** @noinspection UnnecessaryCastingInspection */
+        $count = (int) ($substitution['available_phones_count'] ?? 0);
+        if ($count === 0) {
+            return null;
+        }
+        if ($count === 1) {
+            return Phones::getRecordByID($substitution['phone_id'] ?? 0);
+        }
+
+        return $visitData;
     }
 
     /**

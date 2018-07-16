@@ -190,6 +190,7 @@ class RequestData
         $this->setContent($data['utm_content'] ?? '');
         $this->setTerm($data['utm_term'] ?? '');
         foreach ($data as $key => $datum) {
+            /** @noinspection ReturnFalseInspection */
             if (0 === strpos($key, 'utm_')) {
                 $this->set($key, $datum);
             }
