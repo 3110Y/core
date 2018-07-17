@@ -144,7 +144,7 @@ class Action extends AAction
     public function getVisitData(string $actionKey, int $actionID, array $visitData): ?array
     {
         $this->data['id'] = $actionID;
-        $this->data['visitor_id'] = $visitData['visitor_id'];
+        $this->data['visitor_id'] = $visitData['visitor_id'] ?? 0;
         $extension = $this->extension($actionKey);
         if (null === $extension) {
             return null;
