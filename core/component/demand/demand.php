@@ -44,13 +44,15 @@ class demand
     /**
      * Количество всех записей
      *
+     * @param array $where
+     *
      * @return int
      */
-    public function getListCount() :int
+    public function getListCount(array $where = []) :int
     {
         /** @var \core\component\PDO\PDO $db */
         $db = registry::get('db');
-        return $db->selectCount($this->table, 'id');
+        return $db->selectCount($this->table, '*', $where);
     }
 
     /**
