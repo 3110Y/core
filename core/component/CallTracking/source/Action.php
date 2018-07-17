@@ -251,7 +251,7 @@ class Action extends AAction
             $data[$key]['points'] = [];
             $data[$key]['summary'] = 0;
         }
-        $data = array_column($data,null,'id');
+        $data = array_column($data,null,'name');
 
         if ($dateStart > $dateEnd) {
             [$dateStart,$dateEnd] = [$dateEnd,$dateStart];
@@ -264,22 +264,28 @@ class Action extends AAction
 
         $visitors = [];
         foreach ($actions as &$action) {
-            $sourceID = $visits[$action['visitor_id']]['source_id'] ?? 0;
-            if (!isset($data[$sourceID])) {
-                continue;
+            $visit = (new self(new RequestData()))->getVisitData($action['action_key'],$action['id'], $visits[$action['visitor_id']] ?? []);
+            $source = !empty($visit['utm_source']) ? $visit['utm_source'] : 'Без источника';
+            if (!isset($data[$source])) {
+                $data[$source] = [
+                    'name'      => $source,
+                    'actions'   => [],
+                    'points'    => [],
+                    'summary'   => 0,
+                ];
             }
-            if (empty($data[$sourceID]['actions'][$action['date']])) {
-                $data[$sourceID]['actions'][$action['date']] = [
+            if (empty($data[$source]['actions'][$action['date']])) {
+                $data[$source]['actions'][$action['date']] = [
                     'count'         => 0,
                     'count_unique'  => 0
                 ];
             }
-            $data[$sourceID]['actions'][$action['date']]['count']++;
+            $data[$source]['actions'][$action['date']]['count']++;
             if ($uniqueVisits && isset($visitors[$action['visitor_id']])) {
                 continue;
             }
             $visitors[$action['visitor_id']] = true;
-            $data[$sourceID]['actions'][$action['date']]['count_unique']++;
+            $data[$source]['actions'][$action['date']]['count_unique']++;
         }
         unset($action);
         $oneDay = new DateInterval('P1D');
@@ -301,7 +307,7 @@ class Action extends AAction
                 unset($data[$index]);
             }
         }
-        return $data;
+        return array_values($data);
     }
 
     /**
