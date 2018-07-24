@@ -17,7 +17,7 @@ use \core\component\application\{
 final class router extends ARouter implements IRouter
 {
     /** @var mixed table */
-    protected $table = 'calltracking_page';
+    protected $table = 'cron_page';
 
     /** @var mixed configDB */
     protected $redirectPage = 'error';
