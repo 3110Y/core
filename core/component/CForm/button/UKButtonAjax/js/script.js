@@ -62,7 +62,7 @@ $(document).ready(function () {
                 console.log(data.errorData);
                 if (data.errorData !== undefined) {
                     for (var errorDataName in data.errorData) {
-                        if (errorDataName !== true) {
+                        if (errorDataName !== true && data.errorData[errorDataName] !== true) {
                             UIkit.notification(data.errorData[errorDataName], {
                                 status: 'danger',
                                 timeout: 50000,
