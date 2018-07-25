@@ -141,3 +141,8 @@ html
             width: 100%
             max-width: 96%
 
+@media (min-width: 960px)
+  @for $i from 1 through 6
+    @for $j from 1 through $i
+      .uk-width-#{$j}-#{$i}
+        width: calc(100% / #{$i} * #{$j})

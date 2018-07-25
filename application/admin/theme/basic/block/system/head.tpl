@@ -3,8 +3,9 @@
 <title>{TITLE}</title>
 <meta name="keywords" content="{KEYWORDS}">
 <meta name="description" content="{DESCRIPTION}">
-<link href="{THEME}css/style.css" rel="stylesheet">
+
 <link href="{THEME}vendor/uikit/css/uikit.min.css" rel="stylesheet">
+<link href="{THEME}css/style.css" rel="stylesheet">
 
 {CSS_TOP}
 
