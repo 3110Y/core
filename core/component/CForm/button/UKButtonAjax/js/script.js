@@ -42,38 +42,58 @@ $(document).ready(function () {
 
         }).done(function (msg) {
             var data = JSON.parse(msg);
-
             if (data.hasOwnProperty('data')) {
                 for (var name in data.data) {
                     $('#' + name).removeClass('error');
                 }
             }
-
             if(data.result === true) {
                 UIkit.notification(success, {
                     status: 'success',
-                    timeout: 50000,
+                    timeout: 20000,
                     pos: 'top-center'
                 });
             } else {
                 UIkit.notification(error, {
                     status: 'warning',
-                    timeout: 50000,
+                    timeout: 20000,
                     pos: 'top-center'
                 });
-                console.log(data.errorData);
-                if (data.errorData !== undefined) {
+
+                if (data.hasOwnProperty('errorData')) {
+                    var text = '',
+                        flag = false;
+
                     for (var errorDataName in data.errorData) {
-                        if (errorDataName !== true && data.errorData[errorDataName] !== true) {
-                            UIkit.notification(data.errorData[errorDataName], {
+                        var flagIn = false;
+
+                        if (data.errorData.hasOwnProperty(errorDataName)) {
+                            if (data.errorData[errorDataName] !== true) {
+                                text = data.errorData[errorDataName];
+                            } else {
+                                switch (errorDataName) {
+                                    default:
+                                        flagIn = true;
+                                        text = 'Необходимо заполнить все обязательные поля';
+                                        break;
+                                }
+                            }
+                        }
+
+                        if (flagIn === false || (flagIn === true && flag === false)) {
+                            if (flagIn === true) flag = true;
+
+                            UIkit.notification(text, {
                                 status: 'danger',
-                                timeout: 50000,
+                                timeout: 20000,
                                 pos: 'top-center'
                             });
                         }
+
                         $('#' + errorDataName).addClass('error');
                     }
                 }
+
             }
         });
 
