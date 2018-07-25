@@ -8,7 +8,7 @@ $(document).ready(function () {
         columnLeftSubstrate = $('#column-left-substrate'),
         generalMenu         = $('#general-menu'),
         generalMenuLi       = $('#general-menu li'),
-        generalMenuLia      = $('#general-menu li a');
+        generalMenuLia      = $('#general-menu li a[href="#"]');
 
     slideMenu.click(function () {
         wrapper.addClass('slide-left');
