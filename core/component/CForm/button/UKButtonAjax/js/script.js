@@ -42,17 +42,19 @@ $(document).ready(function () {
 
         }).done(function (msg) {
             var data = JSON.parse(msg);
+
+            if (data.hasOwnProperty('data')) {
+                for (var name in data.data) {
+                    $('#' + name).removeClass('error');
+                }
+            }
+
             if(data.result === true) {
                 UIkit.notification(success, {
                     status: 'success',
                     timeout: 50000,
                     pos: 'top-center'
                 });
-                for (var name in data.data) {
-                 //   $('#' + name).val(data.data[name]);
-                    $('#' + name).removeClass('error');
-                }
-
             } else {
                 UIkit.notification(error, {
                     status: 'warning',
@@ -74,6 +76,7 @@ $(document).ready(function () {
                 }
             }
         });
+
         return false;
     });
 
