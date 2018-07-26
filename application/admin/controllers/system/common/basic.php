@@ -127,7 +127,6 @@ class basic extends AControllers implements IControllerBasic
      */
     public function post(): void
     {
-        resources::setCss(self::getTemplate('css/ui-kit-fix.css'));
         self::$content['JS_TOP']        =   resources::getJS();
         self::$content['CSS_TOP']       =   resources::getCSS();
         self::$content['JS_BOTTOM']     =   resources::getJS(false);
