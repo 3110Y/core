@@ -141,8 +141,35 @@ html
             width: 100%
             max-width: 96%
 
+// --------------------------------------------------
 @media (min-width: 960px)
-  @for $i from 1 through 6
+  @for $i from 1 through 8
     @for $j from 1 through $i
       .uk-width-#{$j}-#{$i}\@m
         width: calc(100% / #{$i} * #{$j})
+
+// --------------------------------------------------
+// Fucking ui-kit-fix
+html body #wrapper .column
+  &.column-left
+    @media (max-width: 1230px)
+      margin-left: -310px
+      width: 310px
+      max-width: 310px
+    @media (min-width: 1231px)
+      width: 20%
+      margin-left: 2%
+      margin-bottom: 100px
+
+    #general-menu ul li
+      a
+        .uk-icon
+          position: relative
+          top: -.1em
+          margin: 0 8px 0 2px
+      & > a + a
+        margin-right: 3%
+      &.parent > a
+        width: 87%
+
+// --------------------------------------------------

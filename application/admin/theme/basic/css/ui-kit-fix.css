@@ -20,13 +20,6 @@ input[type=number] {
 }
 
 @media (min-width: 1231px) {
-
-    html body #wrapper .column.column-left {
-        width: 20%;
-        margin-left: 2%;
-        margin-bottom: 50px;
-    }
-
     html body #wrapper .column.column-right {
         width: 74%;
         padding: 0;
@@ -37,20 +30,9 @@ input[type=number] {
     html body #wrapper header {
         padding: 0px 44px 0 38px;
     }
-
-    html body #wrapper .column.column-left {
-        margin-left: -310px;
-        width: 310px;
-        max-width: 310px;
-    }
     html body #wrapper.slide-left {
         margin-left: 310px;
     }
-}
-html body #wrapper .column.column-left #general-menu ul li a .uk-icon {
-    position: relative;
-    top: -.1em;
-    margin: 0 8px 0 2px;
 }
 
 .uk-button {
@@ -116,12 +98,6 @@ div#pagination_table {
 .uk-table tr > *:last-child {
     padding-right: 25px;
 }
-html body #wrapper .column.column-left #general-menu ul li > a + a {
-    margin-right: 3%;
-}
-html body #wrapper .column.column-left #general-menu ul li.parent > a {
-    width: 87%;
-}
 form > h2.uk-text-center {
     font-size: 1em;
     font-weight: bold;
@@ -184,4 +160,3 @@ button:active, button:focus {
 button::-moz-focus-inner {
     border: 0;
 }
-
