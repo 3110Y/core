@@ -173,8 +173,8 @@ abstract class AViewer extends ACForm
         }
         array_unique($fields);
         $order = self::getOrder();
-        if (\is_callable($this->config['orderFunction'] ?? null)) {
-            $this->totalRows = \call_user_func($this->config['orderFunction'],self::$table, '1', $where, [], []);
+        if (\is_callable($this->config['countFunction'] ?? null)) {
+            $this->totalRows = \call_user_func($this->config['countFunction'],self::$table, '1', $where, [], []);
         }
         else {
             $this->totalRows = self::$db->selectCount(self::$table, '1', $where);

@@ -89,7 +89,7 @@ class Action extends AAction
         $data .= 'Action: ' . $actionName . PHP_EOL;
         $data .= 'Date: ' . (new \DateTime())->format('Y-m-d H:i:s') . PHP_EOL;
         $data .= 'Request Data: ' . $requestData .  PHP_EOL;
-        $data .= 'Post Data: ' . $requestData .  PHP_EOL;
+        $data .= 'Post Data: ' . json_encode($_POST) .  PHP_EOL;
         $data .= '---------------------------------------' . PHP_EOL;
         /** @noinspection ReturnFalseInspection */
         file_put_contents($filePath, $data);
