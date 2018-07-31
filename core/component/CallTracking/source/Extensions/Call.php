@@ -44,6 +44,11 @@ class Call extends AExtension
         $db     =   registry::get('db');
         $where = [
             'record_is_downloaded'  => 0,
+            [
+                'field' => 'record',
+                'cond'  => '!=',
+                'value' => ''
+            ],
         ];
         $record = $db->selectRow(self::$tableName, '*', $where,'RAND()');
         if (false !== $record) {
