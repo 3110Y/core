@@ -41,12 +41,11 @@ class Basic extends AControllers implements IControllerBasic
         $theme                          =   self::$application['theme'];
         self::$content['THEME']         =   "/application/{$path}/theme/{$theme}/";
         self::$content['URL']           =   self::$pageURL;
-        self::$content['TITLE']         =
-            self::$page['meta_title']
-                ?:  $settings->getConfiguration('meta_title')
-                ?:  self::$page['name'];
-        self::$content['KEYWORDS']      =   self::$page['meta_keywords']    ?: $settings->getConfiguration('meta_keywords');
-        self::$content['DESCRIPTION']   =   self::$page['meta_description'] ?: $settings->getConfiguration('meta_description');
+
+        /** Meta данные по умолчанию уехали в model\MetaData(title, description, keywords) */
+        /** Используйте методы этого класса для установки и получения их */
+        /** Шаблоны <meta> есть в basic.tpl */
+        #TODO автогенерация тегов метаданных
 
         $data                           =   Array(
             'MENU'  => self::generationMenu(self::$application['url'])
@@ -102,6 +101,9 @@ class Basic extends AControllers implements IControllerBasic
         self::$content['CSS_TOP']       =   resources::getCSS();
         self::$content['JS_BOTTOM']     =   resources::getJS(false);
         self::$content['CSS_BOTTOM']    =   resources::getCSS(false);
+
+        /** записываем в self::$content метаданные */
+        model\MetaData::headMetadata(self::$content);
     }
 
     /**
@@ -113,6 +115,10 @@ class Basic extends AControllers implements IControllerBasic
             self::$content['DATA_' . mb_strtoupper($key)]  =  $value;
         }
 
+        /** Изображение для OG разметки */
+        #model\Metadata::setImage(self::getTemplate('images/logo.png'));
+        /** Затираем тайтл по умолчанию названием раздела либо его собственным тайтлом */
+        model\Metadata::setTitle(self::$page['meta_title'] ?: self::$page['name']);
     }
 
     /**

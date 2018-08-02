@@ -31,6 +31,7 @@ class page extends AControllers
      */
     public function __construct()
     {
+        [$title, $description, $keywords] = model\MetaData::getCFormFieldsData();
         $listStatus =   Array(
             Array(
                 'id'    =>  1,
@@ -84,33 +85,9 @@ class page extends AControllers
                 'label'             =>  'Текст',
                 'grid'              =>  '1-1',
             ),
-            Array(
-                'type'              =>  'UKInput',
-                'field'             =>  'meta_title',
-                'label'             =>  'META Заголовок',
-                'grid'              =>  '1-1',
-                'listing'           =>  Array(
-                    'view'  =>  false,
-                ),
-            ),
-            Array(
-                'type'              =>  'UKInput',
-                'field'             =>  'meta_keywords',
-                'label'             =>  'META Ключевые слова',
-                'grid'              =>  '1-1',
-                'listing'           =>  Array(
-                    'view'  =>  false,
-                ),
-            ),
-            Array(
-                'type'              =>  'UKTextarea',
-                'field'             =>  'meta_description',
-                'label'             =>  'META Описание',
-                'grid'              =>  '1-1',
-                'listing'           =>  Array(
-                    'view'  =>  false,
-                ),
-            ),
+            $title,
+            $description,
+            $keywords,
 
 
             /**/

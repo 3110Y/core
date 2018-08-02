@@ -25,17 +25,27 @@ class component extends CForm\AField implements CForm\IField
     public function init()
     {
         parent::init();
-        $data['TD']                    =   '';
-        $data['GRID']          =   1;
-        $data['PLACEHOLDER']          =   '';
+        $data['TD']                     =   '';
+        $data['GRID']                   =   1;
         foreach ($this->configField as $key =>  $field) {
             $data[mb_strtoupper($key)] =  $field;
         }
+
+        $data['ATTRS'] = '';
+        if ($this->readonly) {
+            $this->attrs[] = 'disabled';
+        }
+        foreach($this->attrs as $key => $param) {
+            if ($param === false) {
+                continue;
+            }
+            $data['ATTRS'] .= ' ' . (\is_int($key) ? $param : $key . '="' . $param . '"');
+        }
+
         $data['VALUE']          =   $this->value;
         $data['MODE_FIELD']     =   $this->modeField;
         $data['LABEL']          =   $this->labelField['TEXT'];
         $data['REQUIRED']       =   $this->required     ?   '*'  :   '';
-        $data['READONLY']       =   $this->readonly     ?   'disabled'  :   '';
         $data['STYLE']          =   $this->style;
         $data['CLASS']          =   $this->class;
         $data['ID']             =   $this->idField;

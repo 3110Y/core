@@ -31,35 +31,11 @@ class settings extends AControllers
      */
     public function __construct()
     {
+        [$title, $description, $keywords] = model\MetaData::getCFormFieldsData();
         $field     =   Array(
-            Array(
-                'type'              =>  'UKInput',
-                'field'             =>  'meta_title',
-                'label'             =>  'META Заголовок по умолчанию',
-                'grid'              =>  '1-1',
-                'listing'           =>  Array(
-                    'view'  =>  false,
-                ),
-            ),
-            Array(
-                'type'              =>  'UKInput',
-                'field'             =>  'meta_keywords',
-                'label'             =>  'META Ключевые слова по умолчанию',
-                'grid'              =>  '1-1',
-                'listing'           =>  Array(
-                    'view'  =>  false,
-                ),
-            ),
-            Array(
-                'type'              =>  'UKTextarea',
-                'field'             =>  'meta_description',
-                'label'             =>  'META Описание по умолчанию',
-                'grid'              =>  '1-1',
-                'listing'           =>  Array(
-                    'view'  =>  false,
-                ),
-            ),
-
+            $title,
+            $description,
+            $keywords
         );
         model\CFormDefault::config($this, 'client_settings', 'Настройки', $field);
         model\CFormDefault::setOne();
