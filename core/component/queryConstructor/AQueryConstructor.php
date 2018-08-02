@@ -350,7 +350,8 @@ abstract class AQueryConstructor
 							    if (!is_array($value) || !isset($value['NOT`'])) {
 								    $w['f'] =   "`{$w['f']}`";
 							    }
-							    $where .= " {$w['t']}{$w['f']} {$w['c']} {$w['v']} ";
+							    $where .= " {$w['t']}{$w['f']} {$w['c']} {$w['k']} ";
+                                $execute[$w['k']] = $w['v'];
 						    } else {
 
 							    if (!is_array($value) || !isset($value['NOT`'])) {
