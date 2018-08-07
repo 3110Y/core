@@ -77,8 +77,8 @@ class component extends CForm\AField implements CForm\IField
         //UIkitUpload
         /** @var \core\component\library\vendor\UIkitUpload\component $UIkitUpload */
         $UIkitUpload    =   library\component::connect('UIkitUpload');
-        $UIkitUpload->setCss(self::$controller);
-        $UIkitUpload->setJS(self::$controller);
+        $UIkitUpload->setCss();
+        $UIkitUpload->setJS();
         $data['INIT']           =   $UIkitUpload->returnInit($data);
 
         $data['VALUE']          =   simpleView::replace(self::getTemplate($this->templatePhoto, __DIR__), $data);

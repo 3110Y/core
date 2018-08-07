@@ -69,15 +69,15 @@ class component extends CForm\AField implements CForm\IField
         //html5sortable
         /** @var \core\component\library\vendor\html5sortable\component $html5sortable */
         $UIkitUpload    =   library\component::connect('html5sortable');
-        $UIkitUpload->setCss(self::$controller);
-        $UIkitUpload->setJS(self::$controller);
+        $UIkitUpload->setCss();
+        $UIkitUpload->setJS();
         $data['INIT']           .=   $UIkitUpload->returnInit($data);
 
         //UIkitUpload
         /** @var \core\component\library\vendor\UIkitUpload\component $UIkitUpload */
         $UIkitUpload    =   library\component::connect('UIkitUpload');
-        $UIkitUpload->setCss(self::$controller);
-        $UIkitUpload->setJS(self::$controller);
+        $UIkitUpload->setCss();
+        $UIkitUpload->setJS();
         $data['INIT']           .=   $UIkitUpload->returnInit($data, 'initMultiple.tpl');
         $data['INIT']           .=   simpleView::replace(self::getTemplate('js/init.tpl', __DIR__), $data);
 

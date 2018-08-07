@@ -45,8 +45,8 @@ class component extends CForm\AField implements CForm\IField
 
         /** @var \core\component\library\vendor\JSColor\component $select2 */
         $select2 = library\component::connect('JSColor');
-        $select2->setCss(self::$controller);
-        $select2->setJS(self::$controller);
+        $select2->setCss();
+        $select2->setJS();
 
         $data['HREF']           =   simpleView::replace(false, $data, $data['HREF']);
         $this->answer           =   simpleView::replace($this->template, $data);

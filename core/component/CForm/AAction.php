@@ -92,7 +92,7 @@ class AAction extends ACForm
                             unset($this->data[$field['field']]);
                         }
                     }
-                    if (isset($field['table'], $field['table']['link'], $this->data[$field['table']['link']])) {
+                    if (isset($field['table']['link'], $this->data[$field['table']['link']])) {
                         $this->data[$field['table']['link']] = $fieldComponent->getValue();
                         $_POST[$field['table']['link']]      = $this->data[$field['table']['link']];
 

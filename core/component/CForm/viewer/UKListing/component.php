@@ -152,15 +152,22 @@ class component extends CForm\AViewer implements CForm\IViewer
                                         $link = http_build_query($link);
                                         $this->answer['TH'][$key]['HREF'] = "?{$link}";
                                     } else {
-                                        $this->answer['TH'][$key]['HREF'] = '#';
+                                        $this->answer['TH'][$key]['HREF'] = 'javascript:void(0)';
                                     }
                                 } else {
                                     $this->answer['TH'][$key]['HREF'] = '#';
                                 }
                             }
-                            $td['TD_FIELD'][] = Array(
+                            $fieldData = [
                                 'COMPONENT' => $fieldComponent->getAnswer()
-                            );
+                            ];
+                            if ($field['mode'] === 'edit') {
+                                $wrapperTemplate = dir::getDR(true) . self::getTemplate('template/fieldEditWrapper.tpl', __DIR__);
+                                $fieldData = [
+                                    'COMPONENT' => preg_replace('/<label.*?<\/label>/ui', '', simpleView::replace($wrapperTemplate, $fieldData))
+                                ];
+                            }
+                            $td['TD_FIELD'][] = $fieldData;
 
                         }
                     }
@@ -181,12 +188,12 @@ class component extends CForm\AViewer implements CForm\IViewer
                                 $buttonComponent->init();
                                 $buttonComponent->run();
                                 if (\is_callable($this->config['rowController'] ?? null)) {
-                                    $controller = $this->config['rowController'];
-                                    $buttonComponent = $controller($buttonComponent);
+                                    $rowController = $this->config['rowController'];
+                                    $buttonComponent = $rowController($buttonComponent);
                                 }
                                 if (!isset($this->answer['TH']['button'])) {
                                     $this->answer['TH']['button'] = Array(
-                                        'HREF' => '#',
+                                        'HREF' => 'javascript:void(0)',
                                         'ICON' => '',
                                         'TEXT' => 'Действия'
                                     );

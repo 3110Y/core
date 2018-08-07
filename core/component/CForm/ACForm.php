@@ -39,15 +39,11 @@ abstract class ACForm
     /** @var  array */
     protected static $subURL = Array();
 
-    /**
-     * @var int
-     */
-    protected static $subURLNow = 0;
+    /** @var int */
+    protected static $subURLNow;
 
-    /**
-     * @var bool
-     */
-    protected static $isWork = true;
+    /** @var bool */
+    protected static $isWork;
 
 
     /**

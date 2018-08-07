@@ -66,10 +66,10 @@ class component extends CForm\AField
         $data['PARAM']          =   json_encode($data);
 
         //UIkitUpload
-        /** @var \core\library\vendor\UIkitUpload\component $UIkitUpload */
+        /** @var \core\component\library\vendor\UIkitUpload\component $UIkitUpload */
         $UIkitUpload    =   library\component::connect('UIkitUpload');
-        $UIkitUpload->setCss(self::$controller);
-        $UIkitUpload->setJS(self::$controller);
+        $UIkitUpload->setCss();
+        $UIkitUpload->setJS();
         $data['INIT']           =   $UIkitUpload->returnInit($data);
 
         $this->answer           =   simpleView::replace($this->template, $data);

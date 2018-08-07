@@ -54,6 +54,8 @@ class component extends ACForm
      */
     public function setConfig(array $config = Array())
     {
+        parent::$isWork         =   true;
+        parent::$subURLNow      =   0;
         if (!isset($config['controller'])) {
             die('Не указан контроллер');
         }
@@ -143,7 +145,7 @@ class component extends ACForm
         }
         /** @var \core\component\application\AApplication $controller */
         $controller = parent::$controller ;
-        if ($controller->isAjaxRequest()) {
+        if ($controller::isAjaxRequest()) {
             return $this->answer;
         }
         $this->incomingArray[$this->incomingKey] = $this->answer;

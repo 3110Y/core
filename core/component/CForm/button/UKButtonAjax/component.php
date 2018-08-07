@@ -67,7 +67,7 @@ class component extends CForm\AButton implements CForm\IButton
         foreach ($this->row as $key => $value) {
             $data['ROW_' . mb_strtoupper($key)] = $value;
         }
-        resources::setJs(self::getTemplate('js/script.js',__DIR__));
+        resources::setJs(self::getTemplate('js/script.js',__DIR__), false, false);
         $this->template     =   self::getTemplate($this->template, __DIR__);
 
         $isHide = false;
