@@ -38,6 +38,10 @@ class component extends CForm\AField implements CForm\IField
         $data['GRID']                       =   1;
         $data['PLACEHOLDER']                =   '';
         $list                               =   $this->configField['list'] ??   Array();
+        $optionData                         =   $this->configField['optionData'] ??   Array();
+        if (\is_string($optionData)) {
+            $optionData = [$optionData];
+        }
         if (isset($this->configField['list'])) {
             unset($this->configField['list']);
         }
@@ -72,10 +76,17 @@ class component extends CForm\AField implements CForm\IField
             }
             $this->list[$key] = Array(
                 'ID'        =>  $value['id'],
-                'NAME'      =>  isset($value['name'])                               ?   $value['name']      :   $value['id'],
+                'NAME'      =>  $value['name'] ?? $value['id'],
                 'DISABLED'  =>  isset($value['disabled'])   &&  $value['disabled']  ?   'disabled'          :   '',
                 'SELECTED'  =>  $selected                       ?   'selected'          :   '',
+                'DATA'      =>  [],
             );
+            foreach ($optionData as $index) {
+                $this->list[$key]['DATA'][] = [
+                    'KEY'   =>  str_replace('_','-',$index),
+                    'VALUE' =>  $value[$index] ?? '',
+                ];
+            }
             if ($selected) {
                 $data['VALUE_NAME'][] = Array(
                     'NAME'  =>  $this->list[$key]['NAME'],
@@ -95,8 +106,8 @@ class component extends CForm\AField implements CForm\IField
 
         /** @var \core\component\library\vendor\select2\component $select2 */
         $select2 = library\component::connect('select2');
-        $select2->setCss(self::$controller);
-        $select2->setJS(self::$controller);
+        $select2->setCss();
+        $select2->setJS();
         $data['INIT'] = $select2->returnInit($data);
 
         $data['HREF'] = simpleView::replace(false, $data, $data['HREF']);

@@ -38,6 +38,10 @@ class component extends CForm\AField implements CForm\IField
         $data['GRID']                       =   1;
         $data['PLACEHOLDER']                =   '';
         $list                               =   $this->configField['list'] ??   Array();
+        $optionData                         =   $this->configField['optionData'] ??   Array();
+        if (\is_string($optionData)) {
+            $optionData = [$optionData];
+        }
         if (isset($this->configField['list'])) {
             unset($this->configField['list']);
         }
@@ -70,11 +74,18 @@ class component extends CForm\AField implements CForm\IField
             }
             $this->list[$key] = Array(
                 'ID'        =>  $value['id'],
-                'NAME'      =>  isset($value['name'])                               ?   $value['name']      :   $value['id'],
+                'NAME'      =>  $value['name'] ?? $value['id'],
                 'DISABLED'  =>  isset($value['disabled'])   &&  $value['disabled']  ?   'disabled'          :   '',
                 'SELECTED'  =>  $selected                       ?   'selected'          :   '',
-                'CLASS'     =>  isset($value['class'])   ?   ' ' . $value['class']    :   ''
+                'DATA'      =>  [],
+                'CLASS'     =>  isset($value['class'])   ?   ' ' . $value['class']    :   '',
             );
+            foreach ($optionData as $index) {
+                $this->list[$key]['DATA'][] = [
+                    'KEY'   =>  str_replace('_','-',$index),
+                    'VALUE' =>  $value[$index] ?? '',
+                ];
+            }
             if ($selected) {
                 $data['VALUE_NAME'][] = Array(
                     'CLASS'  =>  $this->list[$key]['CLASS'],
